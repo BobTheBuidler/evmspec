@@ -16,6 +16,7 @@ __all__ = [
     "block",
     "header",
     "log",
+    "receipt",
     "trace",
     "transaction",
     # structs
