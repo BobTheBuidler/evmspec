@@ -12,6 +12,7 @@ from typing_extensions import Self
 
 if TYPE_CHECKING:
     from evmspec.log import Log
+    from evmspec.receipt import TransactionReceipt
 
 _T = TypeVar("_T")
 _DecodeHook = Callable[[Type[_T], Any], _T]
