@@ -2,13 +2,18 @@ from cachetools.func import ttl_cache
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from typing import Tuple, Type
+from typing import Any, Callable, Tuple, Type, TypeVar
 
 from eth_utils import to_checksum_address
 from hexbytes import HexBytes
 from msgspec import json
 from typing_extensions import Self
 
+from evmspec.log import Log
+
+
+_T = TypeVar("_T")
+_DecodeHook = Callable[[Type[_T], Any], _T]
 
 class Address(str):
     def __new__(cls, address: str):
@@ -153,7 +158,7 @@ class TransactionHash(HexBytes32):
 
         @a_sync("async")
         async def get_receipt(
-            self, decode_to: Type["T"], decode_hook: "DecodeHook" = _decode_hook
+            self, decode_to: Type[_T], decode_hook: _DecodeHook[_T] = _decode_hook
         ) -> "TransactionReceipt":
             import dank_mids
 
@@ -162,10 +167,9 @@ class TransactionHash(HexBytes32):
             )
 
         @a_sync  # TODO; compare how these type check, they both function the same
-        async def get_logs(self) -> Tuple["Log", ...]:
+        async def get_logs(self) -> Tuple[Log, ...]:
             try:
                 import dank_mids
-                from dank_mids.structs.log import Log
             except ImportError:
                 raise ImportError(
                     "You must have dank_mids installed in order to use this feature"
