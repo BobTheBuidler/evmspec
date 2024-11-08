@@ -2,7 +2,7 @@ from enum import Enum
 from functools import cached_property
 from typing import ClassVar, Literal
 
-from msgspec import Raw, json, field
+from msgspec import Raw, field, json
 
 from evmspec._enum import StringToIntEnumMeta
 from evmspec.data import Address, _decode_hook

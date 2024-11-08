@@ -1,9 +1,10 @@
-from cachetools.func import ttl_cache
+from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
 from typing import Any, Callable, Tuple, Type, TypeVar
 
+from cachetools.func import ttl_cache
 from eth_utils import to_checksum_address
 from hexbytes import HexBytes
 from msgspec import json
@@ -11,9 +12,9 @@ from typing_extensions import Self
 
 from evmspec.log import Log
 
-
 _T = TypeVar("_T")
 _DecodeHook = Callable[[Type[_T], Any], _T]
+
 
 class Address(str):
     def __new__(cls, address: str):
@@ -85,6 +86,16 @@ class Wei(uint):
 
 class BlockNumber(uint):
     ...
+
+
+class Nonce(uint):
+    ...
+
+
+class UnixTimestamp(uint):
+    @cached_property
+    def datetime(self) -> datetime:
+        return datetime.fromtimestamp(self, tz=timezone.utc)
 
 
 # Hook

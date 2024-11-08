@@ -2,7 +2,7 @@ from functools import cached_property
 from typing import ClassVar, Literal
 
 from hexbytes import HexBytes
-from msgspec import Raw, json, field
+from msgspec import Raw, field, json
 
 from evmspec.data import Address, _decode_hook
 from evmspec.trace._base import _ActionBase, _FilterTraceBase, _ResultBase

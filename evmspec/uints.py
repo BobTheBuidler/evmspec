@@ -1,7 +1,8 @@
 import sys
 
-from evmspec.data import uint
 from hexbytes import HexBytes
+
+from evmspec.data import uint
 
 
 class _UintData(uint):
