@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from typing import Any, Callable, Tuple, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Callable, Tuple, Type, TypeVar
 
 from cachetools.func import ttl_cache
 from eth_utils import to_checksum_address
@@ -10,7 +10,8 @@ from hexbytes import HexBytes
 from msgspec import json
 from typing_extensions import Self
 
-from evmspec.log import Log
+if TYPE_CHECKING:
+    from evmspec.log import Log
 
 _T = TypeVar("_T")
 _DecodeHook = Callable[[Type[_T], Any], _T]
@@ -178,7 +179,7 @@ class TransactionHash(HexBytes32):
             )
 
         @a_sync  # TODO; compare how these type check, they both function the same
-        async def get_logs(self) -> Tuple[Log, ...]:
+        async def get_logs(self) -> Tuple["Log", ...]:
             try:
                 import dank_mids
             except ImportError:
@@ -187,7 +188,7 @@ class TransactionHash(HexBytes32):
                 )
 
             receipt = await dank_mids.eth._get_transaction_receipt_raw(self)
-            return json.decode(receipt, type=Tuple[Log, ...], dec_hook=_decode_hook)
+            return json.decode(receipt, type=Tuple["Log", ...], dec_hook=_decode_hook)
 
     except ImportError:
         pass
