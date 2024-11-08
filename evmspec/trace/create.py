@@ -1,10 +1,11 @@
+from functools import cached_property
 from typing import ClassVar, Literal
 
 from hexbytes import HexBytes
 from msgspec import Raw, json, field
 
 from evmspec.data import Address, _decode_hook
-from evmspec.trace._base import _ActionBase, _FilterTraceBase
+from evmspec.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
 
 
 class Action(
@@ -14,7 +15,7 @@ class Action(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):
+):  # type: ignore [call-arg]
     """
     Action type for contract creations.
     """
@@ -40,7 +41,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):
+):  # type: ignore [call-arg]
     type: ClassVar[Literal["create"]] = "create"
 
     _action: Raw = field(name="action")

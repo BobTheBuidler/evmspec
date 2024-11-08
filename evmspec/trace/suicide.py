@@ -10,7 +10,7 @@ class Action(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):
+):  # type: ignore [call-arg]
     """
     Action type for contract suicides.
     """
@@ -24,7 +24,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):
+):  # type: ignore [call-arg]
 
     type: ClassVar[Literal["suicide"]] = "suicide"
 

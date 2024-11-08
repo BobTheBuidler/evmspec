@@ -1,4 +1,5 @@
 from enum import Enum
+from functools import cached_property
 from typing import ClassVar, Literal
 
 from msgspec import Raw, json, field
@@ -20,7 +21,7 @@ class Action(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):
+):  # type: ignore [call-arg]
     """
     Action type for rewards.
     """
@@ -40,7 +41,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):
+):  # type: ignore [call-arg]
 
     type: ClassVar[Literal["reward"]] = "reward"
 

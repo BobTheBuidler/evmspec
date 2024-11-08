@@ -1,4 +1,5 @@
 from enum import Enum
+from functools import cached_property
 from typing import ClassVar, Literal, Optional
 
 from hexbytes import HexBytes
@@ -6,7 +7,7 @@ from msgspec import UNSET, Raw, json, field
 
 from evmspec._enum import StringToIntEnumMeta
 from evmspec.data import Address, _decode_hook
-from evmspec.trace._base import _ActionBase, _FilterTraceBase
+from evmspec.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
 
 
 class Type(Enum, metaclass=StringToIntEnumMeta):
@@ -22,7 +23,7 @@ class Action(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):
+):  # type: ignore [call-arg]
     """
     Action type for contract calls.
     """
@@ -51,7 +52,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):
+):  # type: ignore [call-arg]
     type: ClassVar[Literal["call"]] = "call"
 
     _action: Raw = field(name="action")
