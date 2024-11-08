@@ -1,16 +1,19 @@
-
 from enum import Enum
+from typing import ClassVar, Literal, Optional
+
 from hexbytes import HexBytes
+from msgspec import UNSET, Raw, json, field
 
 from evmspec._enum import StringToIntEnumMeta
-from evmspec.data import Address
-from evmspec.trace._base import _ActionBase
+from evmspec.data import Address, _decode_hook
+from evmspec.trace._base import _ActionBase, _FilterTraceBase
 
 
 class Type(Enum, metaclass=StringToIntEnumMeta):
     call = 0
     delegatecall = 1
     staticcall = 2
+
 
 class Action(
     _ActionBase,
@@ -38,3 +41,33 @@ class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True,
 
     output: HexBytes
     """The output of this transaction."""
+
+
+class Trace(
+    _FilterTraceBase,
+    tag="call",
+    frozen=True,
+    kw_only=True,
+    forbid_unknown_fields=True,
+    omit_defaults=True,
+    repr_omit_defaults=True,
+):
+    type: ClassVar[Literal["call"]] = "call"
+
+    _action: Raw = field(name="action")
+    """The call action, parity style."""
+
+    @cached_property
+    def action(self) -> Action:
+        """The call action, parity style."""
+        return json.decode(self._action, type=Action, dec_hook=_decode_hook)
+
+    result: Optional[Result]
+    """
+    The result object, parity style.
+    
+    None if the call errored. Error details will be included in the error field.
+    """
+
+    error: str = UNSET
+    """The error message, if an error occurred."""
