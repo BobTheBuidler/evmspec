@@ -1,4 +1,5 @@
-from evmspec import block, log, trace, transaction
+from evmspec import block, header, log, trace, transaction
+from evmspec.header import ErigonBlockHeader
 from evmspec.trace import FilterTrace
 from evmspec.transaction import (
     TransactionRLP,
@@ -12,10 +13,13 @@ from evmspec.transaction import (
 __all__ = [
     # modules
     "block",
+    "header",
     "log",
     "trace",
     "transaction",
     # structs
+    # - header
+    "ErigonBlockHeader",
     # - trace
     "FilterTrace",
     # - transaction
