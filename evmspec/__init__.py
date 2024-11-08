@@ -1,4 +1,4 @@
-from evmspec import log, trace, transaction
+from evmspec import block, log, trace, transaction
 from evmspec.trace import FilterTrace
 from evmspec.transaction import (
     TransactionRLP,
@@ -11,6 +11,7 @@ from evmspec.transaction import (
 
 __all__ = [
     # modules
+    "block",
     "log",
     "trace",
     "transaction",
