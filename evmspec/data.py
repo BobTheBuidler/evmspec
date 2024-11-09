@@ -15,7 +15,10 @@ if TYPE_CHECKING:
     from evmspec.receipt import TransactionReceipt
 
 _T = TypeVar("_T")
+"""A generic type variable."""
+
 _DecodeHook = Callable[[Type[_T], Any], _T]
+"""A type alias for a function that decodes an object into a specific type."""
 
 
 class Address(str):

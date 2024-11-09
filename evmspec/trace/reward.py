@@ -46,6 +46,9 @@ class Trace(
     omit_defaults=True,
     repr_omit_defaults=True,
 ):  # type: ignore [call-arg]
+    """
+    Represents the trace for a reward.
+    """
 
     type: ClassVar[Literal["reward"]] = "reward"
 
