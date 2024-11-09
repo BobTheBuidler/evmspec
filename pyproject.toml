@@ -10,10 +10,13 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.13"
-dictstruct = { git = "https://github.com/BobTheBuidler/dictstruct", branch = "master" }
+dictstruct = ">=0.0.1"
 hexbytes = "*"
 typing_extensions = ">=4.0.0"
 
 [tool.poetry.dev-dependencies]
 sphinx = "*"
 sphinx-rtd-theme = "*"
+
+[tool.mypy]
+ignore_missing_imports = true

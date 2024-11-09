@@ -169,18 +169,14 @@ name = "dictstruct"
 version = "0.0.1"
 description = "A msgspec.Struct implementation compatible with the standard dictionary API"
 optional = false
-python-versions = ">=3.8,<3.13"
-files = []
-develop = false
+python-versions = "<3.13,>=3.8"
+files = [
+    {file = "dictstruct-0.0.1-py3-none-any.whl", hash = "sha256:efa89f4cf077f0b8e7eec325dd833aaa577d92d95d8a9fca18f08cea40bc3cfa"},
+    {file = "dictstruct-0.0.1.tar.gz", hash = "sha256:423fae56834bb02b6eb071b474de93c386e310331a8baa7e6adee983a4d5e37b"},
+]
 
 [package.dependencies]
 msgspec = ">=0.18.5"
-
-[package.source]
-type = "git"
-url = "https://github.com/BobTheBuidler/dictstruct"
-reference = "master"
-resolved_reference = "83447d11ac09c01548e6722bfc2890cb09f18210"
 
 [[package]]
 name = "docutils"
@@ -670,4 +666,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<3.13"
-content-hash = "e6d6a84cd3f9d4b32839dcc1ca7aa7bc65e39634b2b577c63498dbe07fb50788"
+content-hash = "d5e524d41a47bbde67ce8ab4d2c5d0ecb0b074a40bdecfcd49f08075a8841616"
