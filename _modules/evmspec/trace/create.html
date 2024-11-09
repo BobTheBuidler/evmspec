@@ -118,6 +118,10 @@
     <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a trace of a contract deployment.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;create&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;create&quot;</span>
 
     <span class="n">_action</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>

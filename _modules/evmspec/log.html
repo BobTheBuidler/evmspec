@@ -89,6 +89,10 @@
 
 
 <div class="viewcode-block" id="Data"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.Data">[docs]</a><span class="k">class</span> <span class="nc">Data</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents data in Ethereum logs, providing utilities for interpreting the data as various types.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_uint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uint</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hex</span><span class="p">(),</span> <span class="mi">16</span><span class="p">)</span>
@@ -119,7 +123,9 @@
 
 
 <div class="viewcode-block" id="Topic"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.Topic">[docs]</a><span class="k">class</span> <span class="nc">Topic</span><span class="p">(</span><span class="n">HexBytes32</span><span class="p">,</span> <span class="n">Data</span><span class="p">):</span>
-    <span class="o">...</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a topic in Ethereum logs, providing utilities for interpreting the topic as various evm types.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
 
 
 <span class="c1"># Dynamically define properties for all uint types.</span>
