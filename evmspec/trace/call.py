@@ -62,7 +62,7 @@ class Trace(
 ):  # type: ignore [call-arg]
     type: ClassVar[Literal["call"]] = "call"
 
-    _action: Raw = field(name="action")
+    _action: Raw = field(name="action")  # type: ignore [assignment]
     """The call action, parity style."""
 
     @cached_property

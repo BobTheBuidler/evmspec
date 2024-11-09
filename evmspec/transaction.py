@@ -121,7 +121,7 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
         """
         return self.blockNumber
 
-    _accessList: Raw = field(name="accessList", default=UNSET)
+    _accessList: Raw = field(name="accessList", default=UNSET)  # type: ignore [assignment]
     """A list of addresses and storage keys that the transaction plans to access."""
 
     @cached_property
@@ -133,13 +133,13 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
 class TransactionRLP(_TransactionBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
 
     # These fields are only present on Optimism, pre-Bedrock.
-    l1BlockNumber: BlockNumber = UNSET
-    l1TxOrigin: Address = UNSET
+    l1BlockNumber: BlockNumber = UNSET  # type: ignore [assignment]
+    l1TxOrigin: Address = UNSET  # type: ignore [assignment]
 
     # These fields are only present on Arbitrum
-    indexInParent: uint = UNSET
-    arbType: uint = UNSET
-    arbSubType: uint = UNSET
+    indexInParent: uint = UNSET  # type: ignore [assignment]
+    arbType: uint = UNSET  # type: ignore [assignment]
+    arbSubType: uint = UNSET  # type: ignore [assignment]
 
 
 class TransactionLegacy(_TransactionBase, tag="0x0", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]

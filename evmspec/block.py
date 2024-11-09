@@ -158,13 +158,13 @@ class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fi
 
     index: IntId
 
-    amount: Wei = UNSET
+    amount: Wei = UNSET  # type: ignore [assignment]
     """This field is not always present."""
 
-    address: Address = UNSET
+    address: Address = UNSET  # type: ignore [assignment]
     """This field is not always present."""
 
-    validatorIndex: IntId = UNSET
+    validatorIndex: IntId = UNSET  # type: ignore [assignment]
     """This field is not always present."""
 
 
