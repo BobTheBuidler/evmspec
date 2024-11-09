@@ -1,0 +1,45 @@
+evmspec.trace package
+=====================
+
+Submodules
+----------
+
+evmspec.trace.call module
+-------------------------
+
+.. automodule:: evmspec.trace.call
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+evmspec.trace.create module
+---------------------------
+
+.. automodule:: evmspec.trace.create
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+evmspec.trace.reward module
+---------------------------
+
+.. automodule:: evmspec.trace.reward
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+evmspec.trace.suicide module
+----------------------------
+
+.. automodule:: evmspec.trace.suicide
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: evmspec.trace
+   :members:
+   :undoc-members:
+   :show-inheritance:
