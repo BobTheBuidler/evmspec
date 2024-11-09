@@ -1,0 +1,265 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>evmspec.transaction &mdash; evmspec  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            evmspec
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">evmspec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">evmspec</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">evmspec.transaction</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for evmspec.transaction</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cached_property</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">dictstruct</span> <span class="kn">import</span> <span class="n">LazyDictStruct</span>
+<span class="kn">from</span> <span class="nn">hexbytes</span> <span class="kn">import</span> <span class="n">HexBytes</span>
+<span class="kn">from</span> <span class="nn">msgspec</span> <span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">json</span>
+
+<span class="kn">from</span> <span class="nn">evmspec._ids</span> <span class="kn">import</span> <span class="n">ChainId</span><span class="p">,</span> <span class="n">TransactionIndex</span>
+<span class="kn">from</span> <span class="nn">evmspec.data</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Address</span><span class="p">,</span>
+    <span class="n">BlockHash</span><span class="p">,</span>
+    <span class="n">BlockNumber</span><span class="p">,</span>
+    <span class="n">HexBytes32</span><span class="p">,</span>
+    <span class="n">Nonce</span><span class="p">,</span>
+    <span class="n">TransactionHash</span><span class="p">,</span>
+    <span class="n">Wei</span><span class="p">,</span>
+    <span class="n">uint</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="AccessListEntry"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.transaction.AccessListEntry">[docs]</a><span class="k">class</span> <span class="nc">AccessListEntry</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents an entry in an Ethereum transaction access list.</span>
+
+<span class="sd">    Access lists are used in EIP-2930 and EIP-1559 transactions to specify storage slots</span>
+<span class="sd">    that the transaction plans to access, potentially reducing gas costs.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; entry = AccessListEntry(...)</span>
+<span class="sd">        &gt;&gt;&gt; access_list_entry.address</span>
+<span class="sd">        &#39;0x742d35Cc6634C0532925a3b844Bc454e4438f44e&#39;</span>
+<span class="sd">        &gt;&gt;&gt; len(access_list_entry.storage_keys)</span>
+<span class="sd">        2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Ethereum address of the contract whose storage is being accessed.&quot;&quot;&quot;</span>
+
+    <span class="n">_storageKeys</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;storageKeys&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The specific storage slot keys within the contract that will be accessed.&quot;&quot;&quot;</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">storageKeys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The specific storage slot keys within the contract that will be accessed.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_storageKeys</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">],</span>
+            <span class="n">dec_hook</span><span class="o">=</span><span class="k">lambda</span> <span class="n">hexbytes_type</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">hexbytes_type</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<span class="k">class</span> <span class="nc">_TransactionBase</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+    <span class="nb">input</span><span class="p">:</span> <span class="n">HexBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The data sent along with the transaction.&quot;&quot;&quot;</span>
+
+    <span class="nb">hash</span><span class="p">:</span> <span class="n">TransactionHash</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the transaction.&quot;&quot;&quot;</span>
+
+    <span class="n">to</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Address</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The address of the receiver. `None` when it&#39;s a contract creation transaction.&quot;&quot;&quot;</span>
+
+    <span class="n">gas</span><span class="p">:</span> <span class="n">Wei</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The gas provided by the sender.&quot;&quot;&quot;</span>
+
+    <span class="n">value</span><span class="p">:</span> <span class="n">Wei</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The value transferred in wei encoded as hexadecimal.&quot;&quot;&quot;</span>
+
+    <span class="n">nonce</span><span class="p">:</span> <span class="n">Nonce</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The number of transactions made by the sender before this one.&quot;&quot;&quot;</span>
+
+    <span class="n">chainId</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ChainId</span><span class="p">]</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The chain id of the transaction, if any.</span>
+<span class="sd">    </span>
+<span class="sd">    `None` for v in {27, 28}, otherwise derived from eip-155</span>
+
+<span class="sd">    This field is not included in the transactions field of a eth_getBlock response.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># details</span>
+    <span class="n">sender</span><span class="p">:</span> <span class="n">Address</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;from&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The address of the sender.&quot;&quot;&quot;</span>
+
+    <span class="n">blockHash</span><span class="p">:</span> <span class="n">BlockHash</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the block including this transaction. `None` when it&#39;s pending.&quot;&quot;&quot;</span>
+
+    <span class="n">blockNumber</span><span class="p">:</span> <span class="n">BlockNumber</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The number of the block including this transaction. `None` when it&#39;s pending.&quot;&quot;&quot;</span>
+
+    <span class="n">transactionIndex</span><span class="p">:</span> <span class="n">TransactionIndex</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The index position of the transaction in the block. `None` when it&#39;s pending.&quot;&quot;&quot;</span>
+
+    <span class="c1"># signature</span>
+    <span class="n">v</span><span class="p">:</span> <span class="n">uint</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ECDSA recovery ID.&quot;&quot;&quot;</span>
+
+    <span class="n">r</span><span class="p">:</span> <span class="n">HexBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The R field of the signature.&quot;&quot;&quot;</span>
+
+    <span class="n">s</span><span class="p">:</span> <span class="n">HexBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The S field of the signature.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hash</span><span class="o">.</span><span class="n">hex</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;from&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sender</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="kn">from</span> <span class="kc">None</span>
+
+    <span class="n">gasPrice</span><span class="p">:</span> <span class="n">Wei</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The gas price provided by the sender in wei.&quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">block</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockNumber</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A shorthand getter for blockNumber.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blockNumber</span>
+
+    <span class="n">_accessList</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;accessList&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UNSET</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A list of addresses and storage keys that the transaction plans to access.&quot;&quot;&quot;</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span> <span class="nf">accessList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A list of addresses and storage keys that the transaction plans to access.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_accessList</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="TransactionRLP"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.transaction.TransactionRLP">[docs]</a><span class="k">class</span> <span class="nc">TransactionRLP</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+
+    <span class="c1"># These fields are only present on Optimism, pre-Bedrock.</span>
+    <span class="n">l1BlockNumber</span><span class="p">:</span> <span class="n">BlockNumber</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">l1TxOrigin</span><span class="p">:</span> <span class="n">Address</span> <span class="o">=</span> <span class="n">UNSET</span>
+
+    <span class="c1"># These fields are only present on Arbitrum</span>
+    <span class="n">indexInParent</span><span class="p">:</span> <span class="n">uint</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">arbType</span><span class="p">:</span> <span class="n">uint</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">arbSubType</span><span class="p">:</span> <span class="n">uint</span> <span class="o">=</span> <span class="n">UNSET</span></div>
+
+
+<div class="viewcode-block" id="TransactionLegacy"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.transaction.TransactionLegacy">[docs]</a><span class="k">class</span> <span class="nc">TransactionLegacy</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x0&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Transaction2930"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.transaction.Transaction2930">[docs]</a><span class="k">class</span> <span class="nc">Transaction2930</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x1&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Transaction1559"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.transaction.Transaction1559">[docs]</a><span class="k">class</span> <span class="nc">Transaction1559</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x2&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">)</span>
+
+    <span class="n">maxFeePerGas</span><span class="p">:</span> <span class="n">Wei</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The maximum fee per gas set in the transaction.&quot;&quot;&quot;</span>
+
+    <span class="n">maxPriorityFeePerGas</span><span class="p">:</span> <span class="n">Wei</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The maximum priority gas fee set in the transaction.&quot;&quot;&quot;</span></div>
+
+
+<span class="n">Transaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">TransactionLegacy</span><span class="p">,</span> <span class="n">Transaction2930</span><span class="p">,</span> <span class="n">Transaction1559</span><span class="p">]</span>
+<span class="n">AnyTransaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Transaction</span><span class="p">,</span> <span class="n">TransactionRLP</span><span class="p">]</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BobTheBuidler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
