@@ -77,5 +77,5 @@ class Trace(
     None if the call errored. Error details will be included in the error field.
     """
 
-    error: str = UNSET
+    error: str = UNSET  # type: ignore [assignment]
     """The error message, if an error occurred."""
