@@ -8,7 +8,7 @@ from evmspec.data import Address, BlockHash, BlockNumber, TransactionHash, Wei, 
 
 class _ActionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """
-    The action performed, parity style.
+    Base class for representing actions in parity-style Ethereum traces, providing common attributes for transaction actions.
     """
 
     sender: Address = field(name="from")
@@ -23,7 +23,7 @@ class _ActionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fiel
 
 class _ResultBase(DictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """
-    The result object, parity style.
+    Base class for representing results in parity-style Ethereum traces, encapsulating the outcome of transaction actions.
     """
 
     gasUsed: Wei
@@ -31,6 +31,9 @@ class _ResultBase(DictStruct, frozen=True, kw_only=True, forbid_unknown_fields=T
 
 
 class _FilterTraceBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+    """
+    Base class for representing parity-style traces.
+    """
 
     blockNumber: BlockNumber
     """The number of the block where this action happened."""

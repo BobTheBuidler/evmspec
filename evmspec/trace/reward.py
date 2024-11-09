@@ -10,6 +10,10 @@ from evmspec.trace._base import _ActionBase, _FilterTraceBase
 
 
 class Type(Enum, metaclass=StringToIntEnumMeta):
+    """
+    Enum representing the types of rewards in Ethereum: block or uncle.
+    """
+
     block = 0
     uncle = 1
 
@@ -30,7 +34,7 @@ class Action(
     """The author of this transaction."""
 
     rewardType: Type
-    """The type of the reward, for reward transactions."""
+    """The type of the reward."""
 
 
 class Trace(

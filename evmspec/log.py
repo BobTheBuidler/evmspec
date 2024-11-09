@@ -69,6 +69,9 @@ for i in range(2, 31):
 
 
 class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-arg]
+    """
+    Represents a minimal log structure with topics.
+    """
 
     topics: Tuple[Topic, ...]
     """
@@ -78,10 +81,12 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
 
     @property
     def topic0(self) -> Topic:
+        """Returns the first topic."""
         return self.topics[0]
 
     @property
     def topic1(self) -> Topic:
+        """Returns the second topic if it exists, otherwise raises an AttributeError."""
         try:
             return self.topics[1]
         except IndexError:
@@ -92,6 +97,7 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
 
     @property
     def topic2(self) -> Topic:
+        """Returns the third topic if it exists, otherwise raises an AttributeError."""
         try:
             return self.topics[2]
         except IndexError:
@@ -102,6 +108,7 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
 
     @property
     def topic3(self) -> Topic:
+        """Returns the fourth topic if it exists, otherwise raises an AttributeError."""
         try:
             return self.topics[3]
         except IndexError:
