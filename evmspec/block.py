@@ -27,9 +27,16 @@ Transactions = Union[
     Tuple[TransactionHash, ...],
     Tuple[Transaction, ...],
 ]
+"""
+Represents a collection of transactions within a block, which can be
+either transaction hashes or full transaction objects.
+"""
 
 
 class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: ignore [call-arg]
+    """
+    Represents a minimal block structure with essential fields.
+    """
 
     timestamp: UnixTimestamp
     """The Unix timestamp for when the block was collated."""
@@ -39,7 +46,12 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
 
     @cached_property
     def transactions(self) -> Transactions:
-        """Array of transaction objects, or 32 Bytes transaction hashes depending on the last given parameter."""
+        """
+        Decodes and returns the transactions in the block.
+
+        Returns:
+            A tuple of transaction objects or transaction hashes.
+        """
         try:
             transactions = json.decode(
                 self._transactions,
@@ -104,7 +116,7 @@ class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, om
     """The total used gas by all transactions in this block."""
 
     uncles: Tuple[HexBytes, ...]
-    """An Array of uncle hashes."""
+    """An array of uncle hashes."""
 
     sha3Uncles: HexBytes
     """SHA3 of the uncles data in the block."""

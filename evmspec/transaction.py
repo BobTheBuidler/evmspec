@@ -20,7 +20,7 @@ from evmspec.data import (
 
 class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
     """
-    The :class:`~structs.AccessListEntry` class represents an entry in an Ethereum transaction access list.
+    Represents an entry in an Ethereum transaction access list.
 
     Access lists are used in EIP-2930 and EIP-1559 transactions to specify storage slots
     that the transaction plans to access, potentially reducing gas costs.

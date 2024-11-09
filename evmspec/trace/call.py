@@ -11,6 +11,10 @@ from evmspec.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
 
 
 class Type(Enum, metaclass=StringToIntEnumMeta):
+    """
+    Enum representing the types of contract calls: call, delegatecall, and staticcall.
+    """
+
     call = 0
     delegatecall = 1
     staticcall = 2
@@ -39,6 +43,9 @@ class Action(
 
 
 class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+    """
+    Represents the result of a contract call action, including the output data of the contract call.
+    """
 
     output: HexBytes
     """The output of this transaction."""

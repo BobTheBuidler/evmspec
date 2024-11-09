@@ -19,16 +19,23 @@ _DecodeHook = Callable[[Type[_T], Any], _T]
 
 
 class Address(str):
+    """
+    Represents an Ethereum address with checksum validation.
+    """
+
     def __new__(cls, address: str):
+        """Creates a new Address instance with checksum validation."""
         return super().__new__(cls, to_checksum_address(address))
 
     @classmethod
     def _decode_hook(cls, typ: Type["Address"], obj: str):
+        """Decodes a string into an Address instance."""
         return cls.checksum(obj)
 
     @classmethod
     @ttl_cache(ttl=600)
     def checksum(cls, address: str) -> Self:
+        """Returns the checksummed version of the address."""
         return cls(address)
 
 
@@ -36,6 +43,10 @@ class Address(str):
 
 
 class uint(int):
+    """
+    Represents an unsigned integer with additional utility methods for hexadecimal conversion and representation.
+    """
+
     @classmethod
     def fromhex(cls, hexstr: str) -> Self:
         return cls(hexstr, 16)
@@ -97,6 +108,7 @@ class Nonce(uint):
 class UnixTimestamp(uint):
     @cached_property
     def datetime(self) -> datetime:
+        """Converts the Unix timestamp to a datetime object in UTC."""
         return datetime.fromtimestamp(self, tz=timezone.utc)
 
 

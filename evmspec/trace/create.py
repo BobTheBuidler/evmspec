@@ -17,7 +17,8 @@ class Action(
     repr_omit_defaults=True,
 ):  # type: ignore [call-arg]
     """
-    Action type for contract creations.
+    Represents the action type for contract creations, capturing the
+    initialization code and parameters for deploying a new contract.
     """
 
     init: HexBytes
@@ -25,6 +26,10 @@ class Action(
 
 
 class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+    """
+    Represents the result of a contract creation action, including the
+    address of the deployed contract and its bytecode.
+    """
 
     address: Address
     """The address of the deployed contract."""

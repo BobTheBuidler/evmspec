@@ -38,11 +38,19 @@ class ArbitrumFeeStats(DictStruct, frozen=True, forbid_unknown_fields=True, omit
 
 
 class HexStringToIntEnumMeta(EnumMeta):
+    """
+    A metaclass for Enums that allows conversion from hexadecimal string values to integer Enum members.
+    """
+
     def __call__(cls, value: str, *args, **kw):
         return super().__call__(int(value, 16), *args, **kw)
 
 
 class Status(Enum, metaclass=HexStringToIntEnumMeta):
+    """
+    Enum representing the status of a transaction, indicating success or failure.
+    """
+
     failure = 0
     success = 1
 
@@ -117,7 +125,9 @@ class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_default
     @cached_property
     def feeStats(self) -> ArbitrumFeeStats:
         """This field is only present on Arbitrum."""
-        return json.decode(self._feeStats, type=ArbitrumFeeStats, dec_hook=Wei._decode_hook)
+        return json.decode(
+            self._feeStats, type=ArbitrumFeeStats, dec_hook=Wei._decode_hook
+        )
 
 
 class FullTransactionReceipt(TransactionReceipt, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
