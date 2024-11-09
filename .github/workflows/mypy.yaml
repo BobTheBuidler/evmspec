@@ -33,4 +33,4 @@ jobs:
         pip install mypy types-requests types-aiofiles
 
     - name: Run MyPy
-      run: mypy ./dictstruct --pretty --ignore-missing-imports --show-error-codes --show-error-context --no-warn-no-return
+      run: mypy ./evmspec --pretty --ignore-missing-imports --show-error-codes --show-error-context --no-warn-no-return
