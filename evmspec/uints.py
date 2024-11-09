@@ -6,6 +6,10 @@ from evmspec.data import uint
 
 
 class _UintData(uint):
+    """
+    Base class for unsigned integer types with specific byte sizes.
+    """
+
     bytes: int
     bits: int
     min_value = 0

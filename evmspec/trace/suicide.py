@@ -12,7 +12,7 @@ class Action(
     repr_omit_defaults=True,
 ):  # type: ignore [call-arg]
     """
-    Action type for contract suicides.
+    Represents the action type for contract suicides, capturing the details of the self-destruct operation.
     """
 
 
@@ -25,6 +25,9 @@ class Trace(
     omit_defaults=True,
     repr_omit_defaults=True,
 ):  # type: ignore [call-arg]
+    """
+    Represents a trace of a contract self-destruct operation.
+    """
 
     type: ClassVar[Literal["suicide"]] = "suicide"
 

@@ -18,6 +18,10 @@ _ADDRESS_TOPIC_PREFIX = HexBytes("0") * 12
 
 
 class Data(HexBytes):
+    """
+    Represents data in Ethereum logs, providing utilities for interpreting the data as various types.
+    """
+
     @property
     def as_uint(self) -> uint:
         return uint(self.hex(), 16)
@@ -48,7 +52,9 @@ class Data(HexBytes):
 
 
 class Topic(HexBytes32, Data):
-    ...
+    """
+    Represents a topic in Ethereum logs, providing utilities for interpreting the topic as various evm types.
+    """
 
 
 # Dynamically define properties for all uint types.

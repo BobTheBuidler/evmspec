@@ -47,6 +47,10 @@ class Trace(
     omit_defaults=True,
     repr_omit_defaults=True,
 ):  # type: ignore [call-arg]
+    """
+    Represents a trace of a contract deployment.
+    """
+
     type: ClassVar[Literal["create"]] = "create"
 
     _action: Raw = field(name="action")
