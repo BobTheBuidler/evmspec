@@ -119,7 +119,7 @@ def _decode_hook(typ: Type, obj: object):
     if issubclass(typ, (HexBytes, Enum, Decimal)):
         return typ(obj)  # type: ignore [arg-type]
     elif typ is Address:
-        return Address.checksum(obj)
+        return Address.checksum(obj)  # type: ignore [arg-type]
     elif issubclass(typ, uint):
         if isinstance(obj, str):
             # if obj.startswith("0x"):
@@ -162,7 +162,7 @@ class HexBytes32(HexBytes):
     def __hash__(self) -> int:
         return hash(self.hex())
 
-    def strip(self) -> str:
+    def strip(self) -> str:  # type: ignore [override]
         """Returns self.hex() with leading zeroes removed."""
         # we trim all leading zeroes since we know how many we need to put back later
         return hex(int(self.hex(), 16))[2:]

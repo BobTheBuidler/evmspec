@@ -31,13 +31,13 @@ class ArbitrumFeeStats(DictStruct, frozen=True, forbid_unknown_fields=True, omit
     (price * unitsUsed)
     """
     # These 2 attributes do not always exist
-    unitsUsed: FeeStats = UNSET
+    unitsUsed: FeeStats = UNSET  # type: ignore [assignment]
     """The breakdown of units of gas used for the transaction."""
-    prices: FeeStats = UNSET
+    prices: FeeStats = UNSET  # type: ignore [assignment]
     """The breakdown of gas prices for the transaction."""
 
 
-class HexStringToIntEnumMeta(EnumMeta):
+class _HexStringToIntEnumMeta(EnumMeta):
     """
     A metaclass for Enums that allows conversion from hexadecimal string values to integer Enum members.
     """
@@ -46,7 +46,7 @@ class HexStringToIntEnumMeta(EnumMeta):
         return super().__call__(int(value, 16), *args, **kw)
 
 
-class Status(Enum, metaclass=HexStringToIntEnumMeta):
+class Status(Enum, metaclass=_HexStringToIntEnumMeta):
     """
     Enum representing the status of a transaction, indicating success or failure.
     """
@@ -87,39 +87,39 @@ class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_default
         return json.decode(self._logs, type=Tuple[Log, ...], dec_hook=_decode_hook)
 
     # These fields are only present on Mainnet.
-    effectiveGasPrice: Wei = UNSET
+    effectiveGasPrice: Wei = UNSET  # type: ignore [assignment]
     """
     The actual value per gas deducted from the sender's account.
     
     This field is only present on Mainnet.
     """
 
-    type: uint = UNSET
+    type: uint = UNSET  # type: ignore [assignment]
     """
     The transaction type.
 
     This field is only present on Mainnet.
     """
 
-    blobGasUsed: Wei = UNSET
+    blobGasUsed: Wei = UNSET  # type: ignore [assignment]
     """This field is sometimes present, only on Mainnet."""
 
     # These fields are only present on Optimism.
-    l1FeeScalar: Decimal = UNSET
+    l1FeeScalar: Decimal = UNSET  # type: ignore [assignment]
     """This field is only present on Optimism."""
-    l1GasUsed: Wei = UNSET
+    l1GasUsed: Wei = UNSET  # type: ignore [assignment]
     """This field is only present on Optimism."""
-    l1GasPrice: Wei = UNSET
+    l1GasPrice: Wei = UNSET  # type: ignore [assignment]
     """This field is only present on Optimism."""
-    l1Fee: Wei = UNSET
+    l1Fee: Wei = UNSET  # type: ignore [assignment]
     """This field is only present on Optimism."""
 
     # These fields are only present on Arbitrum.
-    l1BlockNumber: BlockNumber = UNSET
+    l1BlockNumber: BlockNumber = UNSET  # type: ignore [assignment]
     """This field is only present on Arbitrum."""
-    l1InboxBatchInfo: Optional[HexBytes] = UNSET
+    l1InboxBatchInfo: Optional[HexBytes] = UNSET  # type: ignore [assignment]
     """This field is only present on Arbitrum."""
-    _feeStats: Raw = field(name="feeStats", default=UNSET)
+    _feeStats: Raw = field(name="feeStats", default=UNSET)  # type: ignore [assignment]
     """This field is only present on Arbitrum."""
 
     @cached_property

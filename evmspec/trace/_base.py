@@ -53,7 +53,7 @@ class _FilterTraceBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
     subtraces: uint
     """The number of traces of internal transactions that happened during this transaction."""
 
-    error: str = UNSET
+    error: str = UNSET  # type: ignore [assignment]
 
     @property
     def block(self) -> BlockNumber:
