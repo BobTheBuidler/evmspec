@@ -102,22 +102,22 @@
 <span class="sd">    (price * unitsUsed)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># These 2 attributes do not always exist</span>
-    <span class="n">unitsUsed</span><span class="p">:</span> <span class="n">FeeStats</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">unitsUsed</span><span class="p">:</span> <span class="n">FeeStats</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The breakdown of units of gas used for the transaction.&quot;&quot;&quot;</span>
-    <span class="n">prices</span><span class="p">:</span> <span class="n">FeeStats</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">prices</span><span class="p">:</span> <span class="n">FeeStats</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The breakdown of gas prices for the transaction.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="HexStringToIntEnumMeta"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.receipt.HexStringToIntEnumMeta">[docs]</a><span class="k">class</span> <span class="nc">HexStringToIntEnumMeta</span><span class="p">(</span><span class="n">EnumMeta</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">_HexStringToIntEnumMeta</span><span class="p">(</span><span class="n">EnumMeta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A metaclass for Enums that allows conversion from hexadecimal string values to integer Enum members.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="HexStringToIntEnumMeta.__call__"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.receipt.HexStringToIntEnumMeta.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span></div></div>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Status"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.receipt.Status">[docs]</a><span class="k">class</span> <span class="nc">Status</span><span class="p">(</span><span class="n">Enum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">HexStringToIntEnumMeta</span><span class="p">):</span>
+<div class="viewcode-block" id="Status"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.receipt.Status">[docs]</a><span class="k">class</span> <span class="nc">Status</span><span class="p">(</span><span class="n">Enum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">_HexStringToIntEnumMeta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enum representing the status of a transaction, indicating success or failure.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -158,39 +158,39 @@
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_logs</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Log</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span>
 
     <span class="c1"># These fields are only present on Mainnet.</span>
-    <span class="n">effectiveGasPrice</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">effectiveGasPrice</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The actual value per gas deducted from the sender&#39;s account.</span>
 <span class="sd">    </span>
 <span class="sd">    This field is only present on Mainnet.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nb">type</span><span class="p">:</span> <span class="n">uint</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">uint</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The transaction type.</span>
 
 <span class="sd">    This field is only present on Mainnet.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">blobGasUsed</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">blobGasUsed</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is sometimes present, only on Mainnet.&quot;&quot;&quot;</span>
 
     <span class="c1"># These fields are only present on Optimism.</span>
-    <span class="n">l1FeeScalar</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">l1FeeScalar</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Optimism.&quot;&quot;&quot;</span>
-    <span class="n">l1GasUsed</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">l1GasUsed</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Optimism.&quot;&quot;&quot;</span>
-    <span class="n">l1GasPrice</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">l1GasPrice</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Optimism.&quot;&quot;&quot;</span>
-    <span class="n">l1Fee</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">l1Fee</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Optimism.&quot;&quot;&quot;</span>
 
     <span class="c1"># These fields are only present on Arbitrum.</span>
-    <span class="n">l1BlockNumber</span><span class="p">:</span> <span class="n">BlockNumber</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">l1BlockNumber</span><span class="p">:</span> <span class="n">BlockNumber</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Arbitrum.&quot;&quot;&quot;</span>
-    <span class="n">l1InboxBatchInfo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">UNSET</span>
+    <span class="n">l1InboxBatchInfo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Arbitrum.&quot;&quot;&quot;</span>
-    <span class="n">_feeStats</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;feeStats&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UNSET</span><span class="p">)</span>
+    <span class="n">_feeStats</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;feeStats&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UNSET</span><span class="p">)</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Arbitrum.&quot;&quot;&quot;</span>
 
     <span class="nd">@cached_property</span>

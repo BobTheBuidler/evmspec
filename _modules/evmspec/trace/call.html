@@ -133,7 +133,7 @@
 <span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;call&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span>
 
-    <span class="n">_action</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>
+    <span class="n">_action</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The call action, parity style.&quot;&quot;&quot;</span>
 
     <span class="nd">@cached_property</span>
