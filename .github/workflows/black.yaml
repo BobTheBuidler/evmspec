@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}  # Check out the PR branch
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -28,13 +30,13 @@ jobs:
       id: changes
       run: |
         if [[ -n $(git status --porcelain) ]]; then
-          echo "##[set-output name=changes_detected;]true"
+          echo "changes_detected=true" >> $GITHUB_ENV
         else
-          echo "##[set-output name=changes_detected;]false"
+          echo "changes_detected=false" >> $GITHUB_ENV
         fi
 
     - name: Commit changes
-      if: steps.changes.outputs.changes_detected == 'true'
+      if: env.changes_detected == 'true'
       run: |
         git config --local user.name "github-actions[bot]"
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
