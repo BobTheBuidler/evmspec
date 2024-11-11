@@ -19,15 +19,18 @@ _ADDRESS_TOPIC_PREFIX = HexBytes("0") * 12
 
 class Data(HexBytes):
     """
-    Represents data in Ethereum logs, providing utilities for interpreting the data as various types.
+    Represents data in Ethereum logs, providing utilities for interpreting
+    the data as various types.
     """
 
     @property
     def as_uint(self) -> uint:
+        """Interprets the data as an unsigned integer."""
         return uint(self.hex(), 16)
 
     @property
     def as_address(self) -> Address:
+        """Interprets the data as an Ethereum address."""
         if self[:12] != _ADDRESS_TOPIC_PREFIX:
             raise ValueError(
                 f"This {type(self).__name__} does not represent an address", self
@@ -36,24 +39,29 @@ class Data(HexBytes):
 
     @property
     def as_uint8(self) -> uints.uint8:
+        """Interprets the data as an 8-bit unsigned integer."""
         return uints.uint8(self)
 
     @property
     def as_uint64(self) -> uints.uint64:
+        """Interprets the data as a 64-bit unsigned integer."""
         return uints.uint64(self)
 
     @property
     def as_uint128(self) -> uints.uint128:
+        """Interprets the data as a 128-bit unsigned integer."""
         return uints.uint128(self)
 
     @property
     def as_uint256(self) -> uints.uint256:
+        """Interprets the data as a 256-bit unsigned integer."""
         return uints.uint256(self)
 
 
 class Topic(HexBytes32, Data):
     """
-    Represents a topic in Ethereum logs, providing utilities for interpreting the topic as various evm types.
+    Represents a topic in Ethereum logs, providing utilities for interpreting
+    the topic as various EVM types.
     """
 
 
@@ -82,7 +90,8 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
     topics: Tuple[Topic, ...]
     """
     An array of 0 to 4 32-byte topics. 
-    The first topic is the event signature and the others are indexed filters on the event return data.
+    The first topic is the event signature and the others are indexed filters 
+    on the event return data.
     """
 
     @property
@@ -125,6 +134,9 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
 
 
 class SmallLog(TinyLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
+    """
+    Represents a log with additional attributes for the contract address and data.
+    """
 
     address: Optional[Address]
     """The address of the contract that generated the log."""
@@ -134,6 +146,10 @@ class SmallLog(TinyLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
 
 
 class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
+    """
+    Represents a comprehensive log structure with additional transaction
+    details.
+    """
 
     removed: Optional[bool]
     """`True` when the log was removed, due to a chain reorganization. `False` if it's a valid log."""
@@ -142,7 +158,7 @@ class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
     """The block where the transaction was included where the log originated from. `None` for pending transactions."""
 
     transactionHash: TransactionHash
-    """The hash of the transaction that generated the log. `None` for pending transactions."""
+    """The hash of the transaction that generated the log."""
 
     logIndex: LogIndex
     """Index position of the log in the transaction. `None` for pending transactions."""
@@ -152,11 +168,15 @@ class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
 
     @property
     def block(self) -> Optional[BlockNumber]:
-        """A shorthand getter for 'blockNumber'"""
+        """A shorthand getter for 'blockNumber'."""
         return self.blockNumber
 
 
 class FullLog(Log, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
+    """
+    Represents a full log structure with comprehensive block and transaction
+    details.
+    """
 
     blockHash: Optional[BlockHash]
     """The hash of the block where the transaction was included where the log originated from. `None` for pending transactions."""
