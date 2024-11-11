@@ -16,9 +16,10 @@ class Action(
     omit_defaults=True,
     repr_omit_defaults=True,
 ):  # type: ignore [call-arg]
-    """
-    Represents the action type for contract creations, capturing the
-    initialization code and parameters for deploying a new contract.
+    """Represents the action type for contract creations.
+
+    This class captures the initialization code necessary for deploying a 
+    new contract on the Ethereum Virtual Machine (EVM).
     """
 
     init: HexBytes
@@ -26,9 +27,11 @@ class Action(
 
 
 class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
-    """
-    Represents the result of a contract creation action, including the
-    address of the deployed contract and its bytecode.
+    """Represents the result of a contract creation action.
+
+    It includes details such as the address and bytecode of the newly 
+    deployed contract. This information is essential for verifying the 
+    deployment was successful and retrieving the contract's code.
     """
 
     address: Address
@@ -47,19 +50,27 @@ class Trace(
     omit_defaults=True,
     repr_omit_defaults=True,
 ):  # type: ignore [call-arg]
-    """
-    Represents a trace of a contract deployment.
+    """Represents a trace of a contract deployment.
+
+    Provides a detailed trace structure which includes both raw and decoded 
+    versions of the action data used during the contract deployment on the 
+    Ethereum network.
     """
 
     type: ClassVar[Literal["create"]] = "create"
 
     _action: Raw = field(name="action")
-    """The create action, parity style."""
+    """The raw create action data, following the parity format."""
 
     @cached_property
     def action(self) -> Action:
-        """The create action, parity style."""
+        """Decodes the raw action data into an Action object using parity style.
+
+        Utilizes the `_action` field for decoding, transforming it into a 
+        structured Action object that represents the specific details 
+        of the contract creation process.
+        """
         return json.decode(self._action, type=Action, dec_hook=_decode_hook)
 
     result: Result
-    """The result object, parity style."""
+    """The result object, adhering to the parity format, containing deployment details."""

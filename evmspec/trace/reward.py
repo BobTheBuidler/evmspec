@@ -11,7 +11,7 @@ from evmspec.trace._base import _ActionBase, _FilterTraceBase
 
 class Type(Enum, metaclass=StringToIntEnumMeta):
     """
-    Enum representing the types of rewards in Ethereum: block or uncle.
+    Represents the types of rewards in Ethereum: block or uncle.
     """
 
     block = 0
@@ -31,7 +31,7 @@ class Action(
     """
 
     author: Address
-    """The author of this transaction."""
+    """The author of this reward."""
 
     rewardType: Type
     """The type of the reward."""
@@ -53,9 +53,14 @@ class Trace(
     type: ClassVar[Literal["reward"]] = "reward"
 
     _action: Raw = field(name="action")
-    """The reward action, parity style."""
+    """Raw representation of the reward action, parity style."""
 
     @cached_property
     def action(self) -> Action:
-        """The reward action, parity style."""
+        """
+        Decodes the raw reward action into an Action object, using parity style.
+
+        Returns:
+            Action: The decoded action.
+        """
         return json.decode(self._action, type=Action, dec_hook=_decode_hook)

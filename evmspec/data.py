@@ -27,23 +27,44 @@ class Address(str):
     """
 
     def __new__(cls, address: str):
-        """Creates a new Address instance with checksum validation."""
+        """Creates a new Address instance with checksum validation.
+
+        Args:
+            address: A string representing the Ethereum address.
+        
+        Returns:
+            An Address object with a checksummed address.
+        """
         return super().__new__(cls, to_checksum_address(address))
 
     @classmethod
     def _decode_hook(cls, typ: Type["Address"], obj: str):
-        """Decodes a string into an Address instance."""
+        """Returns a checksummed version of the address.
+
+        Args:
+            typ: The type that is expected to be decoded to.
+            obj: The object to decode, expected to be a string representation of an Ethereum address.
+        
+        Returns:
+            A checksummed Address.
+        """
         return cls.checksum(obj)
 
     @classmethod
     @ttl_cache(ttl=600)
     def checksum(cls, address: str) -> Self:
-        """Returns the checksummed version of the address."""
+        """Returns the checksummed version of the address.
+
+        Args:
+            address: A string representing the Ethereum address.
+        
+        Returns:
+            The checksummed Ethereum address.
+        """
         return cls(address)
 
 
 # Integers
-
 
 class uint(int):
     """
@@ -52,6 +73,14 @@ class uint(int):
 
     @classmethod
     def fromhex(cls, hexstr: str) -> Self:
+        """Converts a hexadecimal string to a uint.
+
+        Args:
+            hexstr: A string representing a hexadecimal number.
+        
+        Returns:
+            A uint object representing the integer value of the hexadecimal string.
+        """
         return cls(hexstr, 16)
 
     """
@@ -78,10 +107,27 @@ class uint(int):
 
     @classmethod
     def _decode_hook(cls, typ: Type["uint"], obj: str):
+        """Decodes a string or number into a uint.
+
+        Args:
+            typ: The type that is expected to be decoded to.
+            obj: The object to decode, expected to be a string or number.
+
+        Returns:
+            A uint object representing the decoded value.
+        """
         return typ(obj, 16)
 
     @classmethod
     def _decode(cls, obj) -> "uint":
+        """Attempts to decode an object as a uint, handling TypeErrors.
+
+        Args:
+            obj: The object to decode.
+
+        Returns:
+            A uint object representing the decoded value.
+        """
         try:
             return cls.fromhex(obj)
         except TypeError as e:
@@ -93,6 +139,14 @@ class uint(int):
 class Wei(uint):
     @cached_property
     def scaled(self) -> "Decimal":
+        """Returns the scaled decimal representation of Wei.
+
+        Calculation:
+            The value in Wei divided by 10**18 to convert to Ether.
+        
+        Returns:
+            A Decimal object representing the scaled Ether value.
+        """
         return Decimal(self) / 10**18
 
     # @property
@@ -109,14 +163,29 @@ class Nonce(uint): ...
 class UnixTimestamp(uint):
     @cached_property
     def datetime(self) -> datetime:
-        """Converts the Unix timestamp to a datetime object in UTC."""
+        """Converts the Unix timestamp to a datetime object in UTC.
+
+        Returns:
+            A datetime object representing the UTC date and time.
+        """
         return datetime.fromtimestamp(self, tz=timezone.utc)
 
 
 # Hook
 
-
 def _decode_hook(typ: Type, obj: object):
+    """A generic decode hook for converting objects to specific types.
+
+    Args:
+        typ: The type that is expected to be decoded to.
+        obj: The object to decode.
+
+    Returns:
+        The object decoded to the specified type.
+
+    Raises:
+        NotImplementedError: If the type cannot be handled.
+    """
     if issubclass(typ, (HexBytes, Enum, Decimal)):
         return typ(obj)  # type: ignore [arg-type]
     elif typ is Address:
@@ -139,6 +208,17 @@ ONE_EMPTY_BYTE = bytes(HexBytes("0x00"))
 
 class HexBytes32(HexBytes):
     def __new__(cls, v):
+        """Create a new HexBytes32 object.
+
+        Args:
+            v: A value that can be converted to HexBytes32.
+
+        Returns:
+            A HexBytes32 object.
+        
+        Raises:
+            ValueError: If the string representation is not the correct length.
+        """
         # if it has 0x prefix it came from the chain or a user and we should validate the size
         # when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.
         if isinstance(v, str) and v.startswith("0x"):
@@ -157,6 +237,14 @@ class HexBytes32(HexBytes):
 
     @staticmethod
     def _get_missing_bytes(input_bytes: HexBytes) -> bytes:
+        """Calculate the number of missing bytes and return them.
+
+        Args:
+            input_bytes: The input bytes to check.
+
+        Returns:
+            A bytes object representing the missing bytes.
+        """
         missing_length = 32 - len(input_bytes)
         return missing_length * ONE_EMPTY_BYTE
 
@@ -170,6 +258,14 @@ class HexBytes32(HexBytes):
 
     @staticmethod
     def _check_hexstr(hexstr: str):
+        """Checks if a hex string is of a valid length.
+
+        Args:
+            hexstr: The hex string to check.
+
+        Raises:
+            ValueError: If the hex string is of an invalid length.
+        """
         l = len(hexstr)
         if l > 66:
             raise ValueError("too high", len(hexstr), hexstr)
@@ -186,6 +282,18 @@ class TransactionHash(HexBytes32):
         async def get_receipt(
             self, decode_to: Type[_T], decode_hook: _DecodeHook[_T] = _decode_hook
         ) -> "TransactionReceipt":
+            """Async method to get the transaction receipt.
+
+            Args:
+                decode_to: The type to decode the receipt to.
+                decode_hook: A hook function to perform the decoding.
+
+            Returns:
+                A TransactionReceipt object for the transaction.
+            
+            Raises:
+                ImportError: If 'dank_mids' cannot be imported.
+            """
             import dank_mids
 
             return await dank_mids.eth.get_transaction_receipt(
@@ -194,6 +302,14 @@ class TransactionHash(HexBytes32):
 
         @a_sync  # TODO; compare how these type check, they both function the same
         async def get_logs(self) -> Tuple["Log", ...]:
+            """Async method to get the logs for the transaction.
+
+            Returns:
+                A tuple of Log objects for the transaction.
+            
+            Raises:
+                ImportError: If 'dank_mids' cannot be imported.
+            """
             try:
                 import dank_mids
             except ImportError:

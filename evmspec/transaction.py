@@ -32,7 +32,7 @@ class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True): 
         >>> len(access_list_entry.storage_keys)
         2
     """
-
+    
     address: Address
     """The Ethereum address of the contract whose storage is being accessed."""
 
@@ -41,7 +41,7 @@ class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True): 
 
     @cached_property
     def storageKeys(self) -> List[HexBytes32]:
-        """The specific storage slot keys within the contract that will be accessed."""
+        """Decodes storage keys from raw format to a list of HexBytes32."""
         return json.decode(
             self._storageKeys,
             type=List[HexBytes32],
@@ -50,6 +50,10 @@ class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True): 
 
 
 class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+    """
+    Base class for Ethereum transactions.
+    """
+
     input: HexBytes
     """The data sent along with the transaction."""
 
@@ -71,8 +75,8 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
     chainId: Optional[ChainId] = UNSET  # type: ignore [assignment]
     """
     The chain id of the transaction, if any.
-    
-    `None` for v in {27, 28}, otherwise derived from eip-155
+
+    `None` for v in {27, 28}, otherwise derived from eip-155.
 
     This field is not included in the transactions field of a eth_getBlock response.
     """
@@ -82,13 +86,13 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
     """The address of the sender."""
 
     blockHash: BlockHash
-    """The hash of the block including this transaction. `None` when it's pending."""
+    """The hash of the block including this transaction."""
 
     blockNumber: BlockNumber
-    """The number of the block including this transaction. `None` when it's pending."""
+    """The number of the block including this transaction."""
 
     transactionIndex: TransactionIndex
-    """The index position of the transaction in the block. `None` when it's pending."""
+    """The index position of the transaction in the block."""
 
     # signature
     v: uint
@@ -126,11 +130,14 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
 
     @cached_property
     def accessList(self) -> List[AccessListEntry]:
-        """A list of addresses and storage keys that the transaction plans to access."""
+        """Decodes the access list from raw format to a list of AccessListEntry."""
         return json.decode(self._accessList, type=List[AccessListEntry])
 
 
 class TransactionRLP(_TransactionBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+    """
+    Represents a RLP encoded transaction that might have network-specific fields.
+    """
 
     # These fields are only present on Optimism, pre-Bedrock.
     l1BlockNumber: BlockNumber = UNSET  # type: ignore [assignment]
@@ -143,14 +150,24 @@ class TransactionRLP(_TransactionBase, frozen=True, kw_only=True, forbid_unknown
 
 
 class TransactionLegacy(_TransactionBase, tag="0x0", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+    """
+    Represents a Legacy Ethereum transaction (pre-EIP-2718).
+    """
     type: ClassVar[HexBytes] = HexBytes("0")
 
 
 class Transaction2930(_TransactionBase, tag="0x1", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+    """
+    Represents a type-2930 (EIP-2930) Ethereum transaction with an access list.
+    """
     type: ClassVar[HexBytes] = HexBytes("1")
 
 
 class Transaction1559(_TransactionBase, tag="0x2", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+    """
+    Represents a type-1559 (EIP-1559) Ethereum transaction with dynamic fee.
+    """
+
     type: ClassVar[HexBytes] = HexBytes("2")
 
     maxFeePerGas: Wei

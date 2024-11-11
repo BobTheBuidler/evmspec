@@ -27,7 +27,7 @@ class ArbitrumFeeStats(DictStruct, frozen=True, forbid_unknown_fields=True, omit
     paid: FeeStats
     """
     The breakdown of gas paid for the transaction.
-    
+
     (price * unitsUsed)
     """
     # These 2 attributes do not always exist
@@ -56,6 +56,7 @@ class Status(Enum, metaclass=_HexStringToIntEnumMeta):
 
 
 class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_defaults=True, repr_omit_defaults=True, dict=True):  # type: ignore [call-arg]
+    """Represents the receipt of a transaction within a block."""
 
     transactionHash: TransactionHash
     """The unique hash of this transaction."""
@@ -76,7 +77,7 @@ class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_default
     """The amount of gas used by this transaction, not counting internal transactions, calls or delegate calls."""
 
     cumulativeGasUsed: Wei
-    """The total amount of gas used during this transaction."""
+    """The total amount of gas used in the block up to and including this transaction."""
 
     _logs: Raw = field(name="logs")
     """The logs that were generated during this transaction."""
@@ -90,7 +91,7 @@ class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_default
     effectiveGasPrice: Wei = UNSET  # type: ignore [assignment]
     """
     The actual value per gas deducted from the sender's account.
-    
+
     This field is only present on Mainnet.
     """
 
@@ -131,6 +132,7 @@ class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_default
 
 
 class FullTransactionReceipt(TransactionReceipt, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+    """Extends TransactionReceipt to include full details."""
 
     blockHash: HexBytes
     """The hash of the block that contains the transaction."""
