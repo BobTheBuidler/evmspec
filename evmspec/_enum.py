@@ -1,6 +1,7 @@
 from enum import EnumMeta
 from typing import Union
 
+
 class StringToIntEnumMeta(EnumMeta):
     """
     A metaclass for Enums that enables conversion from string or integer
@@ -8,7 +9,7 @@ class StringToIntEnumMeta(EnumMeta):
 
     When a value is given, the process to find the corresponding Enum member
     is as follows:
-    
+
     - If the value exists in the `_member_map_`, the corresponding Enum
       member is returned.
     - If the value is not found in the `_member_map_`, the original value is

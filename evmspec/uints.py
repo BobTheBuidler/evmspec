@@ -49,6 +49,7 @@ class _UintData(uint):
 
 class uint8(_UintData):
     """Unsigned 8-bit integer."""
+
     bytes = 1
     bits = bytes * 8
     max_value = 2**bits - 1
@@ -56,6 +57,7 @@ class uint8(_UintData):
 
 class uint64(_UintData):
     """Unsigned 64-bit integer."""
+
     bytes = 8
     bits = bytes * 8
     max_value = 2**bits - 1
@@ -63,6 +65,7 @@ class uint64(_UintData):
 
 class uint128(_UintData):
     """Unsigned 128-bit integer."""
+
     bytes = 16
     bits = bytes * 8
     max_value = 2**bits - 1
@@ -70,6 +73,7 @@ class uint128(_UintData):
 
 class uint256(_UintData):
     """Unsigned 256-bit integer."""
+
     bytes = 32
     bits = bytes * 8
     max_value = 2**bits - 1

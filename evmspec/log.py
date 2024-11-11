@@ -19,7 +19,7 @@ _ADDRESS_TOPIC_PREFIX = HexBytes("0") * 12
 
 class Data(HexBytes):
     """
-    Represents data in Ethereum logs, providing utilities for interpreting 
+    Represents data in Ethereum logs, providing utilities for interpreting
     the data as various types.
     """
 
@@ -60,7 +60,7 @@ class Data(HexBytes):
 
 class Topic(HexBytes32, Data):
     """
-    Represents a topic in Ethereum logs, providing utilities for interpreting 
+    Represents a topic in Ethereum logs, providing utilities for interpreting
     the topic as various EVM types.
     """
 
@@ -147,7 +147,7 @@ class SmallLog(TinyLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
 
 class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
     """
-    Represents a comprehensive log structure with additional transaction 
+    Represents a comprehensive log structure with additional transaction
     details.
     """
 
@@ -174,7 +174,7 @@ class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
 
 class FullLog(Log, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
     """
-    Represents a full log structure with comprehensive block and transaction 
+    Represents a full log structure with comprehensive block and transaction
     details.
     """
 

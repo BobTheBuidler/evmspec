@@ -3,12 +3,13 @@ from hexbytes import HexBytes
 from dictstruct import LazyDictStruct
 from evmspec.data import Address, UnixTimestamp, uint
 
+
 # WIP - pretty sure this will fail right now
 class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
     """
     Represents a block header in the Erigon client.
 
-    This class is designed to utilize `LazyDictStruct` for handling block header data, 
+    This class is designed to utilize `LazyDictStruct` for handling block header data,
     ensuring immutability and strictness to known fields. It is currently under development,
     and specific features may not yet be functional. There may be known issues needing resolution.
 

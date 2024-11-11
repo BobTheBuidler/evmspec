@@ -32,7 +32,7 @@ class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True): 
         >>> len(access_list_entry.storage_keys)
         2
     """
-    
+
     address: Address
     """The Ethereum address of the contract whose storage is being accessed."""
 
@@ -153,6 +153,7 @@ class TransactionLegacy(_TransactionBase, tag="0x0", frozen=True, kw_only=True, 
     """
     Represents a Legacy Ethereum transaction (pre-EIP-2718).
     """
+
     type: ClassVar[HexBytes] = HexBytes("0")
 
 
@@ -160,6 +161,7 @@ class Transaction2930(_TransactionBase, tag="0x1", frozen=True, kw_only=True, fo
     """
     Represents a type-2930 (EIP-2930) Ethereum transaction with an access list.
     """
+
     type: ClassVar[HexBytes] = HexBytes("1")
 
 

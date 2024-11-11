@@ -18,7 +18,7 @@ class Action(
 ):  # type: ignore [call-arg]
     """Represents the action type for contract creations.
 
-    This class captures the initialization code necessary for deploying a 
+    This class captures the initialization code necessary for deploying a
     new contract on the Ethereum Virtual Machine (EVM).
     """
 
@@ -29,8 +29,8 @@ class Action(
 class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """Represents the result of a contract creation action.
 
-    It includes details such as the address and bytecode of the newly 
-    deployed contract. This information is essential for verifying the 
+    It includes details such as the address and bytecode of the newly
+    deployed contract. This information is essential for verifying the
     deployment was successful and retrieving the contract's code.
     """
 
@@ -52,8 +52,8 @@ class Trace(
 ):  # type: ignore [call-arg]
     """Represents a trace of a contract deployment.
 
-    Provides a detailed trace structure which includes both raw and decoded 
-    versions of the action data used during the contract deployment on the 
+    Provides a detailed trace structure which includes both raw and decoded
+    versions of the action data used during the contract deployment on the
     Ethereum network.
     """
 
@@ -66,8 +66,8 @@ class Trace(
     def action(self) -> Action:
         """Decodes the raw action data into an Action object using parity style.
 
-        Utilizes the `_action` field for decoding, transforming it into a 
-        structured Action object that represents the specific details 
+        Utilizes the `_action` field for decoding, transforming it into a
+        structured Action object that represents the specific details
         of the contract creation process.
         """
         return json.decode(self._action, type=Action, dec_hook=_decode_hook)

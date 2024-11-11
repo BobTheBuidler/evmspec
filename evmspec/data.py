@@ -31,7 +31,7 @@ class Address(str):
 
         Args:
             address: A string representing the Ethereum address.
-        
+
         Returns:
             An Address object with a checksummed address.
         """
@@ -44,7 +44,7 @@ class Address(str):
         Args:
             typ: The type that is expected to be decoded to.
             obj: The object to decode, expected to be a string representation of an Ethereum address.
-        
+
         Returns:
             A checksummed Address.
         """
@@ -57,7 +57,7 @@ class Address(str):
 
         Args:
             address: A string representing the Ethereum address.
-        
+
         Returns:
             The checksummed Ethereum address.
         """
@@ -65,6 +65,7 @@ class Address(str):
 
 
 # Integers
+
 
 class uint(int):
     """
@@ -77,7 +78,7 @@ class uint(int):
 
         Args:
             hexstr: A string representing a hexadecimal number.
-        
+
         Returns:
             A uint object representing the integer value of the hexadecimal string.
         """
@@ -143,7 +144,7 @@ class Wei(uint):
 
         Calculation:
             The value in Wei divided by 10**18 to convert to Ether.
-        
+
         Returns:
             A Decimal object representing the scaled Ether value.
         """
@@ -172,6 +173,7 @@ class UnixTimestamp(uint):
 
 
 # Hook
+
 
 def _decode_hook(typ: Type, obj: object):
     """A generic decode hook for converting objects to specific types.
@@ -215,7 +217,7 @@ class HexBytes32(HexBytes):
 
         Returns:
             A HexBytes32 object.
-        
+
         Raises:
             ValueError: If the string representation is not the correct length.
         """
@@ -290,7 +292,7 @@ class TransactionHash(HexBytes32):
 
             Returns:
                 A TransactionReceipt object for the transaction.
-            
+
             Raises:
                 ImportError: If 'dank_mids' cannot be imported.
             """
@@ -306,7 +308,7 @@ class TransactionHash(HexBytes32):
 
             Returns:
                 A tuple of Log objects for the transaction.
-            
+
             Raises:
                 ImportError: If 'dank_mids' cannot be imported.
             """
