@@ -79,6 +79,15 @@
 <span class="k">class</span> <span class="nc">_UintData</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for unsigned integer types with specific byte sizes.</span>
+
+<span class="sd">    The class provides a framework to define unsigned integer types of any byte size,</span>
+<span class="sd">    ensuring values adhere to defined minimum and maximum constraints.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        bytes (int): The number of bytes for the unsigned integer type.</span>
+<span class="sd">        bits (int): The number of bits for the unsigned integer type.</span>
+<span class="sd">        min_value (int): The minimum permissible value (default is 0).</span>
+<span class="sd">        max_value (int): The maximum permissible value for the type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">bytes</span><span class="p">:</span> <span class="nb">int</span>
@@ -87,10 +96,20 @@
     <span class="n">max_value</span><span class="p">:</span> <span class="nb">int</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">HexBytes</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a new unsigned integer of the specified type from a hex byte value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            v (HexBytes): The value to be converted into the unsigned integer type.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the value is smaller than the minimum value or larger than</span>
+<span class="sd">            the maximum value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">new</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="k">else</span> <span class="s2">&quot;0x0&quot;</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">new</span> <span class="o">&lt;</span> <span class="bp">cls</span><span class="o">.</span><span class="n">min_value</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">!r}</span><span class="s2"> (</span><span class="si">{</span><span class="n">new</span><span class="si">}</span><span class="s2">) is smaller than </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> max value </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">max_value</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">!r}</span><span class="s2"> (</span><span class="si">{</span><span class="n">new</span><span class="si">}</span><span class="s2">) is smaller than </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> min value </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">min_value</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">new</span> <span class="o">&gt;</span> <span class="bp">cls</span><span class="o">.</span><span class="n">max_value</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -100,24 +119,32 @@
 
 
 <div class="viewcode-block" id="uint8"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.uints.uint8">[docs]</a><span class="k">class</span> <span class="nc">uint8</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 8-bit integer.&quot;&quot;&quot;</span>
+
     <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">bits</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
     <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span></div>
 
 
 <div class="viewcode-block" id="uint64"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.uints.uint64">[docs]</a><span class="k">class</span> <span class="nc">uint64</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 64-bit integer.&quot;&quot;&quot;</span>
+
     <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">8</span>
     <span class="n">bits</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
     <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span></div>
 
 
 <div class="viewcode-block" id="uint128"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.uints.uint128">[docs]</a><span class="k">class</span> <span class="nc">uint128</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 128-bit integer.&quot;&quot;&quot;</span>
+
     <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">16</span>
     <span class="n">bits</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
     <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span></div>
 
 
 <span class="k">class</span> <span class="nc">uint256</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 256-bit integer.&quot;&quot;&quot;</span>
+
     <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">32</span>
     <span class="n">bits</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
     <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span>
@@ -126,7 +153,7 @@
 <span class="c1"># dynamically define classes for remaining uint types</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">32</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">]:</span>
-        <span class="c1"># I already defined these above</span>
+        <span class="c1"># These types are already defined above</span>
         <span class="k">continue</span>
 
     <span class="n">bits</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">8</span>

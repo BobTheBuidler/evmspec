@@ -87,9 +87,10 @@
     <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents the action type for contract creations, capturing the</span>
-<span class="sd">    initialization code and parameters for deploying a new contract.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the action type for contract creations.</span>
+
+<span class="sd">    This class captures the initialization code necessary for deploying a</span>
+<span class="sd">    new contract on the Ethereum Virtual Machine (EVM).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">init</span><span class="p">:</span> <span class="n">HexBytes</span>
@@ -97,9 +98,11 @@
 
 
 <div class="viewcode-block" id="Result"><a class="viewcode-back" href="../../../source/evmspec.trace.html#evmspec.trace.create.Result">[docs]</a><span class="k">class</span> <span class="nc">Result</span><span class="p">(</span><span class="n">_ResultBase</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents the result of a contract creation action, including the</span>
-<span class="sd">    address of the deployed contract and its bytecode.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the result of a contract creation action.</span>
+
+<span class="sd">    It includes details such as the address and bytecode of the newly</span>
+<span class="sd">    deployed contract. This information is essential for verifying the</span>
+<span class="sd">    deployment was successful and retrieving the contract&#39;s code.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
@@ -118,22 +121,30 @@
     <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a trace of a contract deployment.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a trace of a contract deployment.</span>
+
+<span class="sd">    Provides a detailed trace structure which includes both raw and decoded</span>
+<span class="sd">    versions of the action data used during the contract deployment on the</span>
+<span class="sd">    Ethereum network.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;create&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;create&quot;</span>
 
     <span class="n">_action</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The create action, parity style.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The raw create action data, following the parity format.&quot;&quot;&quot;</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Action</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The create action, parity style.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decodes the raw action data into an Action object using parity style.</span>
+
+<span class="sd">        Utilizes the `_action` field for decoding, transforming it into a</span>
+<span class="sd">        structured Action object that represents the specific details</span>
+<span class="sd">        of the contract creation process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Action</span><span class="p">,</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span>
 
     <span class="n">result</span><span class="p">:</span> <span class="n">Result</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The result object, parity style.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The result object, adhering to the parity format, containing deployment details.&quot;&quot;&quot;</span></div>
 </pre></div>
 
            </div>

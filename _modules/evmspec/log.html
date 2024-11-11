@@ -90,15 +90,18 @@
 
 <div class="viewcode-block" id="Data"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.Data">[docs]</a><span class="k">class</span> <span class="nc">Data</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents data in Ethereum logs, providing utilities for interpreting the data as various types.</span>
+<span class="sd">    Represents data in Ethereum logs, providing utilities for interpreting</span>
+<span class="sd">    the data as various types.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_uint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uint</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interprets the data as an unsigned integer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hex</span><span class="p">(),</span> <span class="mi">16</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interprets the data as an Ethereum address.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="p">[:</span><span class="mi">12</span><span class="p">]</span> <span class="o">!=</span> <span class="n">_ADDRESS_TOPIC_PREFIX</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;This </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not represent an address&quot;</span><span class="p">,</span> <span class="bp">self</span>
@@ -107,24 +110,29 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_uint8</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint8</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interprets the data as an 8-bit unsigned integer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_uint64</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint64</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interprets the data as a 64-bit unsigned integer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint64</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_uint128</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint128</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interprets the data as a 128-bit unsigned integer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint128</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_uint256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint256</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interprets the data as a 256-bit unsigned integer.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Topic"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.Topic">[docs]</a><span class="k">class</span> <span class="nc">Topic</span><span class="p">(</span><span class="n">HexBytes32</span><span class="p">,</span> <span class="n">Data</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a topic in Ethereum logs, providing utilities for interpreting the topic as various evm types.</span>
+<span class="sd">    Represents a topic in Ethereum logs, providing utilities for interpreting</span>
+<span class="sd">    the topic as various EVM types.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 
@@ -153,7 +161,8 @@
     <span class="n">topics</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Topic</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    An array of 0 to 4 32-byte topics. </span>
-<span class="sd">    The first topic is the event signature and the others are indexed filters on the event return data.</span>
+<span class="sd">    The first topic is the event signature and the others are indexed filters </span>
+<span class="sd">    on the event return data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
@@ -196,6 +205,9 @@
 
 
 <div class="viewcode-block" id="SmallLog"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.SmallLog">[docs]</a><span class="k">class</span> <span class="nc">SmallLog</span><span class="p">(</span><span class="n">TinyLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a log with additional attributes for the contract address and data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">address</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Address</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The address of the contract that generated the log.&quot;&quot;&quot;</span>
@@ -205,6 +217,10 @@
 
 
 <div class="viewcode-block" id="Log"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.Log">[docs]</a><span class="k">class</span> <span class="nc">Log</span><span class="p">(</span><span class="n">SmallLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a comprehensive log structure with additional transaction</span>
+<span class="sd">    details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">removed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;`True` when the log was removed, due to a chain reorganization. `False` if it&#39;s a valid log.&quot;&quot;&quot;</span>
@@ -213,7 +229,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The block where the transaction was included where the log originated from. `None` for pending transactions.&quot;&quot;&quot;</span>
 
     <span class="n">transactionHash</span><span class="p">:</span> <span class="n">TransactionHash</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the transaction that generated the log. `None` for pending transactions.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the transaction that generated the log.&quot;&quot;&quot;</span>
 
     <span class="n">logIndex</span><span class="p">:</span> <span class="n">LogIndex</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Index position of the log in the transaction. `None` for pending transactions.&quot;&quot;&quot;</span>
@@ -223,11 +239,15 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">block</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BlockNumber</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A shorthand getter for &#39;blockNumber&#39;&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;A shorthand getter for &#39;blockNumber&#39;.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blockNumber</span></div>
 
 
 <div class="viewcode-block" id="FullLog"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.FullLog">[docs]</a><span class="k">class</span> <span class="nc">FullLog</span><span class="p">(</span><span class="n">Log</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a full log structure with comprehensive block and transaction</span>
+<span class="sd">    details.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">blockHash</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BlockHash</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the block where the transaction was included where the log originated from. `None` for pending transactions.&quot;&quot;&quot;</span></div>

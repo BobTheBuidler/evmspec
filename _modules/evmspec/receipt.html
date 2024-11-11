@@ -98,7 +98,7 @@
     <span class="n">paid</span><span class="p">:</span> <span class="n">FeeStats</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The breakdown of gas paid for the transaction.</span>
-<span class="sd">    </span>
+
 <span class="sd">    (price * unitsUsed)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># These 2 attributes do not always exist</span>
@@ -127,6 +127,7 @@
 
 
 <div class="viewcode-block" id="TransactionReceipt"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.receipt.TransactionReceipt">[docs]</a><span class="k">class</span> <span class="nc">TransactionReceipt</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">dict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the receipt of a transaction within a block.&quot;&quot;&quot;</span>
 
     <span class="n">transactionHash</span><span class="p">:</span> <span class="n">TransactionHash</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The unique hash of this transaction.&quot;&quot;&quot;</span>
@@ -147,7 +148,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The amount of gas used by this transaction, not counting internal transactions, calls or delegate calls.&quot;&quot;&quot;</span>
 
     <span class="n">cumulativeGasUsed</span><span class="p">:</span> <span class="n">Wei</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The total amount of gas used during this transaction.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The total amount of gas used in the block up to and including this transaction.&quot;&quot;&quot;</span>
 
     <span class="n">_logs</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The logs that were generated during this transaction.&quot;&quot;&quot;</span>
@@ -161,7 +162,7 @@
     <span class="n">effectiveGasPrice</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The actual value per gas deducted from the sender&#39;s account.</span>
-<span class="sd">    </span>
+
 <span class="sd">    This field is only present on Mainnet.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -202,6 +203,7 @@
 
 
 <div class="viewcode-block" id="FullTransactionReceipt"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.receipt.FullTransactionReceipt">[docs]</a><span class="k">class</span> <span class="nc">FullTransactionReceipt</span><span class="p">(</span><span class="n">TransactionReceipt</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extends TransactionReceipt to include full details.&quot;&quot;&quot;</span>
 
     <span class="n">blockHash</span><span class="p">:</span> <span class="n">HexBytes</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the block that contains the transaction.&quot;&quot;&quot;</span>

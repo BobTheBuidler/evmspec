@@ -82,8 +82,12 @@
     <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents the action type for contract suicides, capturing the details of the self-destruct operation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the action type for contract suicides.</span>
+
+<span class="sd">    This class captures the details of the self-destruct operation</span>
+<span class="sd">    for contract suicides, with attributes inherited from _ActionBase</span>
+<span class="sd">    that provide common details such as sender, value, and gas for</span>
+<span class="sd">    Ethereum transaction actions.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 
@@ -96,16 +100,21 @@
     <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a trace of a contract self-destruct operation.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a trace of a contract self-destruct operation.</span>
+
+<span class="sd">    This class provides a detailed trace of a contract `suicide` action</span>
+<span class="sd">    including the specific action taken and the result of the operation,</span>
+<span class="sd">    conforming to the structure of a parity-style Ethereum trace.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;suicide&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;suicide&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The constant literal denoting the trace type as &#39;suicide&#39;.&quot;&quot;&quot;</span>
 
     <span class="n">action</span><span class="p">:</span> <span class="n">Action</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The suicide action, parity style.&quot;&quot;&quot;</span>
 
-    <span class="n">result</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span></div>
+    <span class="n">result</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A literal set to None, indicating no result is expected.&quot;&quot;&quot;</span></div>
 </pre></div>
 
            </div>

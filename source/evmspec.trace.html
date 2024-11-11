@@ -425,7 +425,7 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.call.Action.sender">
 <span class="sig-name descname"><span class="pre">sender</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.html#evmspec.data.Address" title="evmspec.data.Address"><span class="pre">Address</span></a></em><a class="headerlink" href="#evmspec.trace.call.Action.sender" title="Permalink to this definition"></a></dt>
-<dd><p>The sender address.</p>
+<dd><p>The sender address. Mapped to the field name ‘from’.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1095,13 +1095,13 @@
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.call.Trace.subtraces">
 <span class="sig-name descname"><span class="pre">subtraces</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.html#evmspec.data.uint" title="evmspec.data.uint"><span class="pre">uint</span></a></em><a class="headerlink" href="#evmspec.trace.call.Trace.subtraces" title="Permalink to this definition"></a></dt>
-<dd><p>The number of traces of internal transactions that happened during this transaction.</p>
+<dd><p>The number of traces of internal transactions that occurred during this transaction.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.call.Trace.traceAddress">
 <span class="sig-name descname"><span class="pre">traceAddress</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="evmspec.html#evmspec.data.uint" title="evmspec.data.uint"><span class="pre">uint</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#evmspec.trace.call.Trace.traceAddress" title="Permalink to this definition"></a></dt>
-<dd><p>The trace addresses (array) where the call executed (every contract where code was executed).</p>
+<dd><p>The trace addresses (array) representing the path of the call within the trace tree.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1157,8 +1157,9 @@
 <dt class="sig sig-object py" id="evmspec.trace.create.Action">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.trace.create.</span></span><span class="sig-name descname"><span class="pre">Action</span></span><a class="reference internal" href="../_modules/evmspec/trace/create.html#Action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.trace.create.Action" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ActionBase</span></code></p>
-<p>Represents the action type for contract creations, capturing the
-initialization code and parameters for deploying a new contract.</p>
+<p>Represents the action type for contract creations.</p>
+<p>This class captures the initialization code necessary for deploying a
+new contract on the Ethereum Virtual Machine (EVM).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.trace.create.Action.__bool__">
 <span class="sig-name descname"><span class="pre">__bool__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.trace.create.Action.__bool__" title="Permalink to this definition"></a></dt>
@@ -1428,7 +1429,7 @@ initialization code and parameters for deploying a new contract.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.create.Action.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'evmspec.trace.create',</span> <span class="pre">'__annotations__':</span> <span class="pre">{'init':</span> <span class="pre">&lt;class</span> <span class="pre">'hexbytes.main.HexBytes'&gt;,</span> <span class="pre">'sender':</span> <span class="pre">'Address',</span> <span class="pre">'value':</span> <span class="pre">'Wei',</span> <span class="pre">'gas':</span> <span class="pre">'Wei'},</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">Represents</span> <span class="pre">the</span> <span class="pre">action</span> <span class="pre">type</span> <span class="pre">for</span> <span class="pre">contract</span> <span class="pre">creations,</span> <span class="pre">capturing</span> <span class="pre">the\n</span>&#160;&#160;&#160; <span class="pre">initialization</span> <span class="pre">code</span> <span class="pre">and</span> <span class="pre">parameters</span> <span class="pre">for</span> <span class="pre">deploying</span> <span class="pre">a</span> <span class="pre">new</span> <span class="pre">contract.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__slots__':</span> <span class="pre">('init',),</span> <span class="pre">'init':</span> <span class="pre">&lt;member</span> <span class="pre">'init'</span> <span class="pre">of</span> <span class="pre">'Action'</span> <span class="pre">objects&gt;})</span></em><a class="headerlink" href="#evmspec.trace.create.Action.__dict__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'evmspec.trace.create',</span> <span class="pre">'__annotations__':</span> <span class="pre">{'init':</span> <span class="pre">&lt;class</span> <span class="pre">'hexbytes.main.HexBytes'&gt;,</span> <span class="pre">'sender':</span> <span class="pre">'Address',</span> <span class="pre">'value':</span> <span class="pre">'Wei',</span> <span class="pre">'gas':</span> <span class="pre">'Wei'},</span> <span class="pre">'__doc__':</span> <span class="pre">'Represents</span> <span class="pre">the</span> <span class="pre">action</span> <span class="pre">type</span> <span class="pre">for</span> <span class="pre">contract</span> <span class="pre">creations.\n\n</span>&#160;&#160;&#160; <span class="pre">This</span> <span class="pre">class</span> <span class="pre">captures</span> <span class="pre">the</span> <span class="pre">initialization</span> <span class="pre">code</span> <span class="pre">necessary</span> <span class="pre">for</span> <span class="pre">deploying</span> <span class="pre">a\n</span>&#160;&#160;&#160; <span class="pre">new</span> <span class="pre">contract</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">Ethereum</span> <span class="pre">Virtual</span> <span class="pre">Machine</span> <span class="pre">(EVM).\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__slots__':</span> <span class="pre">('init',),</span> <span class="pre">'init':</span> <span class="pre">&lt;member</span> <span class="pre">'init'</span> <span class="pre">of</span> <span class="pre">'Action'</span> <span class="pre">objects&gt;})</span></em><a class="headerlink" href="#evmspec.trace.create.Action.__dict__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1476,7 +1477,7 @@ initialization code and parameters for deploying a new contract.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.create.Action.sender">
 <span class="sig-name descname"><span class="pre">sender</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.html#evmspec.data.Address" title="evmspec.data.Address"><span class="pre">Address</span></a></em><a class="headerlink" href="#evmspec.trace.create.Action.sender" title="Permalink to this definition"></a></dt>
-<dd><p>The sender address.</p>
+<dd><p>The sender address. Mapped to the field name ‘from’.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1491,8 +1492,10 @@ initialization code and parameters for deploying a new contract.</p>
 <dt class="sig sig-object py" id="evmspec.trace.create.Result">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.trace.create.</span></span><span class="sig-name descname"><span class="pre">Result</span></span><a class="reference internal" href="../_modules/evmspec/trace/create.html#Result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.trace.create.Result" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ResultBase</span></code></p>
-<p>Represents the result of a contract creation action, including the
-address of the deployed contract and its bytecode.</p>
+<p>Represents the result of a contract creation action.</p>
+<p>It includes details such as the address and bytecode of the newly
+deployed contract. This information is essential for verifying the
+deployment was successful and retrieving the contract’s code.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.trace.create.Result.__bool__">
 <span class="sig-name descname"><span class="pre">__bool__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.trace.create.Result.__bool__" title="Permalink to this definition"></a></dt>
@@ -1748,7 +1751,7 @@ address of the deployed contract and its bytecode.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.create.Result.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'evmspec.trace.create',</span> <span class="pre">'__annotations__':</span> <span class="pre">{'address':</span> <span class="pre">&lt;class</span> <span class="pre">'evmspec.data.Address'&gt;,</span> <span class="pre">'code':</span> <span class="pre">&lt;class</span> <span class="pre">'hexbytes.main.HexBytes'&gt;,</span> <span class="pre">'gasUsed':</span> <span class="pre">'Wei'},</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">Represents</span> <span class="pre">the</span> <span class="pre">result</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">contract</span> <span class="pre">creation</span> <span class="pre">action,</span> <span class="pre">including</span> <span class="pre">the\n</span>&#160;&#160;&#160; <span class="pre">address</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">deployed</span> <span class="pre">contract</span> <span class="pre">and</span> <span class="pre">its</span> <span class="pre">bytecode.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__slots__':</span> <span class="pre">('address',</span> <span class="pre">'code'),</span> <span class="pre">'address':</span> <span class="pre">&lt;member</span> <span class="pre">'address'</span> <span class="pre">of</span> <span class="pre">'Result'</span> <span class="pre">objects&gt;,</span> <span class="pre">'code':</span> <span class="pre">&lt;member</span> <span class="pre">'code'</span> <span class="pre">of</span> <span class="pre">'Result'</span> <span class="pre">objects&gt;})</span></em><a class="headerlink" href="#evmspec.trace.create.Result.__dict__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'evmspec.trace.create',</span> <span class="pre">'__annotations__':</span> <span class="pre">{'address':</span> <span class="pre">&lt;class</span> <span class="pre">'evmspec.data.Address'&gt;,</span> <span class="pre">'code':</span> <span class="pre">&lt;class</span> <span class="pre">'hexbytes.main.HexBytes'&gt;,</span> <span class="pre">'gasUsed':</span> <span class="pre">'Wei'},</span> <span class="pre">'__doc__':</span> <span class="pre">&quot;Represents</span> <span class="pre">the</span> <span class="pre">result</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">contract</span> <span class="pre">creation</span> <span class="pre">action.\n\n</span>&#160;&#160;&#160; <span class="pre">It</span> <span class="pre">includes</span> <span class="pre">details</span> <span class="pre">such</span> <span class="pre">as</span> <span class="pre">the</span> <span class="pre">address</span> <span class="pre">and</span> <span class="pre">bytecode</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">newly\n</span>&#160;&#160;&#160; <span class="pre">deployed</span> <span class="pre">contract.</span> <span class="pre">This</span> <span class="pre">information</span> <span class="pre">is</span> <span class="pre">essential</span> <span class="pre">for</span> <span class="pre">verifying</span> <span class="pre">the\n</span>&#160;&#160;&#160; <span class="pre">deployment</span> <span class="pre">was</span> <span class="pre">successful</span> <span class="pre">and</span> <span class="pre">retrieving</span> <span class="pre">the</span> <span class="pre">contract's</span> <span class="pre">code.\n</span>&#160;&#160;&#160; <span class="pre">&quot;,</span> <span class="pre">'__slots__':</span> <span class="pre">('address',</span> <span class="pre">'code'),</span> <span class="pre">'address':</span> <span class="pre">&lt;member</span> <span class="pre">'address'</span> <span class="pre">of</span> <span class="pre">'Result'</span> <span class="pre">objects&gt;,</span> <span class="pre">'code':</span> <span class="pre">&lt;member</span> <span class="pre">'code'</span> <span class="pre">of</span> <span class="pre">'Result'</span> <span class="pre">objects&gt;})</span></em><a class="headerlink" href="#evmspec.trace.create.Result.__dict__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1806,6 +1809,9 @@ address of the deployed contract and its bytecode.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.trace.create.</span></span><span class="sig-name descname"><span class="pre">Trace</span></span><a class="reference internal" href="../_modules/evmspec/trace/create.html#Trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.trace.create.Trace" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_FilterTraceBase</span></code></p>
 <p>Represents a trace of a contract deployment.</p>
+<p>Provides a detailed trace structure which includes both raw and decoded
+versions of the action data used during the contract deployment on the
+Ethereum network.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.trace.create.Trace.__bool__">
 <span class="sig-name descname"><span class="pre">__bool__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.trace.create.Trace.__bool__" title="Permalink to this definition"></a></dt>
@@ -2075,7 +2081,7 @@ address of the deployed contract and its bytecode.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.create.Trace.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'evmspec.trace.create',</span> <span class="pre">'__annotations__':</span> <span class="pre">{'type':</span> <span class="pre">typing.ClassVar[typing.Literal['create']],</span> <span class="pre">'_action':</span> <span class="pre">&lt;class</span> <span class="pre">'msgspec.Raw'&gt;,</span> <span class="pre">'result':</span> <span class="pre">&lt;class</span> <span class="pre">'evmspec.trace.create.Result'&gt;,</span> <span class="pre">'blockNumber':</span> <span class="pre">'BlockNumber',</span> <span class="pre">'blockHash':</span> <span class="pre">'BlockHash',</span> <span class="pre">'transactionHash':</span> <span class="pre">'TransactionHash',</span> <span class="pre">'transactionPosition':</span> <span class="pre">'int',</span> <span class="pre">'traceAddress':</span> <span class="pre">'List[uint]',</span> <span class="pre">'subtraces':</span> <span class="pre">'uint',</span> <span class="pre">'error':</span> <span class="pre">'str'},</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">Represents</span> <span class="pre">a</span> <span class="pre">trace</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">contract</span> <span class="pre">deployment.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'type':</span> <span class="pre">'create',</span> <span class="pre">'action':</span> <span class="pre">&lt;functools.cached_property</span> <span class="pre">object&gt;,</span> <span class="pre">'__slots__':</span> <span class="pre">('_action',</span> <span class="pre">'result'),</span> <span class="pre">'_action':</span> <span class="pre">&lt;member</span> <span class="pre">'_action'</span> <span class="pre">of</span> <span class="pre">'Trace'</span> <span class="pre">objects&gt;,</span> <span class="pre">'result':</span> <span class="pre">&lt;member</span> <span class="pre">'result'</span> <span class="pre">of</span> <span class="pre">'Trace'</span> <span class="pre">objects&gt;})</span></em><a class="headerlink" href="#evmspec.trace.create.Trace.__dict__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'evmspec.trace.create',</span> <span class="pre">'__annotations__':</span> <span class="pre">{'type':</span> <span class="pre">typing.ClassVar[typing.Literal['create']],</span> <span class="pre">'_action':</span> <span class="pre">&lt;class</span> <span class="pre">'msgspec.Raw'&gt;,</span> <span class="pre">'result':</span> <span class="pre">&lt;class</span> <span class="pre">'evmspec.trace.create.Result'&gt;,</span> <span class="pre">'blockNumber':</span> <span class="pre">'BlockNumber',</span> <span class="pre">'blockHash':</span> <span class="pre">'BlockHash',</span> <span class="pre">'transactionHash':</span> <span class="pre">'TransactionHash',</span> <span class="pre">'transactionPosition':</span> <span class="pre">'int',</span> <span class="pre">'traceAddress':</span> <span class="pre">'List[uint]',</span> <span class="pre">'subtraces':</span> <span class="pre">'uint',</span> <span class="pre">'error':</span> <span class="pre">'str'},</span> <span class="pre">'__doc__':</span> <span class="pre">'Represents</span> <span class="pre">a</span> <span class="pre">trace</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">contract</span> <span class="pre">deployment.\n\n</span>&#160;&#160;&#160; <span class="pre">Provides</span> <span class="pre">a</span> <span class="pre">detailed</span> <span class="pre">trace</span> <span class="pre">structure</span> <span class="pre">which</span> <span class="pre">includes</span> <span class="pre">both</span> <span class="pre">raw</span> <span class="pre">and</span> <span class="pre">decoded\n</span>&#160;&#160;&#160; <span class="pre">versions</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">action</span> <span class="pre">data</span> <span class="pre">used</span> <span class="pre">during</span> <span class="pre">the</span> <span class="pre">contract</span> <span class="pre">deployment</span> <span class="pre">on</span> <span class="pre">the\n</span>&#160;&#160;&#160; <span class="pre">Ethereum</span> <span class="pre">network.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'type':</span> <span class="pre">'create',</span> <span class="pre">'action':</span> <span class="pre">&lt;functools.cached_property</span> <span class="pre">object&gt;,</span> <span class="pre">'__slots__':</span> <span class="pre">('_action',</span> <span class="pre">'result'),</span> <span class="pre">'_action':</span> <span class="pre">&lt;member</span> <span class="pre">'_action'</span> <span class="pre">of</span> <span class="pre">'Trace'</span> <span class="pre">objects&gt;,</span> <span class="pre">'result':</span> <span class="pre">&lt;member</span> <span class="pre">'result'</span> <span class="pre">of</span> <span class="pre">'Trace'</span> <span class="pre">objects&gt;})</span></em><a class="headerlink" href="#evmspec.trace.create.Trace.__dict__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2111,7 +2117,10 @@ address of the deployed contract and its bytecode.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="evmspec.trace.create.Trace.action">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#evmspec.trace.create.Action" title="evmspec.trace.create.Action"><span class="pre">Action</span></a></em><a class="headerlink" href="#evmspec.trace.create.Trace.action" title="Permalink to this definition"></a></dt>
-<dd><p>The create action, parity style.</p>
+<dd><p>Decodes the raw action data into an Action object using parity style.</p>
+<p>Utilizes the <cite>_action</cite> field for decoding, transforming it into a
+structured Action object that represents the specific details
+of the contract creation process.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -2135,24 +2144,25 @@ address of the deployed contract and its bytecode.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.create.Trace.error">
 <span class="sig-name descname"><span class="pre">error</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#evmspec.trace.create.Trace.error" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>An error message if an error occurred during the execution of the transaction.</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.create.Trace.result">
 <span class="sig-name descname"><span class="pre">result</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#evmspec.trace.create.Result" title="evmspec.trace.create.Result"><span class="pre">Result</span></a></em><a class="headerlink" href="#evmspec.trace.create.Trace.result" title="Permalink to this definition"></a></dt>
-<dd><p>The result object, parity style.</p>
+<dd><p>The result object, adhering to the parity format, containing deployment details.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.create.Trace.subtraces">
 <span class="sig-name descname"><span class="pre">subtraces</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.html#evmspec.data.uint" title="evmspec.data.uint"><span class="pre">uint</span></a></em><a class="headerlink" href="#evmspec.trace.create.Trace.subtraces" title="Permalink to this definition"></a></dt>
-<dd><p>The number of traces of internal transactions that happened during this transaction.</p>
+<dd><p>The number of traces of internal transactions that occurred during this transaction.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.create.Trace.traceAddress">
 <span class="sig-name descname"><span class="pre">traceAddress</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="evmspec.html#evmspec.data.uint" title="evmspec.data.uint"><span class="pre">uint</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#evmspec.trace.create.Trace.traceAddress" title="Permalink to this definition"></a></dt>
-<dd><p>The trace addresses (array) where the call executed (every contract where code was executed).</p>
+<dd><p>The trace addresses (array) representing the path of the call within the trace tree.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -2487,7 +2497,7 @@ address of the deployed contract and its bytecode.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.reward.Action.author">
 <span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.html#evmspec.data.Address" title="evmspec.data.Address"><span class="pre">Address</span></a></em><a class="headerlink" href="#evmspec.trace.reward.Action.author" title="Permalink to this definition"></a></dt>
-<dd><p>The author of this transaction.</p>
+<dd><p>The author of this reward.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -2505,7 +2515,7 @@ address of the deployed contract and its bytecode.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.reward.Action.sender">
 <span class="sig-name descname"><span class="pre">sender</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.html#evmspec.data.Address" title="evmspec.data.Address"><span class="pre">Address</span></a></em><a class="headerlink" href="#evmspec.trace.reward.Action.sender" title="Permalink to this definition"></a></dt>
-<dd><p>The sender address.</p>
+<dd><p>The sender address. Mapped to the field name ‘from’.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -2826,7 +2836,15 @@ address of the deployed contract and its bytecode.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="evmspec.trace.reward.Trace.action">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#evmspec.trace.reward.Action" title="evmspec.trace.reward.Action"><span class="pre">Action</span></a></em><a class="headerlink" href="#evmspec.trace.reward.Trace.action" title="Permalink to this definition"></a></dt>
-<dd><p>The reward action, parity style.</p>
+<dd><p>Decodes the raw reward action into an Action object, using parity style.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The decoded action.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#evmspec.trace.reward.Action" title="evmspec.trace.reward.Action">Action</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py property">
@@ -2850,18 +2868,19 @@ address of the deployed contract and its bytecode.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.reward.Trace.error">
 <span class="sig-name descname"><span class="pre">error</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#evmspec.trace.reward.Trace.error" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>An error message if an error occurred during the execution of the transaction.</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.reward.Trace.subtraces">
 <span class="sig-name descname"><span class="pre">subtraces</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.html#evmspec.data.uint" title="evmspec.data.uint"><span class="pre">uint</span></a></em><a class="headerlink" href="#evmspec.trace.reward.Trace.subtraces" title="Permalink to this definition"></a></dt>
-<dd><p>The number of traces of internal transactions that happened during this transaction.</p>
+<dd><p>The number of traces of internal transactions that occurred during this transaction.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.reward.Trace.traceAddress">
 <span class="sig-name descname"><span class="pre">traceAddress</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="evmspec.html#evmspec.data.uint" title="evmspec.data.uint"><span class="pre">uint</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#evmspec.trace.reward.Trace.traceAddress" title="Permalink to this definition"></a></dt>
-<dd><p>The trace addresses (array) where the call executed (every contract where code was executed).</p>
+<dd><p>The trace addresses (array) representing the path of the call within the trace tree.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -2887,7 +2906,7 @@ address of the deployed contract and its bytecode.</p>
 <dt class="sig sig-object py" id="evmspec.trace.reward.Type">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.trace.reward.</span></span><span class="sig-name descname"><span class="pre">Type</span></span><a class="reference internal" href="../_modules/evmspec/trace/reward.html#Type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.trace.reward.Type" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
-<p>Enum representing the types of rewards in Ethereum: block or uncle.</p>
+<p>Represents the types of rewards in Ethereum: block or uncle.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.reward.Type.__module__">
 <span class="sig-name descname"><span class="pre">__module__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'evmspec.trace.reward'</span></em><a class="headerlink" href="#evmspec.trace.reward.Type.__module__" title="Permalink to this definition"></a></dt>
@@ -2912,7 +2931,11 @@ address of the deployed contract and its bytecode.</p>
 <dt class="sig sig-object py" id="evmspec.trace.suicide.Action">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.trace.suicide.</span></span><span class="sig-name descname"><span class="pre">Action</span></span><a class="reference internal" href="../_modules/evmspec/trace/suicide.html#Action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.trace.suicide.Action" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ActionBase</span></code></p>
-<p>Represents the action type for contract suicides, capturing the details of the self-destruct operation.</p>
+<p>Represents the action type for contract suicides.</p>
+<p>This class captures the details of the self-destruct operation
+for contract suicides, with attributes inherited from _ActionBase
+that provide common details such as sender, value, and gas for
+Ethereum transaction actions.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.trace.suicide.Action.__bool__">
 <span class="sig-name descname"><span class="pre">__bool__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.trace.suicide.Action.__bool__" title="Permalink to this definition"></a></dt>
@@ -3182,7 +3205,7 @@ address of the deployed contract and its bytecode.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.suicide.Action.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'evmspec.trace.suicide',</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">Represents</span> <span class="pre">the</span> <span class="pre">action</span> <span class="pre">type</span> <span class="pre">for</span> <span class="pre">contract</span> <span class="pre">suicides,</span> <span class="pre">capturing</span> <span class="pre">the</span> <span class="pre">details</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">self-destruct</span> <span class="pre">operation.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__slots__':</span> <span class="pre">(),</span> <span class="pre">'__annotations__':</span> <span class="pre">{'sender':</span> <span class="pre">'Address',</span> <span class="pre">'value':</span> <span class="pre">'Wei',</span> <span class="pre">'gas':</span> <span class="pre">'Wei'}})</span></em><a class="headerlink" href="#evmspec.trace.suicide.Action.__dict__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'evmspec.trace.suicide',</span> <span class="pre">'__doc__':</span> <span class="pre">'Represents</span> <span class="pre">the</span> <span class="pre">action</span> <span class="pre">type</span> <span class="pre">for</span> <span class="pre">contract</span> <span class="pre">suicides.\n\n</span>&#160;&#160;&#160; <span class="pre">This</span> <span class="pre">class</span> <span class="pre">captures</span> <span class="pre">the</span> <span class="pre">details</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">self-destruct</span> <span class="pre">operation\n</span>&#160;&#160;&#160; <span class="pre">for</span> <span class="pre">contract</span> <span class="pre">suicides,</span> <span class="pre">with</span> <span class="pre">attributes</span> <span class="pre">inherited</span> <span class="pre">from</span> <span class="pre">_ActionBase\n</span>&#160;&#160;&#160; <span class="pre">that</span> <span class="pre">provide</span> <span class="pre">common</span> <span class="pre">details</span> <span class="pre">such</span> <span class="pre">as</span> <span class="pre">sender,</span> <span class="pre">value,</span> <span class="pre">and</span> <span class="pre">gas</span> <span class="pre">for\n</span>&#160;&#160;&#160; <span class="pre">Ethereum</span> <span class="pre">transaction</span> <span class="pre">actions.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'__slots__':</span> <span class="pre">(),</span> <span class="pre">'__annotations__':</span> <span class="pre">{'sender':</span> <span class="pre">'Address',</span> <span class="pre">'value':</span> <span class="pre">'Wei',</span> <span class="pre">'gas':</span> <span class="pre">'Wei'}})</span></em><a class="headerlink" href="#evmspec.trace.suicide.Action.__dict__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -3224,7 +3247,7 @@ address of the deployed contract and its bytecode.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.suicide.Action.sender">
 <span class="sig-name descname"><span class="pre">sender</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.html#evmspec.data.Address" title="evmspec.data.Address"><span class="pre">Address</span></a></em><a class="headerlink" href="#evmspec.trace.suicide.Action.sender" title="Permalink to this definition"></a></dt>
-<dd><p>The sender address.</p>
+<dd><p>The sender address. Mapped to the field name ‘from’.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -3240,6 +3263,9 @@ address of the deployed contract and its bytecode.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.trace.suicide.</span></span><span class="sig-name descname"><span class="pre">Trace</span></span><a class="reference internal" href="../_modules/evmspec/trace/suicide.html#Trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.trace.suicide.Trace" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_FilterTraceBase</span></code></p>
 <p>Represents a trace of a contract self-destruct operation.</p>
+<p>This class provides a detailed trace of a contract <cite>suicide</cite> action
+including the specific action taken and the result of the operation,
+conforming to the structure of a parity-style Ethereum trace.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.trace.suicide.Trace.__bool__">
 <span class="sig-name descname"><span class="pre">__bool__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.trace.suicide.Trace.__bool__" title="Permalink to this definition"></a></dt>
@@ -3509,7 +3535,7 @@ address of the deployed contract and its bytecode.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.suicide.Trace.__dict__">
-<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'evmspec.trace.suicide',</span> <span class="pre">'__annotations__':</span> <span class="pre">{'type':</span> <span class="pre">typing.ClassVar[typing.Literal['suicide']],</span> <span class="pre">'action':</span> <span class="pre">&lt;class</span> <span class="pre">'evmspec.trace.suicide.Action'&gt;,</span> <span class="pre">'result':</span> <span class="pre">typing.Literal[None],</span> <span class="pre">'blockNumber':</span> <span class="pre">'BlockNumber',</span> <span class="pre">'blockHash':</span> <span class="pre">'BlockHash',</span> <span class="pre">'transactionHash':</span> <span class="pre">'TransactionHash',</span> <span class="pre">'transactionPosition':</span> <span class="pre">'int',</span> <span class="pre">'traceAddress':</span> <span class="pre">'List[uint]',</span> <span class="pre">'subtraces':</span> <span class="pre">'uint',</span> <span class="pre">'error':</span> <span class="pre">'str'},</span> <span class="pre">'__doc__':</span> <span class="pre">'\n</span>&#160;&#160;&#160; <span class="pre">Represents</span> <span class="pre">a</span> <span class="pre">trace</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">contract</span> <span class="pre">self-destruct</span> <span class="pre">operation.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'type':</span> <span class="pre">'suicide',</span> <span class="pre">'__slots__':</span> <span class="pre">('action',</span> <span class="pre">'result'),</span> <span class="pre">'action':</span> <span class="pre">&lt;member</span> <span class="pre">'action'</span> <span class="pre">of</span> <span class="pre">'Trace'</span> <span class="pre">objects&gt;,</span> <span class="pre">'result':</span> <span class="pre">&lt;member</span> <span class="pre">'result'</span> <span class="pre">of</span> <span class="pre">'Trace'</span> <span class="pre">objects&gt;})</span></em><a class="headerlink" href="#evmspec.trace.suicide.Trace.__dict__" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">__dict__</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">mappingproxy({'__module__':</span> <span class="pre">'evmspec.trace.suicide',</span> <span class="pre">'__annotations__':</span> <span class="pre">{'type':</span> <span class="pre">typing.ClassVar[typing.Literal['suicide']],</span> <span class="pre">'action':</span> <span class="pre">&lt;class</span> <span class="pre">'evmspec.trace.suicide.Action'&gt;,</span> <span class="pre">'result':</span> <span class="pre">typing.Literal[None],</span> <span class="pre">'blockNumber':</span> <span class="pre">'BlockNumber',</span> <span class="pre">'blockHash':</span> <span class="pre">'BlockHash',</span> <span class="pre">'transactionHash':</span> <span class="pre">'TransactionHash',</span> <span class="pre">'transactionPosition':</span> <span class="pre">'int',</span> <span class="pre">'traceAddress':</span> <span class="pre">'List[uint]',</span> <span class="pre">'subtraces':</span> <span class="pre">'uint',</span> <span class="pre">'error':</span> <span class="pre">'str'},</span> <span class="pre">'__doc__':</span> <span class="pre">'Represents</span> <span class="pre">a</span> <span class="pre">trace</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">contract</span> <span class="pre">self-destruct</span> <span class="pre">operation.\n\n</span>&#160;&#160;&#160; <span class="pre">This</span> <span class="pre">class</span> <span class="pre">provides</span> <span class="pre">a</span> <span class="pre">detailed</span> <span class="pre">trace</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">contract</span> <span class="pre">`suicide`</span> <span class="pre">action\n</span>&#160;&#160;&#160; <span class="pre">including</span> <span class="pre">the</span> <span class="pre">specific</span> <span class="pre">action</span> <span class="pre">taken</span> <span class="pre">and</span> <span class="pre">the</span> <span class="pre">result</span> <span class="pre">of</span> <span class="pre">the</span> <span class="pre">operation,\n</span>&#160;&#160;&#160; <span class="pre">conforming</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">structure</span> <span class="pre">of</span> <span class="pre">a</span> <span class="pre">parity-style</span> <span class="pre">Ethereum</span> <span class="pre">trace.\n</span>&#160;&#160;&#160; <span class="pre">',</span> <span class="pre">'type':</span> <span class="pre">'suicide',</span> <span class="pre">'__slots__':</span> <span class="pre">('action',</span> <span class="pre">'result'),</span> <span class="pre">'action':</span> <span class="pre">&lt;member</span> <span class="pre">'action'</span> <span class="pre">of</span> <span class="pre">'Trace'</span> <span class="pre">objects&gt;,</span> <span class="pre">'result':</span> <span class="pre">&lt;member</span> <span class="pre">'result'</span> <span class="pre">of</span> <span class="pre">'Trace'</span> <span class="pre">objects&gt;})</span></em><a class="headerlink" href="#evmspec.trace.suicide.Trace.__dict__" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -3569,23 +3595,25 @@ address of the deployed contract and its bytecode.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.suicide.Trace.error">
 <span class="sig-name descname"><span class="pre">error</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></em><a class="headerlink" href="#evmspec.trace.suicide.Trace.error" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>An error message if an error occurred during the execution of the transaction.</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.suicide.Trace.result">
 <span class="sig-name descname"><span class="pre">result</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#evmspec.trace.suicide.Trace.result" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>A literal set to None, indicating no result is expected.</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.suicide.Trace.subtraces">
 <span class="sig-name descname"><span class="pre">subtraces</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.html#evmspec.data.uint" title="evmspec.data.uint"><span class="pre">uint</span></a></em><a class="headerlink" href="#evmspec.trace.suicide.Trace.subtraces" title="Permalink to this definition"></a></dt>
-<dd><p>The number of traces of internal transactions that happened during this transaction.</p>
+<dd><p>The number of traces of internal transactions that occurred during this transaction.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.suicide.Trace.traceAddress">
 <span class="sig-name descname"><span class="pre">traceAddress</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="evmspec.html#evmspec.data.uint" title="evmspec.data.uint"><span class="pre">uint</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#evmspec.trace.suicide.Trace.traceAddress" title="Permalink to this definition"></a></dt>
-<dd><p>The trace addresses (array) where the call executed (every contract where code was executed).</p>
+<dd><p>The trace addresses (array) representing the path of the call within the trace tree.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -3603,7 +3631,8 @@ address of the deployed contract and its bytecode.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.trace.suicide.Trace.type">
 <span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ClassVar" title="(in Python v3.13)"><span class="pre">ClassVar</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.13)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'suicide'</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'suicide'</span></em><a class="headerlink" href="#evmspec.trace.suicide.Trace.type" title="Permalink to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>The constant literal denoting the trace type as ‘suicide’.</p>
+</dd></dl>
 
 </dd></dl>
 

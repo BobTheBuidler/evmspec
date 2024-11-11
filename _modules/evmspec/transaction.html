@@ -112,7 +112,7 @@
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">storageKeys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The specific storage slot keys within the contract that will be accessed.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decodes storage keys from raw format to a list of HexBytes32.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_storageKeys</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">],</span>
@@ -121,6 +121,10 @@
 
 
 <span class="k">class</span> <span class="nc">_TransactionBase</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for Ethereum transactions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nb">input</span><span class="p">:</span> <span class="n">HexBytes</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The data sent along with the transaction.&quot;&quot;&quot;</span>
 
@@ -142,8 +146,8 @@
     <span class="n">chainId</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ChainId</span><span class="p">]</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The chain id of the transaction, if any.</span>
-<span class="sd">    </span>
-<span class="sd">    `None` for v in {27, 28}, otherwise derived from eip-155</span>
+
+<span class="sd">    `None` for v in {27, 28}, otherwise derived from eip-155.</span>
 
 <span class="sd">    This field is not included in the transactions field of a eth_getBlock response.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -153,13 +157,13 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The address of the sender.&quot;&quot;&quot;</span>
 
     <span class="n">blockHash</span><span class="p">:</span> <span class="n">BlockHash</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the block including this transaction. `None` when it&#39;s pending.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the block including this transaction.&quot;&quot;&quot;</span>
 
     <span class="n">blockNumber</span><span class="p">:</span> <span class="n">BlockNumber</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The number of the block including this transaction. `None` when it&#39;s pending.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The number of the block including this transaction.&quot;&quot;&quot;</span>
 
     <span class="n">transactionIndex</span><span class="p">:</span> <span class="n">TransactionIndex</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The index position of the transaction in the block. `None` when it&#39;s pending.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The index position of the transaction in the block.&quot;&quot;&quot;</span>
 
     <span class="c1"># signature</span>
     <span class="n">v</span><span class="p">:</span> <span class="n">uint</span>
@@ -197,11 +201,14 @@
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">accessList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A list of addresses and storage keys that the transaction plans to access.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decodes the access list from raw format to a list of AccessListEntry.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_accessList</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">])</span>
 
 
 <div class="viewcode-block" id="TransactionRLP"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.transaction.TransactionRLP">[docs]</a><span class="k">class</span> <span class="nc">TransactionRLP</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a RLP encoded transaction that might have network-specific fields.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># These fields are only present on Optimism, pre-Bedrock.</span>
     <span class="n">l1BlockNumber</span><span class="p">:</span> <span class="n">BlockNumber</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
@@ -214,14 +221,26 @@
 
 
 <div class="viewcode-block" id="TransactionLegacy"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.transaction.TransactionLegacy">[docs]</a><span class="k">class</span> <span class="nc">TransactionLegacy</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x0&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a Legacy Ethereum transaction (pre-EIP-2718).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Transaction2930"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.transaction.Transaction2930">[docs]</a><span class="k">class</span> <span class="nc">Transaction2930</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x1&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a type-2930 (EIP-2930) Ethereum transaction with an access list.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Transaction1559"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.transaction.Transaction1559">[docs]</a><span class="k">class</span> <span class="nc">Transaction1559</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x2&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a type-1559 (EIP-1559) Ethereum transaction with dynamic fee.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;2&quot;</span><span class="p">)</span>
 
     <span class="n">maxFeePerGas</span><span class="p">:</span> <span class="n">Wei</span>

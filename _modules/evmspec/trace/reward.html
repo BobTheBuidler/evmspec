@@ -82,7 +82,7 @@
 
 <div class="viewcode-block" id="Type"><a class="viewcode-back" href="../../../source/evmspec.trace.html#evmspec.trace.reward.Type">[docs]</a><span class="k">class</span> <span class="nc">Type</span><span class="p">(</span><span class="n">Enum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">StringToIntEnumMeta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Enum representing the types of rewards in Ethereum: block or uncle.</span>
+<span class="sd">    Represents the types of rewards in Ethereum: block or uncle.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">block</span> <span class="o">=</span> <span class="mi">0</span>
@@ -102,7 +102,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">author</span><span class="p">:</span> <span class="n">Address</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The author of this transaction.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The author of this reward.&quot;&quot;&quot;</span>
 
     <span class="n">rewardType</span><span class="p">:</span> <span class="n">Type</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The type of the reward.&quot;&quot;&quot;</span></div>
@@ -124,11 +124,16 @@
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;reward&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;reward&quot;</span>
 
     <span class="n">_action</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The reward action, parity style.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raw representation of the reward action, parity style.&quot;&quot;&quot;</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Action</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The reward action, parity style.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decodes the raw reward action into an Action object, using parity style.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Action: The decoded action.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Action</span><span class="p">,</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span></div>
 </pre></div>
 
