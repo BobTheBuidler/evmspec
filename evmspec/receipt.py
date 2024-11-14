@@ -59,6 +59,10 @@ class Status(Enum, metaclass=_HexStringToIntEnumMeta):
     """
     Enum representing the status of a transaction, indicating success or failure.
 
+    Attributes:
+        failure (int): Represents a failed transaction with a value of 0.
+        success (int): Represents a successful transaction with a value of 1.
+
     Examples:
         >>> Status.success
         <Status.success: 1>
