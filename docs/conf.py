@@ -40,7 +40,6 @@ html_static_path = ["_static"]
 
 autodoc_default_options = {
     "members": True,
-    "special-members": True,
     "inherited-members": True,
     "undoc-members": True,
     "member-order": "groupwise",
