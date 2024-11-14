@@ -2,12 +2,12 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, Callable, Tuple, Type, TypeVar
+from typing import TYPE_CHECKING, Any, Callable, Tuple, Type, TypeVar, Union
 
 from cachetools.func import ttl_cache
 from eth_utils import to_checksum_address
 from hexbytes import HexBytes
-from msgspec import json
+from msgspec import Raw, Struct, json
 from typing_extensions import Self
 
 if TYPE_CHECKING:
@@ -24,6 +24,17 @@ _DecodeHook = Callable[[Type[_T], Any], _T]
 class Address(str):
     """
     Represents an Ethereum address with checksum validation.
+
+    This class ensures that any Ethereum address is stored in its checksummed format,
+    which is a mixed-case encoding of the address that includes a checksum.
+
+    Examples:
+        >>> addr = Address("0x52908400098527886E0F7030069857D2E4169EE7")
+        >>> print(addr)
+        0x52908400098527886E0F7030069857D2E4169EE7
+
+    See Also:
+        - `eth_utils.to_checksum_address`: Function used for checksum validation.
     """
 
     def __new__(cls, address: str):
@@ -34,19 +45,30 @@ class Address(str):
 
         Returns:
             An Address object with a checksummed address.
+
+        Examples:
+            >>> Address("0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe")
+            Address('0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe')
         """
         return super().__new__(cls, to_checksum_address(address))
 
     @classmethod
     def _decode_hook(cls, typ: Type["Address"], obj: str):
-        """Returns a checksummed version of the address.
+        """Decodes an object into an Address instance with checksum validation.
 
         Args:
             typ: The type that is expected to be decoded to.
             obj: The object to decode, expected to be a string representation of an Ethereum address.
 
         Returns:
-            A checksummed Address.
+            An Address object with a checksummed address.
+
+        Examples:
+            >>> Address._decode_hook(Address, "0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe")
+            Address('0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe')
+
+        Note:
+            This method utilizes :meth:`cls.checksum` as a class method to ensure the address is checksummed.
         """
         return cls.checksum(obj)
 
@@ -60,6 +82,10 @@ class Address(str):
 
         Returns:
             The checksummed Ethereum address.
+
+        Examples:
+            >>> Address.checksum("0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe")
+            Address('0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe')
         """
         return cls(address)
 
@@ -70,6 +96,14 @@ class Address(str):
 class uint(int):
     """
     Represents an unsigned integer with additional utility methods for hexadecimal conversion and representation.
+
+    Examples:
+        >>> num = uint.fromhex("0x1a")
+        >>> print(num)
+        uint(26)
+
+    See Also:
+        - :meth:`uint.fromhex`: Method to create a uint from a hexadecimal string.
     """
 
     @classmethod
@@ -81,6 +115,10 @@ class uint(int):
 
         Returns:
             A uint object representing the integer value of the hexadecimal string.
+
+        Examples:
+            >>> uint.fromhex("0x1a")
+            uint(26)
         """
         return cls(hexstr, 16)
 
@@ -108,14 +146,18 @@ class uint(int):
 
     @classmethod
     def _decode_hook(cls, typ: Type["uint"], obj: str):
-        """Decodes a string or number into a uint.
+        """Decodes a hexadecimal string into a uint.
 
         Args:
             typ: The type that is expected to be decoded to.
-            obj: The object to decode, expected to be a string or number.
+            obj: The object to decode, expected to be a hexadecimal string.
 
         Returns:
             A uint object representing the decoded value.
+
+        Examples:
+            >>> uint._decode_hook(uint, "0x1a")
+            uint(26)
         """
         return typ(obj, 16)
 
@@ -124,10 +166,19 @@ class uint(int):
         """Attempts to decode an object as a uint, handling TypeErrors.
 
         Args:
-            obj: The object to decode.
+            obj: The object to decode, expected to be a hexadecimal string or an integer.
 
         Returns:
             A uint object representing the decoded value.
+
+        Raises:
+            TypeError: If the object cannot be converted to a uint.
+
+        Examples:
+            >>> uint._decode("0x1a")
+            uint(26)
+            >>> uint._decode(26)
+            uint(26)
         """
         try:
             return cls.fromhex(obj)
@@ -145,8 +196,10 @@ class Wei(uint):
         Calculation:
             The value in Wei divided by 10**18 to convert to Ether.
 
-        Returns:
-            A Decimal object representing the scaled Ether value.
+        Examples:
+            >>> wei_value = Wei(1000000000000000000)
+            >>> wei_value.scaled
+            Decimal('1')
         """
         return Decimal(self) / 10**18
 
@@ -155,10 +208,12 @@ class Wei(uint):
     #    return Gwei(self) / 10**9
 
 
-class BlockNumber(uint): ...
+class BlockNumber(uint):
+    ...
 
 
-class Nonce(uint): ...
+class Nonce(uint):
+    ...
 
 
 class UnixTimestamp(uint):
@@ -168,6 +223,11 @@ class UnixTimestamp(uint):
 
         Returns:
             A datetime object representing the UTC date and time.
+
+        Examples:
+            >>> timestamp = UnixTimestamp(1638316800)
+            >>> timestamp.datetime
+            datetime.datetime(2021, 12, 1, 0, 0, tzinfo=datetime.timezone.utc)
         """
         return datetime.fromtimestamp(self, tz=timezone.utc)
 
@@ -187,6 +247,16 @@ def _decode_hook(typ: Type, obj: object):
 
     Raises:
         NotImplementedError: If the type cannot be handled.
+
+    Examples:
+        >>> _decode_hook(uint, "0x1a")
+        uint(26)
+        >>> _decode_hook(Address, "0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe")
+        Address('0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe')
+
+    See Also:
+        - :class:`Address`: For decoding Ethereum addresses.
+        - :class:`uint`: For decoding unsigned integers.
     """
     if issubclass(typ, (HexBytes, Enum, Decimal)):
         return typ(obj)  # type: ignore [arg-type]
@@ -220,6 +290,10 @@ class HexBytes32(HexBytes):
 
         Raises:
             ValueError: If the string representation is not the correct length.
+
+        Examples:
+            >>> HexBytes32("0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef")
+            HexBytes32(0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef)
         """
         # if it has 0x prefix it came from the chain or a user and we should validate the size
         # when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.
@@ -246,6 +320,10 @@ class HexBytes32(HexBytes):
 
         Returns:
             A bytes object representing the missing bytes.
+
+        Examples:
+            >>> HexBytes32._get_missing_bytes(HexBytes("0x1234"))
+            b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
         """
         missing_length = 32 - len(input_bytes)
         return missing_length * ONE_EMPTY_BYTE
@@ -254,7 +332,13 @@ class HexBytes32(HexBytes):
         return hash(self.hex())
 
     def strip(self) -> str:  # type: ignore [override]
-        """Returns self.hex() with leading zeroes removed."""
+        """Returns self.hex() with leading zeroes removed.
+
+        Examples:
+            >>> hb = HexBytes32("0x0000000000000000000000000000000000000000000000000000000000001234")
+            >>> hb.strip()
+            '1234'
+        """
         # we trim all leading zeroes since we know how many we need to put back later
         return hex(int(self.hex(), 16))[2:]
 
@@ -267,6 +351,10 @@ class HexBytes32(HexBytes):
 
         Raises:
             ValueError: If the hex string is of an invalid length.
+
+        Examples:
+            >>> HexBytes32._check_hexstr("0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef")
+            # No exception raised
         """
         l = len(hexstr)
         if l > 66:
@@ -279,10 +367,17 @@ class TransactionHash(HexBytes32):
 
     try:
         from a_sync import a_sync
+    except ImportError:
+        a_sync = None
+
+    if a_sync:
+
+        StructType = TypeVar("StructType", bound=Struct)
+        ReceiptDataType = Union[Type[Raw], Type[StructType]]
 
         @a_sync("async")
         async def get_receipt(
-            self, decode_to: Type[_T], decode_hook: _DecodeHook[_T] = _decode_hook
+            self, decode_to: ReceiptDataType, decode_hook: _DecodeHook[ReceiptDataType] = _decode_hook
         ) -> "TransactionReceipt":
             """Async method to get the transaction receipt.
 
@@ -295,6 +390,11 @@ class TransactionHash(HexBytes32):
 
             Raises:
                 ImportError: If 'dank_mids' cannot be imported.
+
+            Examples:
+                >>> tx_hash = TransactionHash("0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef")
+                >>> await tx_hash.get_receipt(TransactionReceipt)
+                # Returns a TransactionReceipt object
             """
             import dank_mids
 
@@ -311,19 +411,22 @@ class TransactionHash(HexBytes32):
 
             Raises:
                 ImportError: If 'dank_mids' cannot be imported.
+
+            Examples:
+                >>> tx_hash = TransactionHash("0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef")
+                >>> await tx_hash.get_logs()
+                # Returns a tuple of Log objects
             """
             try:
                 import dank_mids
-            except ImportError:
+            except ImportError as e:
                 raise ImportError(
                     "You must have dank_mids installed in order to use this feature"
-                )
+                ) from e.__cause__
 
             receipt = await dank_mids.eth._get_transaction_receipt_raw(self)
             return json.decode(receipt, type=Tuple["Log", ...], dec_hook=_decode_hook)
 
-    except ImportError:
-        pass
 
-
-class BlockHash(HexBytes32): ...
+class BlockHash(HexBytes32):
+    ...

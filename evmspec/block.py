@@ -30,19 +30,31 @@ Transactions = Union[
 """
 Represents a collection of transactions within a block, which can be
 either transaction hashes or full transaction objects.
+
+Examples:
+    >>> tx_hashes = (TransactionHash("0x..."), TransactionHash("0x..."))
+    >>> tx_objects = (Transaction(...), Transaction(...))
 """
 
 
 class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: ignore [call-arg]
     """
     Represents a minimal block structure with essential fields.
+
+    The `_transactions` attribute can contain either transaction hashes, full transaction objects,
+    or `TransactionRLP` objects, depending on the context of the RPC call used to retrieve the block, such as
+    `eth_getBlockByHash` or `eth_getBlockByNumber`.
+
+    See Also:
+        - :class:`evmspec.transaction.Transaction`
+        - :class:`evmspec.transaction.TransactionRLP`
     """
 
     timestamp: UnixTimestamp
     """The Unix timestamp for when the block was collated."""
 
     _transactions: Raw = field(name="transactions")
-    """Array of transaction objects, or 32 Bytes transaction hashes depending on the last given parameter."""
+    """Array of transaction objects, or 32 Bytes transaction hashes depending on the context of the RPC call."""
 
     @cached_property
     def transactions(self) -> Transactions:
@@ -51,6 +63,10 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
 
         Returns:
             A tuple of transaction objects or transaction hashes.
+
+        Examples:
+            >>> block = TinyBlock(timestamp=..., _transactions=...)
+            >>> transactions = block.transactions
         """
         try:
             transactions = json.decode(
@@ -87,6 +103,12 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
 
 
 class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+    """
+    Represents a full Ethereum block with all standard fields.
+
+    See Also:
+        - :class:`TinyBlock`
+    """
 
     number: BlockNumber
     """The block number."""
@@ -138,6 +160,12 @@ class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, om
 
 
 class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
+    """
+    Represents a mined Ethereum block with difficulty fields.
+
+    See Also:
+        - :class:`Block`
+    """
 
     difficulty: uint
     """The difficulty at this block."""
@@ -147,14 +175,23 @@ class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True): 
 
 
 class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
-    # contains fields only seen on Base
+    """
+    Represents a base Ethereum block with base fee per gas.
+
+    See Also:
+        - :class:`MinedBlock`
+    """
 
     baseFeePerGas: Wei
     """The base fee per gas."""
 
 
 class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
-    """A Struct representing an Ethereum staking withdrawal."""
+    """A Struct representing an Ethereum staking withdrawal.
+
+    See Also:
+        - :class:`ShanghaiCapellaBlock`
+    """
 
     index: IntId
 
@@ -169,14 +206,32 @@ class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fi
 
 
 class ShanghaiCapellaBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
-    # contains staking withdrawals field
+    """
+    Represents a block from the Ethereum Shanghai or Capella upgrades, which includes staking withdrawals.
+
+    See Also:
+        - :class:`Block`
+        - :class:`StakingWithdrawal`
+    """
 
     _withdrawals: Raw = field(name="withdrawals")
-    """This field is only present on Ethereum."""
+    """This field is specific to the Shanghai and Capella upgrades in Ethereum."""
 
     @cached_property
     def withdrawals(self) -> Tuple[StakingWithdrawal, ...]:
-        """This field is only present on Ethereum."""
+        """
+        Decodes and returns the staking withdrawals in the block.
+
+        Returns:
+            A tuple of staking withdrawal objects.
+
+        Examples:
+            >>> block = ShanghaiCapellaBlock(...)
+            >>> withdrawals = block.withdrawals
+
+        See Also:
+            - :class:`StakingWithdrawal`
+        """
         return json.decode(
             self._withdrawals, type=Tuple[StakingWithdrawal, ...], dec_hook=_decode_hook
         )
