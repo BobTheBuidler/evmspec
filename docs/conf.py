@@ -28,6 +28,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # Looks for objects in documentation of external libraries
 intersphinx_mapping = {
+    "dictstruct": ("https://bobthebuidler.github.io/dictstruct/", None),
     "msgspec": ("https://jcristharif.com/msgspec/", None),
     "python": ("https://docs.python.org/3", None),
 }
