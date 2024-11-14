@@ -85,9 +85,22 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the action type for contract suicides.</span>
 
 <span class="sd">    This class captures the details of the self-destruct operation</span>
-<span class="sd">    for contract suicides, with attributes inherited from _ActionBase</span>
-<span class="sd">    that provide common details such as sender, value, and gas for</span>
-<span class="sd">    Ethereum transaction actions.</span>
+<span class="sd">    for contract suicides. It inherits attributes from</span>
+<span class="sd">    :class:`_ActionBase` that provide common details such as sender,</span>
+<span class="sd">    value, and gas for Ethereum transaction actions.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`_ActionBase` for common action attributes.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from evmspec.trace.suicide import Action</span>
+<span class="sd">        &gt;&gt;&gt; action = Action(sender=&quot;0x123&quot;, value=1000, gas=21000)</span>
+<span class="sd">        &gt;&gt;&gt; action.sender</span>
+<span class="sd">        &#39;0x123&#39;</span>
+<span class="sd">        &gt;&gt;&gt; action.value</span>
+<span class="sd">        1000</span>
+<span class="sd">        &gt;&gt;&gt; action.gas</span>
+<span class="sd">        21000</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 
@@ -105,6 +118,35 @@
 <span class="sd">    This class provides a detailed trace of a contract `suicide` action</span>
 <span class="sd">    including the specific action taken and the result of the operation,</span>
 <span class="sd">    conforming to the structure of a parity-style Ethereum trace.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        type: The constant literal denoting the trace type as &#39;suicide&#39;.</span>
+<span class="sd">        action: The suicide action, parity style.</span>
+<span class="sd">        result: Explicitly set to None, indicating no meaningful result is expected</span>
+<span class="sd">            from a contract self-destruct operation.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`_FilterTraceBase` for common trace attributes.</span>
+<span class="sd">        - :class:`Action` for details on the action attribute.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from evmspec.trace.suicide import Trace, Action</span>
+<span class="sd">        &gt;&gt;&gt; trace = Trace(</span>
+<span class="sd">        ...     blockNumber=123456,</span>
+<span class="sd">        ...     blockHash=&quot;0xabc&quot;,</span>
+<span class="sd">        ...     transactionHash=&quot;0xdef&quot;,</span>
+<span class="sd">        ...     transactionPosition=1,</span>
+<span class="sd">        ...     traceAddress=[0],</span>
+<span class="sd">        ...     subtraces=0,</span>
+<span class="sd">        ...     action=Action(sender=&quot;0x123&quot;, value=1000, gas=21000),</span>
+<span class="sd">        ...     result=None</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; trace.type</span>
+<span class="sd">        &#39;suicide&#39;</span>
+<span class="sd">        &gt;&gt;&gt; trace.action.sender</span>
+<span class="sd">        &#39;0x123&#39;</span>
+<span class="sd">        &gt;&gt;&gt; trace.result is None</span>
+<span class="sd">        True</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;suicide&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;suicide&quot;</span>
@@ -114,7 +156,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The suicide action, parity style.&quot;&quot;&quot;</span>
 
     <span class="n">result</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A literal set to None, indicating no result is expected.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Explicitly set to None, indicating no meaningful result is expected </span>
+<span class="sd">    from a contract self-destruct operation.&quot;&quot;&quot;</span></div>
 </pre></div>
 
            </div>

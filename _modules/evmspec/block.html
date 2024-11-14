@@ -101,19 +101,31 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Represents a collection of transactions within a block, which can be</span>
 <span class="sd">either transaction hashes or full transaction objects.</span>
+
+<span class="sd">Examples:</span>
+<span class="sd">    &gt;&gt;&gt; tx_hashes = (TransactionHash(&quot;0x...&quot;), TransactionHash(&quot;0x...&quot;))</span>
+<span class="sd">    &gt;&gt;&gt; tx_objects = (Transaction(...), Transaction(...))</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="TinyBlock"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.block.TinyBlock">[docs]</a><span class="k">class</span> <span class="nc">TinyBlock</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">dict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a minimal block structure with essential fields.</span>
+
+<span class="sd">    The `_transactions` attribute can contain either transaction hashes, full transaction objects,</span>
+<span class="sd">    or `TransactionRLP` objects, depending on the context of the RPC call used to retrieve the block, such as</span>
+<span class="sd">    `eth_getBlockByHash` or `eth_getBlockByNumber`.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`evmspec.transaction.Transaction`</span>
+<span class="sd">        - :class:`evmspec.transaction.TransactionRLP`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">timestamp</span><span class="p">:</span> <span class="n">UnixTimestamp</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The Unix timestamp for when the block was collated.&quot;&quot;&quot;</span>
 
     <span class="n">_transactions</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;transactions&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Array of transaction objects, or 32 Bytes transaction hashes depending on the last given parameter.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Array of transaction objects, or 32 Bytes transaction hashes depending on the context of the RPC call.&quot;&quot;&quot;</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Transactions</span><span class="p">:</span>
@@ -122,6 +134,10 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A tuple of transaction objects or transaction hashes.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; block = TinyBlock(timestamp=..., _transactions=...)</span>
+<span class="sd">            &gt;&gt;&gt; transactions = block.transactions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">transactions</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
@@ -158,6 +174,12 @@
 
 
 <div class="viewcode-block" id="Block"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.block.Block">[docs]</a><span class="k">class</span> <span class="nc">Block</span><span class="p">(</span><span class="n">TinyBlock</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a full Ethereum block with all standard fields.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`TinyBlock`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">number</span><span class="p">:</span> <span class="n">BlockNumber</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The block number.&quot;&quot;&quot;</span>
@@ -209,6 +231,12 @@
 
 
 <div class="viewcode-block" id="MinedBlock"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.block.MinedBlock">[docs]</a><span class="k">class</span> <span class="nc">MinedBlock</span><span class="p">(</span><span class="n">Block</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a mined Ethereum block with difficulty fields.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`Block`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">difficulty</span><span class="p">:</span> <span class="n">uint</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The difficulty at this block.&quot;&quot;&quot;</span>
@@ -218,14 +246,23 @@
 
 
 <div class="viewcode-block" id="BaseBlock"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.block.BaseBlock">[docs]</a><span class="k">class</span> <span class="nc">BaseBlock</span><span class="p">(</span><span class="n">MinedBlock</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
-    <span class="c1"># contains fields only seen on Base</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a base Ethereum block with base fee per gas.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`MinedBlock`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">baseFeePerGas</span><span class="p">:</span> <span class="n">Wei</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The base fee per gas.&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="StakingWithdrawal"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.block.StakingWithdrawal">[docs]</a><span class="k">class</span> <span class="nc">StakingWithdrawal</span><span class="p">(</span><span class="n">DictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Struct representing an Ethereum staking withdrawal.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A Struct representing an Ethereum staking withdrawal.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`ShanghaiCapellaBlock`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">index</span><span class="p">:</span> <span class="n">IntId</span>
 
@@ -240,14 +277,32 @@
 
 
 <div class="viewcode-block" id="ShanghaiCapellaBlock"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.block.ShanghaiCapellaBlock">[docs]</a><span class="k">class</span> <span class="nc">ShanghaiCapellaBlock</span><span class="p">(</span><span class="n">Block</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
-    <span class="c1"># contains staking withdrawals field</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a block from the Ethereum Shanghai or Capella upgrades, which includes staking withdrawals.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`Block`</span>
+<span class="sd">        - :class:`StakingWithdrawal`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_withdrawals</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;withdrawals&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Ethereum.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is specific to the Shanghai and Capella upgrades in Ethereum.&quot;&quot;&quot;</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">withdrawals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;This field is only present on Ethereum.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decodes and returns the staking withdrawals in the block.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A tuple of staking withdrawal objects.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; block = ShanghaiCapellaBlock(...)</span>
+<span class="sd">            &gt;&gt;&gt; withdrawals = block.withdrawals</span>
+
+<span class="sd">        See Also:</span>
+<span class="sd">            - :class:`StakingWithdrawal`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_withdrawals</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span>
         <span class="p">)</span></div>

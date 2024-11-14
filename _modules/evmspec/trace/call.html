@@ -84,6 +84,18 @@
 <div class="viewcode-block" id="Type"><a class="viewcode-back" href="../../../source/evmspec.trace.html#evmspec.trace.call.Type">[docs]</a><span class="k">class</span> <span class="nc">Type</span><span class="p">(</span><span class="n">Enum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">StringToIntEnumMeta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enum representing the types of contract calls: call, delegatecall, and staticcall.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; Type.call</span>
+<span class="sd">        &lt;Type.call: 0&gt;</span>
+<span class="sd">        &gt;&gt;&gt; Type.delegatecall</span>
+<span class="sd">        &lt;Type.delegatecall: 1&gt;</span>
+<span class="sd">        &gt;&gt;&gt; Type.staticcall</span>
+<span class="sd">        &lt;Type.staticcall: 2&gt;</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`Action`</span>
+<span class="sd">        - :class:`Trace`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">call</span> <span class="o">=</span> <span class="mi">0</span>
@@ -101,6 +113,15 @@
 <span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Action type for contract calls.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; action = Action(callType=Type.call, to=Address(&quot;0x0&quot;), input=HexBytes(&quot;0x&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; action.callType</span>
+<span class="sd">        &lt;Type.call: 0&gt;</span>
+<span class="sd">        &gt;&gt;&gt; action.to</span>
+<span class="sd">        &#39;0x0000000000000000000000000000000000000000&#39;</span>
+<span class="sd">        &gt;&gt;&gt; action.input</span>
+<span class="sd">        HexBytes(&#39;0x&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">callType</span><span class="p">:</span> <span class="n">Type</span>
@@ -116,6 +137,14 @@
 <div class="viewcode-block" id="Result"><a class="viewcode-back" href="../../../source/evmspec.trace.html#evmspec.trace.call.Result">[docs]</a><span class="k">class</span> <span class="nc">Result</span><span class="p">(</span><span class="n">_ResultBase</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents the result of a contract call action, including the output data of the contract call.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        output: The output of this transaction.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; result = Result(output=HexBytes(&quot;0x&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; result.output</span>
+<span class="sd">        HexBytes(&#39;0x&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">output</span><span class="p">:</span> <span class="n">HexBytes</span>
@@ -131,20 +160,42 @@
     <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a trace of a contract call, including action and result details.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; data = b&#39;{&quot;type&quot;: &quot;call&quot;, &quot;action&quot;: {&quot;callType&quot;: 0, &quot;to&quot;: &quot;0x0&quot;, &quot;input&quot;: &quot;0x&quot;}, &quot;result&quot;: null, &quot;error&quot;: &quot;out of gas&quot;}&#39;</span>
+<span class="sd">        &gt;&gt;&gt; trace = msgspec.json.decode(data, type=Trace)</span>
+<span class="sd">        &gt;&gt;&gt; trace = Trace(_action=Raw(b&#39;{&quot;callType&quot;: 0, &quot;to&quot;: &quot;0x0&quot;, &quot;input&quot;: &quot;0x&quot;}&#39;), result=None)</span>
+<span class="sd">        &gt;&gt;&gt; trace.type</span>
+<span class="sd">        &#39;call&#39;</span>
+<span class="sd">        &gt;&gt;&gt; trace.action.callType</span>
+<span class="sd">        &lt;Type.call: 0&gt;</span>
+<span class="sd">        &gt;&gt;&gt; trace.result is None</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; trace.error</span>
+<span class="sd">        &quot;out of gas&quot;</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`Action`</span>
+<span class="sd">        - :class:`Result`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;call&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;call&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class variable indicating the trace type as &quot;call&quot;.&quot;&quot;&quot;</span>
 
     <span class="n">_action</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore [assignment]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The call action, parity style.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The raw call action data, parity style.&quot;&quot;&quot;</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Action</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The call action, parity style.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The decoded call action, parity style.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Action</span><span class="p">,</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span>
 
     <span class="n">result</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Result</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The result object, parity style.</span>
-<span class="sd">    </span>
+
 <span class="sd">    None if the call errored. Error details will be included in the error field.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 

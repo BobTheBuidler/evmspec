@@ -91,17 +91,42 @@
 <div class="viewcode-block" id="Data"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.Data">[docs]</a><span class="k">class</span> <span class="nc">Data</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents data in Ethereum logs, providing utilities for interpreting</span>
-<span class="sd">    the data as various types.</span>
+<span class="sd">    the data as various types. The data is assumed to be in hexadecimal format</span>
+<span class="sd">    as received from the RPC.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; data = Data(&quot;0x000000000000000000000000000000000000000000000000000000000000000a&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; data.as_uint</span>
+<span class="sd">        10</span>
+<span class="sd">        &gt;&gt;&gt; data.as_address</span>
+<span class="sd">        &#39;0x000000000000000000000000000000000000000a&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_uint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uint</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interprets the data as an unsigned integer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Interprets the data as an unsigned integer.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; data = Data(&quot;0x0a&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; data.as_uint</span>
+<span class="sd">            10</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">uint</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hex</span><span class="p">(),</span> <span class="mi">16</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_address</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interprets the data as an Ethereum address.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Interprets the data as an Ethereum address.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the data does not represent a valid Ethereum address.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; data = Data(&quot;0x000000000000000000000000000000000000000a&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; data.as_address</span>
+<span class="sd">            &#39;0x000000000000000000000000000000000000000a&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="p">[:</span><span class="mi">12</span><span class="p">]</span> <span class="o">!=</span> <span class="n">_ADDRESS_TOPIC_PREFIX</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;This </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> does not represent an address&quot;</span><span class="p">,</span> <span class="bp">self</span>
@@ -110,22 +135,50 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_uint8</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint8</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interprets the data as an 8-bit unsigned integer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Interprets the data as an 8-bit unsigned integer.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; data = Data(&quot;0x01&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; data.as_uint8</span>
+<span class="sd">            1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_uint64</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint64</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interprets the data as a 64-bit unsigned integer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Interprets the data as a 64-bit unsigned integer.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; data = Data(&quot;0x000000000000000a&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; data.as_uint64</span>
+<span class="sd">            10</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint64</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_uint128</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint128</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interprets the data as a 128-bit unsigned integer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Interprets the data as a 128-bit unsigned integer.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; data = Data(&quot;0x0000000000000000000000000000000a&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; data.as_uint128</span>
+<span class="sd">            10</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint128</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">as_uint256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint256</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Interprets the data as a 256-bit unsigned integer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Interprets the data as a 256-bit unsigned integer.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; data = Data(&quot;0x000000000000000000000000000000000000000000000000000000000000000a&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; data.as_uint256</span>
+<span class="sd">            10</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
@@ -133,6 +186,9 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a topic in Ethereum logs, providing utilities for interpreting</span>
 <span class="sd">    the topic as various EVM types.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        :class:`Data` for more utilities on interpreting data.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 
@@ -156,6 +212,11 @@
 <div class="viewcode-block" id="TinyLog"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.TinyLog">[docs]</a><span class="k">class</span> <span class="nc">TinyLog</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a minimal log structure with topics.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; log = TinyLog(topics=(Topic(b&#39;\x00&#39;*32),))</span>
+<span class="sd">        &gt;&gt;&gt; log.topic0</span>
+<span class="sd">        Topic(&#39;0x0000000000000000000000000000000000000000000000000000000000000000&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">topics</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Topic</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
@@ -207,6 +268,9 @@
 <div class="viewcode-block" id="SmallLog"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.SmallLog">[docs]</a><span class="k">class</span> <span class="nc">SmallLog</span><span class="p">(</span><span class="n">TinyLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a log with additional attributes for the contract address and data.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        :class:`TinyLog` for the base log structure.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">address</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Address</span><span class="p">]</span>
@@ -220,6 +284,9 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a comprehensive log structure with additional transaction</span>
 <span class="sd">    details.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        :class:`SmallLog` for the log structure with address and data.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">removed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span>
@@ -247,6 +314,9 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a full log structure with comprehensive block and transaction</span>
 <span class="sd">    details.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        :class:`Log` for the comprehensive log structure with transaction details.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">blockHash</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BlockHash</span><span class="p">]</span>

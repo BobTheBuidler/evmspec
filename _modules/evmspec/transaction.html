@@ -97,22 +97,39 @@
 <span class="sd">    that the transaction plans to access, potentially reducing gas costs.</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; entry = AccessListEntry(...)</span>
-<span class="sd">        &gt;&gt;&gt; access_list_entry.address</span>
+<span class="sd">        &gt;&gt;&gt; entry = AccessListEntry(address=&#39;0x742d35Cc6634C0532925a3b844Bc454e4438f44e&#39;, storageKeys=[...])</span>
+<span class="sd">        &gt;&gt;&gt; entry.address</span>
 <span class="sd">        &#39;0x742d35Cc6634C0532925a3b844Bc454e4438f44e&#39;</span>
-<span class="sd">        &gt;&gt;&gt; len(access_list_entry.storage_keys)</span>
+<span class="sd">        &gt;&gt;&gt; len(entry.storageKeys)</span>
 <span class="sd">        2</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`Transaction2930`</span>
+<span class="sd">        - :class:`Transaction1559`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The Ethereum address of the contract whose storage is being accessed.&quot;&quot;&quot;</span>
 
     <span class="n">_storageKeys</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;storageKeys&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The specific storage slot keys within the contract that will be accessed.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The raw encoded storage slot keys within the contract that will be accessed.&quot;&quot;&quot;</span>
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">storageKeys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decodes storage keys from raw format to a list of HexBytes32.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decodes storage keys from raw format to a list of HexBytes32.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; entry = AccessListEntry(address=&#39;0x742d35Cc6634C0532925a3b844Bc454e4438f44e&#39;, storageKeys=[...])</span>
+<span class="sd">            &gt;&gt;&gt; decoded_keys = entry.storageKeys</span>
+<span class="sd">            &gt;&gt;&gt; isinstance(decoded_keys, list)</span>
+<span class="sd">            True</span>
+<span class="sd">            &gt;&gt;&gt; isinstance(decoded_keys[0], HexBytes32)</span>
+<span class="sd">            True</span>
+
+<span class="sd">        See Also:</span>
+<span class="sd">            - :meth:`_TransactionBase.accessList`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_storageKeys</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">],</span>
@@ -193,6 +210,11 @@
     <span class="k">def</span> <span class="nf">block</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockNumber</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A shorthand getter for blockNumber.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; transaction = _TransactionBase(...)</span>
+<span class="sd">            &gt;&gt;&gt; transaction.block == transaction.blockNumber</span>
+<span class="sd">            True</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blockNumber</span>
 
@@ -201,7 +223,20 @@
 
     <span class="nd">@cached_property</span>
     <span class="k">def</span> <span class="nf">accessList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decodes the access list from raw format to a list of AccessListEntry.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decodes the access list from raw format to a list of AccessListEntry.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; transaction = _TransactionBase(...)</span>
+<span class="sd">            &gt;&gt;&gt; access_list = transaction.accessList</span>
+<span class="sd">            &gt;&gt;&gt; isinstance(access_list, list)</span>
+<span class="sd">            True</span>
+<span class="sd">            &gt;&gt;&gt; isinstance(access_list[0], AccessListEntry)</span>
+<span class="sd">            True</span>
+
+<span class="sd">        See Also:</span>
+<span class="sd">            - :class:`AccessListEntry`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_accessList</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">])</span>
 
 

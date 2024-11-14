@@ -80,14 +80,16 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Base class for unsigned integer types with specific byte sizes.</span>
 
-<span class="sd">    The class provides a framework to define unsigned integer types of any byte size,</span>
+<span class="sd">    This class provides a framework to define unsigned integer types of any byte size,</span>
 <span class="sd">    ensuring values adhere to defined minimum and maximum constraints.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        bytes (int): The number of bytes for the unsigned integer type.</span>
-<span class="sd">        bits (int): The number of bits for the unsigned integer type.</span>
-<span class="sd">        min_value (int): The minimum permissible value (default is 0).</span>
-<span class="sd">        max_value (int): The maximum permissible value for the type.</span>
+<span class="sd">    Note:</span>
+<span class="sd">        While only a few specific classes like :class:`uint8`, :class:`uint64`,</span>
+<span class="sd">        :class:`uint128`, and :class:`uint256` are explicitly defined,</span>
+<span class="sd">        other classes are dynamically generated for byte sizes from 2 to 31, excluding those already defined.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        :class:`uint8`, :class:`uint64`, :class:`uint128`, :class:`uint256`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">bytes</span><span class="p">:</span> <span class="nb">int</span>
@@ -100,11 +102,18 @@
 <span class="sd">        Create a new unsigned integer of the specified type from a hex byte value.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            v (HexBytes): The value to be converted into the unsigned integer type.</span>
+<span class="sd">            v: The value to be converted into the unsigned integer type.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If the value is smaller than the minimum value or larger than</span>
 <span class="sd">            the maximum value.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; uint8(HexBytes(&#39;0x01&#39;))</span>
+<span class="sd">            uint8(1)</span>
+
+<span class="sd">            &gt;&gt;&gt; uint256(HexBytes(&#39;0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF&#39;))</span>
+<span class="sd">            uint256(115792089237316195423570985008687907853269984665640564039457584007913129639935)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">new</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="k">else</span> <span class="s2">&quot;0x0&quot;</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">new</span> <span class="o">&lt;</span> <span class="bp">cls</span><span class="o">.</span><span class="n">min_value</span><span class="p">:</span>
@@ -119,7 +128,12 @@
 
 
 <div class="viewcode-block" id="uint8"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.uints.uint8">[docs]</a><span class="k">class</span> <span class="nc">uint8</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 8-bit integer.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 8-bit integer.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; uint8(HexBytes(&#39;0x01&#39;))</span>
+<span class="sd">        uint8(1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">bits</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
@@ -127,7 +141,12 @@
 
 
 <div class="viewcode-block" id="uint64"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.uints.uint64">[docs]</a><span class="k">class</span> <span class="nc">uint64</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 64-bit integer.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 64-bit integer.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; uint64(HexBytes(&#39;0xFFFFFFFFFFFFFFFF&#39;))</span>
+<span class="sd">        uint64(18446744073709551615)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">8</span>
     <span class="n">bits</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
@@ -135,7 +154,12 @@
 
 
 <div class="viewcode-block" id="uint128"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.uints.uint128">[docs]</a><span class="k">class</span> <span class="nc">uint128</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 128-bit integer.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 128-bit integer.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; uint128(HexBytes(&#39;0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF&#39;))</span>
+<span class="sd">        uint128(340282366920938463463374607431768211455)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">16</span>
     <span class="n">bits</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
@@ -143,7 +167,12 @@
 
 
 <span class="k">class</span> <span class="nc">uint256</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 256-bit integer.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 256-bit integer.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; uint256(HexBytes(&#39;0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF&#39;))</span>
+<span class="sd">        uint256(115792089237316195423570985008687907853269984665640564039457584007913129639935)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">32</span>
     <span class="n">bits</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
@@ -158,8 +187,16 @@
 
     <span class="n">bits</span> <span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="mi">8</span>
     <span class="n">cls_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;uint</span><span class="si">{</span><span class="n">bits</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">docstring</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Unsigned </span><span class="si">{</span><span class="n">bits</span><span class="si">}</span><span class="s2">-bit integer.</span><span class="se">\n\n</span><span class="s2">Examples:</span><span class="se">\n</span><span class="s2">    &gt;&gt;&gt; </span><span class="si">{</span><span class="n">cls_name</span><span class="si">}</span><span class="s2">(HexBytes(&#39;0x</span><span class="si">{</span><span class="s1">&#39;FF&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span><span class="si">}</span><span class="s2">&#39;))</span><span class="se">\n</span><span class="s2">    </span><span class="si">{</span><span class="n">cls_name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="mi">2</span><span class="o">**</span><span class="n">bits</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">)&quot;</span>
     <span class="n">new_cls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span>
-        <span class="n">cls_name</span><span class="p">,</span> <span class="p">(</span><span class="n">_UintData</span><span class="p">,),</span> <span class="p">{</span><span class="s2">&quot;bits&quot;</span><span class="p">:</span> <span class="n">bits</span><span class="p">,</span> <span class="s2">&quot;bytes&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">}</span>
+        <span class="n">cls_name</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">_UintData</span><span class="p">,),</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;bits&quot;</span><span class="p">:</span> <span class="n">bits</span><span class="p">,</span>
+            <span class="s2">&quot;bytes&quot;</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span>
+            <span class="s2">&quot;max_value&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;__doc__&quot;</span><span class="p">:</span> <span class="n">docstring</span><span class="p">,</span>
+        <span class="p">},</span>
     <span class="p">)</span>
     <span class="nb">setattr</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="vm">__name__</span><span class="p">],</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">new_cls</span><span class="p">)</span>
 
