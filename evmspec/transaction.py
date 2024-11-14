@@ -100,7 +100,11 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
 
     # details
     sender: Address = field(name="from")
-    """The address of the sender."""
+    """The address of the sender.
+
+    Note:
+        This attribute is mapped to the :func:`~msgspec.field` name 'from' during serialization and deserialization.
+    """
 
     blockHash: BlockHash
     """The hash of the block including this transaction."""
