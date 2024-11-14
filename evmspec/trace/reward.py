@@ -23,7 +23,7 @@ class Type(Enum, metaclass=StringToIntEnumMeta):
         >>> print(reward_type)
         Type.block
     """
-    
+
     block = 0
     uncle = 1
 
@@ -50,10 +50,10 @@ class Action(
         >>> print(action.author)
         0x123
     """
-    
+
     author: Address
     """The author of this reward."""
-    
+
     rewardType: Type
     """The type of the reward."""
 
@@ -87,12 +87,12 @@ class Trace(
         - :class:`Action`: The decoded action object.
         - :class:`_FilterTraceBase`: The base class for trace representations.
     """
-    
+
     type: ClassVar[Literal["reward"]] = "reward"
-    
+
     _action: Raw = field(name="action")
     """Raw data of the reward action, requires decoding to be useful."""
-    
+
     @cached_property
     def action(self) -> Action:
         """Decodes the raw reward action into an :class:`Action` object, using parity style.

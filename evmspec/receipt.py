@@ -50,7 +50,6 @@ class _HexStringToIntEnumMeta(EnumMeta):
     A metaclass for Enums that allows conversion from hexadecimal string values to integer Enum members.
     """
 
-
     def __call__(cls, value: str, *args, **kw):
         return super().__call__(int(value, 16), *args, **kw)
 

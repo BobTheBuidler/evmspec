@@ -109,6 +109,7 @@ class Trace(
         - :class:`Action`
         - :class:`Result`
     """
+
     type: ClassVar[Literal["call"]] = "call"
     """A class variable indicating the trace type as "call"."""
 

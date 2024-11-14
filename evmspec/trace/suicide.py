@@ -14,8 +14,8 @@ class Action(
     """Represents the action type for contract suicides.
 
     This class captures the details of the self-destruct operation
-    for contract suicides. It inherits attributes from 
-    :class:`_ActionBase` that provide common details such as sender, 
+    for contract suicides. It inherits attributes from
+    :class:`_ActionBase` that provide common details such as sender,
     value, and gas for Ethereum transaction actions.
 
     See Also:
@@ -51,7 +51,7 @@ class Trace(
     Attributes:
         type: The constant literal denoting the trace type as 'suicide'.
         action: The suicide action, parity style.
-        result: Explicitly set to None, indicating no meaningful result is expected 
+        result: Explicitly set to None, indicating no meaningful result is expected
             from a contract self-destruct operation.
 
     See Also:
