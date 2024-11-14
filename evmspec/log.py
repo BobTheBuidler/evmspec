@@ -20,17 +20,42 @@ _ADDRESS_TOPIC_PREFIX = HexBytes("0") * 12
 class Data(HexBytes):
     """
     Represents data in Ethereum logs, providing utilities for interpreting
-    the data as various types.
+    the data as various types. The data is assumed to be in hexadecimal format
+    as received from the RPC.
+
+    Examples:
+        >>> data = Data("0x000000000000000000000000000000000000000000000000000000000000000a")
+        >>> data.as_uint
+        10
+        >>> data.as_address
+        '0x000000000000000000000000000000000000000a'
     """
 
     @property
     def as_uint(self) -> uint:
-        """Interprets the data as an unsigned integer."""
+        """
+        Interprets the data as an unsigned integer.
+
+        Examples:
+            >>> data = Data("0x0a")
+            >>> data.as_uint
+            10
+        """
         return uint(self.hex(), 16)
 
     @property
     def as_address(self) -> Address:
-        """Interprets the data as an Ethereum address."""
+        """
+        Interprets the data as an Ethereum address.
+
+        Raises:
+            ValueError: If the data does not represent a valid Ethereum address.
+
+        Examples:
+            >>> data = Data("0x000000000000000000000000000000000000000a")
+            >>> data.as_address
+            '0x000000000000000000000000000000000000000a'
+        """
         if self[:12] != _ADDRESS_TOPIC_PREFIX:
             raise ValueError(
                 f"This {type(self).__name__} does not represent an address", self
@@ -39,22 +64,50 @@ class Data(HexBytes):
 
     @property
     def as_uint8(self) -> uints.uint8:
-        """Interprets the data as an 8-bit unsigned integer."""
+        """
+        Interprets the data as an 8-bit unsigned integer.
+
+        Examples:
+            >>> data = Data("0x01")
+            >>> data.as_uint8
+            1
+        """
         return uints.uint8(self)
 
     @property
     def as_uint64(self) -> uints.uint64:
-        """Interprets the data as a 64-bit unsigned integer."""
+        """
+        Interprets the data as a 64-bit unsigned integer.
+
+        Examples:
+            >>> data = Data("0x000000000000000a")
+            >>> data.as_uint64
+            10
+        """
         return uints.uint64(self)
 
     @property
     def as_uint128(self) -> uints.uint128:
-        """Interprets the data as a 128-bit unsigned integer."""
+        """
+        Interprets the data as a 128-bit unsigned integer.
+
+        Examples:
+            >>> data = Data("0x0000000000000000000000000000000a")
+            >>> data.as_uint128
+            10
+        """
         return uints.uint128(self)
 
     @property
     def as_uint256(self) -> uints.uint256:
-        """Interprets the data as a 256-bit unsigned integer."""
+        """
+        Interprets the data as a 256-bit unsigned integer.
+
+        Examples:
+            >>> data = Data("0x000000000000000000000000000000000000000000000000000000000000000a")
+            >>> data.as_uint256
+            10
+        """
         return uints.uint256(self)
 
 
@@ -62,6 +115,9 @@ class Topic(HexBytes32, Data):
     """
     Represents a topic in Ethereum logs, providing utilities for interpreting
     the topic as various EVM types.
+
+    See Also:
+        :class:`Data` for more utilities on interpreting data.
     """
 
 
@@ -85,6 +141,11 @@ for i in range(2, 31):
 class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-arg]
     """
     Represents a minimal log structure with topics.
+
+    Examples:
+        >>> log = TinyLog(topics=(Topic(b'\x00'*32),))
+        >>> log.topic0
+        Topic('0x0000000000000000000000000000000000000000000000000000000000000000')
     """
 
     topics: Tuple[Topic, ...]
@@ -136,6 +197,9 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
 class SmallLog(TinyLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
     """
     Represents a log with additional attributes for the contract address and data.
+
+    See Also:
+        :class:`TinyLog` for the base log structure.
     """
 
     address: Optional[Address]
@@ -149,6 +213,9 @@ class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
     """
     Represents a comprehensive log structure with additional transaction
     details.
+
+    See Also:
+        :class:`SmallLog` for the log structure with address and data.
     """
 
     removed: Optional[bool]
@@ -176,6 +243,9 @@ class FullLog(Log, frozen=True, kw_only=True, forbid_unknown_fields=True):  # ty
     """
     Represents a full log structure with comprehensive block and transaction
     details.
+
+    See Also:
+        :class:`Log` for the comprehensive log structure with transaction details.
     """
 
     blockHash: Optional[BlockHash]
