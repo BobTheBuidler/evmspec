@@ -278,13 +278,13 @@ cython = ["cython"]
 
 [[package]]
 name = "dictstruct"
-version = "0.0.1"
+version = "0.0.2"
 description = "A msgspec.Struct implementation compatible with the standard dictionary API"
 optional = false
 python-versions = "<3.13,>=3.8"
 files = [
-    {file = "dictstruct-0.0.1-py3-none-any.whl", hash = "sha256:efa89f4cf077f0b8e7eec325dd833aaa577d92d95d8a9fca18f08cea40bc3cfa"},
-    {file = "dictstruct-0.0.1.tar.gz", hash = "sha256:423fae56834bb02b6eb071b474de93c386e310331a8baa7e6adee983a4d5e37b"},
+    {file = "dictstruct-0.0.2-py3-none-any.whl", hash = "sha256:3e23cbc0e27dcaf55851445a36df8101156580d4105d3a8c3d8e9c979282c228"},
+    {file = "dictstruct-0.0.2.tar.gz", hash = "sha256:83df4ae210e9e5adfd500c38e58cb719c211bd4d61ff94cf00c3e0cc39f92dca"},
 ]
 
 [package.dependencies]
@@ -731,13 +731,13 @@ test = ["cython", "filelock", "html5lib", "pytest (>=4.6)"]
 
 [[package]]
 name = "sphinx-rtd-theme"
-version = "3.0.1"
+version = "3.0.2"
 description = "Read the Docs theme for Sphinx"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "sphinx_rtd_theme-3.0.1-py2.py3-none-any.whl", hash = "sha256:921c0ece75e90633ee876bd7b148cfaad136b481907ad154ac3669b6fc957916"},
-    {file = "sphinx_rtd_theme-3.0.1.tar.gz", hash = "sha256:a4c5745d1b06dfcb80b7704fe532eb765b44065a8fad9851e4258c8804140703"},
+    {file = "sphinx_rtd_theme-3.0.2-py2.py3-none-any.whl", hash = "sha256:422ccc750c3a3a311de4ae327e82affdaf59eb695ba4936538552f3b00f4ee13"},
+    {file = "sphinx_rtd_theme-3.0.2.tar.gz", hash = "sha256:b7457bc25dda723b20b086a670b9953c859eab60a2a03ee8eb2bb23e176e5f85"},
 ]
 
 [package.dependencies]
@@ -853,13 +853,13 @@ test = ["pytest"]
 
 [[package]]
 name = "tomli"
-version = "2.0.2"
+version = "2.1.0"
 description = "A lil' TOML parser"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "tomli-2.0.2-py3-none-any.whl", hash = "sha256:2ebe24485c53d303f690b0ec092806a085f07af5a5aa1464f3931eec36caaa38"},
-    {file = "tomli-2.0.2.tar.gz", hash = "sha256:d46d457a85337051c36524bc5349dd91b1877838e2979ac5ced3e710ed8a60ed"},
+    {file = "tomli-2.1.0-py3-none-any.whl", hash = "sha256:a5c57c3d1c56f5ccdf89f6523458f60ef716e210fc47c4cfb188c5ba473e0391"},
+    {file = "tomli-2.1.0.tar.gz", hash = "sha256:3f646cae2aec94e17d04973e4249548320197cfabdf130015d023de4b74d8ab8"},
 ]
 
 [[package]]
