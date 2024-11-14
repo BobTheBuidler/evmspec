@@ -20,18 +20,50 @@ class Action(
 
     This class captures the initialization code necessary for deploying a
     new contract on the Ethereum Virtual Machine (EVM).
+
+    Attributes:
+        init (HexBytes): The init code for the deployed contract.
+
+    Examples:
+        >>> action = Action(init=HexBytes("0x6000600055"))
+        >>> action.init
+        HexBytes('0x6000600055')
+
+    See Also:
+        - :class:`evmspec.trace._base._ActionBase`
     """
 
     init: HexBytes
     """The init code for the deployed contract."""
 
 
-class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+class Result(
+    _ResultBase,
+    frozen=True,
+    kw_only=True,
+    forbid_unknown_fields=True,
+    omit_defaults=True,
+    repr_omit_defaults=True,
+):  # type: ignore [call-arg]
     """Represents the result of a contract creation action.
 
     It includes details such as the address and bytecode of the newly
     deployed contract. This information is essential for verifying the
     deployment was successful and retrieving the contract's code.
+
+    Attributes:
+        address (Address): The address of the deployed contract.
+        code (HexBytes): The bytecode of the deployed contract.
+
+    Examples:
+        >>> result = Result(address=Address("0x1234567890abcdef1234567890abcdef12345678"), code=HexBytes("0x6000600055"))
+        >>> result.address
+        '0x1234567890abcdef1234567890abcdef12345678'
+        >>> result.code
+        HexBytes('0x6000600055')
+
+    See Also:
+        - :class:`evmspec.trace._base._ResultBase`
     """
 
     address: Address
@@ -52,9 +84,26 @@ class Trace(
 ):  # type: ignore [call-arg]
     """Represents a trace of a contract deployment.
 
-    Provides a detailed trace structure which includes both raw and decoded
-    versions of the action data used during the contract deployment on the
-    Ethereum network.
+    Provides a detailed trace structure which includes raw action data
+    and a method to decode this data into a structured :class:`Action` object
+    representing the specific details of the contract creation process.
+
+    Attributes:
+        type (ClassVar[Literal["create"]]): The type of trace, fixed as "create".
+        _action (Raw): The raw create action data, following the parity format.
+        result (Result): The result object, adhering to the parity format, containing deployment details.
+
+    Examples:
+        >>> trace = Trace(_action=Raw(b'{"init":"0x6000600055"}'), result=Result(address=Address("0x1234567890abcdef1234567890abcdef12345678"), code=HexBytes("0x6000600055")))
+        >>> trace.type
+        'create'
+        >>> trace.action.init
+        HexBytes('0x6000600055')
+
+    See Also:
+        - :class:`evmspec.trace._base._FilterTraceBase`
+        - :class:`Action`
+        - :class:`Result`
     """
 
     type: ClassVar[Literal["create"]] = "create"
@@ -64,11 +113,16 @@ class Trace(
 
     @cached_property
     def action(self) -> Action:
-        """Decodes the raw action data into an Action object using parity style.
+        """Decodes the raw action data into an :class:`Action` object.
 
         Utilizes the `_action` field for decoding, transforming it into a
-        structured Action object that represents the specific details
+        structured :class:`Action` object that represents the specific details
         of the contract creation process.
+
+        Examples:
+            >>> trace = Trace(_action=Raw(b'{"init":"0x6000600055"}'), result=Result(address=Address("0x1234567890abcdef1234567890abcdef12345678"), code=HexBytes("0x6000600055")))
+            >>> trace.action.init
+            HexBytes('0x6000600055')
         """
         return json.decode(self._action, type=Action, dec_hook=_decode_hook)
 

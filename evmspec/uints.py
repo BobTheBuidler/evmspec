@@ -9,14 +9,16 @@ class _UintData(uint):
     """
     Base class for unsigned integer types with specific byte sizes.
 
-    The class provides a framework to define unsigned integer types of any byte size,
+    This class provides a framework to define unsigned integer types of any byte size,
     ensuring values adhere to defined minimum and maximum constraints.
 
-    Attributes:
-        bytes (int): The number of bytes for the unsigned integer type.
-        bits (int): The number of bits for the unsigned integer type.
-        min_value (int): The minimum permissible value (default is 0).
-        max_value (int): The maximum permissible value for the type.
+    Note:
+        While only a few specific classes like :class:`uint8`, :class:`uint64`,
+        :class:`uint128`, and :class:`uint256` are explicitly defined,
+        other classes are dynamically generated for byte sizes from 2 to 31, excluding those already defined.
+
+    See Also:
+        :class:`uint8`, :class:`uint64`, :class:`uint128`, :class:`uint256`
     """
 
     bytes: int
@@ -29,11 +31,18 @@ class _UintData(uint):
         Create a new unsigned integer of the specified type from a hex byte value.
 
         Args:
-            v (HexBytes): The value to be converted into the unsigned integer type.
+            v: The value to be converted into the unsigned integer type.
 
         Raises:
             ValueError: If the value is smaller than the minimum value or larger than
             the maximum value.
+
+        Examples:
+            >>> uint8(HexBytes('0x01'))
+            uint8(1)
+
+            >>> uint256(HexBytes('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'))
+            uint256(115792089237316195423570985008687907853269984665640564039457584007913129639935)
         """
         new = super().__new__(cls, v.hex() if v else "0x0", 16)
         if new < cls.min_value:
@@ -48,7 +57,12 @@ class _UintData(uint):
 
 
 class uint8(_UintData):
-    """Unsigned 8-bit integer."""
+    """Unsigned 8-bit integer.
+
+    Examples:
+        >>> uint8(HexBytes('0x01'))
+        uint8(1)
+    """
 
     bytes = 1
     bits = bytes * 8
@@ -56,7 +70,12 @@ class uint8(_UintData):
 
 
 class uint64(_UintData):
-    """Unsigned 64-bit integer."""
+    """Unsigned 64-bit integer.
+
+    Examples:
+        >>> uint64(HexBytes('0xFFFFFFFFFFFFFFFF'))
+        uint64(18446744073709551615)
+    """
 
     bytes = 8
     bits = bytes * 8
@@ -64,7 +83,12 @@ class uint64(_UintData):
 
 
 class uint128(_UintData):
-    """Unsigned 128-bit integer."""
+    """Unsigned 128-bit integer.
+
+    Examples:
+        >>> uint128(HexBytes('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'))
+        uint128(340282366920938463463374607431768211455)
+    """
 
     bytes = 16
     bits = bytes * 8
@@ -72,7 +96,12 @@ class uint128(_UintData):
 
 
 class uint256(_UintData):
-    """Unsigned 256-bit integer."""
+    """Unsigned 256-bit integer.
+
+    Examples:
+        >>> uint256(HexBytes('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'))
+        uint256(115792089237316195423570985008687907853269984665640564039457584007913129639935)
+    """
 
     bytes = 32
     bits = bytes * 8
@@ -87,8 +116,16 @@ for i in range(1, 32):
 
     bits = i * 8
     cls_name = f"uint{bits}"
+    docstring = f"Unsigned {bits}-bit integer.\n\nExamples:\n    >>> {cls_name}(HexBytes('0x{'FF' * i}'))\n    {cls_name}({2**bits - 1})"
     new_cls = type(
-        cls_name, (_UintData,), {"bits": bits, "bytes": i, "max_value": 2**bits - 1}
+        cls_name,
+        (_UintData,),
+        {
+            "bits": bits,
+            "bytes": i,
+            "max_value": 2**bits - 1,
+            "__doc__": docstring,
+        },
     )
     setattr(sys.modules[__name__], cls_name, new_cls)
 
