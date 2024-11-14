@@ -93,7 +93,7 @@ class Trace(
     Represents a trace of a contract call, including action and result details.
 
     Examples:
-        >>> data = b'{"type": "call", "action": {"callType": 0, "to": "0x0", "input": "0x"}, "result": null, "error": "out of gas"}
+        >>> data = b'{"type": "call", "action": {"callType": 0, "to": "0x0", "input": "0x"}, "result": null, "error": "out of gas"}'
         >>> trace = msgspec.json.decode(data, type=Trace)
         >>> trace = Trace(_action=Raw(b'{"callType": 0, "to": "0x0", "input": "0x"}'), result=None)
         >>> trace.type
