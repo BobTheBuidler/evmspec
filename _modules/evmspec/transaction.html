@@ -171,7 +171,11 @@
 
     <span class="c1"># details</span>
     <span class="n">sender</span><span class="p">:</span> <span class="n">Address</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;from&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The address of the sender.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The address of the sender.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        This attribute is mapped to the :func:`~msgspec.field` name &#39;from&#39; during serialization and deserialization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">blockHash</span><span class="p">:</span> <span class="n">BlockHash</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the block including this transaction.&quot;&quot;&quot;</span>
