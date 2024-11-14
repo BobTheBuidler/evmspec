@@ -26,7 +26,14 @@ class Action(
     """The init code for the deployed contract."""
 
 
-class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+class Result(
+    _ResultBase,
+    frozen=True,
+    kw_only=True,
+    forbid_unknown_fields=True,
+    omit_defaults=True,
+    repr_omit_defaults=True,
+):  # type: ignore [call-arg]
     """Represents the result of a contract creation action.
 
     It includes details such as the address and bytecode of the newly
@@ -52,9 +59,10 @@ class Trace(
 ):  # type: ignore [call-arg]
     """Represents a trace of a contract deployment.
 
-    Provides a detailed trace structure which includes both raw and decoded
-    versions of the action data used during the contract deployment on the
-    Ethereum network.
+    Provides a detailed trace structure which includes raw action data
+    and a method to decode this data into a structured Action object
+    representing the specific details of the contract creation process
+    on the fly.
     """
 
     type: ClassVar[Literal["create"]] = "create"
@@ -64,7 +72,7 @@ class Trace(
 
     @cached_property
     def action(self) -> Action:
-        """Decodes the raw action data into an Action object using parity style.
+        """Decodes the raw action data into an Action object.
 
         Utilizes the `_action` field for decoding, transforming it into a
         structured Action object that represents the specific details

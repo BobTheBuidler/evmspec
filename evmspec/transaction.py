@@ -26,22 +26,39 @@ class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True): 
     that the transaction plans to access, potentially reducing gas costs.
 
     Example:
-        >>> entry = AccessListEntry(...)
-        >>> access_list_entry.address
+        >>> entry = AccessListEntry(address='0x742d35Cc6634C0532925a3b844Bc454e4438f44e', storageKeys=[...])
+        >>> entry.address
         '0x742d35Cc6634C0532925a3b844Bc454e4438f44e'
-        >>> len(access_list_entry.storage_keys)
+        >>> len(entry.storageKeys)
         2
+
+    See Also:
+        - :class:`Transaction2930`
+        - :class:`Transaction1559`
     """
 
     address: Address
     """The Ethereum address of the contract whose storage is being accessed."""
 
     _storageKeys: Raw = field(name="storageKeys")
-    """The specific storage slot keys within the contract that will be accessed."""
+    """The raw encoded storage slot keys within the contract that will be accessed."""
 
     @cached_property
     def storageKeys(self) -> List[HexBytes32]:
-        """Decodes storage keys from raw format to a list of HexBytes32."""
+        """
+        Decodes storage keys from raw format to a list of HexBytes32.
+
+        Example:
+            >>> entry = AccessListEntry(address='0x742d35Cc6634C0532925a3b844Bc454e4438f44e', storageKeys=[...])
+            >>> decoded_keys = entry.storageKeys
+            >>> isinstance(decoded_keys, list)
+            True
+            >>> isinstance(decoded_keys[0], HexBytes32)
+            True
+
+        See Also:
+            - :meth:`_TransactionBase.accessList`
+        """
         return json.decode(
             self._storageKeys,
             type=List[HexBytes32],
@@ -122,6 +139,11 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
     def block(self) -> BlockNumber:
         """
         A shorthand getter for blockNumber.
+
+        Example:
+            >>> transaction = _TransactionBase(...)
+            >>> transaction.block == transaction.blockNumber
+            True
         """
         return self.blockNumber
 
@@ -130,7 +152,20 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
 
     @cached_property
     def accessList(self) -> List[AccessListEntry]:
-        """Decodes the access list from raw format to a list of AccessListEntry."""
+        """
+        Decodes the access list from raw format to a list of AccessListEntry.
+
+        Example:
+            >>> transaction = _TransactionBase(...)
+            >>> access_list = transaction.accessList
+            >>> isinstance(access_list, list)
+            True
+            >>> isinstance(access_list[0], AccessListEntry)
+            True
+
+        See Also:
+            - :class:`AccessListEntry`
+        """
         return json.decode(self._accessList, type=List[AccessListEntry])
 
 

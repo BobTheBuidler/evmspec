@@ -54,4 +54,5 @@ autodoc_class_signature = "separated"
 
 automodule_generate_module_stub = True
 
+# Add the evmspec module to sys.path to ensure it can be found by Sphinx.
 sys.path.insert(0, os.path.abspath("./evmspec"))
