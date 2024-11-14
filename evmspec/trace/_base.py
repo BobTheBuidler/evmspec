@@ -30,8 +30,8 @@ class _ActionBase(
     """The sender address.
 
     Note:
-        This attribute is mapped to the field name 'from' during serialization
-        and deserialization.
+        This attribute is mapped to the :func:`~msgspec.field` name 'from'
+        during serialization and deserialization.
 
     Examples:
         >>> from msgspec import json
