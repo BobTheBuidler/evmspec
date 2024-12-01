@@ -6,16 +6,7 @@ from hexbytes import HexBytes
 from msgspec import UNSET, Raw, field, json
 
 from evmspec._ids import ChainId, TransactionIndex
-from evmspec.data import (
-    Address,
-    BlockHash,
-    BlockNumber,
-    HexBytes32,
-    Nonce,
-    TransactionHash,
-    Wei,
-    uint,
-)
+from evmspec.data import *
 
 
 class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg]

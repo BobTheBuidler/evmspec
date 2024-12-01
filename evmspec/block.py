@@ -7,17 +7,7 @@ from hexbytes import HexBytes
 from msgspec import UNSET, Raw, ValidationError, field, json
 
 from evmspec._ids import IntId
-from evmspec.data import (
-    Address,
-    BlockHash,
-    BlockNumber,
-    Nonce,
-    TransactionHash,
-    UnixTimestamp,
-    Wei,
-    uint,
-    _decode_hook,
-)
+from evmspec.data import *
 from evmspec.transaction import Transaction, TransactionRLP
 
 

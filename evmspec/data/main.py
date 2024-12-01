@@ -11,8 +11,8 @@ from msgspec import Raw, Struct, json
 from typing_extensions import Self
 
 if TYPE_CHECKING:
-    from evmspec.log import Log
-    from evmspec.receipt import TransactionReceipt
+    from evmspec.structs.log import Log
+    from evmspec.structs.receipt import TransactionReceipt
 
 _T = TypeVar("_T")
 """A generic type variable."""

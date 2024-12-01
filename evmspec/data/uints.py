@@ -1,8 +1,17 @@
+"""
+This module provides classes to decode and represent unsigned integer 
+types of any byte size, ensuring values adhere to defined minimum and maximum constraints.
+
+Note:
+    While only a few specific classes like :class:`uint8`, :class:`uint64`,
+    :class:`uint128`, and :class:`uint256` are explicitly defined,
+    other classes are dynamically generated for byte sizes from 2 to 31, excluding those already defined.
+"""
 import sys
 
 from hexbytes import HexBytes
 
-from evmspec.data import uint
+from evmspec.data.main import uint
 
 
 class _UintData(uint):
@@ -11,11 +20,6 @@ class _UintData(uint):
 
     This class provides a framework to define unsigned integer types of any byte size,
     ensuring values adhere to defined minimum and maximum constraints.
-
-    Note:
-        While only a few specific classes like :class:`uint8`, :class:`uint64`,
-        :class:`uint128`, and :class:`uint256` are explicitly defined,
-        other classes are dynamically generated for byte sizes from 2 to 31, excluding those already defined.
 
     See Also:
         :class:`uint8`, :class:`uint64`, :class:`uint128`, :class:`uint256`
