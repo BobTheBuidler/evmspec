@@ -110,6 +110,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Decodes storage keys from raw format to a list of HexBytes32.</span>
 
+<span class="sd">        The :attr:`_storageKeys` attribute contains the raw encoded data, which is</span>
+<span class="sd">        decoded into a list of `HexBytes32` objects when accessed through this</span>
+<span class="sd">        property.</span>
+
 <span class="sd">        Example:</span>
 <span class="sd">            &gt;&gt;&gt; entry = AccessListEntry(address=&#39;0x742d35Cc6634C0532925a3b844Bc454e4438f44e&#39;, storageKeys=[...])</span>
 <span class="sd">            &gt;&gt;&gt; decoded_keys = entry.storageKeys</span>

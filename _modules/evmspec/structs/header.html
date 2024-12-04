@@ -81,36 +81,109 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a block header in the Erigon client.</span>
 
-<span class="sd">    This class is designed to utilize `LazyDictStruct` for handling block header data,</span>
+<span class="sd">    This class inherits from :class:`LazyDictStruct`, which provides features for handling block header data,</span>
 <span class="sd">    ensuring immutability and strictness to known fields. It is currently under development,</span>
 <span class="sd">    and specific features may not yet be functional. There may be known issues needing resolution.</span>
 
-<span class="sd">    Attributes:</span>
-<span class="sd">        timestamp (UnixTimestamp): The Unix timestamp for when the block was collated.</span>
-<span class="sd">        parentHash (HexBytes): The hash of the parent block.</span>
-<span class="sd">        uncleHash (HexBytes): The hash of the list of uncle headers.</span>
-<span class="sd">        coinbase (Address): The address of the miner who mined the block.</span>
-<span class="sd">        root (HexBytes): The root hash of the state trie.</span>
-<span class="sd">        difficulty (uint): The difficulty level of the block.</span>
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`LazyDictStruct` for more details on the underlying structure and its features.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">timestamp</span><span class="p">:</span> <span class="n">UnixTimestamp</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Unix timestamp for when the block was collated.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Unix timestamp for when the block was collated.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; header = ErigonBlockHeader(</span>
+<span class="sd">        ...     timestamp=UnixTimestamp(1638316800),</span>
+<span class="sd">        ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
+<span class="sd">        ...     uncleHash=HexBytes(&quot;0xdef&quot;),</span>
+<span class="sd">        ...     coinbase=Address(&quot;0x123&quot;),</span>
+<span class="sd">        ...     root=HexBytes(&quot;0x456&quot;),</span>
+<span class="sd">        ...     difficulty=uint(1000)</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; header.timestamp</span>
+<span class="sd">        UnixTimestamp(1638316800)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">parentHash</span><span class="p">:</span> <span class="n">HexBytes</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the parent block.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the parent block.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; header = ErigonBlockHeader(</span>
+<span class="sd">        ...     timestamp=UnixTimestamp(1638316800),</span>
+<span class="sd">        ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
+<span class="sd">        ...     uncleHash=HexBytes(&quot;0xdef&quot;),</span>
+<span class="sd">        ...     coinbase=Address(&quot;0x123&quot;),</span>
+<span class="sd">        ...     root=HexBytes(&quot;0x456&quot;),</span>
+<span class="sd">        ...     difficulty=uint(1000)</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; header.parentHash</span>
+<span class="sd">        HexBytes(&#39;0xabc&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">uncleHash</span><span class="p">:</span> <span class="n">HexBytes</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the list of uncle headers.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the list of uncle headers.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; header = ErigonBlockHeader(</span>
+<span class="sd">        ...     timestamp=UnixTimestamp(1638316800),</span>
+<span class="sd">        ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
+<span class="sd">        ...     uncleHash=HexBytes(&quot;0xdef&quot;),</span>
+<span class="sd">        ...     coinbase=Address(&quot;0x123&quot;),</span>
+<span class="sd">        ...     root=HexBytes(&quot;0x456&quot;),</span>
+<span class="sd">        ...     difficulty=uint(1000)</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; header.uncleHash</span>
+<span class="sd">        HexBytes(&#39;0xdef&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">coinbase</span><span class="p">:</span> <span class="n">Address</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The address of the miner who mined the block.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The address of the miner who mined the block.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; header = ErigonBlockHeader(</span>
+<span class="sd">        ...     timestamp=UnixTimestamp(1638316800),</span>
+<span class="sd">        ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
+<span class="sd">        ...     uncleHash=HexBytes(&quot;0xdef&quot;),</span>
+<span class="sd">        ...     coinbase=Address(&quot;0x123&quot;),</span>
+<span class="sd">        ...     root=HexBytes(&quot;0x456&quot;),</span>
+<span class="sd">        ...     difficulty=uint(1000)</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; header.coinbase</span>
+<span class="sd">        Address(&#39;0x123&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">root</span><span class="p">:</span> <span class="n">HexBytes</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The root hash of the state trie.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The root hash of the state trie.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; header = ErigonBlockHeader(</span>
+<span class="sd">        ...     timestamp=UnixTimestamp(1638316800),</span>
+<span class="sd">        ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
+<span class="sd">        ...     uncleHash=HexBytes(&quot;0xdef&quot;),</span>
+<span class="sd">        ...     coinbase=Address(&quot;0x123&quot;),</span>
+<span class="sd">        ...     root=HexBytes(&quot;0x456&quot;),</span>
+<span class="sd">        ...     difficulty=uint(1000)</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; header.root</span>
+<span class="sd">        HexBytes(&#39;0x456&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">difficulty</span><span class="p">:</span> <span class="n">uint</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The difficulty level of the block.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The difficulty level of the block.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; header = ErigonBlockHeader(</span>
+<span class="sd">        ...     timestamp=UnixTimestamp(1638316800),</span>
+<span class="sd">        ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
+<span class="sd">        ...     uncleHash=HexBytes(&quot;0xdef&quot;),</span>
+<span class="sd">        ...     coinbase=Address(&quot;0x123&quot;),</span>
+<span class="sd">        ...     root=HexBytes(&quot;0x456&quot;),</span>
+<span class="sd">        ...     difficulty=uint(1000)</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; header.difficulty</span>
+<span class="sd">        uint(1000)</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
 </pre></div>
 
            </div>
