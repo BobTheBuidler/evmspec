@@ -24,6 +24,9 @@ either transaction hashes or full transaction objects.
 Examples:
     >>> tx_hashes = (TransactionHash("0x..."), TransactionHash("0x..."))
     >>> tx_objects = (Transaction(...), Transaction(...))
+
+See Also:
+    - :class:`evmspec.transaction.Transaction`
 """
 
 
@@ -158,10 +161,22 @@ class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True): 
     """
 
     difficulty: uint
-    """The difficulty at this block."""
+    """The difficulty at this block.
+
+    Examples:
+        >>> mined_block = MinedBlock(...)
+        >>> mined_block.difficulty
+        uint(123456789)
+    """
 
     totalDifficulty: uint
-    """Hexadecimal of the total difficulty of the chain until this block."""
+    """The total difficulty of the chain until this block.
+
+    Examples:
+        >>> mined_block = MinedBlock(...)
+        >>> mined_block.totalDifficulty
+        uint(987654321)
+    """
 
 
 class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
