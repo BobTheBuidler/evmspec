@@ -5,7 +5,7 @@ from functools import cached_property
 from typing import TYPE_CHECKING, Any, Callable, Tuple, Type, TypeVar, Union
 
 from cachetools.func import ttl_cache
-from eth_utils import to_checksum_address
+from cchecksum import to_checksum_address
 from hexbytes import HexBytes
 from msgspec import Raw, Struct, json
 from typing_extensions import Self
@@ -23,10 +23,11 @@ DecodeHook = Callable[[Type[_T], Any], _T]
 
 class Address(str):
     """
-    Represents an Ethereum address with checksum validation.
+    Represents an Ethereum address in its EIP-55 checksum format.
 
     This class ensures that any Ethereum address is stored in its checksummed format,
-    which is a mixed-case encoding of the address that includes a checksum.
+    as defined by EIP-55. It uses a custom Cython implementation for the checksum
+    conversion to optimize performance.
 
     Examples:
         >>> addr = Address("0x52908400098527886E0F7030069857D2E4169EE7")
@@ -34,11 +35,15 @@ class Address(str):
         0x52908400098527886E0F7030069857D2E4169EE7
 
     See Also:
-        - `eth_utils.to_checksum_address`: Function used for checksum validation.
+        - `cchecksum.to_checksum_address`: Function used for checksum conversion.
     """
 
     def __new__(cls, address: str):
         """Creates a new Address instance with checksum validation.
+
+        This function takes a hex address and returns it in the checksummed format
+        as defined by EIP-55. It uses a custom Cython implementation for the
+        checksum conversion to optimize performance.
 
         Args:
             address: A string representing the Ethereum address.
@@ -49,12 +54,19 @@ class Address(str):
         Examples:
             >>> Address("0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe")
             Address('0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe')
+
+        See Also:
+            - `cchecksum.to_checksum_address`: Function used for checksum conversion.
         """
         return super().__new__(cls, to_checksum_address(address))
 
     @classmethod
     def _decode_hook(cls, typ: Type["Address"], obj: str):
         """Decodes an object into an Address instance with checksum validation.
+
+        This function takes a hex address and returns it in the checksummed format
+        as defined by EIP-55. It uses a custom Cython implementation for the
+        checksum conversion to optimize performance.
 
         Args:
             typ: The type that is expected to be decoded to.
@@ -69,6 +81,9 @@ class Address(str):
 
         Note:
             This method utilizes :meth:`cls.checksum` as a class method to ensure the address is checksummed.
+
+        See Also:
+            - `cchecksum.to_checksum_address`: Function used for checksum conversion.
         """
         return cls.checksum(obj)
 
@@ -76,6 +91,10 @@ class Address(str):
     @ttl_cache(ttl=600)
     def checksum(cls, address: str) -> Self:
         """Returns the checksummed version of the address.
+
+        This function takes a hex address and returns it in the checksummed format
+        as defined by EIP-55. It uses a custom Cython implementation for the
+        checksum conversion to optimize performance.
 
         Args:
             address: A string representing the Ethereum address.
@@ -86,6 +105,9 @@ class Address(str):
         Examples:
             >>> Address.checksum("0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe")
             Address('0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe')
+            
+        See Also:
+            - `cchecksum.to_checksum_address`: Function used for checksum conversion.
         """
         return cls(address)
 
