@@ -7,8 +7,8 @@ from dictstruct import DictStruct, LazyDictStruct
 from hexbytes import HexBytes
 from msgspec import UNSET, Raw, field, json
 
-from evmspec._ids import TransactionIndex
 from evmspec.data import Address, BlockNumber, TransactionHash, Wei, uint, _decode_hook
+from evmspec.data._ids import TransactionIndex
 from evmspec.structs.log import Log
 
 

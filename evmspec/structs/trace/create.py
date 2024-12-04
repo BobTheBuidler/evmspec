@@ -5,7 +5,7 @@ from hexbytes import HexBytes
 from msgspec import Raw, field, json
 
 from evmspec.data import Address, _decode_hook
-from evmspec.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
+from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
 
 
 class Action(
@@ -27,7 +27,7 @@ class Action(
         HexBytes('0x6000600055')
 
     See Also:
-        - :class:`evmspec.trace._base._ActionBase`
+        - :class:`evmspec.structs.trace._base._ActionBase`
     """
 
     init: HexBytes
@@ -56,7 +56,7 @@ class Result(
         HexBytes('0x6000600055')
 
     See Also:
-        - :class:`evmspec.trace._base._ResultBase`
+        - :class:`evmspec.structs.trace._base._ResultBase`
     """
 
     address: Address
@@ -89,7 +89,7 @@ class Trace(
         HexBytes('0x6000600055')
 
     See Also:
-        - :class:`evmspec.trace._base._FilterTraceBase`
+        - :class:`evmspec.structs.trace._base._FilterTraceBase`
         - :class:`Action`
         - :class:`Result`
     """

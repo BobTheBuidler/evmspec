@@ -1,12 +1,15 @@
-from evmspec import block, structs, trace, transaction
+from evmspec import structs
 from evmspec.structs import (
     ErigonBlockHeader,
     FilterTrace,
     FullTransactionReceipt,
     TransactionReceipt,
+    block,
     header,
+    trace,
+    transaction,
 )
-from evmspec.transaction import (
+from evmspec.structs.transaction import (
     TransactionRLP,
     TransactionLegacy,
     Transaction1559,
@@ -48,7 +51,7 @@ Modules:
     :mod:`~evmspec.header`: Contains structures related to Ethereum block headers.
     :mod:`~evmspec.log`: Contains structures related to Ethereum logs.
     :mod:`~evmspec.receipt`: Contains structures related to Ethereum transaction receipts.
-    :mod:`~evmspec.trace`: Contains structures related to Ethereum transaction traces.
+    :mod:`~evmspec.structs.trace`: Contains structures related to Ethereum transaction traces.
     :mod:`~evmspec.transaction`: Contains structures related to Ethereum transactions.
 
 Structs:

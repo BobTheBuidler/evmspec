@@ -24,7 +24,7 @@ class _ActionBase(
     internal purposes.
 
     Examples:
-        >>> from evmspec.trace._base import _ActionBase
+        >>> from evmspec.structs.trace._base import _ActionBase
         >>> class MyAction(_ActionBase):
         ...     pass
         >>> action = MyAction(sender="0xabc...", value=1000, gas=21000)
@@ -95,7 +95,7 @@ class _ResultBase(
     internal purposes.
 
     Examples:
-        >>> from evmspec.trace._base import _ResultBase
+        >>> from evmspec.structs.trace._base import _ResultBase
         >>> class MyResult(_ResultBase):
         ...     pass
         >>> result = MyResult(gasUsed=21000)
@@ -138,7 +138,7 @@ class _FilterTraceBase(
     internal purposes.
 
     Examples:
-        >>> from evmspec.trace._base import _FilterTraceBase
+        >>> from evmspec.structs.trace._base import _FilterTraceBase
         >>> class MyTrace(_FilterTraceBase):
         ...     pass
         >>> trace = MyTrace(blockNumber=123456, blockHash="0xabc...", transactionHash="0xdef...", transactionPosition=1, traceAddress=[0, 1], subtraces=2)

@@ -1,6 +1,6 @@
 from typing import ClassVar, Literal
 
-from evmspec.trace._base import _ActionBase, _FilterTraceBase
+from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase
 
 
 class Action(
@@ -25,7 +25,7 @@ class Action(
         - :class:`_ActionBase` for common action attributes.
 
     Examples:
-        >>> from evmspec.trace.suicide import Action
+        >>> from evmspec.structs.trace.suicide import Action
         >>> from evmspec.data import Address
         >>> action = Action(sender=Address("0x1234567890abcdef1234567890abcdef12345678"), value=1000, gas=21000)
         >>> action.sender
@@ -58,7 +58,7 @@ class Trace(
         - :class:`Action` for details on the action attribute.
 
     Examples:
-        >>> from evmspec.trace.suicide import Trace, Action
+        >>> from evmspec.structs.trace.suicide import Trace, Action
         >>> from evmspec.data import Address
         >>> action = Action(sender=Address("0x1234567890abcdef1234567890abcdef12345678"), value=1000, gas=21000)
         >>> trace = Trace(
