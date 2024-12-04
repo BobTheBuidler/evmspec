@@ -1,7 +1,11 @@
-from evmspec import block, header, log, trace, transaction
-from evmspec.header import ErigonBlockHeader
-from evmspec.receipt import FullTransactionReceipt, TransactionReceipt
-from evmspec.trace import FilterTrace
+from evmspec import block, structs, trace, transaction
+from evmspec.structs import (
+    ErigonBlockHeader,
+    FilterTrace,
+    FullTransactionReceipt,
+    TransactionReceipt,
+    header,
+)
 from evmspec.transaction import (
     TransactionRLP,
     TransactionLegacy,
@@ -15,11 +19,11 @@ __all__ = [
     # modules
     "block",
     "header",
-    "log",
     "receipt",
     "trace",
     "transaction",
     # structs
+    "structs",
     # - header
     "ErigonBlockHeader",
     # - receipt

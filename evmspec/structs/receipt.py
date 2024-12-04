@@ -9,7 +9,7 @@ from msgspec import UNSET, Raw, field, json
 
 from evmspec._ids import TransactionIndex
 from evmspec.data import Address, BlockNumber, TransactionHash, Wei, uint, _decode_hook
-from evmspec.log import Log
+from evmspec.structs.log import Log
 
 
 class FeeStats(DictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg]

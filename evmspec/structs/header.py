@@ -1,6 +1,7 @@
 from hexbytes import HexBytes
 
 from dictstruct import LazyDictStruct
+
 from evmspec.data import Address, UnixTimestamp, uint
 
 

@@ -21,6 +21,7 @@ sphinx = "*"
 sphinx-rtd-theme = "*"
 mypy = "*"
 types-cachetools = "*"
+pytest = "*"
 
 [tool.mypy]
 ignore_missing_imports = true
