@@ -7,6 +7,7 @@ Note:
     :class:`uint128`, and :class:`uint256` are explicitly defined,
     other classes are dynamically generated for byte sizes from 2 to 31, excluding those already defined.
 """
+
 import sys
 
 from hexbytes import HexBytes
