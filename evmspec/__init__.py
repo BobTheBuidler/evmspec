@@ -3,6 +3,7 @@ from evmspec.structs import (
     ErigonBlockHeader,
     FilterTrace,
     FullTransactionReceipt,
+    Log,
     TransactionReceipt,
     block,
     header,
@@ -29,6 +30,8 @@ __all__ = [
     "structs",
     # - header
     "ErigonBlockHeader",
+    # - log
+    "Log",
     # - receipt
     "FullTransactionReceipt",
     "TransactionReceipt",
