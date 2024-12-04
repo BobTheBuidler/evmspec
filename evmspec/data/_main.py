@@ -105,7 +105,7 @@ class Address(str):
         Examples:
             >>> Address.checksum("0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe")
             Address('0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe')
-            
+
         See Also:
             - `cchecksum.to_checksum_address`: Function used for checksum conversion.
         """
@@ -230,10 +230,12 @@ class Wei(uint):
     #    return Gwei(self) / 10**9
 
 
-class BlockNumber(uint): ...
+class BlockNumber(uint):
+    ...
 
 
-class Nonce(uint): ...
+class Nonce(uint):
+    ...
 
 
 class UnixTimestamp(uint):
@@ -450,4 +452,5 @@ class TransactionHash(HexBytes32):
             return json.decode(receipt, type=Tuple["Log", ...], dec_hook=_decode_hook)
 
 
-class BlockHash(HexBytes32): ...
+class BlockHash(HexBytes32):
+    ...

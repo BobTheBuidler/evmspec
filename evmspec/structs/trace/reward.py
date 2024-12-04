@@ -4,8 +4,8 @@ from typing import ClassVar, Literal
 
 from msgspec import Raw, field, json
 
-from evmspec._enum import StringToIntEnumMeta
 from evmspec.data import Address, _decode_hook
+from evmspec.data._enum import StringToIntEnumMeta
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase
 
 

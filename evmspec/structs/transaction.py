@@ -5,7 +5,16 @@ from dictstruct import LazyDictStruct
 from hexbytes import HexBytes
 from msgspec import UNSET, Raw, field, json
 
-from evmspec.data import Address, BlockHash, BlockNumber, HexBytes32, Nonce, TransactionHash, uint, Wei
+from evmspec.data import (
+    Address,
+    BlockHash,
+    BlockNumber,
+    HexBytes32,
+    Nonce,
+    TransactionHash,
+    Wei,
+    uint,
+)
 from evmspec.data._ids import ChainId, TransactionIndex
 
 

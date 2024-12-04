@@ -5,8 +5,8 @@ from typing import ClassVar, Literal, Optional
 from hexbytes import HexBytes
 from msgspec import UNSET, Raw, field, json
 
-from evmspec._enum import StringToIntEnumMeta
 from evmspec.data import Address, _decode_hook
+from evmspec.data._enum import StringToIntEnumMeta
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
 
 

@@ -6,7 +6,17 @@ from dictstruct import DictStruct, LazyDictStruct
 from hexbytes import HexBytes
 from msgspec import UNSET, Raw, ValidationError, field, json
 
-from evmspec.data import Address, BlockHash, BlockNumber, Nonce, TransactionHash, uint, UnixTimestamp, Wei, _decode_hook
+from evmspec.data import (
+    Address,
+    BlockHash,
+    BlockNumber,
+    Nonce,
+    TransactionHash,
+    UnixTimestamp,
+    Wei,
+    _decode_hook,
+    uint,
+)
 from evmspec.data._ids import IntId
 from evmspec.structs.transaction import Transaction, TransactionRLP
 
