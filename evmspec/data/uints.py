@@ -12,7 +12,7 @@ import sys
 
 from hexbytes import HexBytes
 
-from evmspec.data.main import uint
+from evmspec.data._main import uint
 
 
 class _UintData(uint):
