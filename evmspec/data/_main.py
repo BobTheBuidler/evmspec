@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 _T = TypeVar("_T")
 """A generic type variable."""
 
-_DecodeHook = Callable[[Type[_T], Any], _T]
+DecodeHook = Callable[[Type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
 
@@ -377,7 +377,7 @@ class TransactionHash(HexBytes32):
         async def get_receipt(
             self,
             decode_to: ReceiptDataType,
-            decode_hook: _DecodeHook[ReceiptDataType] = _decode_hook,
+            decode_hook: DecodeHook[ReceiptDataType] = _decode_hook,
         ) -> "TransactionReceipt":
             """Async method to get the transaction receipt.
 
