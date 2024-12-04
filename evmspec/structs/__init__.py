@@ -1,4 +1,3 @@
-
 from evmspec.structs.header import ErigonBlockHeader
 from evmspec.structs.receipt import FullTransactionReceipt, TransactionReceipt
 from evmspec.structs.trace import FilterTrace
