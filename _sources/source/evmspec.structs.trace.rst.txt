@@ -1,0 +1,45 @@
+evmspec.structs.trace package
+=============================
+
+Submodules
+----------
+
+evmspec.structs.trace.call module
+---------------------------------
+
+.. automodule:: evmspec.structs.trace.call
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+evmspec.structs.trace.create module
+-----------------------------------
+
+.. automodule:: evmspec.structs.trace.create
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+evmspec.structs.trace.reward module
+-----------------------------------
+
+.. automodule:: evmspec.structs.trace.reward
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+evmspec.structs.trace.suicide module
+------------------------------------
+
+.. automodule:: evmspec.structs.trace.suicide
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: evmspec.structs.trace
+   :members:
+   :undoc-members:
+   :show-inheritance:

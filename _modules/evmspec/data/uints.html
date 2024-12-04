@@ -5,19 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>evmspec.uints &mdash; evmspec  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+  <title>evmspec.data.uints &mdash; evmspec  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
-      <script src="../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
-      <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="../../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -28,11 +28,11 @@
 
           
           
-          <a href="../../index.html" class="icon icon-home">
+          <a href="../../../index.html" class="icon icon-home">
             evmspec
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -41,7 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">evmspec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/modules.html">evmspec</a></li>
 </ul>
 
         </div>
@@ -50,16 +50,16 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">evmspec</a>
+          <a href="../../../index.html">evmspec</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">evmspec.uints</li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">evmspec.data.uints</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -68,12 +68,22 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for evmspec.uints</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span>
+  <h1>Source code for evmspec.data.uints</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This module provides classes to decode and represent unsigned integer </span>
+<span class="sd">types of any byte size, ensuring values adhere to defined minimum and maximum constraints.</span>
+
+<span class="sd">Note:</span>
+<span class="sd">    While only a few specific classes like :class:`uint8`, :class:`uint64`,</span>
+<span class="sd">    :class:`uint128`, and :class:`uint256` are explicitly defined,</span>
+<span class="sd">    other classes are dynamically generated for byte sizes from 2 to 31, excluding those already defined.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="kn">from</span> <span class="nn">hexbytes</span> <span class="kn">import</span> <span class="n">HexBytes</span>
 
-<span class="kn">from</span> <span class="nn">evmspec.data</span> <span class="kn">import</span> <span class="n">uint</span>
+<span class="kn">from</span> <span class="nn">evmspec.data.main</span> <span class="kn">import</span> <span class="n">uint</span>
 
 
 <span class="k">class</span> <span class="nc">_UintData</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span>
@@ -82,11 +92,6 @@
 
 <span class="sd">    This class provides a framework to define unsigned integer types of any byte size,</span>
 <span class="sd">    ensuring values adhere to defined minimum and maximum constraints.</span>
-
-<span class="sd">    Note:</span>
-<span class="sd">        While only a few specific classes like :class:`uint8`, :class:`uint64`,</span>
-<span class="sd">        :class:`uint128`, and :class:`uint256` are explicitly defined,</span>
-<span class="sd">        other classes are dynamically generated for byte sizes from 2 to 31, excluding those already defined.</span>
 
 <span class="sd">    See Also:</span>
 <span class="sd">        :class:`uint8`, :class:`uint64`, :class:`uint128`, :class:`uint256`</span>
@@ -127,7 +132,7 @@
         <span class="k">return</span> <span class="n">new</span>
 
 
-<div class="viewcode-block" id="uint8"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.uints.uint8">[docs]</a><span class="k">class</span> <span class="nc">uint8</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
+<div class="viewcode-block" id="uint8"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.uint8">[docs]</a><span class="k">class</span> <span class="nc">uint8</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 8-bit integer.</span>
 
 <span class="sd">    Examples:</span>
@@ -140,7 +145,7 @@
     <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="uint64"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.uints.uint64">[docs]</a><span class="k">class</span> <span class="nc">uint64</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
+<div class="viewcode-block" id="uint64"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.uint64">[docs]</a><span class="k">class</span> <span class="nc">uint64</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 64-bit integer.</span>
 
 <span class="sd">    Examples:</span>
@@ -153,7 +158,7 @@
     <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span></div>
 
 
-<div class="viewcode-block" id="uint128"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.uints.uint128">[docs]</a><span class="k">class</span> <span class="nc">uint128</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
+<div class="viewcode-block" id="uint128"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.uint128">[docs]</a><span class="k">class</span> <span class="nc">uint128</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Unsigned 128-bit integer.</span>
 
 <span class="sd">    Examples:</span>

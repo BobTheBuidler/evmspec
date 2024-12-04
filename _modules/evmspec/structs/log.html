@@ -5,19 +5,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>evmspec.log &mdash; evmspec  documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+  <title>evmspec.structs.log &mdash; evmspec  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
 
   
-      <script src="../../_static/jquery.js?v=5d32c60e"></script>
-      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=b3ba4146"></script>
-      <script src="../../_static/doctools.js?v=888ff710"></script>
-      <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" /> 
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="../../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -28,11 +28,11 @@
 
           
           
-          <a href="../../index.html" class="icon icon-home">
+          <a href="../../../index.html" class="icon icon-home">
             evmspec
           </a>
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -41,7 +41,7 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../source/modules.html">evmspec</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/modules.html">evmspec</a></li>
 </ul>
 
         </div>
@@ -50,16 +50,16 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../../index.html">evmspec</a>
+          <a href="../../../index.html">evmspec</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
-      <li class="breadcrumb-item active">evmspec.log</li>
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">evmspec.structs.log</li>
       <li class="wy-breadcrumbs-aside">
       </li>
   </ul>
@@ -68,13 +68,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <h1>Source code for evmspec.log</h1><div class="highlight"><pre>
+  <h1>Source code for evmspec.structs.log</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">dictstruct</span> <span class="kn">import</span> <span class="n">LazyDictStruct</span>
 <span class="kn">from</span> <span class="nn">hexbytes</span> <span class="kn">import</span> <span class="n">HexBytes</span>
 
-<span class="kn">from</span> <span class="nn">evmspec</span> <span class="kn">import</span> <span class="n">uints</span>
 <span class="kn">from</span> <span class="nn">evmspec._ids</span> <span class="kn">import</span> <span class="n">LogIndex</span><span class="p">,</span> <span class="n">TransactionIndex</span>
 <span class="kn">from</span> <span class="nn">evmspec.data</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Address</span><span class="p">,</span>
@@ -83,12 +82,13 @@
     <span class="n">HexBytes32</span><span class="p">,</span>
     <span class="n">TransactionHash</span><span class="p">,</span>
     <span class="n">uint</span><span class="p">,</span>
+    <span class="n">uints</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">_ADDRESS_TOPIC_PREFIX</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">12</span>
 
 
-<div class="viewcode-block" id="Data"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.Data">[docs]</a><span class="k">class</span> <span class="nc">Data</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
+<div class="viewcode-block" id="Data"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.log.Data">[docs]</a><span class="k">class</span> <span class="nc">Data</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents data in Ethereum logs, providing utilities for interpreting</span>
 <span class="sd">    the data as various types. The data is assumed to be in hexadecimal format</span>
@@ -182,7 +182,7 @@
         <span class="k">return</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Topic"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.Topic">[docs]</a><span class="k">class</span> <span class="nc">Topic</span><span class="p">(</span><span class="n">HexBytes32</span><span class="p">,</span> <span class="n">Data</span><span class="p">):</span>
+<div class="viewcode-block" id="Topic"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.log.Topic">[docs]</a><span class="k">class</span> <span class="nc">Topic</span><span class="p">(</span><span class="n">HexBytes32</span><span class="p">,</span> <span class="n">Data</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a topic in Ethereum logs, providing utilities for interpreting</span>
 <span class="sd">    the topic as various EVM types.</span>
@@ -209,7 +209,7 @@
     <span class="nb">setattr</span><span class="p">(</span><span class="n">Topic</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;as_</span><span class="si">{</span><span class="n">uint_cls_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">property</span><span class="p">(</span><span class="n">uint_cls</span><span class="p">))</span>
 
 
-<div class="viewcode-block" id="TinyLog"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.TinyLog">[docs]</a><span class="k">class</span> <span class="nc">TinyLog</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<div class="viewcode-block" id="TinyLog"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.log.TinyLog">[docs]</a><span class="k">class</span> <span class="nc">TinyLog</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a minimal log structure with topics.</span>
 
@@ -265,7 +265,7 @@
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">new_err</span><span class="p">)</span> <span class="kn">from</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="SmallLog"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.SmallLog">[docs]</a><span class="k">class</span> <span class="nc">SmallLog</span><span class="p">(</span><span class="n">TinyLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<div class="viewcode-block" id="SmallLog"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.log.SmallLog">[docs]</a><span class="k">class</span> <span class="nc">SmallLog</span><span class="p">(</span><span class="n">TinyLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a log with additional attributes for the contract address and data.</span>
 
@@ -280,7 +280,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Array of 32-bytes non-indexed return data of the log.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="Log"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.Log">[docs]</a><span class="k">class</span> <span class="nc">Log</span><span class="p">(</span><span class="n">SmallLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<div class="viewcode-block" id="Log"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.log.Log">[docs]</a><span class="k">class</span> <span class="nc">Log</span><span class="p">(</span><span class="n">SmallLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a comprehensive log structure with additional transaction</span>
 <span class="sd">    details.</span>
@@ -310,7 +310,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blockNumber</span></div>
 
 
-<div class="viewcode-block" id="FullLog"><a class="viewcode-back" href="../../source/evmspec.html#evmspec.log.FullLog">[docs]</a><span class="k">class</span> <span class="nc">FullLog</span><span class="p">(</span><span class="n">Log</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<div class="viewcode-block" id="FullLog"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.log.FullLog">[docs]</a><span class="k">class</span> <span class="nc">FullLog</span><span class="p">(</span><span class="n">Log</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a full log structure with comprehensive block and transaction</span>
 <span class="sd">    details.</span>

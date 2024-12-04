@@ -1,0 +1,45 @@
+evmspec.structs package
+=======================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   evmspec.structs.trace
+
+Submodules
+----------
+
+evmspec.structs.header module
+-----------------------------
+
+.. automodule:: evmspec.structs.header
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+evmspec.structs.log module
+--------------------------
+
+.. automodule:: evmspec.structs.log
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+evmspec.structs.receipt module
+------------------------------
+
+.. automodule:: evmspec.structs.receipt
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: evmspec.structs
+   :members:
+   :undoc-members:
+   :show-inheritance:
