@@ -1,4 +1,4 @@
-from evmspec.data import uint
+from evmspec.data._main import uint
 
 
 class IntId(uint):
