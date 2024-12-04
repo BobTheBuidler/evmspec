@@ -39,6 +39,10 @@ class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True): 
         """
         Decodes storage keys from raw format to a list of HexBytes32.
 
+        The :attr:`_storageKeys` attribute contains the raw encoded data, which is
+        decoded into a list of `HexBytes32` objects when accessed through this
+        property.
+
         Example:
             >>> entry = AccessListEntry(address='0x742d35Cc6634C0532925a3b844Bc454e4438f44e', storageKeys=[...])
             >>> decoded_keys = entry.storageKeys

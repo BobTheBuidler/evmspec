@@ -4,9 +4,79 @@ from evmspec.data import uint
 class IntId(uint):
     """A base class for identifiers that do not support arithmetic operations.
 
-    This class raises a TypeError when attempts are made to perform any
+    This class raises a :class:`TypeError` when attempts are made to perform any
     of the following arithmetic operations on its instances: addition,
     subtraction, multiplication, true division, floor division, and exponentiation.
+    It also raises a :class:`TypeError` for reverse arithmetic operations.
+
+    Examples:
+        >>> id1 = IntId(1)
+        >>> id2 = IntId(2)
+
+        >>> id1 + id2
+        Traceback (most recent call last):
+            ...
+        TypeError: You cannot perform math on a IntId
+
+        >>> id1 - id2
+        Traceback (most recent call last):
+            ...
+        TypeError: You cannot perform math on a IntId
+
+        >>> id1 * id2
+        Traceback (most recent call last):
+            ...
+        TypeError: You cannot perform math on a IntId
+
+        >>> id1 / id2
+        Traceback (most recent call last):
+            ...
+        TypeError: You cannot perform math on a IntId
+
+        >>> id1 // id2
+        Traceback (most recent call last):
+            ...
+        TypeError: You cannot perform math on a IntId
+
+        >>> id1 ** id2
+        Traceback (most recent call last):
+            ...
+        TypeError: You cannot perform math on a IntId
+
+        >>> 1 + id1
+        Traceback (most recent call last):
+            ...
+        TypeError: You cannot perform math on a IntId
+
+        >>> 1 - id1
+        Traceback (most recent call last):
+            ...
+        TypeError: You cannot perform math on a IntId
+
+        >>> 1 * id1
+        Traceback (most recent call last):
+            ...
+        TypeError: You cannot perform math on a IntId
+
+        >>> 1 / id1
+        Traceback (most recent call last):
+            ...
+        TypeError: You cannot perform math on a IntId
+
+        >>> 1 // id1
+        Traceback (most recent call last):
+            ...
+        TypeError: You cannot perform math on a IntId
+
+        >>> 1 ** id1
+        Traceback (most recent call last):
+            ...
+        TypeError: You cannot perform math on a IntId
+
+    See Also:
+        - :class:`ChainId`
+        - :class:`TransactionIndex`
+        - :class:`LogIndex`
     """
 
     def __add__(*_):
@@ -51,6 +121,9 @@ class ChainId(IntId):
 
     It is used to distinguish between different blockchain networks.
     This class does not support any arithmetic operations.
+
+    See Also:
+        - :class:`IntId`
     """
 
 
@@ -59,6 +132,9 @@ class TransactionIndex(IntId):
 
     It is used to identify the transaction's position in the block.
     This class does not support any arithmetic operations.
+
+    See Also:
+        - :class:`IntId`
     """
 
 
@@ -67,4 +143,7 @@ class LogIndex(IntId):
 
     It is used to identify the log's position within the transaction.
     This class does not support any arithmetic operations.
+
+    See Also:
+        - :class:`IntId`
     """

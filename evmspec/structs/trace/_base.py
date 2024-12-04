@@ -17,9 +17,19 @@ class _ActionBase(
     """Base class for representing actions in parity-style Ethereum traces.
 
     This class provides common attributes for transaction actions such as the
-    sender address, the amount of ETH transferred, and the gas provided.
+    sender address, the amount of ETH transferred, in Wei, and the gas provided.
 
-    This class is intended to be subclassed and not instantiated directly.
+    This class is intended to be subclassed within the repository and is not
+    part of the public API. It can be instantiated directly if needed for
+    internal purposes.
+
+    Examples:
+        >>> from evmspec.trace._base import _ActionBase
+        >>> class MyAction(_ActionBase):
+        ...     pass
+        >>> action = MyAction(sender="0xabc...", value=1000, gas=21000)
+        >>> action.sender
+        '0xabc...'
 
     See Also:
         - :class:`_ResultBase` for representing results in traces.
@@ -43,7 +53,7 @@ class _ActionBase(
     """
 
     value: Wei
-    """The amount of ETH sent in this action (transaction).
+    """The amount of Wei sent in this action (transaction).
 
     Examples:
         >>> from msgspec import json
@@ -80,7 +90,17 @@ class _ResultBase(
     This class encapsulates the outcome of transaction actions, specifically
     the amount of gas used by the transaction.
 
-    You must subclass this class for various result types. Do not initialize this class directly.
+    This class is intended to be subclassed within the repository and is not
+    part of the public API. It can be instantiated directly if needed for
+    internal purposes.
+
+    Examples:
+        >>> from evmspec.trace._base import _ResultBase
+        >>> class MyResult(_ResultBase):
+        ...     pass
+        >>> result = MyResult(gasUsed=21000)
+        >>> result.gasUsed
+        21000
 
     See Also:
         - :class:`_ActionBase` for representing actions in traces.
@@ -113,7 +133,17 @@ class _FilterTraceBase(
     including block number and hash, transaction hash, position, trace addresses,
     subtraces, and errors if any occurred during execution.
 
-    You must subclass this class for various trace types. Do not initialize this class directly.
+    This class is intended to be subclassed within the repository and is not
+    part of the public API. It can be instantiated directly if needed for
+    internal purposes.
+
+    Examples:
+        >>> from evmspec.trace._base import _FilterTraceBase
+        >>> class MyTrace(_FilterTraceBase):
+        ...     pass
+        >>> trace = MyTrace(blockNumber=123456, blockHash="0xabc...", transactionHash="0xdef...", transactionPosition=1, traceAddress=[0, 1], subtraces=2)
+        >>> trace.blockNumber
+        123456
 
     See Also:
         - :class:`_ActionBase` for representing actions in traces.
@@ -124,7 +154,9 @@ class _FilterTraceBase(
     """The number of the block where this action happened.
 
     Examples:
-        >>> trace = _FilterTraceBase(blockNumber=123456, ...)
+        >>> class MyTrace(_FilterTraceBase):
+        ...     pass
+        >>> trace = MyTrace(blockNumber=123456, blockHash="0xabc...", transactionHash="0xdef...", transactionPosition=1, traceAddress=[0, 1], subtraces=2)
         >>> trace.blockNumber
         123456
     """
@@ -133,7 +165,9 @@ class _FilterTraceBase(
     """The hash of the block where this action happened.
 
     Examples:
-        >>> trace = _FilterTraceBase(blockHash="0xabc...", ...)
+        >>> class MyTrace(_FilterTraceBase):
+        ...     pass
+        >>> trace = MyTrace(blockNumber=123456, blockHash="0xabc...", transactionHash="0xdef...", transactionPosition=1, traceAddress=[0, 1], subtraces=2)
         >>> trace.blockHash
         '0xabc...'
     """
@@ -142,7 +176,9 @@ class _FilterTraceBase(
     """The hash of the transaction being traced.
 
     Examples:
-        >>> trace = _FilterTraceBase(transactionHash="0xdef...", ...)
+        >>> class MyTrace(_FilterTraceBase):
+        ...     pass
+        >>> trace = MyTrace(blockNumber=123456, blockHash="0xabc...", transactionHash="0xdef...", transactionPosition=1, traceAddress=[0, 1], subtraces=2)
         >>> trace.transactionHash
         '0xdef...'
     """
@@ -151,7 +187,9 @@ class _FilterTraceBase(
     """The position of the transaction in the block.
 
     Examples:
-        >>> trace = _FilterTraceBase(transactionPosition=1, ...)
+        >>> class MyTrace(_FilterTraceBase):
+        ...     pass
+        >>> trace = MyTrace(blockNumber=123456, blockHash="0xabc...", transactionHash="0xdef...", transactionPosition=1, traceAddress=[0, 1], subtraces=2)
         >>> trace.transactionPosition
         1
     """
@@ -160,7 +198,9 @@ class _FilterTraceBase(
     """The trace addresses (array) representing the path of the call within the trace tree.
 
     Examples:
-        >>> trace = _FilterTraceBase(traceAddress=[0, 1], ...)
+        >>> class MyTrace(_FilterTraceBase):
+        ...     pass
+        >>> trace = MyTrace(blockNumber=123456, blockHash="0xabc...", transactionHash="0xdef...", transactionPosition=1, traceAddress=[0, 1], subtraces=2)
         >>> trace.traceAddress
         [0, 1]
     """
@@ -169,7 +209,9 @@ class _FilterTraceBase(
     """The number of traces of internal transactions that occurred during this transaction.
 
     Examples:
-        >>> trace = _FilterTraceBase(subtraces=2, ...)
+        >>> class MyTrace(_FilterTraceBase):
+        ...     pass
+        >>> trace = MyTrace(blockNumber=123456, blockHash="0xabc...", transactionHash="0xdef...", transactionPosition=1, traceAddress=[0, 1], subtraces=2)
         >>> trace.subtraces
         2
     """
@@ -178,7 +220,9 @@ class _FilterTraceBase(
     """An error message if an error occurred during the execution of the transaction. Defaults to UNSET.
 
     Examples:
-        >>> trace = _FilterTraceBase(error=UNSET, ...)
+        >>> class MyTrace(_FilterTraceBase):
+        ...     pass
+        >>> trace = MyTrace(blockNumber=123456, blockHash="0xabc...", transactionHash="0xdef...", transactionPosition=1, traceAddress=[0, 1], subtraces=2, error=UNSET)
         >>> trace.error
         UNSET
     """
@@ -188,7 +232,9 @@ class _FilterTraceBase(
         """A shorthand getter for 'blockNumber'.
 
         Examples:
-            >>> trace = _FilterTraceBase(blockNumber=123456, ...)
+            >>> class MyTrace(_FilterTraceBase):
+            ...     pass
+            >>> trace = MyTrace(blockNumber=123456, blockHash="0xabc...", transactionHash="0xdef...", transactionPosition=1, traceAddress=[0, 1], subtraces=2)
             >>> trace.block
             123456
         """

@@ -111,7 +111,15 @@ class Trace(
     """
 
     type: ClassVar[Literal["call"]] = "call"
-    """A class variable indicating the trace type as "call"."""
+    """A class-level constant identifying the trace type as a contract call trace.
+
+    This attribute is used to distinguish this trace from other types of traces
+    within the Ethereum Virtual Machine (EVM).
+
+    Examples:
+        >>> Trace.type
+        'call'
+    """
 
     _action: Raw = field(name="action")  # type: ignore [assignment]
     """The raw call action data, parity style."""

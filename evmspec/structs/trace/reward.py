@@ -89,6 +89,15 @@ class Trace(
     """
 
     type: ClassVar[Literal["reward"]] = "reward"
+    """A class-level constant identifying the trace type as a reward trace.
+
+    This attribute is used to distinguish this trace from other types of traces
+    within the Ethereum Virtual Machine (EVM).
+
+    Examples:
+        >>> Trace.type
+        'reward'
+    """
 
     _action: Raw = field(name="action")
     """Raw data of the reward action, requires decoding to be useful."""

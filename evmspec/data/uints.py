@@ -22,6 +22,11 @@ class _UintData(uint):
     This class provides a framework to define unsigned integer types of any byte size,
     ensuring values adhere to defined minimum and maximum constraints.
 
+    Note:
+        Classes for the following byte sizes are explicitly defined: :class:`uint8`, :class:`uint64`,
+        :class:`uint128`, and :class:`uint256`. For other byte sizes from 2 to 31, excluding those
+        explicitly defined, classes are dynamically generated.
+
     See Also:
         :class:`uint8`, :class:`uint64`, :class:`uint128`, :class:`uint256`
     """
