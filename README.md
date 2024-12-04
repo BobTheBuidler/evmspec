@@ -6,7 +6,7 @@ A collection of [msgspec.Struct](https://jcristharif.com/msgspec/structs.html) d
 
 
 #### Modules:
-- [block](https://bobthebuidler.github.io/evmspec/source/evmspec.html#module-evmspec.block)
+- [block](https://bobthebuidler.github.io/evmspec/source/evmspec.html#module-evmspec.structs.block)
 - [log](https://bobthebuidler.github.io/evmspec/source/evmspec.html#module-evmspec.log)
 - [receipt](https://bobthebuidler.github.io/evmspec/source/evmspec.html#module-evmspec.receipt)
 - [trace](https://bobthebuidler.github.io/evmspec/source/evmspec.structs.trace.html)

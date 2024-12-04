@@ -47,12 +47,12 @@ __all__ = [
 This library provides a collection of msgspec.Struct definitions for use with the Ethereum Virtual Machine.
 
 Modules:
-    :mod:`~evmspec.block`: Contains structures related to Ethereum blocks.
-    :mod:`~evmspec.header`: Contains structures related to Ethereum block headers.
-    :mod:`~evmspec.log`: Contains structures related to Ethereum logs.
-    :mod:`~evmspec.receipt`: Contains structures related to Ethereum transaction receipts.
+    :mod:`~evmspec.structs.block`: Contains structures related to Ethereum blocks.
+    :mod:`~evmspec.structs.header`: Contains structures related to Ethereum block headers.
+    :mod:`~evmspec.structs.log`: Contains structures related to Ethereum logs.
+    :mod:`~evmspec.structs.receipt`: Contains structures related to Ethereum transaction receipts.
     :mod:`~evmspec.structs.trace`: Contains structures related to Ethereum transaction traces.
-    :mod:`~evmspec.transaction`: Contains structures related to Ethereum transactions.
+    :mod:`~evmspec.structs.transaction`: Contains structures related to Ethereum transactions.
 
 Structs:
     :class:`~evmspec.ErigonBlockHeader`: Represents a block header in the Erigon client.
