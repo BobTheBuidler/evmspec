@@ -3,7 +3,6 @@ from typing import Optional, Tuple
 from dictstruct import LazyDictStruct
 from hexbytes import HexBytes
 
-from evmspec._ids import LogIndex, TransactionIndex
 from evmspec.data import (
     Address,
     BlockHash,
@@ -13,6 +12,8 @@ from evmspec.data import (
     uint,
     uints,
 )
+from evmspec.data._ids import LogIndex, TransactionIndex
+
 
 _ADDRESS_TOPIC_PREFIX = HexBytes("0") * 12
 

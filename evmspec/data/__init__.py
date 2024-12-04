@@ -1,5 +1,6 @@
 from evmspec.data import uints
-from evmspec.data.main import (
+from evmspec.data._ids import ChainId, LogIndex, TransactionIndex
+from evmspec.data._main import (
     Address,
     BlockHash,
     BlockNumber,
@@ -23,4 +24,7 @@ __all__ = [
     "uints",
     "UnixTimestamp",
     "Nonce",
+    "ChainId",
+    "LogIndex",
+    "TransactionIndex",
 ]
