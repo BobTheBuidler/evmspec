@@ -74,7 +74,6 @@
 <span class="kn">from</span> <span class="nn">dictstruct</span> <span class="kn">import</span> <span class="n">LazyDictStruct</span>
 <span class="kn">from</span> <span class="nn">hexbytes</span> <span class="kn">import</span> <span class="n">HexBytes</span>
 
-<span class="kn">from</span> <span class="nn">evmspec._ids</span> <span class="kn">import</span> <span class="n">LogIndex</span><span class="p">,</span> <span class="n">TransactionIndex</span>
 <span class="kn">from</span> <span class="nn">evmspec.data</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">Address</span><span class="p">,</span>
     <span class="n">BlockHash</span><span class="p">,</span>
@@ -84,11 +83,13 @@
     <span class="n">uint</span><span class="p">,</span>
     <span class="n">uints</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span> <span class="nn">evmspec.data._ids</span> <span class="kn">import</span> <span class="n">LogIndex</span><span class="p">,</span> <span class="n">TransactionIndex</span>
+
 
 <span class="n">_ADDRESS_TOPIC_PREFIX</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="mi">12</span>
 
 
-<div class="viewcode-block" id="Data"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.log.Data">[docs]</a><span class="k">class</span> <span class="nc">Data</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
+<div class="viewcode-block" id="Data"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Data">[docs]</a><span class="k">class</span> <span class="nc">Data</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents data in Ethereum logs, providing utilities for interpreting</span>
 <span class="sd">    the data as various types. The data is assumed to be in hexadecimal format</span>
@@ -182,7 +183,7 @@
         <span class="k">return</span> <span class="n">uints</span><span class="o">.</span><span class="n">uint256</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Topic"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.log.Topic">[docs]</a><span class="k">class</span> <span class="nc">Topic</span><span class="p">(</span><span class="n">HexBytes32</span><span class="p">,</span> <span class="n">Data</span><span class="p">):</span>
+<div class="viewcode-block" id="Topic"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Topic">[docs]</a><span class="k">class</span> <span class="nc">Topic</span><span class="p">(</span><span class="n">HexBytes32</span><span class="p">,</span> <span class="n">Data</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a topic in Ethereum logs, providing utilities for interpreting</span>
 <span class="sd">    the topic as various EVM types.</span>
@@ -209,7 +210,7 @@
     <span class="nb">setattr</span><span class="p">(</span><span class="n">Topic</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;as_</span><span class="si">{</span><span class="n">uint_cls_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">property</span><span class="p">(</span><span class="n">uint_cls</span><span class="p">))</span>
 
 
-<div class="viewcode-block" id="TinyLog"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.log.TinyLog">[docs]</a><span class="k">class</span> <span class="nc">TinyLog</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<div class="viewcode-block" id="TinyLog"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.TinyLog">[docs]</a><span class="k">class</span> <span class="nc">TinyLog</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a minimal log structure with topics.</span>
 
@@ -265,7 +266,7 @@
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">new_err</span><span class="p">)</span> <span class="kn">from</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="SmallLog"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.log.SmallLog">[docs]</a><span class="k">class</span> <span class="nc">SmallLog</span><span class="p">(</span><span class="n">TinyLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<div class="viewcode-block" id="SmallLog"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.SmallLog">[docs]</a><span class="k">class</span> <span class="nc">SmallLog</span><span class="p">(</span><span class="n">TinyLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a log with additional attributes for the contract address and data.</span>
 
@@ -280,7 +281,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Array of 32-bytes non-indexed return data of the log.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="Log"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.log.Log">[docs]</a><span class="k">class</span> <span class="nc">Log</span><span class="p">(</span><span class="n">SmallLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<div class="viewcode-block" id="Log"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Log">[docs]</a><span class="k">class</span> <span class="nc">Log</span><span class="p">(</span><span class="n">SmallLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a comprehensive log structure with additional transaction</span>
 <span class="sd">    details.</span>
@@ -310,7 +311,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">blockNumber</span></div>
 
 
-<div class="viewcode-block" id="FullLog"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.log.FullLog">[docs]</a><span class="k">class</span> <span class="nc">FullLog</span><span class="p">(</span><span class="n">Log</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<div class="viewcode-block" id="FullLog"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.FullLog">[docs]</a><span class="k">class</span> <span class="nc">FullLog</span><span class="p">(</span><span class="n">Log</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a full log structure with comprehensive block and transaction</span>
 <span class="sd">    details.</span>

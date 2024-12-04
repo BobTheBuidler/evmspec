@@ -4,14 +4,6 @@ evmspec.data package
 Submodules
 ----------
 
-evmspec.data.main module
-------------------------
-
-.. automodule:: evmspec.data.main
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 evmspec.data.uints module
 -------------------------
 

@@ -10,25 +10,6 @@ Subpackages
    evmspec.data
    evmspec.structs
 
-Submodules
-----------
-
-evmspec.block module
---------------------
-
-.. automodule:: evmspec.block
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-evmspec.transaction module
---------------------------
-
-.. automodule:: evmspec.transaction
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 

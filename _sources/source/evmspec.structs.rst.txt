@@ -12,6 +12,14 @@ Subpackages
 Submodules
 ----------
 
+evmspec.structs.block module
+----------------------------
+
+.. automodule:: evmspec.structs.block
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 evmspec.structs.header module
 -----------------------------
 
@@ -32,6 +40,14 @@ evmspec.structs.receipt module
 ------------------------------
 
 .. automodule:: evmspec.structs.receipt
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+evmspec.structs.transaction module
+----------------------------------
+
+.. automodule:: evmspec.structs.transaction
    :members:
    :undoc-members:
    :show-inheritance:
