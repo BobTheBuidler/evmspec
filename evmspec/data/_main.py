@@ -230,12 +230,10 @@ class Wei(uint):
     #    return Gwei(self) / 10**9
 
 
-class BlockNumber(uint):
-    ...
+class BlockNumber(uint): ...
 
 
-class Nonce(uint):
-    ...
+class Nonce(uint): ...
 
 
 class UnixTimestamp(uint):
@@ -452,5 +450,4 @@ class TransactionHash(HexBytes32):
             return json.decode(receipt, type=Tuple["Log", ...], dec_hook=_decode_hook)
 
 
-class BlockHash(HexBytes32):
-    ...
+class BlockHash(HexBytes32): ...
