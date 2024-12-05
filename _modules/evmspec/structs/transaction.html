@@ -70,7 +70,7 @@
              
   <h1>Source code for evmspec.structs.transaction</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">cached_property</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">from</span> <span class="nn">dictstruct</span> <span class="kn">import</span> <span class="n">LazyDictStruct</span>
 <span class="kn">from</span> <span class="nn">hexbytes</span> <span class="kn">import</span> <span class="n">HexBytes</span>
@@ -293,7 +293,19 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The maximum priority gas fee set in the transaction.&quot;&quot;&quot;</span></div>
 
 
-<span class="n">Transaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">TransactionLegacy</span><span class="p">,</span> <span class="n">Transaction2930</span><span class="p">,</span> <span class="n">Transaction1559</span><span class="p">]</span>
+<div class="viewcode-block" id="Transaction4844"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Transaction4844">[docs]</a><span class="k">class</span> <span class="nc">Transaction4844</span><span class="p">(</span><span class="n">Transaction1559</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x3&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a type-1559 (EIP-1559) Ethereum transaction with dynamic fee.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;3&quot;</span><span class="p">)</span>
+
+    <span class="n">maxFeePerBlobGas</span><span class="p">:</span> <span class="n">Wei</span>
+
+    <span class="n">blobVersionedHashes</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span></div>
+
+
+<span class="n">Transaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">TransactionLegacy</span><span class="p">,</span> <span class="n">Transaction2930</span><span class="p">,</span> <span class="n">Transaction1559</span><span class="p">,</span> <span class="n">Transaction4844</span><span class="p">]</span>
 <span class="n">AnyTransaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Transaction</span><span class="p">,</span> <span class="n">TransactionRLP</span><span class="p">]</span>
 </pre></div>
 
