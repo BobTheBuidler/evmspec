@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import Any, ClassVar, List, Optional, Union
+from typing import Any, ClassVar, List, Optional, Tuple, Union
 
 from dictstruct import LazyDictStruct
 from hexbytes import HexBytes
@@ -222,5 +222,17 @@ class Transaction1559(_TransactionBase, tag="0x2", frozen=True, kw_only=True, fo
     """The maximum priority gas fee set in the transaction."""
 
 
-Transaction = Union[TransactionLegacy, Transaction2930, Transaction1559]
+class Transaction4844(Transaction1559, tag="0x3", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+    """
+    Represents a type-1559 (EIP-1559) Ethereum transaction with dynamic fee.
+    """
+
+    type: ClassVar[HexBytes] = HexBytes("3")
+
+    maxFeePerBlobGas: Wei
+
+    blobVersionedHashes: Tuple[HexBytes32, ...]
+
+
+Transaction = Union[TransactionLegacy, Transaction2930, Transaction1559, Transaction4844]
 AnyTransaction = Union[Transaction, TransactionRLP]
