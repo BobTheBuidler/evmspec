@@ -234,5 +234,7 @@ class Transaction4844(Transaction1559, tag="0x3", frozen=True, kw_only=True, for
     blobVersionedHashes: Tuple[HexBytes32, ...]
 
 
-Transaction = Union[TransactionLegacy, Transaction2930, Transaction1559, Transaction4844]
+Transaction = Union[
+    TransactionLegacy, Transaction2930, Transaction1559, Transaction4844
+]
 AnyTransaction = Union[Transaction, TransactionRLP]
