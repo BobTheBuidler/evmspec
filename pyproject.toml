@@ -9,7 +9,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.13"
+python = ">=3.8,<3.14"
 cachetools = ">=4.1.1,<6"
 cchecksum = ">=0.0.3"
 dictstruct = ">=0.0.1"
