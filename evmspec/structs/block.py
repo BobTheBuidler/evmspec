@@ -91,6 +91,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
                     dec_hook=_decode_hook,
                 )
             else:
+                raise
                 from dank_mids.types import better_decode
 
                 logger.exception(e)
