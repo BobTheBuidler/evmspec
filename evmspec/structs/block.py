@@ -95,7 +95,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
 
                 if "Object contains unknown field" in str(e):
                     transactions = json.decode(self._transactions)
-                    bad_object_index = int(str(e).split("$[")[1].split("]"))
+                    bad_object_index = int(str(e).split("$[")[1].split("]")[0])
                     logger.error(e)
                     logger.error(transactions[bad_object_index])
                 else:
