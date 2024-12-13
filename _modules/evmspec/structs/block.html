@@ -164,7 +164,9 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="kn">from</span> <span class="nn">dank_mids.types</span> <span class="kn">import</span> <span class="n">better_decode</span>
 
-                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+                <span class="k">if</span> <span class="s2">&quot;Object contains unknown field&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">arg0</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
                 <span class="n">transactions</span> <span class="o">=</span> <span class="p">[</span>
                     <span class="n">better_decode</span><span class="p">(</span>
                         <span class="n">raw_tx</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span>

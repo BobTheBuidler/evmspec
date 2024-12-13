@@ -305,7 +305,9 @@
     <span class="n">blobVersionedHashes</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span></div>
 
 
-<span class="n">Transaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">TransactionLegacy</span><span class="p">,</span> <span class="n">Transaction2930</span><span class="p">,</span> <span class="n">Transaction1559</span><span class="p">,</span> <span class="n">Transaction4844</span><span class="p">]</span>
+<span class="n">Transaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
+    <span class="n">TransactionLegacy</span><span class="p">,</span> <span class="n">Transaction2930</span><span class="p">,</span> <span class="n">Transaction1559</span><span class="p">,</span> <span class="n">Transaction4844</span>
+<span class="p">]</span>
 <span class="n">AnyTransaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Transaction</span><span class="p">,</span> <span class="n">TransactionRLP</span><span class="p">]</span>
 </pre></div>
 
