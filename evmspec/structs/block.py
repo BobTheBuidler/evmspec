@@ -93,7 +93,9 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
             else:
                 from dank_mids.types import better_decode
 
-                logger.exception(e)
+                if "Object contains unknown field" not in arg0:
+                    logger.exception(e)
+
                 transactions = [
                     better_decode(
                         raw_tx, type=Union[str, Transaction], dec_hook=_decode_hook
