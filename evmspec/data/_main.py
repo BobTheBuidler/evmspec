@@ -298,7 +298,7 @@ def _decode_hook(typ: Type, obj: object):
 ONE_EMPTY_BYTE = bytes(HexBytes("0x00"))
 
 
-_MISSING_BYTES = {i: (32-i) * ONE_EMPTY_BYTE for i in range(0, 32)}
+_MISSING_BYTES = {i: (32 - i) * ONE_EMPTY_BYTE for i in range(0, 32)}
 """Calculate the number of missing bytes and return them.
 
 Args:
@@ -311,6 +311,7 @@ Examples:
     >>> HexBytes32._get_missing_bytes(HexBytes("0x1234"))
     b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
 """
+
 
 class HexBytes32(HexBytes):
     def __new__(cls, v):
@@ -333,14 +334,14 @@ class HexBytes32(HexBytes):
         # when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.
         if isinstance(v, str) and v.startswith("0x"):
             cls._check_hexstr(v)
-            
+
         input_bytes = HexBytes(v)
-        
+
         try:
             missing_bytes = _MISSING_BYTES[len(input_bytes)]
         except KeyError as e:
             raise ValueError(f"{v} is too long") from e.__cause__
-            
+
         return HexBytes.__new__(cls, missing_bytes + input_bytes)
 
     def __repr__(self) -> str:
