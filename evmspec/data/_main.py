@@ -20,9 +20,6 @@ _T = TypeVar("_T")
 DecodeHook = Callable[[Type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
-__str_new__ = str.__new__
-__hb_new__ = HexBytes.__new__
-
 
 class Address(str):
     """
@@ -459,3 +456,7 @@ class TransactionHash(HexBytes32):
 
 
 class BlockHash(HexBytes32): ...
+
+
+__str_new__ = str.__new__
+__hb_new__ = HexBytes.__new__
