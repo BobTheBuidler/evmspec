@@ -4,6 +4,7 @@ from functools import cached_property
 from typing import Optional, Tuple
 
 from dictstruct import DictStruct, LazyDictStruct
+from eth_typing import HexStr
 from hexbytes import HexBytes
 from msgspec import UNSET, Raw, field, json
 
@@ -50,8 +51,8 @@ class _HexStringToIntEnumMeta(EnumMeta):
     A metaclass for Enums that allows conversion from hexadecimal string values to integer Enum members.
     """
 
-    def __call__(cls, value: str, *args, **kw):
-        return super().__call__(int(value, 16), *args, **kw)
+    def __call__(cls, hexstr: HexStr, *args, **kw):
+        return EnumMeta.__call__(self, int(hexstr, 16), *args, **kw)
 
 
 class Status(Enum, metaclass=_HexStringToIntEnumMeta):
