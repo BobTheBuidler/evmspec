@@ -340,7 +340,7 @@ class HexBytes32(HexBytes):
         try:
             missing_bytes = _MISSING_BYTES[len(input_bytes)]
         except KeyError as e:
-            raise ValueError(f"{v} is too long: {len(input_bytes)}") from e.__cause__
+            raise ValueError(f"{v} is too long: {len(input_bytes)}", _MISSING_BYTES) from e.__cause__
 
         return __hb_new__(cls, missing_bytes + input_bytes)
 
