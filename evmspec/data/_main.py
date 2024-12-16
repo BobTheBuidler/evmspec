@@ -58,7 +58,7 @@ class Address(str):
         See Also:
             - `cchecksum.to_checksum_address`: Function used for checksum conversion.
         """
-        return super().__new__(cls, to_checksum_address(address))
+        return __str_new__(cls, to_checksum_address(address))
 
     @classmethod
     def _decode_hook(cls, typ: Type["Address"], obj: str):
@@ -342,7 +342,7 @@ class HexBytes32(HexBytes):
         except KeyError as e:
             raise ValueError(f"{v} is too long") from e.__cause__
 
-        return HexBytes.__new__(cls, missing_bytes + input_bytes)
+        return __hb_new__(cls, missing_bytes + input_bytes)
 
     def __repr__(self) -> str:
         return f"{type(self).__name__}({self.hex()})"
@@ -456,3 +456,7 @@ class TransactionHash(HexBytes32):
 
 
 class BlockHash(HexBytes32): ...
+
+
+__str_new__ = str.__new__
+__hb_new__ = HexBytes.__new__
