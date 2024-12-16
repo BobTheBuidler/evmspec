@@ -23,6 +23,7 @@ DecodeHook = Callable[[Type[_T], Any], _T]
 __str_new__ = str.__new__
 __hb_new__ = HexBytes.__new__
 
+
 class Address(str):
     """
     Represents an Ethereum address in its EIP-55 checksum format.
