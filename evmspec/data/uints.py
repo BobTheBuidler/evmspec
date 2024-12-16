@@ -17,6 +17,7 @@ from evmspec.data._main import uint
 
 _new = int.__new__
 
+
 class _UintData(uint):
     """
     Base class for unsigned integer types with specific byte sizes.
