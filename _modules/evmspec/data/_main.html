@@ -129,7 +129,7 @@
 <span class="sd">        See Also:</span>
 <span class="sd">            - `cchecksum.to_checksum_address`: Function used for checksum conversion.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">to_checksum_address</span><span class="p">(</span><span class="n">address</span><span class="p">))</span></div>
+        <span class="k">return</span> <span class="n">__str_new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">to_checksum_address</span><span class="p">(</span><span class="n">address</span><span class="p">))</span></div>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_decode_hook</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Address&quot;</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -413,7 +413,7 @@
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> is too long&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e.__cause__</span>
 
-        <span class="k">return</span> <span class="n">HexBytes</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">missing_bytes</span> <span class="o">+</span> <span class="n">input_bytes</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">__hb_new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">missing_bytes</span> <span class="o">+</span> <span class="n">input_bytes</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">)&quot;</span>
@@ -527,6 +527,10 @@
 
 
 <div class="viewcode-block" id="BlockHash"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.BlockHash">[docs]</a><span class="k">class</span> <span class="nc">BlockHash</span><span class="p">(</span><span class="n">HexBytes32</span><span class="p">):</span> <span class="o">...</span></div>
+
+
+<span class="n">__str_new__</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="fm">__new__</span>
+<span class="n">__hb_new__</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="o">.</span><span class="fm">__new__</span>
 </pre></div>
 
            </div>
