@@ -298,7 +298,7 @@ def _decode_hook(typ: Type, obj: object):
 ONE_EMPTY_BYTE = bytes(HexBytes("0x00"))
 
 
-_MISSING_BYTES = {i: (32-i) * ONE_EMPTY_BYTE for i in range(33)}
+_MISSING_BYTES = {i: (32-i) * ONE_EMPTY_BYTE for i in range(0, 32)}
 """Calculate the number of missing bytes and return them.
 
 Args:
