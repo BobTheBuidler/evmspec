@@ -54,7 +54,7 @@ class _UintData(uint):
             >>> uint256(HexBytes('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'))
             uint256(115792089237316195423570985008687907853269984665640564039457584007913129639935)
         """
-        new = super().__new__(cls, v.hex() if v else "0x0", 16)
+        new = __int_new__(cls, v.hex() if v else "0x0", 16)
         if new < cls.min_value:
             raise ValueError(
                 f"{v!r} ({new}) is smaller than {cls.__name__} min value {cls.min_value}"
@@ -140,3 +140,5 @@ for i in range(1, 32):
     setattr(sys.modules[__name__], cls_name, new_cls)
 
 __all__ = [f"uint{bytes*8}" for bytes in range(1, 32)]
+
+__int_new__ = int.__new__
