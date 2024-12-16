@@ -79,4 +79,4 @@ class StringToIntEnumMeta(EnumMeta):
             - :class:`EnumMeta`
             - :meth:`EnumMeta.__call__`
         """
-        return super().__call__(cls._member_map_.get(value, value), *args, **kw)  # type: ignore [arg-type]
+        return EnumMeta.__call__(self, cls._member_map_.get(value, value), *args, **kw)  # type: ignore [arg-type]
