@@ -15,6 +15,8 @@ from hexbytes import HexBytes
 from evmspec.data._main import uint
 
 
+_new = int.__new__
+
 class _UintData(uint):
     """
     Base class for unsigned integer types with specific byte sizes.
@@ -54,7 +56,7 @@ class _UintData(uint):
             >>> uint256(HexBytes('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'))
             uint256(115792089237316195423570985008687907853269984665640564039457584007913129639935)
         """
-        new = super().__new__(cls, v.hex() if v else "0x0", 16)
+        new = _new(cls, v.hex() if v else "0x0", 16)
         if new < cls.min_value:
             raise ValueError(
                 f"{v!r} ({new}) is smaller than {cls.__name__} min value {cls.min_value}"
