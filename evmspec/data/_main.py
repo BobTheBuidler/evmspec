@@ -58,7 +58,7 @@ class Address(str):
         See Also:
             - `cchecksum.to_checksum_address`: Function used for checksum conversion.
         """
-        return super().__new__(cls, to_checksum_address(address))
+        return str.__new__(cls, to_checksum_address(address))
 
     @classmethod
     def _decode_hook(cls, typ: Type["Address"], obj: str):
