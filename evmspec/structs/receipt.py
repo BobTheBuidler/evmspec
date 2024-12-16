@@ -52,7 +52,7 @@ class _HexStringToIntEnumMeta(EnumMeta):
     """
 
     def __call__(cls, hexstr: HexStr, *args, **kw):
-        return EnumMeta.__call__(self, int(hexstr, 16), *args, **kw)
+        return __em_call__(cls, int(hexstr, 16), *args, **kw)
 
 
 class Status(Enum, metaclass=_HexStringToIntEnumMeta):
@@ -262,3 +262,6 @@ class FullTransactionReceipt(TransactionReceipt, frozen=True, kw_only=True, forb
         >>> full_receipt.logsBloom
         HexBytes('0x...')
     """
+
+
+__em_call__ = EnumMeta.__call__
