@@ -369,6 +369,20 @@
 <span class="n">ONE_EMPTY_BYTE</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;0x00&quot;</span><span class="p">))</span>
 
 
+<span class="n">_MISSING_BYTES</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="mi">32</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">ONE_EMPTY_BYTE</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">33</span><span class="p">)}</span>
+<span class="sd">&quot;&quot;&quot;Calculate the number of missing bytes and return them.</span>
+
+<span class="sd">Args:</span>
+<span class="sd">    input_bytes: The input bytes to check.</span>
+
+<span class="sd">Returns:</span>
+<span class="sd">    A bytes object representing the missing bytes.</span>
+
+<span class="sd">Examples:</span>
+<span class="sd">    &gt;&gt;&gt; HexBytes32._get_missing_bytes(HexBytes(&quot;0x1234&quot;))</span>
+<span class="sd">    b&#39;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="HexBytes32"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32">[docs]</a><span class="k">class</span> <span class="nc">HexBytes32</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
 <div class="viewcode-block" id="HexBytes32.__new__"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new HexBytes32 object.</span>
@@ -390,8 +404,15 @@
         <span class="c1"># when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;0x&quot;</span><span class="p">):</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">_check_hexstr</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            
         <span class="n">input_bytes</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_get_missing_bytes</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">)</span> <span class="o">+</span> <span class="n">input_bytes</span><span class="p">)</span></div>
+        
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">missing_bytes</span> <span class="o">=</span> <span class="n">_MISSING_BYTES</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">)]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> is too long&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e.__cause__</span>
+            
+        <span class="k">return</span> <span class="n">HexBytes</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">missing_bytes</span> <span class="o">+</span> <span class="n">input_bytes</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">)&quot;</span>
@@ -401,23 +422,6 @@
     <span class="c1"># TODO: keep the instance small and just task on the length for operations as needed</span>
     <span class="c1"># def __len__(self) -&gt; Literal[32]:</span>
     <span class="c1">#    return 32</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_get_missing_bytes</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">:</span> <span class="n">HexBytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the number of missing bytes and return them.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            input_bytes: The input bytes to check.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            A bytes object representing the missing bytes.</span>
-
-<span class="sd">        Examples:</span>
-<span class="sd">            &gt;&gt;&gt; HexBytes32._get_missing_bytes(HexBytes(&quot;0x1234&quot;))</span>
-<span class="sd">            b&#39;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&#39;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">missing_length</span> <span class="o">=</span> <span class="mi">32</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">missing_length</span> <span class="o">*</span> <span class="n">ONE_EMPTY_BYTE</span>
 
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hex</span><span class="p">())</span>
