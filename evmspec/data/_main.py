@@ -2,13 +2,18 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
+from time import monotonic
 from typing import TYPE_CHECKING, Any, Callable, Tuple, Type, TypeVar, Union
 
-from cachetools.func import ttl_cache
+from cachetools import keys, cached
+from cachetools.func import _UnboundTTLCache, TTLCache
 from cchecksum import to_checksum_address
 from hexbytes import HexBytes
 from msgspec import Raw, Struct, json
 from typing_extensions import Self
+
+
+
 
 if TYPE_CHECKING:
     from evmspec.structs.log import Log
@@ -88,7 +93,7 @@ class Address(str):
         return cls.checksum(obj)
 
     @classmethod
-    @ttl_cache(ttl=600)
+    @ttl_cache(maxsize=None, ttl=600)
     def checksum(cls, address: str) -> Self:
         """Returns the checksummed version of the address.
 
@@ -456,6 +461,30 @@ class TransactionHash(HexBytes32):
 
 
 class BlockHash(HexBytes32): ...
+
+
+def ttl_cache(maxsize=128, ttl=600, timer=monotonic, typed=False):
+    """Decorator to wrap a function with a memoizing callable that saves
+    up to `maxsize` results based on a Least Recently Used (LRU)
+    algorithm with a per-item time-to-live (TTL) value.
+    """
+    if maxsize is None:
+        return _cache(_UnboundTTLCache(ttl, timer), None, typed)
+    elif callable(maxsize):
+        return _cache(TTLCache(128, ttl, timer), 128, typed)(maxsize)
+    else:
+        return _cache(TTLCache(maxsize, ttl, timer), maxsize, typed)
+    
+def _cache(cache, maxsize, typed):
+    # reimplement ttl_cache with no RLock for race conditions
+
+    def decorator(func):
+        key = keys.typedkey if typed else keys.hashkey
+        wrapper = cached(cache=cache, key=key, lock=None, info=True)(func)
+        wrapper.cache_parameters = lambda: {"maxsize": maxsize, "typed": typed}
+        return wrapper
+
+    return decorator
 
 
 __str_new__ = str.__new__
