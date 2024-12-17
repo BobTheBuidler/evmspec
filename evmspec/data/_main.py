@@ -2,20 +2,19 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from time import monotonic
 from typing import TYPE_CHECKING, Any, Callable, Tuple, Type, TypeVar, Union
 
-from cachetools import keys, cached
-from cachetools.func import _UnboundTTLCache, TTLCache
 from cchecksum import to_checksum_address
 from hexbytes import HexBytes
 from msgspec import Raw, Struct, json
 from typing_extensions import Self
 
+from evmspec.data._cache import ttl_cache
 
 if TYPE_CHECKING:
     from evmspec.structs.log import Log
     from evmspec.structs.receipt import TransactionReceipt
+
 
 _T = TypeVar("_T")
 """A generic type variable."""
