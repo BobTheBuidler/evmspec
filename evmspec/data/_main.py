@@ -4,15 +4,17 @@ from enum import Enum
 from functools import cached_property
 from typing import TYPE_CHECKING, Any, Callable, Tuple, Type, TypeVar, Union
 
-from cachetools.func import ttl_cache
 from cchecksum import to_checksum_address
 from hexbytes import HexBytes
 from msgspec import Raw, Struct, json
 from typing_extensions import Self
 
+from evmspec.data._cache import ttl_cache
+
 if TYPE_CHECKING:
     from evmspec.structs.log import Log
     from evmspec.structs.receipt import TransactionReceipt
+
 
 _T = TypeVar("_T")
 """A generic type variable."""
@@ -88,7 +90,7 @@ class Address(str):
         return cls.checksum(obj)
 
     @classmethod
-    @ttl_cache(ttl=600)
+    @ttl_cache(maxsize=None, ttl=600)
     def checksum(cls, address: str) -> Self:
         """Returns the checksummed version of the address.
 
