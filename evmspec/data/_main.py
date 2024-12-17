@@ -13,8 +13,6 @@ from msgspec import Raw, Struct, json
 from typing_extensions import Self
 
 
-
-
 if TYPE_CHECKING:
     from evmspec.structs.log import Log
     from evmspec.structs.receipt import TransactionReceipt
@@ -474,7 +472,8 @@ def ttl_cache(maxsize=128, ttl=600, timer=monotonic, typed=False):
         return _cache(TTLCache(128, ttl, timer), 128, typed)(maxsize)
     else:
         return _cache(TTLCache(maxsize, ttl, timer), maxsize, typed)
-    
+
+
 def _cache(cache, maxsize, typed):
     # reimplement ttl_cache with no RLock for race conditions
 
