@@ -26,7 +26,7 @@ def _cache(cache, maxsize, typed, info: bool = False):
 
     key = keys.typedkey if typed else keys.hashkey
     get_params = lambda: {"maxsize": maxsize, "typed": typed}
-    
+
     # `info` param was added in 5.3
     if _CACHETOOLS_VERSION >= (5, 3):
 
@@ -36,9 +36,12 @@ def _cache(cache, maxsize, typed, info: bool = False):
             return wrapper
 
     elif info:
-        raise ValueError("You cannot use the `info` param with cachetools versions < 5.3")
-        
+        raise ValueError(
+            "You cannot use the `info` param with cachetools versions < 5.3"
+        )
+
     else:
+
         def decorator(func):
             wrapper = cached(cache=cache, key=key, lock=None)(func)
             wrapper.cache_parameters = get_params
