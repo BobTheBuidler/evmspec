@@ -62,15 +62,7 @@ class Data(HexBytes):
                 f"This {type(self).__name__} does not represent an address", self
             )
 
-        # there is a race condition in the cache expire function due to
-        # my hacky removal of the threading.Lock from ttl_cache, but
-        # the race condition can be ignored for our use-case
-        # TODO move this fix somewhere more appropriate
-        while True:
-            try:
-                return Address.checksum(self[-20:].hex())
-            except KeyError:
-                pass
+        return Address.checksum(self[-20:].hex())
 
     @property
     def as_uint8(self) -> uints.uint8:
