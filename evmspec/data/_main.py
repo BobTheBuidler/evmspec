@@ -115,13 +115,13 @@ class Address(str):
         # the race condition can be ignored for our use-case
         while True:
             try:
-                return cls._checksum(address)
+                return cls.__checksum(address)
             except KeyError:
                 pass
 
     @classmethod
     @ttl_cache(maxsize=None, ttl=600)
-    def _checksum(cls, address: str) -> Self:
+    def __checksum(cls, address: str) -> Self:
         return cls(address)
 
 
