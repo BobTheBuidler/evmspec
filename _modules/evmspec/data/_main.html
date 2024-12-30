@@ -161,7 +161,6 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Address.checksum"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Address.checksum">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="nd">@ttl_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">checksum</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the checksummed version of the address.</span>
 
@@ -182,7 +181,19 @@
 <span class="sd">        See Also:</span>
 <span class="sd">            - `cchecksum.to_checksum_address`: Function used for checksum conversion.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">address</span><span class="p">)</span></div></div>
+        <span class="c1"># there is a race condition in the cache expire function due to</span>
+        <span class="c1"># my hacky removal of the threading.Lock from ttl_cache, but</span>
+        <span class="c1"># the race condition can be ignored for our use-case</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__checksum</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">pass</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@ttl_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__checksum</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">address</span><span class="p">)</span></div>
 
 
 <span class="c1"># Integers</span>
