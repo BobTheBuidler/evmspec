@@ -90,7 +90,6 @@ class Address(str):
         return cls.checksum(obj)
 
     @classmethod
-    @ttl_cache(maxsize=None, ttl=600)
     def checksum(cls, address: str) -> Self:
         """Returns the checksummed version of the address.
 
@@ -111,6 +110,18 @@ class Address(str):
         See Also:
             - `cchecksum.to_checksum_address`: Function used for checksum conversion.
         """
+        # there is a race condition in the cache expire function due to
+        # my hacky removal of the threading.Lock from ttl_cache, but
+        # the race condition can be ignored for our use-case
+        while True:
+            try:
+                return cls.__checksum(address)
+            except KeyError:
+                pass
+
+    @classmethod
+    @ttl_cache(maxsize=None, ttl=600)
+    def __checksum(cls, address: str) -> Self:
         return cls(address)
 
 
