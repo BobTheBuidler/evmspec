@@ -347,15 +347,13 @@ class HexBytes32(HexBytes):
         # when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.
         if isinstance(v, str) and v.startswith("0x"):
             cls._check_hexstr(v)
-
-        input_bytes = HexBytes(v)
-
+        
+        input_bytes = to_bytes(v)
         try:
             missing_bytes = _MISSING_BYTES[len(input_bytes)]
         except KeyError as e:
             raise ValueError(f"{v} is too long: {len(input_bytes)}") from e.__cause__
-
-        return __hb_new__(cls, missing_bytes + input_bytes)
+        return __bytes_new__(cls, missing_bytes + input_bytes)
 
     def __repr__(self) -> str:
         return f"{type(self).__name__}({self.hex()})"
@@ -473,3 +471,4 @@ class BlockHash(HexBytes32): ...
 
 __str_new__ = str.__new__
 __hb_new__ = HexBytes.__new__
+__bytes_new__ = bytes.__new__
