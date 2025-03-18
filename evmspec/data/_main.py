@@ -347,7 +347,7 @@ class HexBytes32(HexBytes):
         # when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.
         if isinstance(v, str) and v.startswith("0x"):
             cls._check_hexstr(v)
-        
+
         input_bytes = to_bytes(v)
         try:
             missing_bytes = _MISSING_BYTES[len(input_bytes)]

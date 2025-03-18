@@ -1,5 +1,5 @@
 """
-This module provides classes to decode and represent unsigned integer 
+This module provides classes to decode and represent unsigned integer
 types of any byte size, ensuring values adhere to defined minimum and maximum constraints.
 
 Note:
