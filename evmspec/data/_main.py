@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any, Callable, Tuple, Type, TypeVar, Union
 
 from cchecksum import to_checksum_address
 from hexbytes import HexBytes
+from hexbytes._utils import to_bytes
 from msgspec import Raw, Struct, json
 from typing_extensions import Self
 
@@ -470,5 +471,4 @@ class BlockHash(HexBytes32): ...
 
 
 __str_new__ = str.__new__
-__hb_new__ = HexBytes.__new__
 __bytes_new__ = bytes.__new__
