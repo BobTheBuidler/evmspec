@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any, Callable, Tuple, Type, TypeVar, Union
 
 from cchecksum import to_checksum_address
 from hexbytes import HexBytes
+from hexbytes._utils import to_bytes
 from msgspec import Raw, Struct, json
 from typing_extensions import Self
 
@@ -325,6 +326,9 @@ Examples:
     b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
 """
 
+_hex = bytes.hex
+"""An alias for `bytes.hex`"""
+
 
 class HexBytes32(HexBytes):
     def __new__(cls, v):
@@ -348,17 +352,15 @@ class HexBytes32(HexBytes):
         if isinstance(v, str) and v.startswith("0x"):
             cls._check_hexstr(v)
 
-        input_bytes = HexBytes(v)
-
+        input_bytes = to_bytes(v)
         try:
             missing_bytes = _MISSING_BYTES[len(input_bytes)]
         except KeyError as e:
             raise ValueError(f"{v} is too long: {len(input_bytes)}") from e.__cause__
-
-        return __hb_new__(cls, missing_bytes + input_bytes)
+        return __bytes_new__(cls, missing_bytes + input_bytes)
 
     def __repr__(self) -> str:
-        return f"{type(self).__name__}({self.hex()})"
+        return f"{type(self).__name__}(0x{_hex(self)})"
 
     __getitem__ = lambda self, key: HexBytes(self)[key]  # type: ignore [assignment]
 
@@ -367,7 +369,15 @@ class HexBytes32(HexBytes):
     #    return 32
 
     def __hash__(self) -> int:
-        return hash(self.hex())
+        return hash(_hex(self))
+
+    def hex(self) -> str:
+        """
+        Output hex-encoded bytes, with an "0x" prefix.
+
+        Everything following the "0x" is output exactly like :meth:`bytes.hex`.
+        """
+        return f"0x{_hex(self)}"
 
     def strip(self) -> str:  # type: ignore [override]
         """Returns self.hex() with leading zeroes removed.
@@ -378,7 +388,7 @@ class HexBytes32(HexBytes):
             '1234'
         """
         # we trim all leading zeroes since we know how many we need to put back later
-        return hex(int(self.hex(), 16))[2:]
+        return hex(int(_hex(self), 16))[2:]
 
     @staticmethod
     def _check_hexstr(hexstr: str):
@@ -472,4 +482,4 @@ class BlockHash(HexBytes32): ...
 
 
 __str_new__ = str.__new__
-__hb_new__ = HexBytes.__new__
+__bytes_new__ = bytes.__new__
