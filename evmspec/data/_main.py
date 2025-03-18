@@ -357,7 +357,7 @@ class HexBytes32(HexBytes):
         return __bytes_new__(cls, missing_bytes + input_bytes)
 
     def __repr__(self) -> str:
-        return f"{type(self).__name__}({self.hex()})"
+        return f"{type(self).__name__}(0x{bytes.hex(self)})"
 
     __getitem__ = lambda self, key: HexBytes(self)[key]  # type: ignore [assignment]
 
@@ -366,7 +366,17 @@ class HexBytes32(HexBytes):
     #    return 32
 
     def __hash__(self) -> int:
-        return hash(self.hex())
+        return hash(bytes.hex(self))
+
+    def hex(
+        self, sep: Union[str, bytes] = None, bytes_per_sep: "SupportsIndex" = 1
+    ) -> str:
+        """
+        Output hex-encoded bytes, with an "0x" prefix.
+
+        Everything following the "0x" is output exactly like :meth:`bytes.hex`.
+        """
+        return "0x" + bytes.hex(self)
 
     def strip(self) -> str:  # type: ignore [override]
         """Returns self.hex() with leading zeroes removed.
@@ -377,7 +387,7 @@ class HexBytes32(HexBytes):
             '1234'
         """
         # we trim all leading zeroes since we know how many we need to put back later
-        return hex(int(self.hex(), 16))[2:]
+        return hex(int(bytes.hex(self), 16))[2:]
 
     @staticmethod
     def _check_hexstr(hexstr: str):
