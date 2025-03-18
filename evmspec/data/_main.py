@@ -329,6 +329,7 @@ Examples:
 _hex = bytes.hex
 """An alias for `bytes.hex`"""
 
+
 class HexBytes32(HexBytes):
     def __new__(cls, v):
         """Create a new HexBytes32 object.
