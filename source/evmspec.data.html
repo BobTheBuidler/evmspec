@@ -6690,26 +6690,13 @@ Example: bytes.fromhex(‘B9 01EF’) -&gt; b’\xb9\x01\xef’.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.data.BlockHash.hex">
 <span class="sig-name descname"><span class="pre">hex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.data.BlockHash.hex" title="Permalink to this definition"></a></dt>
-<dd><p>Create a string of hexadecimal numbers from a bytes object.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>sep</dt><dd><p>An optional single character or byte to separate hex bytes.</p>
-</dd>
-<dt>bytes_per_sep</dt><dd><p>How many bytes between separators.  Positive values count from the
-right, negative values count from the left.</p>
+<dd><p>Output hex-encoded bytes, with an “0x” prefix.</p>
+<p>Everything following the “0x” is output exactly like <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes.hex" title="(in Python v3.13)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bytes.hex()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
 </dd>
 </dl>
-</div></blockquote>
-<p>Example:
-&gt;&gt;&gt; value = b’xb9x01xef’
-&gt;&gt;&gt; value.hex()
-‘b901ef’
-&gt;&gt;&gt; value.hex(‘:’)
-‘b9:01:ef’
-&gt;&gt;&gt; value.hex(‘:’, 2)
-‘b9:01ef’
-&gt;&gt;&gt; value.hex(‘:’, -2)
-‘b901:ef’</p>
 </dd></dl>
 
 <dl class="py method">
@@ -7424,27 +7411,14 @@ Example: bytes.fromhex(‘B9 01EF’) -&gt; b’\xb9\x01\xef’.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.data.HexBytes32.hex">
-<span class="sig-name descname"><span class="pre">hex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.data.HexBytes32.hex" title="Permalink to this definition"></a></dt>
-<dd><p>Create a string of hexadecimal numbers from a bytes object.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>sep</dt><dd><p>An optional single character or byte to separate hex bytes.</p>
-</dd>
-<dt>bytes_per_sep</dt><dd><p>How many bytes between separators.  Positive values count from the
-right, negative values count from the left.</p>
+<span class="sig-name descname"><span class="pre">hex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evmspec/data/_main.html#HexBytes32.hex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.data.HexBytes32.hex" title="Permalink to this definition"></a></dt>
+<dd><p>Output hex-encoded bytes, with an “0x” prefix.</p>
+<p>Everything following the “0x” is output exactly like <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes.hex" title="(in Python v3.13)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bytes.hex()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
 </dd>
 </dl>
-</div></blockquote>
-<p>Example:
-&gt;&gt;&gt; value = b’xb9x01xef’
-&gt;&gt;&gt; value.hex()
-‘b901ef’
-&gt;&gt;&gt; value.hex(‘:’)
-‘b9:01:ef’
-&gt;&gt;&gt; value.hex(‘:’, 2)
-‘b9:01ef’
-&gt;&gt;&gt; value.hex(‘:’, -2)
-‘b901:ef’</p>
 </dd></dl>
 
 <dl class="py method">
@@ -8160,26 +8134,13 @@ Example: bytes.fromhex(‘B9 01EF’) -&gt; b’\xb9\x01\xef’.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.data.TransactionHash.hex">
 <span class="sig-name descname"><span class="pre">hex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.data.TransactionHash.hex" title="Permalink to this definition"></a></dt>
-<dd><p>Create a string of hexadecimal numbers from a bytes object.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>sep</dt><dd><p>An optional single character or byte to separate hex bytes.</p>
-</dd>
-<dt>bytes_per_sep</dt><dd><p>How many bytes between separators.  Positive values count from the
-right, negative values count from the left.</p>
+<dd><p>Output hex-encoded bytes, with an “0x” prefix.</p>
+<p>Everything following the “0x” is output exactly like <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes.hex" title="(in Python v3.13)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bytes.hex()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
 </dd>
 </dl>
-</div></blockquote>
-<p>Example:
-&gt;&gt;&gt; value = b’xb9x01xef’
-&gt;&gt;&gt; value.hex()
-‘b901ef’
-&gt;&gt;&gt; value.hex(‘:’)
-‘b9:01:ef’
-&gt;&gt;&gt; value.hex(‘:’, 2)
-‘b9:01ef’
-&gt;&gt;&gt; value.hex(‘:’, -2)
-‘b901:ef’</p>
 </dd></dl>
 
 <dl class="py method">

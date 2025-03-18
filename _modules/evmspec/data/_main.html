@@ -77,6 +77,7 @@
 
 <span class="kn">from</span> <span class="nn">cchecksum</span> <span class="kn">import</span> <span class="n">to_checksum_address</span>
 <span class="kn">from</span> <span class="nn">hexbytes</span> <span class="kn">import</span> <span class="n">HexBytes</span>
+<span class="kn">from</span> <span class="nn">hexbytes._utils</span> <span class="kn">import</span> <span class="n">to_bytes</span>
 <span class="kn">from</span> <span class="nn">msgspec</span> <span class="kn">import</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">Struct</span><span class="p">,</span> <span class="n">json</span>
 <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Self</span>
 
@@ -396,6 +397,9 @@
 <span class="sd">    b&#39;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&#39;</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="n">_hex</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">hex</span>
+<span class="sd">&quot;&quot;&quot;An alias for `bytes.hex`&quot;&quot;&quot;</span>
+
 
 <div class="viewcode-block" id="HexBytes32"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32">[docs]</a><span class="k">class</span> <span class="nc">HexBytes32</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
 <div class="viewcode-block" id="HexBytes32.__new__"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.__new__">[docs]</a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
@@ -419,17 +423,15 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;0x&quot;</span><span class="p">):</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">_check_hexstr</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
-        <span class="n">input_bytes</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-
+        <span class="n">input_bytes</span> <span class="o">=</span> <span class="n">to_bytes</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">missing_bytes</span> <span class="o">=</span> <span class="n">_MISSING_BYTES</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">)]</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> is too long: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">e.__cause__</span>
-
-        <span class="k">return</span> <span class="n">__hb_new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">missing_bytes</span> <span class="o">+</span> <span class="n">input_bytes</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">__bytes_new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">missing_bytes</span> <span class="o">+</span> <span class="n">input_bytes</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">hex</span><span class="p">()</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(0x</span><span class="si">{</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
 
     <span class="fm">__getitem__</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">HexBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)[</span><span class="n">key</span><span class="p">]</span>  <span class="c1"># type: ignore [assignment]</span>
 
@@ -438,7 +440,15 @@
     <span class="c1">#    return 32</span>
 
     <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hex</span><span class="p">())</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+<div class="viewcode-block" id="HexBytes32.hex"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.hex">[docs]</a>    <span class="k">def</span> <span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Output hex-encoded bytes, with an &quot;0x&quot; prefix.</span>
+
+<span class="sd">        Everything following the &quot;0x&quot; is output exactly like :meth:`bytes.hex`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;0x</span><span class="si">{</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span></div>
 
 <div class="viewcode-block" id="HexBytes32.strip"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.strip">[docs]</a>    <span class="k">def</span> <span class="nf">strip</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore [override]</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns self.hex() with leading zeroes removed.</span>
@@ -449,7 +459,7 @@
 <span class="sd">            &#39;1234&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># we trim all leading zeroes since we know how many we need to put back later</span>
-        <span class="k">return</span> <span class="nb">hex</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hex</span><span class="p">(),</span> <span class="mi">16</span><span class="p">))[</span><span class="mi">2</span><span class="p">:]</span></div>
+        <span class="k">return</span> <span class="nb">hex</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="mi">16</span><span class="p">))[</span><span class="mi">2</span><span class="p">:]</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_check_hexstr</span><span class="p">(</span><span class="n">hexstr</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -543,7 +553,7 @@
 
 
 <span class="n">__str_new__</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="fm">__new__</span>
-<span class="n">__hb_new__</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="o">.</span><span class="fm">__new__</span>
+<span class="n">__bytes_new__</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="fm">__new__</span>
 </pre></div>
 
            </div>
