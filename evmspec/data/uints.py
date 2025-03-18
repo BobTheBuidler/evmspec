@@ -54,7 +54,10 @@ class _UintData(uint):
             >>> uint256(HexBytes('0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'))
             uint256(115792089237316195423570985008687907853269984665640564039457584007913129639935)
         """
-        new = __int_new__(cls, v.hex() if v else "0x0", 16)
+        if v:
+            new = __int_new__(cls, bytes.hex(v), 16)
+        else:
+            new = __int_new__(cls, 0)
         if new < cls.min_value:
             raise ValueError(
                 f"{v!r} ({new}) is smaller than {cls.__name__} min value {cls.min_value}"
