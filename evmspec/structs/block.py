@@ -181,7 +181,7 @@ class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True): 
         uint(123456789)
     """
 
-    totalDifficulty: uint
+    totalDifficulty: Optional[uint] = UNSET
     """The total difficulty of the chain until this block.
 
     Examples:
