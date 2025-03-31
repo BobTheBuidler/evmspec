@@ -1,6 +1,6 @@
 import logging
 from functools import cached_property
-from typing import Tuple, Union
+from typing import Optional, Tuple, Union
 
 from dictstruct import DictStruct, LazyDictStruct
 from hexbytes import HexBytes
