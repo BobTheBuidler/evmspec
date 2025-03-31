@@ -1,6 +1,6 @@
 import logging
 from functools import cached_property
-from typing import Tuple, Union
+from typing import Optional, Tuple, Union
 
 from dictstruct import DictStruct, LazyDictStruct
 from hexbytes import HexBytes
@@ -181,7 +181,7 @@ class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True): 
         uint(123456789)
     """
 
-    totalDifficulty: uint
+    totalDifficulty: Optional[uint] = UNSET
     """The total difficulty of the chain until this block.
 
     Examples:
