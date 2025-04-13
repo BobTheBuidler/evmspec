@@ -207,6 +207,9 @@ class Transaction2930(_TransactionBase, tag="0x1", frozen=True, kw_only=True, fo
 
     type: ClassVar[HexBytes] = HexBytes("1")
 
+    yParity: Optional[uint] = UNSET
+    """The yParity for the transaction."""
+
 
 class Transaction1559(_TransactionBase, tag="0x2", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """
