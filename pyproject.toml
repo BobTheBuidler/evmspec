@@ -17,7 +17,7 @@ eth-utils = ">=1.10.0"
 hexbytes = "*"
 typing_extensions = ">=4.0.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 sphinx = "*"
 sphinx-rtd-theme = "*"
 mypy = "*"
