@@ -221,6 +221,9 @@ class Transaction1559(_TransactionBase, tag="0x2", frozen=True, kw_only=True, fo
     maxPriorityFeePerGas: Wei
     """The maximum priority gas fee set in the transaction."""
 
+    yParity: Optional[uint] = UNSET
+    """The yParity for the transaction."""
+
 
 class Transaction4844(Transaction1559, tag="0x3", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """
