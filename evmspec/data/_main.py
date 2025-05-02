@@ -5,6 +5,7 @@ from functools import cached_property
 from typing import TYPE_CHECKING, Any, Callable, Tuple, Type, TypeVar, Union
 
 from cchecksum import to_checksum_address
+from eth_typing import ChecksumAddress
 from hexbytes import HexBytes
 from hexbytes._utils import to_bytes
 from msgspec import Raw, Struct, json
@@ -24,7 +25,7 @@ DecodeHook = Callable[[Type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
 
-class Address(str):
+class Address(ChecksumAddress):
     """
     Represents an Ethereum address in its EIP-55 checksum format.
 
