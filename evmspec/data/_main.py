@@ -71,7 +71,7 @@ class Address(str):
     return __str_new__, (type(self), str(self))
 
     @classmethod
-    def _decode_hook(cls, typ: Type["Address"], obj: str):
+    def _decode_hook(cls, typ: Type["Address"], obj: str) -> Self:
         """Decodes an object into an Address instance with checksum validation.
 
         This function takes a hex address and returns it in the checksummed format
@@ -96,7 +96,11 @@ class Address(str):
             - `cchecksum.to_checksum_address`: Function used for checksum conversion.
         """
         return cls.checksum(obj)
-
+        
+    @classmethod
+    def _decode_hook_unsafe(cls, typ: Type["Address"], obj: str) -> Self:
+        return __str_new__(cls, obj)
+    
     @classmethod
     def checksum(cls, address: str) -> Self:
         """Returns the checksummed version of the address.
@@ -188,7 +192,7 @@ class uint(int):
     __str__ = int.__repr__
 
     @classmethod
-    def _decode_hook(cls, typ: Type["uint"], obj: str):
+    def _decode_hook(cls, typ: Type["uint"], obj: str) -> Self:
         """Decodes a hexadecimal string into a uint.
 
         Args:
@@ -303,6 +307,22 @@ def _decode_hook(typ: Type, obj: object):
         return typ(obj)  # type: ignore [arg-type]
     elif typ is Address:
         return Address.checksum(obj)  # type: ignore [arg-type]
+    elif issubclass(typ, uint):
+        if isinstance(obj, str):
+            # if obj.startswith("0x"):
+            return typ.fromhex(obj)
+            # elif obj == "":
+            #    return None if typ is ChainId else UNSET  # TODO: refactor
+        else:
+            return typ(obj)  # type: ignore [call-overload]
+    raise NotImplementedError(typ, obj, type(obj))
+
+
+def _decode_hook_unsafe(typ: Type, obj: object):
+    if issubclass(typ, (HexBytes, Enum, Decimal)):
+        return typ(obj)  # type: ignore [arg-type]
+    elif typ is Address:
+        return __str_new__(Address, obj)  # type: ignore [arg-type]
     elif issubclass(typ, uint):
         if isinstance(obj, str):
             # if obj.startswith("0x"):
