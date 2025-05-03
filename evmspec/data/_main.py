@@ -65,13 +65,13 @@ class Address(str):
 
     def __reduce__(self) -> None:
         """Return a tuple describing how to reconstruct the object without re-checksumming."""
-        # (1) The first item is `str.__new__` used to create a new instance 
+        # (1) The first item is `str.__new__` used to create a new instance
         #     without calling `Address.__new__`. We define that below.
         # (2) The second item is a tuple of arguments for `str.__new__`.
         return __str_new__, (type(self), str(self))
 
     @classmethod
-    def _decode_hook(cls, typ: Type["Address"], obj: str):
+    def _decode_hook(cls, typ: Type["Address"], obj: str) -> Self:
         """Decodes an object into an Address instance with checksum validation.
 
         This function takes a hex address and returns it in the checksummed format
@@ -96,6 +96,10 @@ class Address(str):
             - `cchecksum.to_checksum_address`: Function used for checksum conversion.
         """
         return cls.checksum(obj)
+
+    @classmethod
+    def _decode_hook_unsafe(cls, typ: Type["Address"], obj: str) -> Self:
+        return __str_new__(cls, obj)
 
     @classmethod
     def checksum(cls, address: str) -> Self:
@@ -188,7 +192,7 @@ class uint(int):
     __str__ = int.__repr__
 
     @classmethod
-    def _decode_hook(cls, typ: Type["uint"], obj: str):
+    def _decode_hook(cls, typ: Type["uint"], obj: str) -> Self:
         """Decodes a hexadecimal string into a uint.
 
         Args:
@@ -276,7 +280,7 @@ class UnixTimestamp(uint):
 # Hook
 
 
-def _decode_hook(typ: Type, obj: object):
+def _decode_hook(typ: Type[_T], obj: object) -> _T:
     """A generic decode hook for converting objects to specific types.
 
     Args:
@@ -303,6 +307,22 @@ def _decode_hook(typ: Type, obj: object):
         return typ(obj)  # type: ignore [arg-type]
     elif typ is Address:
         return Address.checksum(obj)  # type: ignore [arg-type]
+    elif issubclass(typ, uint):
+        if isinstance(obj, str):
+            # if obj.startswith("0x"):
+            return typ.fromhex(obj)
+            # elif obj == "":
+            #    return None if typ is ChainId else UNSET  # TODO: refactor
+        else:
+            return typ(obj)  # type: ignore [call-overload]
+    raise NotImplementedError(typ, obj, type(obj))
+
+
+def _decode_hook_unsafe(typ: Type[_T], obj: object) -> _T:
+    if issubclass(typ, (HexBytes, Enum, Decimal)):
+        return typ(obj)  # type: ignore [arg-type]
+    elif typ is Address:
+        return __str_new__(Address, obj)  # type: ignore [arg-type]
     elif issubclass(typ, uint):
         if isinstance(obj, str):
             # if obj.startswith("0x"):
@@ -368,7 +388,7 @@ class HexBytes32(HexBytes):
 
     def __reduce__(self) -> None:
         """Return a tuple describing how to reconstruct the object without re-calling `to_bytes` or checking length."""
-        # (1) The first item is `bytes.__new__` used to create a new instance 
+        # (1) The first item is `bytes.__new__` used to create a new instance
         #     without calling `HexBytes32.__new__`. We define that below.
         # (2) The second item is a tuple of arguments for `bytes.__new__`.
         return __bytes_new__, (type(self), bytes(self))
@@ -383,7 +403,7 @@ class HexBytes32(HexBytes):
     #    return 32
 
     def __hash__(self) -> int:
-        # TODO: can we just remove this? 
+        # TODO: can we just remove this?
         return hash(_hex(self))
 
     def hex(self) -> str:
