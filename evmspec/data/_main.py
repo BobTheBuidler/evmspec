@@ -2,7 +2,17 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, Callable, Final, Tuple, Type, TypeVar, Union, final
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Callable,
+    Final,
+    Tuple,
+    Type,
+    TypeVar,
+    Union,
+    final,
+)
 
 from cchecksum import to_checksum_address
 from hexbytes import HexBytes
@@ -15,7 +25,7 @@ from evmspec.data._cache import ttl_cache
 if TYPE_CHECKING:
     from evmspec.structs.log import Log
     from evmspec.structs.receipt import TransactionReceipt
-    
+
 try:
     # If you have ez-a-sync installed, evmspec gets some extra functionality
     from a_sync import a_sync
@@ -36,8 +46,12 @@ DecodeHook = Callable[[Type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
 
-_get_transaction_receipt: Final = None if dank_eth is None else dank_eth.get_transaction_receipt
-_get_transaction_receipt_raw: Final = None if dank_eth is None else dank_eth._get_transaction_receipt_raw
+_get_transaction_receipt: Final = (
+    None if dank_eth is None else dank_eth.get_transaction_receipt
+)
+_get_transaction_receipt_raw: Final = (
+    None if dank_eth is None else dank_eth._get_transaction_receipt_raw
+)
 
 
 class Address(str):
