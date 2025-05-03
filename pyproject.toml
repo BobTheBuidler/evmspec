@@ -16,6 +16,8 @@ dictstruct = ">=0.0.1"
 eth-utils = ">=1.10.0"
 hexbytes = "*"
 typing_extensions = ">=4.0.0"
+pysha3 = { version = ">=1.0.0,<2.0.0", markers = "python_version < '3.9'" }
+safe-pysha3 = { version = ">=1.0.0", markers = "python_version >= '3.9'" }
 
 [tool.poetry.group.dev.dependencies]
 sphinx = "*"

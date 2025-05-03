@@ -945,6 +945,16 @@ socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use-chardet-on-py3 = ["chardet (>=3.0.2,<6)"]
 
 [[package]]
+name = "safe-pysha3"
+version = "1.0.4"
+description = "SHA-3 (Keccak) for Python 3.9 - 3.11"
+optional = false
+python-versions = "*"
+files = [
+    {file = "safe-pysha3-1.0.4.tar.gz", hash = "sha256:e429146b1edd198b2ca934a2046a65656c5d31b0ec894bbd6055127f4deaff17"},
+]
+
+[[package]]
 name = "snowballstemmer"
 version = "2.2.0"
 description = "This package provides 29 stemmers for 28 languages generated from Snowball algorithms."
@@ -1225,4 +1235,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<3.13"
-content-hash = "3a5b383041a74118825b6e3f478a08dd6b44e7b0bda1bf3a619311af64c81840"
+content-hash = "139ff214f03d2f9ba12a584efdfb7a9d58f004c6f8bdbdd67a9aedec5a74af36"
