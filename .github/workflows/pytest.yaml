@@ -65,7 +65,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          poetry install --non-interactive
+          poetry install --no-interaction
           poetry run python -m pip install .
 
       - name: Run test suite
