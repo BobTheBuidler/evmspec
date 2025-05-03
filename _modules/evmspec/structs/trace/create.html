@@ -1,0 +1,243 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>evmspec.structs.trace.create &mdash; evmspec  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="../../../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            evmspec
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../source/modules.html">evmspec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">evmspec</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">evmspec.structs.trace.create</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for evmspec.structs.trace.create</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Literal</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">json</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Address</span><span class="p">,</span> <span class="n">_decode_hook</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.trace._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_ActionBase</span><span class="p">,</span> <span class="n">_FilterTraceBase</span><span class="p">,</span> <span class="n">_ResultBase</span>
+
+
+<div class="viewcode-block" id="Action"><a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.create.Action">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Action</span><span class="p">(</span>
+    <span class="n">_ActionBase</span><span class="p">,</span>
+    <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the action type for contract creations.</span>
+
+<span class="sd">    This class captures the initialization code necessary for deploying a</span>
+<span class="sd">    new contract on the Ethereum Virtual Machine (EVM).</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; action = Action(init=HexBytes(&quot;0x6000600055&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; action.init</span>
+<span class="sd">        HexBytes(&#39;0x6000600055&#39;)</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`evmspec.structs.trace._base._ActionBase`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">init</span><span class="p">:</span> <span class="n">HexBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The init code for the deployed contract.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Result"><a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.create.Result">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span>
+    <span class="n">_ResultBase</span><span class="p">,</span>
+    <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the result of a contract creation action.</span>
+
+<span class="sd">    It includes details such as the address and bytecode of the newly</span>
+<span class="sd">    deployed contract. This information is essential for verifying the</span>
+<span class="sd">    deployment was successful and retrieving the contract&#39;s code.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; result = Result(address=Address(&quot;0x1234567890abcdef1234567890abcdef12345678&quot;), code=HexBytes(&quot;0x6000600055&quot;))</span>
+<span class="sd">        &gt;&gt;&gt; result.address</span>
+<span class="sd">        &#39;0x1234567890abcdef1234567890abcdef12345678&#39;</span>
+<span class="sd">        &gt;&gt;&gt; result.code</span>
+<span class="sd">        HexBytes(&#39;0x6000600055&#39;)</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`evmspec.structs.trace._base._ResultBase`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The address of the deployed contract.&quot;&quot;&quot;</span>
+
+    <span class="n">code</span><span class="p">:</span> <span class="n">HexBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The bytecode of the deployed contract.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="Trace"><a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.create.Trace">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Trace</span><span class="p">(</span>
+    <span class="n">_FilterTraceBase</span><span class="p">,</span>
+    <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;create&quot;</span><span class="p">,</span>
+    <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a trace of a contract deployment.</span>
+
+<span class="sd">    Provides a detailed trace structure which includes raw action data</span>
+<span class="sd">    and a property to decode this data into a structured :class:`Action` object</span>
+<span class="sd">    representing the specific details of the contract creation process.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; trace = Trace(_action=Raw(b&#39;{&quot;init&quot;:&quot;0x6000600055&quot;}&#39;), result=Result(address=Address(&quot;0x1234567890abcdef1234567890abcdef12345678&quot;), code=HexBytes(&quot;0x6000600055&quot;)))</span>
+<span class="sd">        &gt;&gt;&gt; trace.type</span>
+<span class="sd">        &#39;create&#39;</span>
+<span class="sd">        &gt;&gt;&gt; trace.action.init</span>
+<span class="sd">        HexBytes(&#39;0x6000600055&#39;)</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`evmspec.structs.trace._base._FilterTraceBase`</span>
+<span class="sd">        - :class:`Action`</span>
+<span class="sd">        - :class:`Result`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;create&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="s2">&quot;create&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A class-level constant identifying the trace type as a contract creation trace.</span>
+
+<span class="sd">    This attribute is used to distinguish this trace from other types of traces</span>
+<span class="sd">    within the Ethereum Virtual Machine (EVM).</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; Trace.type</span>
+<span class="sd">        &#39;create&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_action</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The raw action data for contract creation, stored as a :class:`msgspec.Raw` type.</span>
+
+<span class="sd">    This field holds the raw data that will be decoded into an :class:`Action` object</span>
+<span class="sd">    using the :attr:`action` property.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :attr:`action` for decoding this raw data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Action</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decodes the raw action data into an :class:`Action` object.</span>
+
+<span class="sd">        Utilizes the `_action` field for decoding, transforming it into a</span>
+<span class="sd">        structured :class:`Action` object that represents the specific details</span>
+<span class="sd">        of the contract creation process.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; trace = Trace(_action=Raw(b&#39;{&quot;init&quot;:&quot;0x6000600055&quot;}&#39;), result=Result(address=Address(&quot;0x1234567890abcdef1234567890abcdef12345678&quot;), code=HexBytes(&quot;0x6000600055&quot;)))</span>
+<span class="sd">            &gt;&gt;&gt; trace.action.init</span>
+<span class="sd">            HexBytes(&#39;0x6000600055&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Action</span><span class="p">,</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span>
+
+    <span class="n">result</span><span class="p">:</span> <span class="n">Result</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The result object, adhering to the parity format, containing deployment details.</span>
+
+<span class="sd">    This includes the address and bytecode of the deployed contract, which are</span>
+<span class="sd">    essential for verifying the deployment was successful and retrieving the</span>
+<span class="sd">    contract&#39;s code.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`Result` for more details on the result structure.</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BobTheBuidler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

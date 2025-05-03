@@ -1,0 +1,674 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>evmspec.data._main &mdash; evmspec  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="../../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            evmspec
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/modules.html">evmspec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">evmspec</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">evmspec.data._main</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for evmspec.data._main</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">TYPE_CHECKING</span><span class="p">,</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Final</span><span class="p">,</span>
+    <span class="n">Tuple</span><span class="p">,</span>
+    <span class="n">Type</span><span class="p">,</span>
+    <span class="n">TypeVar</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">final</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">cchecksum</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_checksum_address</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">Struct</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Self</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">evmspec._utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_bytes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data._cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">ttl_cache</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.log</span><span class="w"> </span><span class="kn">import</span> <span class="n">Log</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.receipt</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransactionReceipt</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># If you have ez-a-sync installed, evmspec gets some extra functionality</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">a_sync</span><span class="w"> </span><span class="kn">import</span> <span class="n">a_sync</span>
+<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+    <span class="n">a_sync</span> <span class="o">=</span> <span class="kc">None</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="c1"># If you have dank mids installed, evmspec gets some extra functionality</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">dank_mids</span><span class="w"> </span><span class="kn">import</span> <span class="n">dank_eth</span>
+<span class="k">except</span> <span class="p">(</span><span class="ne">ModuleNotFoundError</span><span class="p">,</span> <span class="ne">ImportError</span><span class="p">):</span>
+    <span class="n">dank_eth</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="n">_T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_T&quot;</span><span class="p">)</span>
+<span class="sd">&quot;&quot;&quot;A generic type variable.&quot;&quot;&quot;</span>
+
+<span class="n">DecodeHook</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">_T</span><span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;A type alias for a function that decodes an object into a specific type.&quot;&quot;&quot;</span>
+
+
+<span class="n">_get_transaction_receipt</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="kc">None</span> <span class="k">if</span> <span class="n">dank_eth</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">dank_eth</span><span class="o">.</span><span class="n">get_transaction_receipt</span>
+<span class="p">)</span>
+<span class="n">_get_transaction_receipt_raw</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="kc">None</span> <span class="k">if</span> <span class="n">dank_eth</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">dank_eth</span><span class="o">.</span><span class="n">_get_transaction_receipt_raw</span>
+<span class="p">)</span>
+<span class="c1"># due to a circ import issue we will import this later</span>
+<span class="n">_decode_logs</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="Address"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Address">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Address</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents an Ethereum address in its EIP-55 checksum format.</span>
+
+<span class="sd">    This class ensures that any Ethereum address is stored in its checksummed format,</span>
+<span class="sd">    as defined by EIP-55. It uses a custom Cython implementation for the checksum</span>
+<span class="sd">    conversion to optimize performance.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; addr = Address(&quot;0x52908400098527886E0F7030069857D2E4169EE7&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(addr)</span>
+<span class="sd">        0x52908400098527886E0F7030069857D2E4169EE7</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - `cchecksum.to_checksum_address`: Function used for checksum conversion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Address.__new__"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Address.__new__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a new Address instance with checksum validation.</span>
+
+<span class="sd">        This function takes a hex address and returns it in the checksummed format</span>
+<span class="sd">        as defined by EIP-55. It uses a custom Cython implementation for the</span>
+<span class="sd">        checksum conversion to optimize performance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            address: A string representing the Ethereum address.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            An Address object with a checksummed address.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; Address(&quot;0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe&quot;)</span>
+<span class="sd">            Address(&#39;0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe&#39;)</span>
+
+<span class="sd">        See Also:</span>
+<span class="sd">            - `cchecksum.to_checksum_address`: Function used for checksum conversion.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">__str_new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">to_checksum_address</span><span class="p">(</span><span class="n">address</span><span class="p">))</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;_TA&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;_TA&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span> <span class="s2">&quot;_TA&quot;</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;_TA&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a tuple describing how to reconstruct the object without re-checksumming.&quot;&quot;&quot;</span>
+        <span class="c1"># (1) The first item is `str.__new__` used to create a new instance</span>
+        <span class="c1">#     without calling `Address.__new__`. We define that below.</span>
+        <span class="c1"># (2) The second item is a tuple of arguments for `str.__new__`.</span>
+        <span class="k">return</span> <span class="n">__str_new__</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Address&quot;</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decodes an object into an Address instance with checksum validation.</span>
+
+<span class="sd">        This function takes a hex address and returns it in the checksummed format</span>
+<span class="sd">        as defined by EIP-55. It uses a custom Cython implementation for the</span>
+<span class="sd">        checksum conversion to optimize performance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            typ: The type that is expected to be decoded to.</span>
+<span class="sd">            obj: The object to decode, expected to be a string representation of an Ethereum address.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            An Address object with a checksummed address.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; Address._decode_hook(Address, &quot;0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe&quot;)</span>
+<span class="sd">            Address(&#39;0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe&#39;)</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            This method utilizes :meth:`cls.checksum` as a class method to ensure the address is checksummed.</span>
+
+<span class="sd">        See Also:</span>
+<span class="sd">            - `cchecksum.to_checksum_address`: Function used for checksum conversion.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook_unsafe</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Address&quot;</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">__str_new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Address.checksum"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Address.checksum">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">checksum</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the checksummed version of the address.</span>
+
+<span class="sd">        This function takes a hex address and returns it in the checksummed format</span>
+<span class="sd">        as defined by EIP-55. It uses a custom Cython implementation for the</span>
+<span class="sd">        checksum conversion to optimize performance.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            address: A string representing the Ethereum address.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The checksummed Ethereum address.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; Address.checksum(&quot;0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe&quot;)</span>
+<span class="sd">            Address(&#39;0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe&#39;)</span>
+
+<span class="sd">        See Also:</span>
+<span class="sd">            - `cchecksum.to_checksum_address`: Function used for checksum conversion.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># there is a race condition in the cache expire function due to</span>
+        <span class="c1"># my hacky removal of the threading.Lock from ttl_cache, but</span>
+        <span class="c1"># the race condition can be ignored for our use-case</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__checksum</span><span class="p">(</span><span class="n">address</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">pass</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@ttl_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__checksum</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">address</span><span class="p">)</span></div>
+
+
+<span class="n">_TA</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_TA&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Address</span><span class="p">)</span>
+
+
+<span class="c1"># Integers</span>
+
+
+<div class="viewcode-block" id="uint"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.uint">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">uint</span><span class="p">(</span><span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents an unsigned integer with additional utility methods for hexadecimal conversion and representation.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; num = uint.fromhex(&quot;0x1a&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(num)</span>
+<span class="sd">        uint(26)</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :meth:`uint.fromhex`: Method to create a uint from a hexadecimal string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="uint.fromhex"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.uint.fromhex">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fromhex</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">hexstr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts a hexadecimal string to a uint.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            hexstr: A string representing a hexadecimal number.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A uint object representing the integer value of the hexadecimal string.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; uint.fromhex(&quot;0x1a&quot;)</span>
+<span class="sd">            uint(26)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">hexstr</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span></div>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    NOTE: Storing encoded data as string is cheaper than ints when integer value is sufficiently high:</span>
+<span class="sd">    </span>
+<span class="sd">    string: 0x1  integer: 1</span>
+<span class="sd">    string: 0x10  integer: 16</span>
+<span class="sd">    string: 0x100  integer: 256</span>
+<span class="sd">    string: 0x1000  integer: 4096</span>
+<span class="sd">    string: 0x10000  integer: 65536</span>
+<span class="sd">    string: 0x100000  integer: 1048576</span>
+<span class="sd">    string: 0x1000000  integer: 16777216</span>
+<span class="sd">    string: 0x10000000  integer: 268435456</span>
+<span class="sd">    string: 0x100000000  integer: 4294967296</span>
+<span class="sd">    string: 0x1000000000  integer: 68719476736</span>
+<span class="sd">    string: 0x10000000000  integer: 1099511627776</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="nb">int</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="c1"># we dont want str to use our new repr</span>
+    <span class="fm">__str__</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="fm">__repr__</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Self</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decodes a hexadecimal string into a uint.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            typ: The type that is expected to be decoded to.</span>
+<span class="sd">            obj: The object to decode, expected to be a hexadecimal string.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A uint object representing the decoded value.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; uint._decode_hook(uint, &quot;0x1a&quot;)</span>
+<span class="sd">            uint(26)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">typ</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_decode</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;uint&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Attempts to decode an object as a uint, handling TypeErrors.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: The object to decode, expected to be a hexadecimal string or an integer.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A uint object representing the decoded value.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: If the object cannot be converted to a uint.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; uint._decode(&quot;0x1a&quot;)</span>
+<span class="sd">            uint(26)</span>
+<span class="sd">            &gt;&gt;&gt; uint._decode(26)</span>
+<span class="sd">            uint(26)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;int() can&#39;t convert non-string with explicit base&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+                <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="k">raise</span></div>
+
+
+<div class="viewcode-block" id="Wei"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Wei">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Wei</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span>
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">scaled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Decimal&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the scaled decimal representation of Wei.</span>
+
+<span class="sd">        Calculation:</span>
+<span class="sd">            The value in Wei divided by 10**18 to convert to Ether.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; wei_value = Wei(1000000000000000000)</span>
+<span class="sd">            &gt;&gt;&gt; wei_value.scaled</span>
+<span class="sd">            Decimal(&#39;1&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Decimal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="mi">18</span></div>
+
+    <span class="c1"># @property</span>
+    <span class="c1"># def as_gwei(self) -&gt; &quot;Gwei&quot;:</span>
+    <span class="c1">#    return Gwei(self) / 10**9</span>
+
+
+<div class="viewcode-block" id="BlockNumber"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.BlockNumber">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BlockNumber</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span> <span class="o">...</span></div>
+
+
+<div class="viewcode-block" id="Nonce"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Nonce">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Nonce</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span> <span class="o">...</span></div>
+
+
+<div class="viewcode-block" id="UnixTimestamp"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.UnixTimestamp">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">UnixTimestamp</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span>
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts the Unix timestamp to a datetime object in UTC.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A datetime object representing the UTC date and time.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; timestamp = UnixTimestamp(1638316800)</span>
+<span class="sd">            &gt;&gt;&gt; timestamp.datetime</span>
+<span class="sd">            datetime.datetime(2021, 12, 1, 0, 0, tzinfo=datetime.timezone.utc)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span></div>
+
+
+<span class="c1"># Hook</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook</span><span class="p">(</span><span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A generic decode hook for converting objects to specific types.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        typ: The type that is expected to be decoded to.</span>
+<span class="sd">        obj: The object to decode.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The object decoded to the specified type.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        NotImplementedError: If the type cannot be handled.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; _decode_hook(uint, &quot;0x1a&quot;)</span>
+<span class="sd">        uint(26)</span>
+<span class="sd">        &gt;&gt;&gt; _decode_hook(Address, &quot;0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe&quot;)</span>
+<span class="sd">        Address(&#39;0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe&#39;)</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        - :class:`Address`: For decoding Ethereum addresses.</span>
+<span class="sd">        - :class:`uint`: For decoding unsigned integers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="p">(</span><span class="n">HexBytes</span><span class="p">,</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">typ</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type, return-value]</span>
+    <span class="k">elif</span> <span class="n">typ</span> <span class="ow">is</span> <span class="n">Address</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Address</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type, return-value]</span>
+    <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">uint</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># if obj.startswith(&quot;0x&quot;):</span>
+            <span class="k">return</span> <span class="n">typ</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [return-value]</span>
+            <span class="c1"># elif obj == &quot;&quot;:</span>
+            <span class="c1">#    return None if typ is ChainId else UNSET  # TODO: refactor</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">typ</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [call-overload]</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook_unsafe</span><span class="p">(</span><span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="p">(</span><span class="n">HexBytes</span><span class="p">,</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">typ</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type, return-value]</span>
+    <span class="k">elif</span> <span class="n">typ</span> <span class="ow">is</span> <span class="n">Address</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">__str_new__</span><span class="p">(</span><span class="n">Address</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type, return-value]</span>
+    <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">uint</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="c1"># if obj.startswith(&quot;0x&quot;):</span>
+            <span class="k">return</span> <span class="n">typ</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [return-value]</span>
+            <span class="c1"># elif obj == &quot;&quot;:</span>
+            <span class="c1">#    return None if typ is ChainId else UNSET  # TODO: refactor</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">typ</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [call-overload]</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+
+
+<span class="c1"># Hexbytes</span>
+
+<span class="n">ONE_EMPTY_BYTE</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;0x00&quot;</span><span class="p">))</span>
+
+
+<span class="n">_MISSING_BYTES</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">ONE_EMPTY_BYTE</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">33</span><span class="p">)}</span>
+<span class="sd">&quot;&quot;&quot;Calculate the number of missing bytes and return them.</span>
+
+<span class="sd">Args:</span>
+<span class="sd">    input_bytes: The input bytes to check.</span>
+
+<span class="sd">Returns:</span>
+<span class="sd">    A bytes object representing the missing bytes.</span>
+
+<span class="sd">Examples:</span>
+<span class="sd">    &gt;&gt;&gt; HexBytes32._get_missing_bytes(HexBytes(&quot;0x1234&quot;))</span>
+<span class="sd">    b&#39;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&#39;</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">_hex</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">hex</span>
+<span class="sd">&quot;&quot;&quot;An alias for `bytes.hex`&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="HexBytes32"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HexBytes32</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
+<div class="viewcode-block" id="HexBytes32.__new__"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.__new__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new HexBytes32 object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            v: A value that can be converted to HexBytes32.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A HexBytes32 object.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the string representation is not the correct length.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; HexBytes32(&quot;0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef&quot;)</span>
+<span class="sd">            HexBytes32(0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if it has 0x prefix it came from the chain or a user and we should validate the size</span>
+        <span class="c1"># when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;0x&quot;</span><span class="p">):</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">_check_hexstr</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+
+        <span class="n">input_bytes</span> <span class="o">=</span> <span class="n">to_bytes</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">missing_bytes</span> <span class="o">=</span> <span class="n">_MISSING_BYTES</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">)]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> is too long: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e.__cause__</span>
+        <span class="k">return</span> <span class="n">__bytes_new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">missing_bytes</span> <span class="o">+</span> <span class="n">input_bytes</span><span class="p">)</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;_THB32&quot;</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span>
+        <span class="n">Callable</span><span class="p">[[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">],</span> <span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">]</span>
+    <span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a tuple describing how to reconstruct the object without re-calling `to_bytes` or checking length.&quot;&quot;&quot;</span>
+        <span class="c1"># (1) The first item is `bytes.__new__` used to create a new instance</span>
+        <span class="c1">#     without calling `HexBytes32.__new__`. We define that below.</span>
+        <span class="c1"># (2) The second item is a tuple of arguments for `bytes.__new__`.</span>
+        <span class="k">return</span> <span class="n">__bytes_new__</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="nb">bytes</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(0x</span><span class="si">{</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="fm">__getitem__</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">HexBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)[</span><span class="n">key</span><span class="p">]</span>  <span class="c1"># type: ignore [assignment]</span>
+
+    <span class="c1"># TODO: keep the instance small and just task on the length for operations as needed</span>
+    <span class="c1"># def __len__(self) -&gt; Literal[32]:</span>
+    <span class="c1">#    return 32</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="c1"># TODO: can we just remove this?</span>
+        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+<div class="viewcode-block" id="HexBytes32.hex"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.hex">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore [override]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Output hex-encoded bytes, with an &quot;0x&quot; prefix.</span>
+
+<span class="sd">        Everything following the &quot;0x&quot; is output exactly like :meth:`bytes.hex`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;0x</span><span class="si">{</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+<div class="viewcode-block" id="HexBytes32.strip"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.strip">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">strip</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore [override]</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns self.hex() with leading zeroes removed.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; hb = HexBytes32(&quot;0x0000000000000000000000000000000000000000000000000000000000001234&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; hb.strip()</span>
+<span class="sd">            &#39;1234&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># we trim all leading zeroes since we know how many we need to put back later</span>
+        <span class="k">return</span> <span class="nb">hex</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="mi">16</span><span class="p">))[</span><span class="mi">2</span><span class="p">:]</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_check_hexstr</span><span class="p">(</span><span class="n">hexstr</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Checks if a hex string is of a valid length.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            hexstr: The hex string to check.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the hex string is of an invalid length.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; HexBytes32._check_hexstr(&quot;0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef&quot;)</span>
+<span class="sd">            # No exception raised</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">hexstr</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">l</span> <span class="o">&gt;</span> <span class="mi">66</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;too high&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hexstr</span><span class="p">),</span> <span class="n">hexstr</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">l</span> <span class="o">&lt;</span> <span class="mi">66</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;too smol&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hexstr</span><span class="p">),</span> <span class="n">hexstr</span><span class="p">)</span></div>
+
+
+<span class="n">_THB32</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_THB32&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">HexBytes32</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="TransactionHash"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.TransactionHash">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TransactionHash</span><span class="p">(</span><span class="n">HexBytes32</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">a_sync</span><span class="p">:</span>
+
+        <span class="n">StructType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;StructType&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Struct</span><span class="p">)</span>
+        <span class="n">ReceiptDataType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">StructType</span><span class="p">]]</span>
+
+        <span class="nd">@a_sync</span><span class="p">(</span><span class="s2">&quot;async&quot;</span><span class="p">)</span>
+        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_receipt</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">decode_to</span><span class="p">:</span> <span class="n">ReceiptDataType</span><span class="p">,</span>
+            <span class="n">decode_hook</span><span class="p">:</span> <span class="n">DecodeHook</span><span class="p">[</span><span class="n">ReceiptDataType</span><span class="p">]</span> <span class="o">=</span> <span class="n">_decode_hook</span><span class="p">,</span>
+        <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;TransactionReceipt&quot;</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Async method to get the transaction receipt.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                decode_to: The type to decode the receipt to.</span>
+<span class="sd">                decode_hook: A hook function to perform the decoding.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                A TransactionReceipt object for the transaction.</span>
+
+<span class="sd">            Raises:</span>
+<span class="sd">                ImportError: If &#39;dank_mids&#39; cannot be imported.</span>
+
+<span class="sd">            Examples:</span>
+<span class="sd">                &gt;&gt;&gt; tx_hash = TransactionHash(&quot;0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef&quot;)</span>
+<span class="sd">                &gt;&gt;&gt; await tx_hash.get_receipt(TransactionReceipt)</span>
+<span class="sd">                # Returns a TransactionReceipt object</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">_get_transaction_receipt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
+                    <span class="s2">&quot;You must have dank_mids installed in order to use this feature&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+
+            <span class="k">return</span> <span class="k">await</span> <span class="n">_get_transaction_receipt</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span> <span class="n">decode_to</span><span class="o">=</span><span class="n">decode_to</span><span class="p">,</span> <span class="n">decode_hook</span><span class="o">=</span><span class="n">decode_hook</span>
+            <span class="p">)</span>
+
+        <span class="nd">@a_sync</span>  <span class="c1"># TODO; compare how these type check, they both function the same</span>
+        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_logs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="s2">&quot;Log&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Async method to get the logs for the transaction.</span>
+
+<span class="sd">            Returns:</span>
+<span class="sd">                A tuple of Log objects for the transaction.</span>
+
+<span class="sd">            Raises:</span>
+<span class="sd">                ImportError: If &#39;dank_mids&#39; cannot be imported.</span>
+
+<span class="sd">            Examples:</span>
+<span class="sd">                &gt;&gt;&gt; tx_hash = TransactionHash(&quot;0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef&quot;)</span>
+<span class="sd">                &gt;&gt;&gt; await tx_hash.get_logs()</span>
+<span class="sd">                # Returns a tuple of Log objects</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">_get_transaction_receipt_raw</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
+                    <span class="s2">&quot;You must have dank_mids installed in order to use this feature&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+
+            <span class="k">if</span> <span class="n">_decode_logs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">__make_decode_logs</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">_decode_logs</span><span class="p">(</span><span class="k">await</span> <span class="n">_get_transaction_receipt_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>  <span class="c1"># type: ignore [misc]</span></div>
+
+
+<div class="viewcode-block" id="BlockHash"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.BlockHash">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BlockHash</span><span class="p">(</span><span class="n">HexBytes32</span><span class="p">):</span> <span class="o">...</span></div>
+
+
+<span class="n">__str_new__</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="fm">__new__</span>
+<span class="n">__bytes_new__</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="fm">__new__</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">__make_decode_logs</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.log</span><span class="w"> </span><span class="kn">import</span> <span class="n">Log</span>
+
+    <span class="k">global</span> <span class="n">_decode_logs</span>
+    <span class="n">_decode_logs</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="s2">&quot;Log&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BobTheBuidler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

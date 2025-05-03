@@ -1,0 +1,369 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>evmspec.structs.receipt &mdash; evmspec  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="../../../_static/doctools.js?v=888ff710"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            evmspec
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../source/modules.html">evmspec</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">evmspec</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">evmspec.structs.receipt</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for evmspec.structs.receipt</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">EnumMeta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dictstruct</span><span class="w"> </span><span class="kn">import</span> <span class="n">DictStruct</span><span class="p">,</span> <span class="n">LazyDictStruct</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">eth_typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexStr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">json</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Address</span><span class="p">,</span> <span class="n">BlockNumber</span><span class="p">,</span> <span class="n">TransactionHash</span><span class="p">,</span> <span class="n">Wei</span><span class="p">,</span> <span class="n">_decode_hook</span><span class="p">,</span> <span class="n">uint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data._ids</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransactionIndex</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.log</span><span class="w"> </span><span class="kn">import</span> <span class="n">Log</span>
+
+
+<div class="viewcode-block" id="FeeStats"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.FeeStats">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FeeStats</span><span class="p">(</span><span class="n">DictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Arbitrum includes this in the `feeStats` field of a tx receipt.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        :class:`ArbitrumFeeStats`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">l1Calldata</span><span class="p">:</span> <span class="n">Wei</span>
+    <span class="n">l2Storage</span><span class="p">:</span> <span class="n">Wei</span>
+    <span class="n">l1Transaction</span><span class="p">:</span> <span class="n">Wei</span>
+    <span class="n">l2Computation</span><span class="p">:</span> <span class="n">Wei</span></div>
+
+
+<div class="viewcode-block" id="ArbitrumFeeStats"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.ArbitrumFeeStats">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ArbitrumFeeStats</span><span class="p">(</span><span class="n">DictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Arbitrum includes these with a tx receipt.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        :class:`FeeStats`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">paid</span><span class="p">:</span> <span class="n">FeeStats</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The breakdown of gas paid for the transaction.</span>
+
+<span class="sd">    (price * unitsUsed)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># These 2 attributes do not always exist</span>
+    <span class="n">unitsUsed</span><span class="p">:</span> <span class="n">FeeStats</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The breakdown of units of gas used for the transaction.&quot;&quot;&quot;</span>
+    <span class="n">prices</span><span class="p">:</span> <span class="n">FeeStats</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The breakdown of gas prices for the transaction.&quot;&quot;&quot;</span></div>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">_HexStringToIntEnumMeta</span><span class="p">(</span><span class="n">EnumMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A metaclass for Enums that allows conversion from hexadecimal string values to integer Enum members.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">hexstr</span><span class="p">:</span> <span class="n">HexStr</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>  <span class="c1"># type: ignore [override]</span>
+        <span class="c1"># sourcery skip: instance-method-first-arg-name</span>
+        <span class="k">return</span> <span class="n">__em_call__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">hexstr</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type]</span>
+
+
+<div class="viewcode-block" id="Status"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Status">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Status</span><span class="p">(</span><span class="n">Enum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">_HexStringToIntEnumMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Enum representing the status of a transaction, indicating success or failure.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        failure (int): Represents a failed transaction with a value of 0.</span>
+<span class="sd">        success (int): Represents a successful transaction with a value of 1.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; Status.success</span>
+<span class="sd">        &lt;Status.success: 1&gt;</span>
+
+<span class="sd">        &gt;&gt;&gt; Status.failure</span>
+<span class="sd">        &lt;Status.failure: 0&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">failure</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">success</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="TransactionReceipt"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.TransactionReceipt">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TransactionReceipt</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">dict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the receipt of a transaction within a block.</span>
+
+<span class="sd">    See Also:</span>
+<span class="sd">        :class:`FullTransactionReceipt`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">transactionHash</span><span class="p">:</span> <span class="n">TransactionHash</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The unique hash of this transaction.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.transactionHash</span>
+<span class="sd">        TransactionHash(&#39;0x...&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">blockNumber</span><span class="p">:</span> <span class="n">BlockNumber</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The block number that contains the transaction.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.blockNumber</span>
+<span class="sd">        BlockNumber(1234567)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">contractAddress</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Address</span><span class="p">]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The contract address created, if the transaction was a contract creation, otherwise `None`.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.contractAddress</span>
+<span class="sd">        Address(&#39;0x...&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">transactionIndex</span><span class="p">:</span> <span class="n">TransactionIndex</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The position of this transaction within the block.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.transactionIndex</span>
+<span class="sd">        TransactionIndex(0)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">status</span><span class="p">:</span> <span class="n">Status</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The status of the transaction, represented by the :class:`Status` enum: </span>
+<span class="sd">    :attr:`Status.success` (1) if the transaction succeeded, :attr:`Status.failure` (0) if it failed.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.status</span>
+<span class="sd">        &lt;Status.success: 1&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">gasUsed</span><span class="p">:</span> <span class="n">Wei</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The amount of gas used by this transaction, not counting internal transactions, calls or delegate calls.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.gasUsed</span>
+<span class="sd">        Wei(21000)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">cumulativeGasUsed</span><span class="p">:</span> <span class="n">Wei</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The total amount of gas used in the block up to and including this transaction.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.cumulativeGasUsed</span>
+<span class="sd">        Wei(100000)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">_logs</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The logs that were generated during this transaction.&quot;&quot;&quot;</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">logs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Log</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The logs that were generated during this transaction.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; receipt.logs</span>
+<span class="sd">            (Log(...), Log(...))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_logs</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Log</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span>
+
+    <span class="c1"># These fields are only present on Mainnet.</span>
+    <span class="n">effectiveGasPrice</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The actual value per gas deducted from the sender&#39;s account.</span>
+
+<span class="sd">    This field is only present on Mainnet.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.effectiveGasPrice</span>
+<span class="sd">        Wei(1000000000)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">type</span><span class="p">:</span> <span class="n">uint</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The transaction type.</span>
+
+<span class="sd">    This field is only present on Mainnet.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.type</span>
+<span class="sd">        uint(2)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">blobGasUsed</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is sometimes present, only on Mainnet.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.blobGasUsed</span>
+<span class="sd">        Wei(0)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># These fields are only present on Optimism.</span>
+    <span class="n">l1FeeScalar</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Optimism.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.l1FeeScalar</span>
+<span class="sd">        Decimal(&#39;1.0&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">l1GasUsed</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Optimism.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.l1GasUsed</span>
+<span class="sd">        Wei(50000)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">l1GasPrice</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Optimism.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.l1GasPrice</span>
+<span class="sd">        Wei(1000000000)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">l1Fee</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Optimism.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.l1Fee</span>
+<span class="sd">        Wei(50000000000)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># These fields are only present on Arbitrum.</span>
+    <span class="n">l1BlockNumber</span><span class="p">:</span> <span class="n">BlockNumber</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Arbitrum.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.l1BlockNumber</span>
+<span class="sd">        BlockNumber(1234567)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">l1InboxBatchInfo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Arbitrum.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; receipt.l1InboxBatchInfo</span>
+<span class="sd">        HexBytes(&#39;0x...&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_feeStats</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;feeStats&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UNSET</span><span class="p">)</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Arbitrum.&quot;&quot;&quot;</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">feeStats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArbitrumFeeStats</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This field is only present on Arbitrum.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; receipt.feeStats</span>
+<span class="sd">            ArbitrumFeeStats(...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_feeStats</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">ArbitrumFeeStats</span><span class="p">,</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">Wei</span><span class="o">.</span><span class="n">_decode_hook</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="FullTransactionReceipt"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.FullTransactionReceipt">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FullTransactionReceipt</span><span class="p">(</span><span class="n">TransactionReceipt</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extends :class:`TransactionReceipt` to include full details.&quot;&quot;&quot;</span>
+
+    <span class="n">blockHash</span><span class="p">:</span> <span class="n">HexBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the block that contains the transaction.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; full_receipt.blockHash</span>
+<span class="sd">        HexBytes(&#39;0x...&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">logsBloom</span><span class="p">:</span> <span class="n">HexBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The bloom filter for all logs in this block.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; full_receipt.logsBloom</span>
+<span class="sd">        HexBytes(&#39;0x...&#39;)</span>
+<span class="sd">    &quot;&quot;&quot;</span></div>
+
+
+<span class="n">__em_call__</span> <span class="o">=</span> <span class="n">EnumMeta</span><span class="o">.</span><span class="fm">__call__</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, BobTheBuidler.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
