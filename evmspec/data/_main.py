@@ -16,7 +16,8 @@ from typing import (
 
 from cchecksum import to_checksum_address
 from hexbytes import HexBytes
-from msgspec import Raw, Struct, json
+from msgspec import Raw, Struct
+from msgspec.json import Decoder
 from typing_extensions import Self
 
 from evmspec._utils import to_bytes
@@ -52,6 +53,8 @@ _get_transaction_receipt: Final = (
 _get_transaction_receipt_raw: Final = (
     None if dank_eth is None else dank_eth._get_transaction_receipt_raw
 )
+# due to a circ import issue we will import this later
+_decode_logs = None
 
 
 class Address(str):
@@ -538,13 +541,19 @@ class TransactionHash(HexBytes32):
                     "You must have dank_mids installed in order to use this feature"
                 ) from None
 
-            return decode_logs(await _get_transaction_receipt_raw(self))
+            if _decode_logs is None:
+                __make_decode_logs()
+            return _decode_logs(await _get_transaction_receipt_raw(self))
 
 
 @final
 class BlockHash(HexBytes32): ...
 
 
-decode_logs: Final = json.Decoder(type=Tuple["Log", ...], dec_hook=_decode_hook).decode
 __str_new__: Final = str.__new__
 __bytes_new__: Final = bytes.__new__
+
+def __make_decode_logs() -> None:
+    from evmspec.structs.log import Log
+    global _decode_logs
+    _decode_logs = Decoder(type=Tuple["Log", ...], dec_hook=_decode_hook).decode
