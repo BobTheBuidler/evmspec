@@ -1,4 +1,5 @@
 """This file is a duplicate of hexbytes._utils.py taken on May 3 2025, and will be compiled for a speed boost."""
+
 import binascii
 from typing import Final, Union
 
