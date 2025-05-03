@@ -19,6 +19,6 @@ setup(
     packages=["evmspec"],
     package_data={"evmspec": ["py.typed"]},
     include_package_data=True,
-    ext_modules=mypycify(["evmspec/_utils.py"]),
+    ext_modules=mypycify(["evmspec/_utils.py", "--pretty", "--strict", "--install-types"]),
     zip_safe=False,
 )
