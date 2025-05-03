@@ -1,4 +1,3 @@
-import tomllib
 from pathlib import Path
 from setuptools import setup
 from mypyc.build import mypycify
@@ -17,6 +16,9 @@ with Path("pyproject.toml").open("rb") as f:
 setup(
     name=poetry_config["name"],
     version=poetry_config["version"],
-    ext_modules=mypycify(["evmspec/_utils.py"]),
     packages=["evmspec"],
+    package_data={"evmspec": ["py.typed"]},
+    include_package_data=True,
+    ext_modules=mypycify(["evmspec/_utils.py"]),
+    zip_safe=False,
 )
