@@ -24,6 +24,7 @@ setup(
             "evmspec/_utils.py",
             "--pretty",
             "--install-types",
+            "--non-interactive",
             "--disable-error-code=unused-ignore",
         ]
     ),
