@@ -5,8 +5,8 @@ description = "A collection of msgspec.Struct definitions for use with the Ether
 authors = ["BobTheBuidler <bobthebuidlerdefi@gmail.com>"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools", "wheel", "mypy[mypyc]", "tomli>=2.0.0; python_version < '3.11'"]
+build-backend = "setuptools.build_meta"
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.13"
