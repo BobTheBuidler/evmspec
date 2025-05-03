@@ -553,7 +553,9 @@ class BlockHash(HexBytes32): ...
 __str_new__: Final = str.__new__
 __bytes_new__: Final = bytes.__new__
 
+
 def __make_decode_logs() -> None:
     from evmspec.structs.log import Log
+
     global _decode_logs
     _decode_logs = Decoder(type=Tuple["Log", ...], dec_hook=_decode_hook).decode
