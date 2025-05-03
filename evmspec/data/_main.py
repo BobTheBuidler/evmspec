@@ -63,6 +63,13 @@ class Address(str):
         """
         return __str_new__(cls, to_checksum_address(address))
 
+    def __reduce__(self) -> None:
+    """Return a tuple describing how to reconstruct the object without re-checksumming."""
+    # (1) The first item is `str.__new__` used to create a new instance 
+    #     without calling `Address.__new__`. We define that below.
+    # (2) The second item is a tuple of arguments for `str.__new__`.
+    return __str_new__, (type(self), str(self))
+
     @classmethod
     def _decode_hook(cls, typ: Type["Address"], obj: str):
         """Decodes an object into an Address instance with checksum validation.
@@ -359,6 +366,13 @@ class HexBytes32(HexBytes):
             raise ValueError(f"{v} is too long: {len(input_bytes)}") from e.__cause__
         return __bytes_new__(cls, missing_bytes + input_bytes)
 
+    def __reduce__(self) -> None:
+    """Return a tuple describing how to reconstruct the object without re-calling `to_bytes` or checking length."""
+    # (1) The first item is `bytes.__new__` used to create a new instance 
+    #     without calling `HexBytes32.__new__`. We define that below.
+    # (2) The second item is a tuple of arguments for `bytes.__new__`.
+    return __bytes_new__, (type(self), bytes(self))
+
     def __repr__(self) -> str:
         return f"{type(self).__name__}(0x{_hex(self)})"
 
@@ -369,6 +383,7 @@ class HexBytes32(HexBytes):
     #    return 32
 
     def __hash__(self) -> int:
+        # TODO: can we just remove this? 
         return hash(_hex(self))
 
     def hex(self) -> str:
