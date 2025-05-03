@@ -280,7 +280,7 @@ class UnixTimestamp(uint):
 # Hook
 
 
-def _decode_hook(typ: Type, obj: object):
+def _decode_hook(typ: Type[_T], obj: object) -> _T:
     """A generic decode hook for converting objects to specific types.
 
     Args:
@@ -318,7 +318,7 @@ def _decode_hook(typ: Type, obj: object):
     raise NotImplementedError(typ, obj, type(obj))
 
 
-def _decode_hook_unsafe(typ: Type, obj: object):
+def _decode_hook_unsafe(typ: Type[_T], obj: object) -> _T:
     if issubclass(typ, (HexBytes, Enum, Decimal)):
         return typ(obj)  # type: ignore [arg-type]
     elif typ is Address:
