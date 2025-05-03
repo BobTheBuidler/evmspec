@@ -3,6 +3,11 @@ from pathlib import Path
 from setuptools import setup
 from mypyc.build import mypycify
 
+try:
+    import tomllib  # Python 3.11+
+except ModuleNotFoundError:
+    import tomli as tomllib  # Older Python
+
 
 with Path("pyproject.toml").open("rb") as f:
     pyproject_data = tomllib.load(f)
