@@ -64,9 +64,7 @@ jobs:
         uses: snok/install-poetry@v1
 
       - name: Install Dependencies
-        run: |
-          poetry install --no-interaction
-          poetry run python -m pip install "eth-hash[pysha3]"
+        run: poetry run python -m pip install .
 
       - name: Run test suite
         env:
