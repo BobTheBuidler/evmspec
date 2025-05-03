@@ -96,7 +96,9 @@ class Address(str):
         """
         return __str_new__(cls, to_checksum_address(address))
 
-    def __reduce__(self) -> None:
+    def __reduce__(
+        self: "_TA"
+    ) -> Tuple[Callable[[Type["_TA"], str], "_TA"], Tuple[Type["_TA"], str]]:
         """Return a tuple describing how to reconstruct the object without re-checksumming."""
         # (1) The first item is `str.__new__` used to create a new instance
         #     without calling `Address.__new__`. We define that below.
@@ -170,6 +172,9 @@ class Address(str):
         return cls(address)
 
 
+_TA = TypeVar("_TA", bound=Address)
+
+
 # Integers
 
 
@@ -225,7 +230,7 @@ class uint(int):
     __str__ = int.__repr__
 
     @classmethod
-    def _decode_hook(cls, typ: Type["uint"], obj: str) -> Self:
+    def _decode_hook(cls, typ: Type[Self], obj: str) -> Self:
         """Decodes a hexadecimal string into a uint.
 
         Args:
@@ -340,13 +345,13 @@ def _decode_hook(typ: Type[_T], obj: object) -> _T:
         - :class:`uint`: For decoding unsigned integers.
     """
     if issubclass(typ, (HexBytes, Enum, Decimal)):
-        return typ(obj)  # type: ignore [arg-type]
+        return typ(obj)  # type: ignore [arg-type, return-value]
     elif typ is Address:
-        return Address.checksum(obj)  # type: ignore [arg-type]
+        return Address.checksum(obj)  # type: ignore [arg-type, return-value]
     elif issubclass(typ, uint):
         if isinstance(obj, str):
             # if obj.startswith("0x"):
-            return typ.fromhex(obj)
+            return typ.fromhex(obj)  # type: ignore [return-value]
             # elif obj == "":
             #    return None if typ is ChainId else UNSET  # TODO: refactor
         else:
@@ -356,13 +361,13 @@ def _decode_hook(typ: Type[_T], obj: object) -> _T:
 
 def _decode_hook_unsafe(typ: Type[_T], obj: object) -> _T:
     if issubclass(typ, (HexBytes, Enum, Decimal)):
-        return typ(obj)  # type: ignore [arg-type]
+        return typ(obj)  # type: ignore [arg-type, return-value]
     elif typ is Address:
-        return __str_new__(Address, obj)  # type: ignore [arg-type]
+        return __str_new__(Address, obj)  # type: ignore [arg-type, return-value]
     elif issubclass(typ, uint):
         if isinstance(obj, str):
             # if obj.startswith("0x"):
-            return typ.fromhex(obj)
+            return typ.fromhex(obj)  # type: ignore [return-value]
             # elif obj == "":
             #    return None if typ is ChainId else UNSET  # TODO: refactor
         else:
@@ -422,7 +427,9 @@ class HexBytes32(HexBytes):
             raise ValueError(f"{v} is too long: {len(input_bytes)}") from e.__cause__
         return __bytes_new__(cls, missing_bytes + input_bytes)
 
-    def __reduce__(self) -> None:
+    def __reduce__(
+        self: "_THB32"
+    ) -> Tuple[Callable[[Type["_THB32"], bytes], "_THB32"], Tuple[Type["_THB32"], bytes]]:
         """Return a tuple describing how to reconstruct the object without re-calling `to_bytes` or checking length."""
         # (1) The first item is `bytes.__new__` used to create a new instance
         #     without calling `HexBytes32.__new__`. We define that below.
@@ -442,7 +449,7 @@ class HexBytes32(HexBytes):
         # TODO: can we just remove this?
         return hash(_hex(self))
 
-    def hex(self) -> str:
+    def hex(self) -> str:  # type: ignore [override]
         """
         Output hex-encoded bytes, with an "0x" prefix.
 
@@ -481,6 +488,8 @@ class HexBytes32(HexBytes):
         elif l < 66:
             raise ValueError("too smol", len(hexstr), hexstr)
 
+
+_THB32 = TypeVar("_THB32", bound=HexBytes32)
 
 @final
 class TransactionHash(HexBytes32):
@@ -543,7 +552,7 @@ class TransactionHash(HexBytes32):
 
             if _decode_logs is None:
                 __make_decode_logs()
-            return _decode_logs(await _get_transaction_receipt_raw(self))
+            return _decode_logs(await _get_transaction_receipt_raw(self))  # type: ignore [misc]
 
 
 @final
