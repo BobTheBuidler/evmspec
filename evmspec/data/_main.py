@@ -2,19 +2,31 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, Callable, Tuple, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Callable, Final, Tuple, Type, TypeVar, Union, final
 
 from cchecksum import to_checksum_address
 from hexbytes import HexBytes
-from hexbytes._utils import to_bytes
 from msgspec import Raw, Struct, json
 from typing_extensions import Self
 
+from evmspec._utils import to_bytes
 from evmspec.data._cache import ttl_cache
 
 if TYPE_CHECKING:
     from evmspec.structs.log import Log
     from evmspec.structs.receipt import TransactionReceipt
+    
+try:
+    # If you have ez-a-sync installed, evmspec gets some extra functionality
+    from a_sync import a_sync
+except ModuleNotFoundError:
+    a_sync = None
+
+try:
+    # If you have dank mids installed, evmspec gets some extra functionality
+    from dank_mids import dank_eth
+except (ModuleNotFoundError, ImportError):
+    dank_eth = None
 
 
 _T = TypeVar("_T")
@@ -22,6 +34,10 @@ _T = TypeVar("_T")
 
 DecodeHook = Callable[[Type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
+
+
+_get_transaction_receipt: Final = None if dank_eth is None else dank_eth.get_transaction_receipt
+_get_transaction_receipt_raw: Final = None if dank_eth is None else dank_eth._get_transaction_receipt_raw
 
 
 class Address(str):
@@ -255,12 +271,15 @@ class Wei(uint):
     #    return Gwei(self) / 10**9
 
 
+@final
 class BlockNumber(uint): ...
 
 
+@final
 class Nonce(uint): ...
 
 
+@final
 class UnixTimestamp(uint):
     @cached_property
     def datetime(self) -> datetime:
@@ -336,10 +355,10 @@ def _decode_hook_unsafe(typ: Type[_T], obj: object) -> _T:
 
 # Hexbytes
 
-ONE_EMPTY_BYTE = bytes(HexBytes("0x00"))
+ONE_EMPTY_BYTE: Final = bytes(HexBytes("0x00"))
 
 
-_MISSING_BYTES = {i: (32 - i) * ONE_EMPTY_BYTE for i in range(0, 33)}
+_MISSING_BYTES: Final = {i: (32 - i) * ONE_EMPTY_BYTE for i in range(0, 33)}
 """Calculate the number of missing bytes and return them.
 
 Args:
@@ -353,7 +372,7 @@ Examples:
     b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
 """
 
-_hex = bytes.hex
+_hex: Final = bytes.hex
 """An alias for `bytes.hex`"""
 
 
@@ -446,13 +465,8 @@ class HexBytes32(HexBytes):
             raise ValueError("too smol", len(hexstr), hexstr)
 
 
+@final
 class TransactionHash(HexBytes32):
-
-    try:
-        from a_sync import a_sync
-    except ImportError:
-        a_sync = None
-
     if a_sync:
 
         StructType = TypeVar("StructType", bound=Struct)
@@ -481,9 +495,12 @@ class TransactionHash(HexBytes32):
                 >>> await tx_hash.get_receipt(TransactionReceipt)
                 # Returns a TransactionReceipt object
             """
-            import dank_mids
+            if _get_transaction_receipt is None:
+                raise ModuleNotFoundError(
+                    "You must have dank_mids installed in order to use this feature"
+                ) from None
 
-            return await dank_mids.eth.get_transaction_receipt(
+            return await _get_transaction_receipt(
                 self, decode_to=decode_to, decode_hook=decode_hook
             )
 
@@ -502,19 +519,18 @@ class TransactionHash(HexBytes32):
                 >>> await tx_hash.get_logs()
                 # Returns a tuple of Log objects
             """
-            try:
-                import dank_mids
-            except ImportError as e:
-                raise ImportError(
+            if _get_transaction_receipt_raw is None:
+                raise ModuleNotFoundError(
                     "You must have dank_mids installed in order to use this feature"
-                ) from e.__cause__
+                ) from None
 
-            receipt = await dank_mids.eth._get_transaction_receipt_raw(self)
-            return json.decode(receipt, type=Tuple["Log", ...], dec_hook=_decode_hook)
+            return decode_logs(await _get_transaction_receipt_raw(self))
 
 
+@final
 class BlockHash(HexBytes32): ...
 
 
-__str_new__ = str.__new__
-__bytes_new__ = bytes.__new__
+decode_logs: Final = json.Decoder(type=Tuple["Log", ...], dec_hook=_decode_hook).decode
+__str_new__: Final = str.__new__
+__bytes_new__: Final = bytes.__new__
