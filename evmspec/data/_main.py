@@ -65,7 +65,7 @@ class Address(str):
 
     def __reduce__(self) -> None:
         """Return a tuple describing how to reconstruct the object without re-checksumming."""
-        # (1) The first item is `str.__new__` used to create a new instance 
+        # (1) The first item is `str.__new__` used to create a new instance
         #     without calling `Address.__new__`. We define that below.
         # (2) The second item is a tuple of arguments for `str.__new__`.
         return __str_new__, (type(self), str(self))
@@ -388,7 +388,7 @@ class HexBytes32(HexBytes):
 
     def __reduce__(self) -> None:
         """Return a tuple describing how to reconstruct the object without re-calling `to_bytes` or checking length."""
-        # (1) The first item is `bytes.__new__` used to create a new instance 
+        # (1) The first item is `bytes.__new__` used to create a new instance
         #     without calling `HexBytes32.__new__`. We define that below.
         # (2) The second item is a tuple of arguments for `bytes.__new__`.
         return __bytes_new__, (type(self), bytes(self))
