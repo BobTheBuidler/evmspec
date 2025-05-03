@@ -97,7 +97,7 @@ class Address(str):
         return __str_new__(cls, to_checksum_address(address))
 
     def __reduce__(
-        self: "_TA"
+        self: "_TA",
     ) -> Tuple[Callable[[Type["_TA"], str], "_TA"], Tuple[Type["_TA"], str]]:
         """Return a tuple describing how to reconstruct the object without re-checksumming."""
         # (1) The first item is `str.__new__` used to create a new instance
@@ -428,8 +428,10 @@ class HexBytes32(HexBytes):
         return __bytes_new__(cls, missing_bytes + input_bytes)
 
     def __reduce__(
-        self: "_THB32"
-    ) -> Tuple[Callable[[Type["_THB32"], bytes], "_THB32"], Tuple[Type["_THB32"], bytes]]:
+        self: "_THB32",
+    ) -> Tuple[
+        Callable[[Type["_THB32"], bytes], "_THB32"], Tuple[Type["_THB32"], bytes]
+    ]:
         """Return a tuple describing how to reconstruct the object without re-calling `to_bytes` or checking length."""
         # (1) The first item is `bytes.__new__` used to create a new instance
         #     without calling `HexBytes32.__new__`. We define that below.
@@ -490,6 +492,7 @@ class HexBytes32(HexBytes):
 
 
 _THB32 = TypeVar("_THB32", bound=HexBytes32)
+
 
 @final
 class TransactionHash(HexBytes32):
