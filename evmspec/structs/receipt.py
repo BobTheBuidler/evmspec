@@ -51,8 +51,9 @@ class _HexStringToIntEnumMeta(EnumMeta):
     A metaclass for Enums that allows conversion from hexadecimal string values to integer Enum members.
     """
 
-    def __call__(cls, hexstr: HexStr, *args, **kw):
-        return __em_call__(cls, int(hexstr, 16), *args, **kw)
+    def __call__(cls, hexstr: HexStr, *args, **kw):  # type: ignore [override]
+        # sourcery skip: instance-method-first-arg-name
+        return __em_call__(cls, int(hexstr, 16), *args, **kw)  # type: ignore [arg-type]
 
 
 class Status(Enum, metaclass=_HexStringToIntEnumMeta):

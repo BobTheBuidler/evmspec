@@ -207,7 +207,7 @@ class Transaction2930(_TransactionBase, tag="0x1", frozen=True, kw_only=True, fo
 
     type: ClassVar[HexBytes] = HexBytes("1")
 
-    yParity: Optional[uint] = UNSET
+    yParity: Optional[uint] = UNSET  # type: ignore [assignment]
     """The yParity for the transaction."""
 
 
@@ -224,7 +224,7 @@ class Transaction1559(_TransactionBase, tag="0x2", frozen=True, kw_only=True, fo
     maxPriorityFeePerGas: Wei
     """The maximum priority gas fee set in the transaction."""
 
-    yParity: Optional[uint] = UNSET
+    yParity: Optional[uint] = UNSET  # type: ignore [assignment]
     """The yParity for the transaction."""
 
 
