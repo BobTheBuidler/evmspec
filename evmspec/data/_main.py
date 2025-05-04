@@ -32,7 +32,7 @@ try:
     # If you have ez-a-sync installed, evmspec gets some extra functionality
     from a_sync import a_sync
 except ModuleNotFoundError:
-    a_sync: Optional = None  # type: ignore [type-arg]
+    a_sync: Optional[Callable] = None  # type: ignore [type-arg, no-redef]
 
 
 _T = TypeVar("_T")
