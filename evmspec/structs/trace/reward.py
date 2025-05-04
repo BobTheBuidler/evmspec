@@ -2,7 +2,8 @@ from enum import Enum
 from functools import cached_property
 from typing import ClassVar, Literal
 
-from msgspec import Raw, field, json
+from msgspec import Raw, field
+from msgspec.json import Decoder
 
 from evmspec.data import Address, _decode_hook
 from evmspec.data._enum import StringToIntEnumMeta
@@ -119,4 +120,7 @@ class Trace(
             >>> print(action.author)
             0x123
         """
-        return json.decode(self._action, type=Action, dec_hook=_decode_hook)
+        return _decode_action(self._action)
+
+
+_decode_action: Final[Callable[[Raw], Action]] = Decoder(type=Action, dec_hook=_decode_hook)
