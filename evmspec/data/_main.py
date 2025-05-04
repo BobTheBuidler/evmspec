@@ -580,7 +580,7 @@ def __import_dank_tx_methods() -> None:
     global _dank_import_attempted
     global _get_transaction_receipt
     global _get_transaction_receipt_raw
-    
+
     try:
         from dank_mids import dank_eth
     except ImportError:
