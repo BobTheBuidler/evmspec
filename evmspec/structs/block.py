@@ -108,8 +108,8 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
                     for raw_tx in _decode_raw_multi(self._transactions)
                 ]
         if transactions and isinstance(transactions[0], str):
-            transactions = (TransactionHash(txhash) for txhash in transactions)
-        return tuple(transactions)
+            return tuple(TransactionHash(txhash) for txhash in transactions)
+        return tuple(transactions)  # type: ignore [return-value]
 
 
 class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
