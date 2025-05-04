@@ -1,9 +1,10 @@
 from functools import cached_property
-from typing import Any, ClassVar, List, Optional, Tuple, Union
+from typing import Any, Callable, ClassVar, Final, List, Optional, Tuple, Union
 
 from dictstruct import LazyDictStruct
 from hexbytes import HexBytes
 from msgspec import UNSET, Raw, field, json
+from msgspec.json import Decoder
 
 from evmspec.data import (
     Address,
@@ -16,6 +17,9 @@ from evmspec.data import (
     uint,
 )
 from evmspec.data._ids import ChainId, TransactionIndex
+
+
+_decode_storage_keys: Final[Callable[[Raw], List[HexBytes32]] = Decoder(type=List[HexBytes32], dec_hook=lambda hb_type, obj: hb_type(obj)).decode
 
 
 class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
@@ -63,11 +67,10 @@ class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True): 
         See Also:
             - :meth:`_TransactionBase.accessList`
         """
-        return json.decode(
-            self._storageKeys,
-            type=List[HexBytes32],
-            dec_hook=lambda hexbytes_type, obj: hexbytes_type(obj),
-        )
+        return _decode_storage_keys(self._storageKeys)
+
+
+_decode_access_list: Final[Callable[[Raw], List[AccessListEntry]] = Decoder(type=List[AccessListEntry]).decode
 
 
 class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
@@ -174,7 +177,7 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
         See Also:
             - :class:`AccessListEntry`
         """
-        return json.decode(self._accessList, type=List[AccessListEntry])
+        return _decode_access_list(self._accessList)
 
 
 class TransactionRLP(_TransactionBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
