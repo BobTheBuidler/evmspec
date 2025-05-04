@@ -1,6 +1,6 @@
 from enum import Enum
 from functools import cached_property
-from typing import ClassVar, Literal
+from typing import Callable, ClassVar, Final, Literal, final
 
 from msgspec import Raw, field
 from msgspec.json import Decoder
@@ -10,6 +10,7 @@ from evmspec.data._enum import StringToIntEnumMeta
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase
 
 
+@final
 class Type(Enum, metaclass=StringToIntEnumMeta):
     """Represents the types of rewards in Ethereum: block or uncle.
 
@@ -29,6 +30,7 @@ class Type(Enum, metaclass=StringToIntEnumMeta):
     uncle = 1
 
 
+@final
 class Action(
     _ActionBase,
     frozen=True,
@@ -59,6 +61,7 @@ class Action(
     """The type of the reward."""
 
 
+@final
 class Trace(
     _FilterTraceBase,
     tag="reward",
