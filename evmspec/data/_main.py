@@ -7,6 +7,7 @@ from typing import (
     Any,
     Callable,
     Final,
+    Optional,
     Tuple,
     Type,
     TypeVar,
@@ -41,7 +42,7 @@ DecodeHook = Callable[[Type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
 # due to a circ import issue we will import this later
-_decode_logs = None
+_decode_logs: Optional[Callable[[Raw], Tuple["Log", ...]]] = None
 
 
 class Address(str):
