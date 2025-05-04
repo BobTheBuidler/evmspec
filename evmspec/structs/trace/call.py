@@ -1,6 +1,6 @@
 from enum import Enum
 from functools import cached_property
-from typing import ClassVar, Literal, Optional
+from typing import ClassVar, Final, Literal, Optional
 
 from hexbytes import HexBytes
 from msgspec import UNSET, Raw, field
@@ -140,6 +140,5 @@ class Trace(
     error: str = UNSET  # type: ignore [assignment]
     """The error message, if an error occurred."""
 
-    @cached_property
-    def _decode_action(self) -> Callable[[Raw], Action]:
-        return Decoder(type=Action, dec_hook=_decode_hook)
+
+_decode_action: Final[Callable[[Raw], Action]] = Decoder(type=Action, dec_hook=_decode_hook)
