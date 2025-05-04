@@ -1,3 +1,4 @@
+from evmspec import *
 from evmspec.structs import *
 
 
