@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import Any, Callable, ClassVar, Final, List, Optional, Tuple, Union
+from typing import Any, Callable, ClassVar, Final, List, Optional, Tuple, Union, final
 
 from dictstruct import LazyDictStruct
 from hexbytes import HexBytes
@@ -22,6 +22,7 @@ from evmspec.data._ids import ChainId, TransactionIndex
 _decode_storage_keys: Final[Callable[[Raw], List[HexBytes32]]] = Decoder(type=List[HexBytes32], dec_hook=lambda hb_type, obj: hb_type(obj)).decode
 
 
+@final
 class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
     """
     Represents an entry in an Ethereum transaction access list.
@@ -180,6 +181,7 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
         return _decode_access_list(self._accessList)
 
 
+@final
 class TransactionRLP(_TransactionBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """
     Represents a RLP encoded transaction that might have network-specific fields.
@@ -195,6 +197,7 @@ class TransactionRLP(_TransactionBase, frozen=True, kw_only=True, forbid_unknown
     arbSubType: uint = UNSET  # type: ignore [assignment]
 
 
+@final
 class TransactionLegacy(_TransactionBase, tag="0x0", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """
     Represents a Legacy Ethereum transaction (pre-EIP-2718).
@@ -203,6 +206,7 @@ class TransactionLegacy(_TransactionBase, tag="0x0", frozen=True, kw_only=True, 
     type: ClassVar[HexBytes] = HexBytes("0")
 
 
+@final
 class Transaction2930(_TransactionBase, tag="0x1", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """
     Represents a type-2930 (EIP-2930) Ethereum transaction with an access list.
@@ -214,6 +218,7 @@ class Transaction2930(_TransactionBase, tag="0x1", frozen=True, kw_only=True, fo
     """The yParity for the transaction."""
 
 
+@final
 class Transaction1559(_TransactionBase, tag="0x2", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """
     Represents a type-1559 (EIP-1559) Ethereum transaction with dynamic fee.
@@ -231,6 +236,7 @@ class Transaction1559(_TransactionBase, tag="0x2", frozen=True, kw_only=True, fo
     """The yParity for the transaction."""
 
 
+@final
 class Transaction4844(Transaction1559, tag="0x3", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """
     Represents a type-1559 (EIP-1559) Ethereum transaction with dynamic fee.
