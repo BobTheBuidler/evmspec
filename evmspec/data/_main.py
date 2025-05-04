@@ -543,7 +543,7 @@ class TransactionHash(HexBytes32):
             if _decode_logs is None:
                 __make_decode_logs()
             receipt = await dank_mids.eth._get_transaction_receipt_raw(self)
-            return _decode_logs(receipt)
+            return _decode_logs(receipt)  # type: ignore [misc]
 
 
 @final
