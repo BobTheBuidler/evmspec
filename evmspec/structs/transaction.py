@@ -71,7 +71,7 @@ class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True): 
         return _decode_storage_keys(self._storageKeys)
 
 
-_decode_access_list: Final[Callable[[Raw], List[AccessListEntry]] = Decoder(type=List[AccessListEntry]).decode
+_decode_access_list: Final[Callable[[Raw], List[AccessListEntry]]] = Decoder(type=List[AccessListEntry]).decode
 
 
 class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
