@@ -41,12 +41,7 @@ DecodeHook = Callable[[Type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
 
-_get_transaction_receipt: Final = (
-    None if dank_eth is None else dank_eth.get_transaction_receipt
-)
-_get_transaction_receipt_raw: Final = (
-    None if dank_eth is None else dank_eth._get_transaction_receipt_raw
-)
+
 # due to a circ import issue we will import this later
 _decode_logs = None
 
@@ -567,9 +562,16 @@ def __make_decode_logs() -> None:
     _decode_logs = Decoder(type=Tuple["Log", ...], dec_hook=_decode_hook).decode
 
 
-# NOTE: this must go at the bottom since dank imports from this package
+# NOTE: this must go at the bottom since dank imports from this package and can cause a circ import
 try:
     # If you have dank mids installed, evmspec gets some extra functionality
     from dank_mids import dank_eth
 except (ModuleNotFoundError, ImportError):
     dank_eth = None
+    
+_get_transaction_receipt: Final = (
+    None if dank_eth is None else dank_eth.get_transaction_receipt
+)
+_get_transaction_receipt_raw: Final = (
+    None if dank_eth is None else dank_eth._get_transaction_receipt_raw
+)
