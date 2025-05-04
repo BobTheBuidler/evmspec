@@ -7,6 +7,7 @@ from typing import (
     Any,
     Callable,
     Final,
+    Optional,
     Tuple,
     Type,
     TypeVar,
@@ -41,8 +42,14 @@ DecodeHook = Callable[[Type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
 
-# due to a circ import issue we will import this later
-_decode_logs = None
+# Due to a circ import issue we will import this later
+_decode_logs: Optional[Callable] = None
+
+# If you have dank mids installed, evmspec gets some extra functionality
+# To prevent a circ import issue, we will fill these in later too
+_dank_import_attempted: bool = False
+_get_transaction_receipt: Optional[Callable] = None
+_get_transaction_receipt_raw: Optional[Callable] = None
 
 
 class Address(str):
@@ -494,7 +501,7 @@ class TransactionHash(HexBytes32):
             self,
             decode_to: ReceiptDataType,
             decode_hook: DecodeHook[ReceiptDataType] = _decode_hook,
-        ) -> "TransactionReceipt":
+        ) -> "TransactionReceipt":  # sourcery skip: hoist-if-from-if
             """Async method to get the transaction receipt.
 
             Args:
@@ -513,9 +520,12 @@ class TransactionHash(HexBytes32):
                 # Returns a TransactionReceipt object
             """
             if _get_transaction_receipt is None:
-                raise ModuleNotFoundError(
-                    "You must have dank_mids installed in order to use this feature"
-                ) from None
+                if not _dank_import_attempted:
+                    __import_dank_tx_methods()
+                if _get_transaction_receipt is None:
+                    raise ModuleNotFoundError(
+                        "You must have dank_mids installed in order to use this feature"
+                    ) from None
 
             return await _get_transaction_receipt(
                 self, decode_to=decode_to, decode_hook=decode_hook
@@ -523,6 +533,7 @@ class TransactionHash(HexBytes32):
 
         @a_sync  # TODO; compare how these type check, they both function the same
         async def get_logs(self) -> Tuple["Log", ...]:
+            # sourcery skip: hoist-if-from-if
             """Async method to get the logs for the transaction.
 
             Returns:
@@ -537,9 +548,12 @@ class TransactionHash(HexBytes32):
                 # Returns a tuple of Log objects
             """
             if _get_transaction_receipt_raw is None:
-                raise ModuleNotFoundError(
-                    "You must have dank_mids installed in order to use this feature"
-                ) from None
+                if not _dank_import_attempted:
+                    __import_dank_tx_methods()
+                if _get_transaction_receipt_raw is None:
+                    raise ModuleNotFoundError(
+                        "You must have dank_mids installed in order to use this feature"
+                    ) from None
 
             if _decode_logs is None:
                 __make_decode_logs()
@@ -561,16 +575,16 @@ def __make_decode_logs() -> None:
     _decode_logs = Decoder(type=Tuple["Log", ...], dec_hook=_decode_hook).decode
 
 
-# NOTE: this must go at the bottom since dank imports from this package and can cause a circ import
-try:
-    # If you have dank mids installed, evmspec gets some extra functionality
-    from dank_mids import dank_eth
-except (ModuleNotFoundError, ImportError):
-    dank_eth = None
-
-_get_transaction_receipt: Final = (
-    None if dank_eth is None else dank_eth.get_transaction_receipt
-)
-_get_transaction_receipt_raw: Final = (
-    None if dank_eth is None else dank_eth._get_transaction_receipt_raw
-)
+def __import_dank_tx_methods() -> None:
+    """Just a helper function to break a circular import"""
+    global _dank_import_attempted
+    global _get_transaction_receipt
+    global _get_transaction_receipt_raw
+    
+    try:
+        from dank_mids import dank_eth
+    except ImportError:
+        _dank_import_attempted = True
+    else:
+        _get_transaction_receipt = dank_eth.get_transaction_receipt
+        _get_transaction_receipt_raw = dank_eth._get_transaction_receipt_raw
