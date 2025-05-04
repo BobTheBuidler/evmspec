@@ -1,6 +1,6 @@
 import logging
 from functools import cached_property
-from typing import Optional, Tuple, Union
+from typing import Callable, Final, Optional, Tuple, Union, final
 
 from dictstruct import DictStruct, LazyDictStruct
 from hexbytes import HexBytes
@@ -22,7 +22,7 @@ from evmspec.data._ids import IntId
 from evmspec.structs.transaction import Transaction, TransactionRLP
 
 
-logger = logging.getLogger(__name__)
+logger: Final = logging.getLogger(__name__)
 
 Transactions = Union[
     Tuple[TransactionHash, ...],
@@ -199,6 +199,7 @@ class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True): 
     """
 
 
+@final
 class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
     """
     Represents a base Ethereum block with base fee per gas.
@@ -211,6 +212,7 @@ class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=Tru
     """The base fee per gas."""
 
 
+@final
 class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """A Struct representing an Ethereum staking withdrawal.
 
@@ -230,6 +232,7 @@ class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fi
     """This field is not always present."""
 
 
+@final
 class ShanghaiCapellaBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
     """
     Represents a block from the Ethereum Shanghai or Capella upgrades, which includes staking withdrawals.
