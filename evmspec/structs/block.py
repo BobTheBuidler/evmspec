@@ -47,9 +47,6 @@ _decode_transactions: Final[Callable[[Raw], Tuple[Union[str, Transaction], ...]]
 _decode_transactions_rlp: Final[
     Callable[[Raw], Tuple[Union[str, TransactionRLP], ...]]
 ] = Decoder(type=Tuple[Union[str, TransactionRLP], ...], dec_hook=_decode_hook).decode
-_decode_staking_withdrawals: Final[Callable[[Raw], Tuple[StakingWithdrawal, ...]]] = (
-    Decoder(type=Tuple[StakingWithdrawal, ...], dec_hook=_decode_hook).decode
-)
 _decode_raw_multi: Final[Callable[[Raw], Tuple[Raw, ...]]] = Decoder(
     type=Tuple[Raw, ...]
 ).decode
@@ -230,6 +227,11 @@ class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fi
 
     validatorIndex: IntId = UNSET  # type: ignore [assignment]
     """This field is not always present."""
+
+
+_decode_staking_withdrawals: Final[Callable[[Raw], Tuple[StakingWithdrawal, ...]]] = (
+    Decoder(type=Tuple[StakingWithdrawal, ...], dec_hook=_decode_hook).decode
+)
 
 
 @final
