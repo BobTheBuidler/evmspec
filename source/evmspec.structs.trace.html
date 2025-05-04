@@ -93,7 +93,7 @@
 <span id="evmspec-structs-trace-call-module"></span><h2>evmspec.structs.trace.call module<a class="headerlink" href="#module-evmspec.structs.trace.call" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="evmspec.structs.trace.call.Action">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.call.</span></span><span class="sig-name descname"><span class="pre">Action</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/call.html#Action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.call.Action" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.call.</span></span><span class="sig-name descname"><span class="pre">Action</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/call.html#Action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.call.Action" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ActionBase</span></code></p>
 <p>Action type for contract calls.</p>
 <p class="rubric">Examples</p>
@@ -265,7 +265,7 @@ during serialization and deserialization.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="evmspec.structs.trace.call.Result">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.call.</span></span><span class="sig-name descname"><span class="pre">Result</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/call.html#Result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.call.Result" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.call.</span></span><span class="sig-name descname"><span class="pre">Result</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/call.html#Result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.call.Result" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ResultBase</span></code></p>
 <p>Represents the result of a contract call action, including the output data of the contract call.</p>
 <dl class="py attribute">
@@ -396,7 +396,7 @@ during serialization and deserialization.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="evmspec.structs.trace.call.Trace">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.call.</span></span><span class="sig-name descname"><span class="pre">Trace</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/call.html#Trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.call.Trace" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.call.</span></span><span class="sig-name descname"><span class="pre">Trace</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/call.html#Trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.call.Trace" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_FilterTraceBase</span></code></p>
 <p>Represents a trace of a contract call, including action and result details.</p>
 <p class="rubric">Examples</p>
@@ -641,7 +641,7 @@ within the Ethereum Virtual Machine (EVM).</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="evmspec.structs.trace.call.Type">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.call.</span></span><span class="sig-name descname"><span class="pre">Type</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/call.html#Type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.call.Type" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.call.</span></span><span class="sig-name descname"><span class="pre">Type</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/call.html#Type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.call.Type" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
 <p>Enum representing the types of contract calls: call, delegatecall, and staticcall.</p>
 <p class="rubric">Examples</p>
@@ -682,7 +682,7 @@ within the Ethereum Virtual Machine (EVM).</p>
 <span id="evmspec-structs-trace-create-module"></span><h2>evmspec.structs.trace.create module<a class="headerlink" href="#module-evmspec.structs.trace.create" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="evmspec.structs.trace.create.Action">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.create.</span></span><span class="sig-name descname"><span class="pre">Action</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/create.html#Action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.create.Action" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.create.</span></span><span class="sig-name descname"><span class="pre">Action</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/create.html#Action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.create.Action" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ActionBase</span></code></p>
 <p>Represents the action type for contract creations.</p>
 <p>This class captures the initialization code necessary for deploying a
@@ -846,7 +846,7 @@ during serialization and deserialization.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="evmspec.structs.trace.create.Result">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.create.</span></span><span class="sig-name descname"><span class="pre">Result</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/create.html#Result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.create.Result" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.create.</span></span><span class="sig-name descname"><span class="pre">Result</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/create.html#Result"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.create.Result" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ResultBase</span></code></p>
 <p>Represents the result of a contract creation action.</p>
 <p>It includes details such as the address and bytecode of the newly
@@ -983,7 +983,7 @@ deployment was successful and retrieving the contract’s code.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="evmspec.structs.trace.create.Trace">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.create.</span></span><span class="sig-name descname"><span class="pre">Trace</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/create.html#Trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.create.Trace" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.create.</span></span><span class="sig-name descname"><span class="pre">Trace</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/create.html#Trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.create.Trace" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_FilterTraceBase</span></code></p>
 <p>Represents a trace of a contract deployment.</p>
 <p>Provides a detailed trace structure which includes raw action data
@@ -1254,7 +1254,7 @@ within the Ethereum Virtual Machine (EVM).</p>
 <span id="evmspec-structs-trace-reward-module"></span><h2>evmspec.structs.trace.reward module<a class="headerlink" href="#module-evmspec.structs.trace.reward" title="Permalink to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="evmspec.structs.trace.reward.Action">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.reward.</span></span><span class="sig-name descname"><span class="pre">Action</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/reward.html#Action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.reward.Action" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.reward.</span></span><span class="sig-name descname"><span class="pre">Action</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/reward.html#Action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.reward.Action" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ActionBase</span></code></p>
 <p>Action type for rewards.</p>
 <p>This class extends <code class="xref py py-class docutils literal notranslate"><span class="pre">_ActionBase</span></code> to include specific attributes
@@ -1440,7 +1440,7 @@ during serialization and deserialization.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="evmspec.structs.trace.reward.Trace">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.reward.</span></span><span class="sig-name descname"><span class="pre">Trace</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/reward.html#Trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.reward.Trace" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.reward.</span></span><span class="sig-name descname"><span class="pre">Trace</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/reward.html#Trace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.reward.Trace" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_FilterTraceBase</span></code></p>
 <p>Represents the trace for a reward in Ethereum.</p>
 <p>This class extends <code class="xref py py-class docutils literal notranslate"><span class="pre">_FilterTraceBase</span></code> and is specifically tagged
@@ -1719,7 +1719,7 @@ within the Ethereum Virtual Machine (EVM).</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="evmspec.structs.trace.reward.Type">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.reward.</span></span><span class="sig-name descname"><span class="pre">Type</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/reward.html#Type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.reward.Type" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.trace.reward.</span></span><span class="sig-name descname"><span class="pre">Type</span></span><a class="reference internal" href="../_modules/evmspec/structs/trace/reward.html#Type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.trace.reward.Type" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
 <p>Represents the types of rewards in Ethereum: block or uncle.</p>
 <p>This enum is used to specify the type of reward in Ethereum traces.</p>

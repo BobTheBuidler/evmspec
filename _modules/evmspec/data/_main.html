@@ -78,6 +78,7 @@
     <span class="n">Any</span><span class="p">,</span>
     <span class="n">Callable</span><span class="p">,</span>
     <span class="n">Final</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
     <span class="n">Tuple</span><span class="p">,</span>
     <span class="n">Type</span><span class="p">,</span>
     <span class="n">TypeVar</span><span class="p">,</span>
@@ -102,13 +103,7 @@
     <span class="c1"># If you have ez-a-sync installed, evmspec gets some extra functionality</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">a_sync</span><span class="w"> </span><span class="kn">import</span> <span class="n">a_sync</span>
 <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
-    <span class="n">a_sync</span> <span class="o">=</span> <span class="kc">None</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="c1"># If you have dank mids installed, evmspec gets some extra functionality</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">dank_mids</span><span class="w"> </span><span class="kn">import</span> <span class="n">dank_eth</span>
-<span class="k">except</span> <span class="p">(</span><span class="ne">ModuleNotFoundError</span><span class="p">,</span> <span class="ne">ImportError</span><span class="p">):</span>
-    <span class="n">dank_eth</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">a_sync</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore [type-arg, no-redef]</span>
 
 
 <span class="n">_T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_T&quot;</span><span class="p">)</span>
@@ -117,15 +112,8 @@
 <span class="n">DecodeHook</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">_T</span><span class="p">]</span>
 <span class="sd">&quot;&quot;&quot;A type alias for a function that decodes an object into a specific type.&quot;&quot;&quot;</span>
 
-
-<span class="n">_get_transaction_receipt</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="kc">None</span> <span class="k">if</span> <span class="n">dank_eth</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">dank_eth</span><span class="o">.</span><span class="n">get_transaction_receipt</span>
-<span class="p">)</span>
-<span class="n">_get_transaction_receipt_raw</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="kc">None</span> <span class="k">if</span> <span class="n">dank_eth</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">dank_eth</span><span class="o">.</span><span class="n">_get_transaction_receipt_raw</span>
-<span class="p">)</span>
 <span class="c1"># due to a circ import issue we will import this later</span>
-<span class="n">_decode_logs</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_decode_logs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="s2">&quot;Log&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <div class="viewcode-block" id="Address"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Address">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Address</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
@@ -451,7 +439,7 @@
 <span class="n">ONE_EMPTY_BYTE</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;0x00&quot;</span><span class="p">))</span>
 
 
-<span class="n">_MISSING_BYTES</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">ONE_EMPTY_BYTE</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">33</span><span class="p">)}</span>
+<span class="n">_MISSING_BYTES</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">ONE_EMPTY_BYTE</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">33</span><span class="p">)}</span>
 <span class="sd">&quot;&quot;&quot;Calculate the number of missing bytes and return them.</span>
 
 <span class="sd">Args:</span>
@@ -567,12 +555,12 @@
 
 <div class="viewcode-block" id="TransactionHash"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.TransactionHash">[docs]</a><span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TransactionHash</span><span class="p">(</span><span class="n">HexBytes32</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">a_sync</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">a_sync</span><span class="p">:</span>  <span class="c1"># type: ignore [truthy-function]</span>
 
         <span class="n">StructType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;StructType&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Struct</span><span class="p">)</span>
         <span class="n">ReceiptDataType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">StructType</span><span class="p">]]</span>
 
-        <span class="nd">@a_sync</span><span class="p">(</span><span class="s2">&quot;async&quot;</span><span class="p">)</span>
+        <span class="nd">@a_sync</span><span class="p">(</span><span class="s2">&quot;async&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type]</span>
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_receipt</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">decode_to</span><span class="p">:</span> <span class="n">ReceiptDataType</span><span class="p">,</span>
@@ -595,13 +583,10 @@
 <span class="sd">                &gt;&gt;&gt; await tx_hash.get_receipt(TransactionReceipt)</span>
 <span class="sd">                # Returns a TransactionReceipt object</span>
 <span class="sd">            &quot;&quot;&quot;</span>
-            <span class="k">if</span> <span class="n">_get_transaction_receipt</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
-                    <span class="s2">&quot;You must have dank_mids installed in order to use this feature&quot;</span>
-                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">dank_mids</span>
 
-            <span class="k">return</span> <span class="k">await</span> <span class="n">_get_transaction_receipt</span><span class="p">(</span>
-                <span class="bp">self</span><span class="p">,</span> <span class="n">decode_to</span><span class="o">=</span><span class="n">decode_to</span><span class="p">,</span> <span class="n">decode_hook</span><span class="o">=</span><span class="n">decode_hook</span>
+            <span class="k">return</span> <span class="k">await</span> <span class="n">dank_mids</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">get_transaction_receipt</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span> <span class="n">decode_to</span><span class="o">=</span><span class="n">decode_to</span><span class="p">,</span> <span class="n">decode_hook</span><span class="o">=</span><span class="n">decode_hook</span>  <span class="c1"># type: ignore [arg-type]</span>
             <span class="p">)</span>
 
         <span class="nd">@a_sync</span>  <span class="c1"># TODO; compare how these type check, they both function the same</span>
@@ -619,14 +604,17 @@
 <span class="sd">                &gt;&gt;&gt; await tx_hash.get_logs()</span>
 <span class="sd">                # Returns a tuple of Log objects</span>
 <span class="sd">            &quot;&quot;&quot;</span>
-            <span class="k">if</span> <span class="n">_get_transaction_receipt_raw</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">import</span><span class="w"> </span><span class="nn">dank_mids</span>
+            <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
                     <span class="s2">&quot;You must have dank_mids installed in order to use this feature&quot;</span>
-                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e.__cause__</span>
 
             <span class="k">if</span> <span class="n">_decode_logs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">__make_decode_logs</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">_decode_logs</span><span class="p">(</span><span class="k">await</span> <span class="n">_get_transaction_receipt_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>  <span class="c1"># type: ignore [misc]</span></div>
+            <span class="n">receipt</span> <span class="o">=</span> <span class="k">await</span> <span class="n">dank_mids</span><span class="o">.</span><span class="n">eth</span><span class="o">.</span><span class="n">_get_transaction_receipt_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_decode_logs</span><span class="p">(</span><span class="n">receipt</span><span class="p">)</span>  <span class="c1"># type: ignore [misc]</span></div>
 
 
 <div class="viewcode-block" id="BlockHash"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.BlockHash">[docs]</a><span class="nd">@final</span>

@@ -71,17 +71,19 @@
   <h1>Source code for evmspec.structs.trace.call</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">final</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Address</span><span class="p">,</span> <span class="n">_decode_hook</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data._enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringToIntEnumMeta</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.trace._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_ActionBase</span><span class="p">,</span> <span class="n">_FilterTraceBase</span><span class="p">,</span> <span class="n">_ResultBase</span>
 
 
-<div class="viewcode-block" id="Type"><a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.call.Type">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Type</span><span class="p">(</span><span class="n">Enum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">StringToIntEnumMeta</span><span class="p">):</span>
+<div class="viewcode-block" id="Type"><a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.call.Type">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Type</span><span class="p">(</span><span class="n">Enum</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">StringToIntEnumMeta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Enum representing the types of contract calls: call, delegatecall, and staticcall.</span>
 
@@ -103,7 +105,8 @@
     <span class="n">staticcall</span> <span class="o">=</span> <span class="mi">2</span></div>
 
 
-<div class="viewcode-block" id="Action"><a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.call.Action">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Action</span><span class="p">(</span>
+<div class="viewcode-block" id="Action"><a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.call.Action">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Action</span><span class="p">(</span>
     <span class="n">_ActionBase</span><span class="p">,</span>
     <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -134,7 +137,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The input data of the action (transaction).&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="Result"><a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.call.Result">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span><span class="n">_ResultBase</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<div class="viewcode-block" id="Result"><a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.call.Result">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span><span class="n">_ResultBase</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents the result of a contract call action, including the output data of the contract call.</span>
 
@@ -151,7 +155,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The output of this transaction.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="Trace"><a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.call.Trace">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Trace</span><span class="p">(</span>
+<div class="viewcode-block" id="Trace"><a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.call.Trace">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Trace</span><span class="p">(</span>
     <span class="n">_FilterTraceBase</span><span class="p">,</span>
     <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;call&quot;</span><span class="p">,</span>
     <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -198,7 +203,7 @@
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Action</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The decoded call action, parity style.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Action</span><span class="p">,</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_decode_action</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">)</span>
 
     <span class="n">result</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Result</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -209,6 +214,11 @@
 
     <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The error message, if an error occurred.&quot;&quot;&quot;</span></div>
+
+
+<span class="n">_decode_action</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Action</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="n">Action</span><span class="p">,</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span>
+<span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 </pre></div>
 
            </div>
