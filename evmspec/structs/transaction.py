@@ -19,7 +19,7 @@ from evmspec.data import (
 from evmspec.data._ids import ChainId, TransactionIndex
 
 
-_decode_storage_keys: Final[Callable[[Raw], List[HexBytes32]] = Decoder(type=List[HexBytes32], dec_hook=lambda hb_type, obj: hb_type(obj)).decode
+_decode_storage_keys: Final[Callable[[Raw], List[HexBytes32]]] = Decoder(type=List[HexBytes32], dec_hook=lambda hb_type, obj: hb_type(obj)).decode
 
 
 class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
