@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import ClassVar, Final, Literal, final
+from typing import Callable, ClassVar, Final, Literal, final
 
 from hexbytes import HexBytes
 from msgspec import Raw, field
