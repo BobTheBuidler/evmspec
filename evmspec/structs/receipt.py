@@ -247,9 +247,7 @@ class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_default
             >>> receipt.feeStats
             ArbitrumFeeStats(...)
         """
-        return json.decode(
-            self._feeStats, type=ArbitrumFeeStats, dec_hook=Wei._decode_hook
-        )
+        return _decode_fee_stats(self._feeStats)
 
 
 class FullTransactionReceipt(TransactionReceipt, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
