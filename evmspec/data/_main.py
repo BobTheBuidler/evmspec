@@ -33,12 +33,6 @@ try:
 except ModuleNotFoundError:
     a_sync = None
 
-try:
-    # If you have dank mids installed, evmspec gets some extra functionality
-    from dank_mids import dank_eth
-except (ModuleNotFoundError, ImportError):
-    dank_eth = None
-
 
 _T = TypeVar("_T")
 """A generic type variable."""
@@ -46,13 +40,6 @@ _T = TypeVar("_T")
 DecodeHook = Callable[[Type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
-
-_get_transaction_receipt: Final = (
-    None if dank_eth is None else dank_eth.get_transaction_receipt
-)
-_get_transaction_receipt_raw: Final = (
-    None if dank_eth is None else dank_eth._get_transaction_receipt_raw
-)
 # due to a circ import issue we will import this later
 _decode_logs = None
 
@@ -524,12 +511,9 @@ class TransactionHash(HexBytes32):
                 >>> await tx_hash.get_receipt(TransactionReceipt)
                 # Returns a TransactionReceipt object
             """
-            if _get_transaction_receipt is None:
-                raise ModuleNotFoundError(
-                    "You must have dank_mids installed in order to use this feature"
-                ) from None
+            import dank_mids
 
-            return await _get_transaction_receipt(
+            return await dank_mids.eth.get_transaction_receipt(
                 self, decode_to=decode_to, decode_hook=decode_hook
             )
 
@@ -548,14 +532,17 @@ class TransactionHash(HexBytes32):
                 >>> await tx_hash.get_logs()
                 # Returns a tuple of Log objects
             """
-            if _get_transaction_receipt_raw is None:
-                raise ModuleNotFoundError(
+            try:
+                import dank_mids
+            except ImportError as e:
+                raise ImportError(
                     "You must have dank_mids installed in order to use this feature"
-                ) from None
+                ) from e.__cause__
 
             if _decode_logs is None:
                 __make_decode_logs()
-            return _decode_logs(await _get_transaction_receipt_raw(self))
+            receipt = await dank_mids.eth._get_transaction_receipt_raw(self)
+            return _decode_logs(receipt)
 
 
 @final
