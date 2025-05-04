@@ -1,16 +1,20 @@
 from decimal import Decimal
 from enum import Enum, EnumMeta
 from functools import cached_property
-from typing import Optional, Tuple
+from typing import Callable, Final, Optional, Tuple
 
 from dictstruct import DictStruct, LazyDictStruct
 from eth_typing import HexStr
 from hexbytes import HexBytes
-from msgspec import UNSET, Raw, field, json
+from msgspec import UNSET, Raw, field
+from msgspec.json import Decoder
 
 from evmspec.data import Address, BlockNumber, TransactionHash, Wei, _decode_hook, uint
 from evmspec.data._ids import TransactionIndex
 from evmspec.structs.log import Log
+
+
+_decode_logs: Final[Callable[[Raw], Tuple[Log, ...]]] = Decoder(type=Tuple[Log, ...], dec_hook=_decode_hook).decode
 
 
 class FeeStats(DictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
@@ -44,6 +48,9 @@ class ArbitrumFeeStats(DictStruct, frozen=True, forbid_unknown_fields=True, omit
     """The breakdown of units of gas used for the transaction."""
     prices: FeeStats = UNSET  # type: ignore [assignment]
     """The breakdown of gas prices for the transaction."""
+
+
+_decode_fee_stats: Final[Callable[[Raw], ArbitrumFeeStats]] = Decoder(type=ArbitrumFeeStats, dec_hook=Wei._decode_hook).decode
 
 
 class _HexStringToIntEnumMeta(EnumMeta):
@@ -151,7 +158,7 @@ class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_default
             >>> receipt.logs
             (Log(...), Log(...))
         """
-        return json.decode(self._logs, type=Tuple[Log, ...], dec_hook=_decode_hook)
+        return _decode_logs(self._logs)
 
     # These fields are only present on Mainnet.
     effectiveGasPrice: Wei = UNSET  # type: ignore [assignment]
