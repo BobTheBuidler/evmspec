@@ -1,10 +1,11 @@
 import logging
 from functools import cached_property
-from typing import Optional, Tuple, Union
+from typing import Callable, Final, Optional, Tuple, Union, final
 
 from dictstruct import DictStruct, LazyDictStruct
 from hexbytes import HexBytes
-from msgspec import UNSET, Raw, ValidationError, field, json
+from msgspec import UNSET, Raw, ValidationError, field
+from msgspec.json import Decoder
 
 from evmspec.data import (
     Address,
@@ -21,7 +22,7 @@ from evmspec.data._ids import IntId
 from evmspec.structs.transaction import Transaction, TransactionRLP
 
 
-logger = logging.getLogger(__name__)
+logger: Final = logging.getLogger(__name__)
 
 Transactions = Union[
     Tuple[TransactionHash, ...],
@@ -38,6 +39,17 @@ Examples:
 See Also:
     - :class:`evmspec.transaction.Transaction`
 """
+
+
+_decode_transactions: Final[Callable[[Raw], Tuple[Union[str, Transaction], ...]]] = (
+    Decoder(type=Tuple[Union[str, Transaction], ...], dec_hook=_decode_hook).decode
+)
+_decode_transactions_rlp: Final[
+    Callable[[Raw], Tuple[Union[str, TransactionRLP], ...]]
+] = Decoder(type=Tuple[Union[str, TransactionRLP], ...], dec_hook=_decode_hook).decode
+_decode_raw_multi: Final[Callable[[Raw], Tuple[Raw, ...]]] = Decoder(
+    type=Tuple[Raw, ...]
+).decode
 
 
 class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: ignore [call-arg]
@@ -72,11 +84,8 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
             >>> transactions = block.transactions
         """
         try:
-            transactions = json.decode(
-                self._transactions,
-                type=Tuple[Union[str, Transaction], ...],
-                dec_hook=_decode_hook,
-            )
+
+            transactions = _decode_transactions(self._transactions)
         except ValidationError as e:
             arg0: str = e.args[0]
             split_pos = arg0.find("$")
@@ -85,26 +94,22 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
                 and arg0[:split_pos] == "Object missing required field `type` - at `"
             ):
                 # TODO: debug why this happens and how to build around it
-                transactions = json.decode(
-                    self._transactions,
-                    type=Tuple[Union[str, TransactionRLP], ...],
-                    dec_hook=_decode_hook,
-                )
+                transactions = _decode_transactions_rlp(self._transactions)
             else:
                 from dank_mids.types import better_decode
 
                 if "Object contains unknown field" not in arg0:
                     logger.exception(e)
 
-                transactions = [
+                transactions = [  # type: ignore [assignment]
                     better_decode(
                         raw_tx, type=Union[str, Transaction], dec_hook=_decode_hook  # type: ignore [arg-type]
                     )
-                    for raw_tx in json.decode(self._transactions, type=Tuple[Raw, ...])
+                    for raw_tx in _decode_raw_multi(self._transactions)
                 ]
         if transactions and isinstance(transactions[0], str):
-            transactions = (TransactionHash(txhash) for txhash in transactions)
-        return tuple(transactions)
+            return tuple(TransactionHash(txhash) for txhash in transactions)
+        return tuple(transactions)  # type: ignore [return-value]
 
 
 class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
@@ -191,6 +196,7 @@ class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True): 
     """
 
 
+@final
 class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
     """
     Represents a base Ethereum block with base fee per gas.
@@ -203,6 +209,7 @@ class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=Tru
     """The base fee per gas."""
 
 
+@final
 class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """A Struct representing an Ethereum staking withdrawal.
 
@@ -222,6 +229,12 @@ class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fi
     """This field is not always present."""
 
 
+_decode_staking_withdrawals: Final[Callable[[Raw], Tuple[StakingWithdrawal, ...]]] = (
+    Decoder(type=Tuple[StakingWithdrawal, ...], dec_hook=_decode_hook).decode
+)
+
+
+@final
 class ShanghaiCapellaBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
     """
     Represents a block from the Ethereum Shanghai or Capella upgrades, which includes staking withdrawals.
@@ -249,6 +262,4 @@ class ShanghaiCapellaBlock(Block, frozen=True, kw_only=True, forbid_unknown_fiel
         See Also:
             - :class:`StakingWithdrawal`
         """
-        return json.decode(
-            self._withdrawals, type=Tuple[StakingWithdrawal, ...], dec_hook=_decode_hook
-        )
+        return _decode_staking_withdrawals(self._withdrawals)
