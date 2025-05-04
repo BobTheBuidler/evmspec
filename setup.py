@@ -1,5 +1,5 @@
 from pathlib import Path
-from setuptools import setup
+from setuptools import find_packages, setup
 from mypyc.build import mypycify
 
 try:
@@ -16,7 +16,7 @@ with Path("pyproject.toml").open("rb") as f:
 setup(
     name=poetry_config["name"],
     version=poetry_config["version"],
-    packages=["evmspec"],
+    packages=find_packages(),
     package_data={"evmspec": ["py.typed"]},
     include_package_data=True,
     ext_modules=mypycify(

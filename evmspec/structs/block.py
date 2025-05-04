@@ -98,7 +98,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
 
                 transactions = [
                     better_decode(
-                        raw_tx, type=Union[str, Transaction], dec_hook=_decode_hook
+                        raw_tx, type=Union[str, Transaction], dec_hook=_decode_hook  # type: ignore [arg-type]
                     )
                     for raw_tx in json.decode(self._transactions, type=Tuple[Raw, ...])
                 ]

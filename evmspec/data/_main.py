@@ -7,6 +7,7 @@ from typing import (
     Any,
     Callable,
     Final,
+    Optional,
     Tuple,
     Type,
     TypeVar,
@@ -31,13 +32,7 @@ try:
     # If you have ez-a-sync installed, evmspec gets some extra functionality
     from a_sync import a_sync
 except ModuleNotFoundError:
-    a_sync = None
-
-try:
-    # If you have dank mids installed, evmspec gets some extra functionality
-    from dank_mids import dank_eth
-except (ModuleNotFoundError, ImportError):
-    dank_eth = None
+    a_sync: Optional[Callable] = None  # type: ignore [type-arg, no-redef]
 
 
 _T = TypeVar("_T")
@@ -46,15 +41,8 @@ _T = TypeVar("_T")
 DecodeHook = Callable[[Type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
-
-_get_transaction_receipt: Final = (
-    None if dank_eth is None else dank_eth.get_transaction_receipt
-)
-_get_transaction_receipt_raw: Final = (
-    None if dank_eth is None else dank_eth._get_transaction_receipt_raw
-)
 # due to a circ import issue we will import this later
-_decode_logs = None
+_decode_logs: Optional[Callable[[Raw], Tuple["Log", ...]]] = None
 
 
 class Address(str):
@@ -380,7 +368,7 @@ def _decode_hook_unsafe(typ: Type[_T], obj: object) -> _T:
 ONE_EMPTY_BYTE: Final = bytes(HexBytes("0x00"))
 
 
-_MISSING_BYTES: Final = {i: (32 - i) * ONE_EMPTY_BYTE for i in range(0, 33)}
+_MISSING_BYTES: Final = {i: (32 - i) * ONE_EMPTY_BYTE for i in range(33)}
 """Calculate the number of missing bytes and return them.
 
 Args:
@@ -496,12 +484,12 @@ _THB32 = TypeVar("_THB32", bound=HexBytes32)
 
 @final
 class TransactionHash(HexBytes32):
-    if a_sync:
+    if a_sync:  # type: ignore [truthy-function]
 
         StructType = TypeVar("StructType", bound=Struct)
         ReceiptDataType = Union[Type[Raw], Type[StructType]]
 
-        @a_sync("async")
+        @a_sync("async")  # type: ignore [arg-type]
         async def get_receipt(
             self,
             decode_to: ReceiptDataType,
@@ -524,13 +512,10 @@ class TransactionHash(HexBytes32):
                 >>> await tx_hash.get_receipt(TransactionReceipt)
                 # Returns a TransactionReceipt object
             """
-            if _get_transaction_receipt is None:
-                raise ModuleNotFoundError(
-                    "You must have dank_mids installed in order to use this feature"
-                ) from None
+            import dank_mids
 
-            return await _get_transaction_receipt(
-                self, decode_to=decode_to, decode_hook=decode_hook
+            return await dank_mids.eth.get_transaction_receipt(
+                self, decode_to=decode_to, decode_hook=decode_hook  # type: ignore [arg-type]
             )
 
         @a_sync  # TODO; compare how these type check, they both function the same
@@ -548,14 +533,17 @@ class TransactionHash(HexBytes32):
                 >>> await tx_hash.get_logs()
                 # Returns a tuple of Log objects
             """
-            if _get_transaction_receipt_raw is None:
-                raise ModuleNotFoundError(
+            try:
+                import dank_mids
+            except ImportError as e:
+                raise ImportError(
                     "You must have dank_mids installed in order to use this feature"
-                ) from None
+                ) from e.__cause__
 
             if _decode_logs is None:
                 __make_decode_logs()
-            return _decode_logs(await _get_transaction_receipt_raw(self))  # type: ignore [misc]
+            receipt = await dank_mids.eth._get_transaction_receipt_raw(self)
+            return _decode_logs(receipt)  # type: ignore [misc]
 
 
 @final
