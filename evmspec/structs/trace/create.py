@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import ClassVar, Final, Literal
+from typing import ClassVar, Final, Literal, final
 
 from hexbytes import HexBytes
 from msgspec import Raw, field
@@ -9,6 +9,7 @@ from evmspec.data import Address, _decode_hook
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
 
 
+@final
 class Action(
     _ActionBase,
     frozen=True,
@@ -35,6 +36,7 @@ class Action(
     """The init code for the deployed contract."""
 
 
+@final
 class Result(
     _ResultBase,
     frozen=True,
@@ -67,6 +69,7 @@ class Result(
     """The bytecode of the deployed contract."""
 
 
+@final
 class Trace(
     _FilterTraceBase,
     tag="create",
