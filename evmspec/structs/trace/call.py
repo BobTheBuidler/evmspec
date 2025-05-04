@@ -1,6 +1,6 @@
 from enum import Enum
 from functools import cached_property
-from typing import ClassVar, Final, Literal, Optional
+from typing import Callable, ClassVar, Final, Literal, Optional
 
 from hexbytes import HexBytes
 from msgspec import UNSET, Raw, field
