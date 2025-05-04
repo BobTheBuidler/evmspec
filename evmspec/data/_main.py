@@ -41,7 +41,6 @@ DecodeHook = Callable[[Type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
 
-
 # due to a circ import issue we will import this later
 _decode_logs = None
 
@@ -568,7 +567,7 @@ try:
     from dank_mids import dank_eth
 except (ModuleNotFoundError, ImportError):
     dank_eth = None
-    
+
 _get_transaction_receipt: Final = (
     None if dank_eth is None else dank_eth.get_transaction_receipt
 )
