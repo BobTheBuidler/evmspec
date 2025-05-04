@@ -1,8 +1,9 @@
 from functools import cached_property
-from typing import ClassVar, Literal
+from typing import ClassVar, Final, Literal
 
 from hexbytes import HexBytes
-from msgspec import Raw, field, json
+from msgspec import Raw, field
+from msgspec.json import Decoder
 
 from evmspec.data import Address, _decode_hook
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
@@ -128,7 +129,7 @@ class Trace(
             >>> trace.action.init
             HexBytes('0x6000600055')
         """
-        return json.decode(self._action, type=Action, dec_hook=_decode_hook)
+        return _decode_action(self._action)
 
     result: Result
     """The result object, adhering to the parity format, containing deployment details.
@@ -140,3 +141,6 @@ class Trace(
     See Also:
         - :class:`Result` for more details on the result structure.
     """
+
+
+_decode_action: Final = Decoder(type=Action, dec_hook=_decode_hook)
