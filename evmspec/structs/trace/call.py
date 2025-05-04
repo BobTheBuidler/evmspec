@@ -3,7 +3,8 @@ from functools import cached_property
 from typing import ClassVar, Literal, Optional
 
 from hexbytes import HexBytes
-from msgspec import UNSET, Raw, field, json
+from msgspec import UNSET, Raw, field
+from msgspec.json import Decoder
 
 from evmspec.data import Address, _decode_hook
 from evmspec.data._enum import StringToIntEnumMeta
@@ -127,7 +128,7 @@ class Trace(
     @cached_property
     def action(self) -> Action:
         """The decoded call action, parity style."""
-        return json.decode(self._action, type=Action, dec_hook=_decode_hook)
+        return self._decode_action(self._action)
 
     result: Optional[Result]
     """
@@ -138,3 +139,7 @@ class Trace(
 
     error: str = UNSET  # type: ignore [assignment]
     """The error message, if an error occurred."""
+
+    @cached_property
+    def _decode_action(self) -> Callable[[Raw], Action]:
+        return Decoder(type=Action, dec_hook=_decode_hook)
