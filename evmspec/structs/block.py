@@ -41,10 +41,18 @@ See Also:
 """
 
 
-_decode_transactions: Final[Callable[[Raw], Tuple[Union[str, Transaction], ...]]] = Decoder(type=Tuple[Union[str, Transaction], ...], dec_hook=_decode_hook).decode
-_decode_transactions_rlp: Final[Callable[[Raw], Tuple[Union[str, TransactionRLP], ...]]] = Decoder(type=Tuple[Union[str, TransactionRLP], ...], dec_hook=_decode_hook).decode
-_decode_staking_withdrawals: Final[Callable[[Raw], Tuple[StakingWithdrawal, ...]]] = Decoder(type=Tuple[StakingWithdrawal, ...], dec_hook=_decode_hook).decode
-_decode_raw_multi: Final[Callable[[Raw], Tuple[Raw, ...]]] = Decoder(type=Tuple[Raw, ...]).decode
+_decode_transactions: Final[Callable[[Raw], Tuple[Union[str, Transaction], ...]]] = (
+    Decoder(type=Tuple[Union[str, Transaction], ...], dec_hook=_decode_hook).decode
+)
+_decode_transactions_rlp: Final[
+    Callable[[Raw], Tuple[Union[str, TransactionRLP], ...]]
+] = Decoder(type=Tuple[Union[str, TransactionRLP], ...], dec_hook=_decode_hook).decode
+_decode_staking_withdrawals: Final[Callable[[Raw], Tuple[StakingWithdrawal, ...]]] = (
+    Decoder(type=Tuple[StakingWithdrawal, ...], dec_hook=_decode_hook).decode
+)
+_decode_raw_multi: Final[Callable[[Raw], Tuple[Raw, ...]]] = Decoder(
+    type=Tuple[Raw, ...]
+).decode
 
 
 class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: ignore [call-arg]
@@ -79,7 +87,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
             >>> transactions = block.transactions
         """
         try:
-            
+
             transactions = _decode_transactions(self._transactions)
         except ValidationError as e:
             arg0: str = e.args[0]

@@ -14,7 +14,9 @@ from evmspec.data._ids import TransactionIndex
 from evmspec.structs.log import Log
 
 
-_decode_logs: Final[Callable[[Raw], Tuple[Log, ...]]] = Decoder(type=Tuple[Log, ...], dec_hook=_decode_hook).decode
+_decode_logs: Final[Callable[[Raw], Tuple[Log, ...]]] = Decoder(
+    type=Tuple[Log, ...], dec_hook=_decode_hook
+).decode
 
 
 class FeeStats(DictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
@@ -50,7 +52,9 @@ class ArbitrumFeeStats(DictStruct, frozen=True, forbid_unknown_fields=True, omit
     """The breakdown of gas prices for the transaction."""
 
 
-_decode_fee_stats: Final[Callable[[Raw], ArbitrumFeeStats]] = Decoder(type=ArbitrumFeeStats, dec_hook=Wei._decode_hook).decode
+_decode_fee_stats: Final[Callable[[Raw], ArbitrumFeeStats]] = Decoder(
+    type=ArbitrumFeeStats, dec_hook=Wei._decode_hook
+).decode
 
 
 class _HexStringToIntEnumMeta(EnumMeta):
