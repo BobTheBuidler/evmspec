@@ -33,12 +33,6 @@ try:
 except ModuleNotFoundError:
     a_sync = None
 
-try:
-    # If you have dank mids installed, evmspec gets some extra functionality
-    from dank_mids import dank_eth
-except (ModuleNotFoundError, ImportError):
-    dank_eth = None
-
 
 _T = TypeVar("_T")
 """A generic type variable."""
@@ -571,3 +565,11 @@ def __make_decode_logs() -> None:
 
     global _decode_logs
     _decode_logs = Decoder(type=Tuple["Log", ...], dec_hook=_decode_hook).decode
+
+
+# NOTE: this must go at the bottom since dank imports from this package
+try:
+    # If you have dank mids installed, evmspec gets some extra functionality
+    from dank_mids import dank_eth
+except (ModuleNotFoundError, ImportError):
+    dank_eth = None
