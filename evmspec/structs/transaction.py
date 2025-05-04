@@ -3,7 +3,7 @@ from typing import Any, Callable, ClassVar, Final, List, Optional, Tuple, Union
 
 from dictstruct import LazyDictStruct
 from hexbytes import HexBytes
-from msgspec import UNSET, Raw, field, json
+from msgspec import UNSET, Raw, field
 from msgspec.json import Decoder
 
 from evmspec.data import (
