@@ -32,7 +32,7 @@ try:
     # If you have ez-a-sync installed, evmspec gets some extra functionality
     from a_sync import a_sync
 except ModuleNotFoundError:
-    a_sync = None
+    a_sync: Optional = None  # type: ignore [type-arg]
 
 
 _T = TypeVar("_T")
@@ -484,12 +484,12 @@ _THB32 = TypeVar("_THB32", bound=HexBytes32)
 
 @final
 class TransactionHash(HexBytes32):
-    if a_sync:
+    if a_sync:  # type: ignore [truthy-function]
 
         StructType = TypeVar("StructType", bound=Struct)
         ReceiptDataType = Union[Type[Raw], Type[StructType]]
 
-        @a_sync("async")
+        @a_sync("async")  # type: ignore [arg-type]
         async def get_receipt(
             self,
             decode_to: ReceiptDataType,
@@ -515,7 +515,7 @@ class TransactionHash(HexBytes32):
             import dank_mids
 
             return await dank_mids.eth.get_transaction_receipt(
-                self, decode_to=decode_to, decode_hook=decode_hook
+                self, decode_to=decode_to, decode_hook=decode_hook  # type: ignore [arg-type]
             )
 
         @a_sync  # TODO; compare how these type check, they both function the same
