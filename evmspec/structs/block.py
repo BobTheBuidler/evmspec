@@ -101,7 +101,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
                 if "Object contains unknown field" not in arg0:
                     logger.exception(e)
 
-                transactions = [
+                transactions = [  # type: ignore [assignment]
                     better_decode(
                         raw_tx, type=Union[str, Transaction], dec_hook=_decode_hook
                     )
