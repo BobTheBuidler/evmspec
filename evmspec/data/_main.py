@@ -380,7 +380,7 @@ def _decode_hook_unsafe(typ: Type[_T], obj: object) -> _T:
 ONE_EMPTY_BYTE: Final = bytes(HexBytes("0x00"))
 
 
-_MISSING_BYTES: Final = {i: (32 - i) * ONE_EMPTY_BYTE for i in range(0, 33)}
+_MISSING_BYTES: Final = {i: (32 - i) * ONE_EMPTY_BYTE for i in range(33)}
 """Calculate the number of missing bytes and return them.
 
 Args:
@@ -555,7 +555,7 @@ class TransactionHash(HexBytes32):
 
             if _decode_logs is None:
                 __make_decode_logs()
-            return _decode_logs(await _get_transaction_receipt_raw(self))  # type: ignore [misc]
+            return _decode_logs(await _get_transaction_receipt_raw(self))
 
 
 @final

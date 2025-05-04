@@ -1,15 +1,17 @@
 from enum import Enum
 from functools import cached_property
-from typing import ClassVar, Literal, Optional
+from typing import Callable, ClassVar, Final, Literal, Optional, final
 
 from hexbytes import HexBytes
-from msgspec import UNSET, Raw, field, json
+from msgspec import UNSET, Raw, field
+from msgspec.json import Decoder
 
 from evmspec.data import Address, _decode_hook
 from evmspec.data._enum import StringToIntEnumMeta
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
 
 
+@final
 class Type(Enum, metaclass=StringToIntEnumMeta):
     """
     Enum representing the types of contract calls: call, delegatecall, and staticcall.
@@ -32,6 +34,7 @@ class Type(Enum, metaclass=StringToIntEnumMeta):
     staticcall = 2
 
 
+@final
 class Action(
     _ActionBase,
     frozen=True,
@@ -63,6 +66,7 @@ class Action(
     """The input data of the action (transaction)."""
 
 
+@final
 class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """
     Represents the result of a contract call action, including the output data of the contract call.
@@ -80,6 +84,7 @@ class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True,
     """The output of this transaction."""
 
 
+@final
 class Trace(
     _FilterTraceBase,
     tag="call",
@@ -127,7 +132,7 @@ class Trace(
     @cached_property
     def action(self) -> Action:
         """The decoded call action, parity style."""
-        return json.decode(self._action, type=Action, dec_hook=_decode_hook)
+        return _decode_action(self._action)
 
     result: Optional[Result]
     """
@@ -138,3 +143,8 @@ class Trace(
 
     error: str = UNSET  # type: ignore [assignment]
     """The error message, if an error occurred."""
+
+
+_decode_action: Final[Callable[[Raw], Action]] = Decoder(
+    type=Action, dec_hook=_decode_hook
+).decode
