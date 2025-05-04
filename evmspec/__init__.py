@@ -7,6 +7,7 @@ from evmspec.structs import (
     TransactionReceipt,
     block,
     header,
+    receipt,
     trace,
     transaction,
 )
