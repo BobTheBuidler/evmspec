@@ -15,12 +15,12 @@ from typing import (
     final,
 )
 
-from cchecksum import to_checksum_address
 from hexbytes import HexBytes
 from msgspec import Raw, Struct
 from msgspec.json import Decoder
 from typing_extensions import Self
 
+from evmspec._new import __Address_new__, __HexBytes32_new__
 from evmspec._utils import to_bytes
 from evmspec.data._cache import ttl_cache
 
@@ -68,27 +68,26 @@ class Address(str):
         - `cchecksum.to_checksum_address`: Function used for checksum conversion.
     """
 
-    def __new__(cls, address: str):
-        """Creates a new Address instance with checksum validation.
+    __new__ = __Address_new__
+    """Creates a new Address instance with checksum validation.
 
-        This function takes a hex address and returns it in the checksummed format
-        as defined by EIP-55. It uses a custom Cython implementation for the
-        checksum conversion to optimize performance.
+    This function takes a hex address and returns it in the checksummed format
+    as defined by EIP-55. It uses a custom Cython implementation for the
+    checksum conversion to optimize performance.
 
-        Args:
-            address: A string representing the Ethereum address.
+    Args:
+        address: A string representing the Ethereum address.
 
-        Returns:
-            An Address object with a checksummed address.
+    Returns:
+        An Address object with a checksummed address.
 
-        Examples:
-            >>> Address("0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe")
-            Address('0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe')
+    Examples:
+        >>> Address("0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe")
+        Address('0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe')
 
-        See Also:
-            - `cchecksum.to_checksum_address`: Function used for checksum conversion.
-        """
-        return __str_new__(cls, to_checksum_address(address))
+    See Also:
+        - `cchecksum.to_checksum_address`: Function used for checksum conversion.
+    """
 
     def __reduce__(
         self: "_TA",
@@ -393,33 +392,22 @@ _hex: Final = bytes.hex
 
 
 class HexBytes32(HexBytes):
-    def __new__(cls, v):
-        """Create a new HexBytes32 object.
+    __new__ = __HexBytes32_new__
+    """Create a new HexBytes32 object.
 
-        Args:
-            v: A value that can be converted to HexBytes32.
+    Args:
+        v: A value that can be converted to HexBytes32.
 
-        Returns:
-            A HexBytes32 object.
+    Returns:
+        A HexBytes32 object.
 
-        Raises:
-            ValueError: If the string representation is not the correct length.
+    Raises:
+        ValueError: If the string representation is not the correct length.
 
-        Examples:
-            >>> HexBytes32("0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef")
-            HexBytes32(0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef)
-        """
-        # if it has 0x prefix it came from the chain or a user and we should validate the size
-        # when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.
-        if isinstance(v, str) and v.startswith("0x"):
-            cls._check_hexstr(v)
-
-        input_bytes = to_bytes(v)
-        try:
-            missing_bytes = _MISSING_BYTES[len(input_bytes)]
-        except KeyError as e:
-            raise ValueError(f"{v} is too long: {len(input_bytes)}") from e.__cause__
-        return __bytes_new__(cls, missing_bytes + input_bytes)
+    Examples:
+        >>> HexBytes32("0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef")
+        HexBytes32(0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef)
+    """
 
     def __reduce__(
         self: "_THB32",
