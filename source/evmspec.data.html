@@ -6107,17 +6107,23 @@ conversion to optimize performance.</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.data.Address.__new__">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evmspec/data/_main.html#Address.__new__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.data.Address.__new__" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">address</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.data.Address.__new__" title="Permalink to this definition"></a></dt>
 <dd><p>Creates a new Address instance with checksum validation.</p>
 <p>This function takes a hex address and returns it in the checksummed format
 as defined by EIP-55. It uses a custom Cython implementation for the
 checksum conversion to optimize performance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>address</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – A string representing the Ethereum address.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>address</strong> (<em>AnyAddress</em>) – A string representing the Ethereum address.</p></li>
+<li><p><strong>cls</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.13)"><em>Type</em></a><em>[</em><em>__T</em><em>]</em>) – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>An Address object with a checksummed address.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>__T</em></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -6597,23 +6603,17 @@ left untouched.  Characters mapped to None are deleted.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.data.BlockHash.__new__">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.data.BlockHash.__new__" title="Permalink to this definition"></a></dt>
-<dd><p>Create a new HexBytes32 object.</p>
-<dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> – A value that can be converted to HexBytes32.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cls</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.13)"><em>Type</em></a><em>[</em><em>__T</em><em>]</em>) – </p></li>
+<li><p><strong>v</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.13)"><em>bytes</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – </p></li>
+</ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A HexBytes32 object.</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If the string representation is not the correct length.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>__T</em></p>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">HexBytes32</span><span class="p">(</span><span class="s2">&quot;0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef&quot;</span><span class="p">)</span>
-<span class="go">HexBytes32(0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef)</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="py method">
@@ -7318,17 +7318,23 @@ is raised.</p>
 <dd><p>Bases: <a class="reference external" href="https://hexbytes.readthedocs.io/en/stable/hexbytes.html#hexbytes.main.HexBytes" title="(in HexBytes v1.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">HexBytes</span></code></a></p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.data.HexBytes32.__new__">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/evmspec/data/_main.html#HexBytes32.__new__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.data.HexBytes32.__new__" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.data.HexBytes32.__new__" title="Permalink to this definition"></a></dt>
 <dd><p>Create a new HexBytes32 object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> – A value that can be converted to HexBytes32.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.13)"><em>bytes</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – A value that can be converted to HexBytes32.</p></li>
+<li><p><strong>cls</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.13)"><em>Type</em></a><em>[</em><em>__T</em><em>]</em>) – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A HexBytes32 object.</p>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If the string representation is not the correct length.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>__T</em></p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
@@ -8041,23 +8047,17 @@ is raised.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.data.TransactionHash.__new__">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cls</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.data.TransactionHash.__new__" title="Permalink to this definition"></a></dt>
-<dd><p>Create a new HexBytes32 object.</p>
-<dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>v</strong> – A value that can be converted to HexBytes32.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cls</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Type" title="(in Python v3.13)"><em>Type</em></a><em>[</em><em>__T</em><em>]</em>) – </p></li>
+<li><p><strong>v</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.13)"><em>bytes</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a>) – </p></li>
+</ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A HexBytes32 object.</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><strong>ValueError</strong></a> – If the string representation is not the correct length.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>__T</em></p>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">HexBytes32</span><span class="p">(</span><span class="s2">&quot;0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef&quot;</span><span class="p">)</span>
-<span class="go">HexBytes32(0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef)</span>
-</pre></div>
-</div>
 </dd></dl>
 
 <dl class="py method">

@@ -86,13 +86,12 @@
     <span class="n">final</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">cchecksum</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_checksum_address</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">Struct</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Self</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">evmspec._utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">to_bytes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">evmspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">_new</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data._cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">ttl_cache</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -139,27 +138,26 @@
 <span class="sd">        - `cchecksum.to_checksum_address`: Function used for checksum conversion.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Address.__new__"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Address.__new__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Creates a new Address instance with checksum validation.</span>
+    <span class="fm">__new__</span> <span class="o">=</span> <span class="n">_new</span><span class="o">.</span><span class="n">Address</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new Address instance with checksum validation.</span>
 
-<span class="sd">        This function takes a hex address and returns it in the checksummed format</span>
-<span class="sd">        as defined by EIP-55. It uses a custom Cython implementation for the</span>
-<span class="sd">        checksum conversion to optimize performance.</span>
+<span class="sd">    This function takes a hex address and returns it in the checksummed format</span>
+<span class="sd">    as defined by EIP-55. It uses a custom Cython implementation for the</span>
+<span class="sd">    checksum conversion to optimize performance.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            address: A string representing the Ethereum address.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        address: A string representing the Ethereum address.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            An Address object with a checksummed address.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        An Address object with a checksummed address.</span>
 
-<span class="sd">        Examples:</span>
-<span class="sd">            &gt;&gt;&gt; Address(&quot;0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe&quot;)</span>
-<span class="sd">            Address(&#39;0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe&#39;)</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; Address(&quot;0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe&quot;)</span>
+<span class="sd">        Address(&#39;0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe&#39;)</span>
 
-<span class="sd">        See Also:</span>
-<span class="sd">            - `cchecksum.to_checksum_address`: Function used for checksum conversion.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">__str_new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">to_checksum_address</span><span class="p">(</span><span class="n">address</span><span class="p">))</span></div>
+<span class="sd">    See Also:</span>
+<span class="sd">        - `cchecksum.to_checksum_address`: Function used for checksum conversion.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;_TA&quot;</span><span class="p">,</span>
@@ -442,55 +440,27 @@
 
 <span class="c1"># Hexbytes</span>
 
-<span class="n">ONE_EMPTY_BYTE</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;0x00&quot;</span><span class="p">))</span>
-
-
-<span class="n">_MISSING_BYTES</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="mi">32</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="n">ONE_EMPTY_BYTE</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">33</span><span class="p">)}</span>
-<span class="sd">&quot;&quot;&quot;Calculate the number of missing bytes and return them.</span>
-
-<span class="sd">Args:</span>
-<span class="sd">    input_bytes: The input bytes to check.</span>
-
-<span class="sd">Returns:</span>
-<span class="sd">    A bytes object representing the missing bytes.</span>
-
-<span class="sd">Examples:</span>
-<span class="sd">    &gt;&gt;&gt; HexBytes32._get_missing_bytes(HexBytes(&quot;0x1234&quot;))</span>
-<span class="sd">    b&#39;\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&#39;</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
 <span class="n">_hex</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">hex</span>
 <span class="sd">&quot;&quot;&quot;An alias for `bytes.hex`&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="HexBytes32"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HexBytes32</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
-<div class="viewcode-block" id="HexBytes32.__new__"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.__new__">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new HexBytes32 object.</span>
+    <span class="fm">__new__</span> <span class="o">=</span> <span class="n">_new</span><span class="o">.</span><span class="n">HexBytes32</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new HexBytes32 object.</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            v: A value that can be converted to HexBytes32.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        v: A value that can be converted to HexBytes32.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            A HexBytes32 object.</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        A HexBytes32 object.</span>
 
-<span class="sd">        Raises:</span>
-<span class="sd">            ValueError: If the string representation is not the correct length.</span>
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: If the string representation is not the correct length.</span>
 
-<span class="sd">        Examples:</span>
-<span class="sd">            &gt;&gt;&gt; HexBytes32(&quot;0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef&quot;)</span>
-<span class="sd">            HexBytes32(0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># if it has 0x prefix it came from the chain or a user and we should validate the size</span>
-        <span class="c1"># when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">v</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;0x&quot;</span><span class="p">):</span>
-            <span class="bp">cls</span><span class="o">.</span><span class="n">_check_hexstr</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-
-        <span class="n">input_bytes</span> <span class="o">=</span> <span class="n">to_bytes</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">missing_bytes</span> <span class="o">=</span> <span class="n">_MISSING_BYTES</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">)]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2"> is too long: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">input_bytes</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e.__cause__</span>
-        <span class="k">return</span> <span class="n">__bytes_new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">missing_bytes</span> <span class="o">+</span> <span class="n">input_bytes</span><span class="p">)</span></div>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; HexBytes32(&quot;0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef&quot;)</span>
+<span class="sd">        HexBytes32(0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;_THB32&quot;</span><span class="p">,</span>
