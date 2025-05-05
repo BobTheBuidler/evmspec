@@ -130,6 +130,7 @@ class Address(str):
 
     @classmethod
     def checksum(cls, address: str) -> Self:
+        # sourcery skip: use-contextlib-suppress
         """Returns the checksummed version of the address.
 
         This function takes a hex address and returns it in the checksummed format
@@ -314,6 +315,7 @@ class UnixTimestamp(uint):
 
 
 def _decode_hook(typ: Type[_T], obj: object) -> _T:
+    # sourcery skip: assign-if-exp
     """A generic decode hook for converting objects to specific types.
 
     Args:
@@ -352,6 +354,7 @@ def _decode_hook(typ: Type[_T], obj: object) -> _T:
 
 
 def _decode_hook_unsafe(typ: Type[_T], obj: object) -> _T:
+    # sourcery skip: assign-if-exp
     if issubclass(typ, (HexBytes, Enum, Decimal)):
         return typ(obj)  # type: ignore [arg-type, return-value]
     elif typ is Address:
