@@ -20,7 +20,7 @@ from msgspec import Raw, Struct
 from msgspec.json import Decoder
 from typing_extensions import Self
 
-from evmspec._new import __Address_new__, __HexBytes32_new__
+from evmspec import _new
 from evmspec._utils import to_bytes
 from evmspec.data._cache import ttl_cache
 
@@ -68,7 +68,7 @@ class Address(str):
         - `cchecksum.to_checksum_address`: Function used for checksum conversion.
     """
 
-    __new__ = __Address_new__
+    __new__ = _new.Address
     """Creates a new Address instance with checksum validation.
 
     This function takes a hex address and returns it in the checksummed format
@@ -392,7 +392,7 @@ _hex: Final = bytes.hex
 
 
 class HexBytes32(HexBytes):
-    __new__ = __HexBytes32_new__
+    __new__ = _new.HexBytes32
     """Create a new HexBytes32 object.
 
     Args:
