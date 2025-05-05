@@ -29,10 +29,10 @@ to_checksum_address: Final = cchecksum.to_checksum_address
 
 
 def Address(cls: Type[__T], address: AnyAddress) -> __T:
-    return str.__new__(cls, to_checksum_address(address))
+    return str.__new__(cls, to_checksum_address(address))  # type: ignore [type-var]
 
 
-def HexBytes32(cls: Type[__T], b: Union[bytes, str]) -> __T:
+def HexBytes32(cls: Type[__T], v: Union[bytes, str]) -> __T:
     # if it has 0x prefix it came from the chain or a user and we should validate the size
     # when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.
     if isinstance(v, str) and v.startswith("0x"):
@@ -43,4 +43,4 @@ def HexBytes32(cls: Type[__T], b: Union[bytes, str]) -> __T:
         missing_bytes = MISSING_BYTES[len(input_bytes)]
     except KeyError as e:
         raise ValueError(f"{v} is too long: {len(input_bytes)}") from e.__cause__
-    return bytes.__new__(cls, missing_bytes + input_bytes)
+    return bytes.__new__(cls, missing_bytes + input_bytes)  # type: ignore [type-var]
