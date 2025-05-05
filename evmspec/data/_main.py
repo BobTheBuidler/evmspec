@@ -21,7 +21,6 @@ from msgspec.json import Decoder
 from typing_extensions import Self
 
 from evmspec import _new
-from evmspec._utils import to_bytes
 from evmspec.data._cache import ttl_cache
 
 if TYPE_CHECKING:
