@@ -369,23 +369,6 @@ def _decode_hook_unsafe(typ: Type[_T], obj: object) -> _T:
 
 # Hexbytes
 
-ONE_EMPTY_BYTE: Final = bytes(HexBytes("0x00"))
-
-
-_MISSING_BYTES: Final = {i: (32 - i) * ONE_EMPTY_BYTE for i in range(33)}
-"""Calculate the number of missing bytes and return them.
-
-Args:
-    input_bytes: The input bytes to check.
-
-Returns:
-    A bytes object representing the missing bytes.
-
-Examples:
-    >>> HexBytes32._get_missing_bytes(HexBytes("0x1234"))
-    b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-"""
-
 _hex: Final = bytes.hex
 """An alias for `bytes.hex`"""
 
