@@ -526,7 +526,7 @@ class TransactionHash(HexBytes32):
                         "You must have dank_mids installed in order to use this feature"
                     ) from None
 
-            return await dank_mids.eth.get_transaction_receipt(
+            return await _get_transaction_receipt(
                 self, decode_to=decode_to, decode_hook=decode_hook  # type: ignore [arg-type]
             )
 
@@ -556,8 +556,8 @@ class TransactionHash(HexBytes32):
 
             if _decode_logs is None:
                 __make_decode_logs()
-            receipt = await dank_mids.eth._get_transaction_receipt_raw(self)
-            return _decode_logs(receipt)  # type: ignore [misc]
+
+            return _decode_logs(await _get_transaction_receipt_raw(self))  # type: ignore [misc]
 
 
 @final
