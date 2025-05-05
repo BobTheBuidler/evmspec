@@ -67,7 +67,7 @@ class Address(str):
         - `cchecksum.to_checksum_address`: Function used for checksum conversion.
     """
 
-    __new__ = _new.Address
+    __new__ = _new.Address  # type: ignore [assignment]
     """Creates a new Address instance with checksum validation.
 
     This function takes a hex address and returns it in the checksummed format
@@ -374,7 +374,7 @@ _hex: Final = bytes.hex
 
 
 class HexBytes32(HexBytes):
-    __new__ = _new.HexBytes32
+    __new__ = _new.HexBytes32  # type: ignore [assignment]
     """Create a new HexBytes32 object.
 
     Args:
