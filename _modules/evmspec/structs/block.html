@@ -71,11 +71,12 @@
   <h1>Source code for evmspec.structs.block</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">final</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dictstruct</span><span class="w"> </span><span class="kn">import</span> <span class="n">DictStruct</span><span class="p">,</span> <span class="n">LazyDictStruct</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Address</span><span class="p">,</span>
@@ -92,7 +93,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.transaction</span><span class="w"> </span><span class="kn">import</span> <span class="n">Transaction</span><span class="p">,</span> <span class="n">TransactionRLP</span>
 
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">logger</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">Transactions</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
     <span class="n">Tuple</span><span class="p">[</span><span class="n">TransactionHash</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
@@ -109,6 +110,17 @@
 <span class="sd">See Also:</span>
 <span class="sd">    - :class:`evmspec.transaction.Transaction`</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="n">_decode_transactions</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">],</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
+<span class="p">)</span>
+<span class="n">_decode_transactions_rlp</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span>
+    <span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TransactionRLP</span><span class="p">],</span> <span class="o">...</span><span class="p">]]</span>
+<span class="p">]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TransactionRLP</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
+<span class="n">_decode_raw_multi</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Raw</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Raw</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 
 
 <div class="viewcode-block" id="TinyBlock"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.TinyBlock">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TinyBlock</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">dict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
@@ -143,11 +155,8 @@
 <span class="sd">            &gt;&gt;&gt; transactions = block.transactions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">transactions</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_transactions</span><span class="p">,</span>
-                <span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span>
-                <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">,</span>
-            <span class="p">)</span>
+
+            <span class="n">transactions</span> <span class="o">=</span> <span class="n">_decode_transactions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transactions</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">arg0</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">split_pos</span> <span class="o">=</span> <span class="n">arg0</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">)</span>
@@ -156,26 +165,22 @@
                 <span class="ow">and</span> <span class="n">arg0</span><span class="p">[:</span><span class="n">split_pos</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;Object missing required field `type` - at `&quot;</span>
             <span class="p">):</span>
                 <span class="c1"># TODO: debug why this happens and how to build around it</span>
-                <span class="n">transactions</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_transactions</span><span class="p">,</span>
-                    <span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TransactionRLP</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span>
-                    <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">,</span>
-                <span class="p">)</span>
+                <span class="n">transactions</span> <span class="o">=</span> <span class="n">_decode_transactions_rlp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transactions</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="kn">from</span><span class="w"> </span><span class="nn">dank_mids.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">better_decode</span>
 
                 <span class="k">if</span> <span class="s2">&quot;Object contains unknown field&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">arg0</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-                <span class="n">transactions</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">transactions</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># type: ignore [assignment]</span>
                     <span class="n">better_decode</span><span class="p">(</span>
                         <span class="n">raw_tx</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span>  <span class="c1"># type: ignore [arg-type]</span>
                     <span class="p">)</span>
-                    <span class="k">for</span> <span class="n">raw_tx</span> <span class="ow">in</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transactions</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Raw</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">raw_tx</span> <span class="ow">in</span> <span class="n">_decode_raw_multi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_transactions</span><span class="p">)</span>
                 <span class="p">]</span>
         <span class="k">if</span> <span class="n">transactions</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transactions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">transactions</span> <span class="o">=</span> <span class="p">(</span><span class="n">TransactionHash</span><span class="p">(</span><span class="n">txhash</span><span class="p">)</span> <span class="k">for</span> <span class="n">txhash</span> <span class="ow">in</span> <span class="n">transactions</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">transactions</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">TransactionHash</span><span class="p">(</span><span class="n">txhash</span><span class="p">)</span> <span class="k">for</span> <span class="n">txhash</span> <span class="ow">in</span> <span class="n">transactions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">transactions</span><span class="p">)</span>  <span class="c1"># type: ignore [return-value]</span></div>
 
 
 <div class="viewcode-block" id="Block"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.Block">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Block</span><span class="p">(</span><span class="n">TinyBlock</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
@@ -262,7 +267,8 @@
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="BaseBlock"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.BaseBlock">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">BaseBlock</span><span class="p">(</span><span class="n">MinedBlock</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<div class="viewcode-block" id="BaseBlock"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.BaseBlock">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseBlock</span><span class="p">(</span><span class="n">MinedBlock</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a base Ethereum block with base fee per gas.</span>
 
@@ -274,7 +280,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The base fee per gas.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="StakingWithdrawal"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.StakingWithdrawal">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">StakingWithdrawal</span><span class="p">(</span><span class="n">DictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<div class="viewcode-block" id="StakingWithdrawal"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.StakingWithdrawal">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">StakingWithdrawal</span><span class="p">(</span><span class="n">DictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A Struct representing an Ethereum staking withdrawal.</span>
 
 <span class="sd">    See Also:</span>
@@ -293,7 +300,13 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is not always present.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="ShanghaiCapellaBlock"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.ShanghaiCapellaBlock">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ShanghaiCapellaBlock</span><span class="p">(</span><span class="n">Block</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="n">_decode_staking_withdrawals</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="ShanghaiCapellaBlock"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.ShanghaiCapellaBlock">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ShanghaiCapellaBlock</span><span class="p">(</span><span class="n">Block</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a block from the Ethereum Shanghai or Capella upgrades, which includes staking withdrawals.</span>
 
@@ -320,9 +333,7 @@
 <span class="sd">        See Also:</span>
 <span class="sd">            - :class:`StakingWithdrawal`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_withdrawals</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">_decode_staking_withdrawals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_withdrawals</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

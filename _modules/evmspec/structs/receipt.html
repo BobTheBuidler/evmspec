@@ -72,16 +72,22 @@
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">EnumMeta</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">dictstruct</span><span class="w"> </span><span class="kn">import</span> <span class="n">DictStruct</span><span class="p">,</span> <span class="n">LazyDictStruct</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">eth_typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexStr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Address</span><span class="p">,</span> <span class="n">BlockNumber</span><span class="p">,</span> <span class="n">TransactionHash</span><span class="p">,</span> <span class="n">Wei</span><span class="p">,</span> <span class="n">_decode_hook</span><span class="p">,</span> <span class="n">uint</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data._ids</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransactionIndex</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.log</span><span class="w"> </span><span class="kn">import</span> <span class="n">Log</span>
+
+
+<span class="n">_decode_logs</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Log</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Log</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span>
+<span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 
 
 <div class="viewcode-block" id="FeeStats"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.FeeStats">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FeeStats</span><span class="p">(</span><span class="n">DictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
@@ -115,6 +121,11 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The breakdown of units of gas used for the transaction.&quot;&quot;&quot;</span>
     <span class="n">prices</span><span class="p">:</span> <span class="n">FeeStats</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The breakdown of gas prices for the transaction.&quot;&quot;&quot;</span></div>
+
+
+<span class="n">_decode_fee_stats</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">ArbitrumFeeStats</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="n">ArbitrumFeeStats</span><span class="p">,</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">Wei</span><span class="o">.</span><span class="n">_decode_hook</span>
+<span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_HexStringToIntEnumMeta</span><span class="p">(</span><span class="n">EnumMeta</span><span class="p">):</span>
@@ -222,7 +233,7 @@
 <span class="sd">            &gt;&gt;&gt; receipt.logs</span>
 <span class="sd">            (Log(...), Log(...))</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_logs</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Log</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_decode_logs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_logs</span><span class="p">)</span>
 
     <span class="c1"># These fields are only present on Mainnet.</span>
     <span class="n">effectiveGasPrice</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
@@ -311,9 +322,7 @@
 <span class="sd">            &gt;&gt;&gt; receipt.feeStats</span>
 <span class="sd">            ArbitrumFeeStats(...)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_feeStats</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="n">ArbitrumFeeStats</span><span class="p">,</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">Wei</span><span class="o">.</span><span class="n">_decode_hook</span>
-        <span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">_decode_fee_stats</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_feeStats</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="FullTransactionReceipt"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.FullTransactionReceipt">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FullTransactionReceipt</span><span class="p">(</span><span class="n">TransactionReceipt</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
