@@ -12,7 +12,7 @@ __T = TypeVar("__T")
 
 ONE_EMPTY_BYTE: Final = bytes(HexBytes("0x00"))
 
-MISSING_BYTES: Final = {i: (32 - i) * ONE_EMPTY_BYTE for i in range(33)}
+MISSING_BYTES: Final = tuple((32 - i) * ONE_EMPTY_BYTE for i in range(33))
 """Calculate the number of missing bytes and return them.
 
 Args:
