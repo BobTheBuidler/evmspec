@@ -36,7 +36,7 @@ def HexBytes32(cls: Type[__T], v: Union[bytes, str]) -> __T:
     # if it has 0x prefix it came from the chain or a user and we should validate the size
     # when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.
     if isinstance(v, str) and v.startswith("0x"):
-        cls._check_hexstr(v)  # type: ignore [has-attr]
+        cls._check_hexstr(v)  # type: ignore [attr-defined]
 
     input_bytes = to_bytes(v)
     try:
