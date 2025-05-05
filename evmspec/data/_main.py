@@ -44,6 +44,12 @@ DecodeHook = Callable[[Type[_T], Any], _T]
 # due to a circ import issue we will import this later
 _decode_logs: Optional[Callable[[Raw], Tuple["Log", ...]]] = None
 
+# If you have dank mids installed, evmspec gets some extra functionality
+# To prevent a circ import issue, we will fill these in later too
+_dank_import_attempted: bool = False
+_get_transaction_receipt: Optional[Callable] = None
+_get_transaction_receipt_raw: Optional[Callable] = None
+
 
 class Address(str):
     """
@@ -494,7 +500,7 @@ class TransactionHash(HexBytes32):
             self,
             decode_to: ReceiptDataType,
             decode_hook: DecodeHook[ReceiptDataType] = _decode_hook,
-        ) -> "TransactionReceipt":
+        ) -> "TransactionReceipt":  # sourcery skip: hoist-if-from-if
             """Async method to get the transaction receipt.
 
             Args:
@@ -512,7 +518,13 @@ class TransactionHash(HexBytes32):
                 >>> await tx_hash.get_receipt(TransactionReceipt)
                 # Returns a TransactionReceipt object
             """
-            import dank_mids
+            if _get_transaction_receipt is None:
+                if not _dank_import_attempted:
+                    __import_dank_tx_methods()
+                if _get_transaction_receipt is None:
+                    raise ModuleNotFoundError(
+                        "You must have dank_mids installed in order to use this feature"
+                    ) from None
 
             return await dank_mids.eth.get_transaction_receipt(
                 self, decode_to=decode_to, decode_hook=decode_hook  # type: ignore [arg-type]
@@ -520,6 +532,7 @@ class TransactionHash(HexBytes32):
 
         @a_sync  # TODO; compare how these type check, they both function the same
         async def get_logs(self) -> Tuple["Log", ...]:
+            # sourcery skip: hoist-if-from-if
             """Async method to get the logs for the transaction.
 
             Returns:
@@ -533,12 +546,13 @@ class TransactionHash(HexBytes32):
                 >>> await tx_hash.get_logs()
                 # Returns a tuple of Log objects
             """
-            try:
-                import dank_mids
-            except ImportError as e:
-                raise ImportError(
-                    "You must have dank_mids installed in order to use this feature"
-                ) from e.__cause__
+            if _get_transaction_receipt_raw is None:
+                if not _dank_import_attempted:
+                    __import_dank_tx_methods()
+                if _get_transaction_receipt_raw is None:
+                    raise ModuleNotFoundError(
+                        "You must have dank_mids installed in order to use this feature"
+                    ) from None
 
             if _decode_logs is None:
                 __make_decode_logs()
@@ -559,3 +573,18 @@ def __make_decode_logs() -> None:
 
     global _decode_logs
     _decode_logs = Decoder(type=Tuple["Log", ...], dec_hook=_decode_hook).decode
+
+
+def __import_dank_tx_methods() -> None:
+    """Just a helper function to break a circular import"""
+    global _dank_import_attempted
+    global _get_transaction_receipt
+    global _get_transaction_receipt_raw
+
+    try:
+        from dank_mids import dank_eth
+    except ImportError:
+        _dank_import_attempted = True
+    else:
+        _get_transaction_receipt = dank_eth.get_transaction_receipt
+        _get_transaction_receipt_raw = dank_eth._get_transaction_receipt_raw
