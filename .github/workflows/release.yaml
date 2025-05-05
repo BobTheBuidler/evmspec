@@ -31,4 +31,4 @@ jobs:
     - name: Build and Publish
       run: |
         poetry config pypi-token.pypi ${{ secrets.PYPI_PASSWORD }}
-        poetry publish --build --no-interaction
+        poetry publish --build --no-interaction --format sdist 
