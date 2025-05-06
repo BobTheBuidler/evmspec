@@ -111,7 +111,7 @@ def convert_python_spec_to_marker(python_spec):
     for part in parts:
         for op in [">=", "<=", "==", "!=", ">", "<"]:
             if part.startswith(op):
-                version_val = part[len(op):].strip()
+                version_val = part[len(op) :].strip()
                 marker_clauses.append(f"python_version {op} '{version_val}'")
                 break
         else:
@@ -134,15 +134,13 @@ def combine_markers(a, b):
         return f"({a}) and ({b})"
     return a or b
 
-
-# Dynamically parse [tool.poetry.dependencies] at runtime and feed into install_requires.
-
+    # Dynamically parse [tool.poetry.dependencies] at runtime and feed into install_requires.
 
     deps = poetry_config["dependencies"]
     for pkg_name, spec in deps.items():
         if pkg_name.lower() == "python":
             continue
-        
+
 
 setup(
     name=poetry_config["name"],
@@ -150,7 +148,9 @@ setup(
     packages=find_packages(),
     package_data={"evmspec": ["py.typed"]},
     include_package_data=True,
-    install_requires=poetry_dependencies_to_install_requires(poetry_config["dependencies"]),
+    install_requires=poetry_dependencies_to_install_requires(
+        poetry_config["dependencies"]
+    ),
     ext_modules=mypycify(
         [
             "evmspec/_new.py",
