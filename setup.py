@@ -49,7 +49,10 @@ def poetry_dep_to_pep508_string(package_name, spec):
       { extras=["some_extra"], version=">=2.0" }
     """
     if isinstance(spec, str):
-        # If the spec is just a version string, e.g. ">=1.0"
+        # e.g. ">=1.0" or "*"
+        if spec.strip() == "*":
+            # "*" means "any version," so just return the package name alone.
+            return pkg_name
         return f"{package_name}{format_version_part(spec)}"
 
     if isinstance(spec, dict):
@@ -57,6 +60,10 @@ def poetry_dep_to_pep508_string(package_name, spec):
         markers_part = spec.get("markers", "")
         python_part = spec.get("python", "")
         extras = spec.get("extras", [])
+
+        # If version == "*", treat it as no version
+        if version_part.strip() == "*":
+            version_part = ""
 
         # Turn extras into a "pkg[extra1,extra2]" form if there are any
         if extras:
