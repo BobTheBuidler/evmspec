@@ -52,7 +52,7 @@ def poetry_dep_to_pep508_string(package_name, spec):
         # e.g. ">=1.0" or "*"
         if spec.strip() == "*":
             # "*" means "any version," so just return the package name alone.
-            return pkg_name
+            return package_name
         return f"{package_name}{format_version_part(spec)}"
 
     if isinstance(spec, dict):
