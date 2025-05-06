@@ -63,10 +63,11 @@ jobs:
         if: steps.cached-poetry.outputs.cache-hit != 'true' && matrix.pyversion != '3.8'
         uses: snok/install-poetry@v1
 
-      - name: Install Dependencies
-        run: |
-          poetry install --no-interaction
-          poetry run python -m pip install .
+      - name: Install Pytest
+        run: poetry run python -m pip install pytest
+
+      - name: Install Evmspec
+        run: poetry run python -m pip install .
 
       - name: Run test suite
         env:
