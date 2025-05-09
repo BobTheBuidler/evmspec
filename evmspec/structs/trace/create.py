@@ -1,12 +1,15 @@
 from functools import cached_property
+from logging import getLogger
 from typing import Callable, ClassVar, Final, Literal, final
 
 from hexbytes import HexBytes
-from msgspec import UNSET, Raw, field
-from msgspec.json import Decoder
+from msgspec import UNSET, Raw, field, json
 
 from evmspec.data import Address, _decode_hook
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
+
+
+logger = getLogger(__name__)
 
 
 @final
@@ -135,7 +138,11 @@ class Trace(
             >>> trace.action.init
             HexBytes('0x6000600055')
         """
-        return _decode_action(self._action)
+        try:
+            return _decode_action(self._action)
+        except ValidationError as e:
+            logger.error(f"error decoding {json.decode(self._action)} into evmspec.structs.trace.create.Action")
+            raise
 
     result: Result
     """The result object, adhering to the parity format, containing deployment details.
@@ -149,6 +156,6 @@ class Trace(
     """
 
 
-_decode_action: Final[Callable[[Raw], Action]] = Decoder(
+_decode_action: Final[Callable[[Raw], Action]] = json.Decoder(
     type=Action, dec_hook=_decode_hook
 ).decode
