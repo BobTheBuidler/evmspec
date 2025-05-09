@@ -3,7 +3,7 @@ from logging import getLogger
 from typing import Callable, ClassVar, Final, Literal, final
 
 from hexbytes import HexBytes
-from msgspec import UNSET, Raw, field, json
+from msgspec import UNSET, Raw, ValidationError, field, json
 
 from evmspec.data import Address, _decode_hook
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
