@@ -2,7 +2,7 @@ from functools import cached_property
 from typing import Callable, ClassVar, Final, Literal, final
 
 from hexbytes import HexBytes
-from msgspec import Raw, field
+from msgspec import UNSET, Raw, field
 from msgspec.json import Decoder
 
 from evmspec.data import Address, _decode_hook
@@ -34,6 +34,9 @@ class Action(
 
     init: HexBytes
     """The init code for the deployed contract."""
+
+    creationMethod: Literal["create", "create2"] = UNSET  # type: ignore [assignment]
+    """The method used to create the contract."""
 
 
 @final
