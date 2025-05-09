@@ -2,7 +2,6 @@ from typing import Final, Type, TypeVar, Union
 
 import cchecksum
 from eth_typing import AnyAddress
-from hexbytes import HexBytes
 
 from evmspec._utils import to_bytes
 
@@ -10,7 +9,7 @@ from evmspec._utils import to_bytes
 __T = TypeVar("__T")
 
 
-ONE_EMPTY_BYTE: Final = bytes(HexBytes("0x00"))
+ONE_EMPTY_BYTE: Final = b"\x00"
 
 MISSING_BYTES: Final = tuple((32 - i) * ONE_EMPTY_BYTE for i in range(33))
 """Calculate the number of missing bytes and return them.
