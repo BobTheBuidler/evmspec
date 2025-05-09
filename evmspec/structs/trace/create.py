@@ -141,7 +141,9 @@ class Trace(
         try:
             return _decode_action(self._action)
         except ValidationError as e:
-            logger.error(f"error decoding {json.decode(self._action)} into evmspec.structs.trace.create.Action")
+            logger.error(
+                f"error decoding {json.decode(self._action)} into evmspec.structs.trace.create.Action"
+            )
             raise
 
     result: Result
