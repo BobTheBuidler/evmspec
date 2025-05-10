@@ -205,7 +205,7 @@ class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=Tru
         - :class:`MinedBlock`
     """
 
-    baseFeePerGas: Wei
+    baseFeePerGas: Wei = UNSET  # type: ignore [assignment]
     """The base fee per gas."""
 
 
