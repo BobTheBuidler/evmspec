@@ -21,6 +21,7 @@ Structs:
     :class:`~evmspec.Transaction2930`: Represents a transaction with EIP-2930.
     :class:`~evmspec.Transaction1559`: Represents a transaction with EIP-1559.
 """
+
 from evmspec import _utils, structs
 from evmspec.structs import (
     ErigonBlockHeader,
