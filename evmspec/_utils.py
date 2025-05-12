@@ -63,6 +63,6 @@ def monkey_patch_hexbytes_utils() -> None:
     import hexbytes.main
 
     hexbytes.main.to_bytes = to_bytes
-    
+
     hexbytes._utils.to_bytes = to_bytes
     hexbytes._utils.hexstr_to_bytes = hexstr_to_bytes
