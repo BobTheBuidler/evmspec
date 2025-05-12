@@ -1812,6 +1812,27 @@
 </section>
 <section id="module-evmspec">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-evmspec" title="Permalink to this heading"></a></h2>
+<p>This library provides a collection of msgspec.Struct definitions for use with the Ethereum Virtual Machine.</p>
+<dl class="simple">
+<dt>Modules:</dt><dd><p><a class="reference internal" href="evmspec.structs.html#module-evmspec.structs.block" title="evmspec.structs.block"><code class="xref py py-mod docutils literal notranslate"><span class="pre">block</span></code></a>: Contains structures related to Ethereum blocks.
+<a class="reference internal" href="evmspec.structs.html#module-evmspec.structs.header" title="evmspec.structs.header"><code class="xref py py-mod docutils literal notranslate"><span class="pre">header</span></code></a>: Contains structures related to Ethereum block headers.
+<a class="reference internal" href="evmspec.structs.html#module-evmspec.structs.log" title="evmspec.structs.log"><code class="xref py py-mod docutils literal notranslate"><span class="pre">log</span></code></a>: Contains structures related to Ethereum logs.
+<a class="reference internal" href="evmspec.structs.html#module-evmspec.structs.receipt" title="evmspec.structs.receipt"><code class="xref py py-mod docutils literal notranslate"><span class="pre">receipt</span></code></a>: Contains structures related to Ethereum transaction receipts.
+<a class="reference internal" href="evmspec.structs.trace.html#module-evmspec.structs.trace" title="evmspec.structs.trace"><code class="xref py py-mod docutils literal notranslate"><span class="pre">trace</span></code></a>: Contains structures related to Ethereum transaction traces.
+<a class="reference internal" href="evmspec.structs.html#module-evmspec.structs.transaction" title="evmspec.structs.transaction"><code class="xref py py-mod docutils literal notranslate"><span class="pre">transaction</span></code></a>: Contains structures related to Ethereum transactions.</p>
+</dd>
+<dt>Structs:</dt><dd><p><a class="reference internal" href="#evmspec.ErigonBlockHeader" title="evmspec.ErigonBlockHeader"><code class="xref py py-class docutils literal notranslate"><span class="pre">ErigonBlockHeader</span></code></a>: Represents a block header in the Erigon client.
+<a class="reference internal" href="#evmspec.FullTransactionReceipt" title="evmspec.FullTransactionReceipt"><code class="xref py py-class docutils literal notranslate"><span class="pre">FullTransactionReceipt</span></code></a>: Represents a full transaction receipt.
+<a class="reference internal" href="#evmspec.TransactionReceipt" title="evmspec.TransactionReceipt"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransactionReceipt</span></code></a>: Represents a transaction receipt.
+<code class="xref py py-class docutils literal notranslate"><span class="pre">FilterTrace</span></code>: Represents a union of different trace types.
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Transaction</span></code>: Represents a generic transaction.
+<code class="xref py py-class docutils literal notranslate"><span class="pre">AnyTransaction</span></code>: Represents any type of transaction.
+<a class="reference internal" href="#evmspec.TransactionRLP" title="evmspec.TransactionRLP"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransactionRLP</span></code></a>: Represents an RLP encoded transaction.
+<a class="reference internal" href="#evmspec.TransactionLegacy" title="evmspec.TransactionLegacy"><code class="xref py py-class docutils literal notranslate"><span class="pre">TransactionLegacy</span></code></a>: Represents a legacy transaction.
+<a class="reference internal" href="#evmspec.Transaction2930" title="evmspec.Transaction2930"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transaction2930</span></code></a>: Represents a transaction with EIP-2930.
+<a class="reference internal" href="#evmspec.Transaction1559" title="evmspec.Transaction1559"><code class="xref py py-class docutils literal notranslate"><span class="pre">Transaction1559</span></code></a>: Represents a transaction with EIP-1559.</p>
+</dd>
+</dl>
 <dl class="py class">
 <dt class="sig sig-object py" id="evmspec.ErigonBlockHeader">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.</span></span><span class="sig-name descname"><span class="pre">ErigonBlockHeader</span></span><a class="reference internal" href="../_modules/evmspec/structs/header.html#ErigonBlockHeader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.ErigonBlockHeader" title="Permalink to this definition"></a></dt>
