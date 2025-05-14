@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "evmspec"
-version = "0.3.0"
+version = "0.3.1"
 description = "A collection of msgspec.Struct definitions for use with the Ethereum Virtual Machine"
 authors = ["BobTheBuidler <bobthebuidlerdefi@gmail.com>"]
 
@@ -14,7 +14,7 @@ cachetools = ">=4.1.1,<6"
 cchecksum = ">=0.0.3"
 dictstruct = ">=0.0.1"
 eth-utils = ">=1.10.0"
-hexbytes = "*"
+hexbytes = "<1"
 typing_extensions = ">=4.0.0"
 pysha3 = { version = ">=1.0.0,<2.0.0", markers = "python_version < '3.9'" }
 safe-pysha3 = { version = ">=1.0.0", markers = "python_version >= '3.9'" }
