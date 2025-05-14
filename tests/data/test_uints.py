@@ -11,7 +11,7 @@ def _get_uint_cls(num_bytes: int) -> str:
   
 @pytest.mark.parametrize("num_bytes", range(1, 32))
 def test_all(num_bytes: int) -> None:
-    assert uints.__all__[num_bytes-1] = _get_uint_cls_name(num_bytes)
+    assert uints.__all__[num_bytes-1] == _get_uint_cls_name(num_bytes)
 
 @pytest.mark.parametrize("num_bytes", range(1, 32))
 def test_uint_init_zero(num_bytes: int) -> None:
