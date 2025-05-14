@@ -1,5 +1,6 @@
-import pytest
+from itertools import product
 
+import pytest
 from hexbytes import HexBytes
 
 from evmspec.data import uints
@@ -18,10 +19,10 @@ def test_all(num_bytes: int) -> None:
     assert uints.__all__[num_bytes - 1] == _get_uint_cls_name(num_bytes)
 
 
-@pytest.mark.parametrize("num_bytes", range(1, 32))
-def test_uint_init_zero(num_bytes: int) -> None:
+@pytest.mark.parametrize("num_bytes,value", product(range(1, 32), (0, 1, 100)))
+def test_uint_init(num_bytes: int, value: int) -> None:
     uint_type = _get_uint_cls(num_bytes)
-    assert uint_type(HexBytes(0)) == 0
+    assert uint_type(HexBytes(value)) == value
 
 
 @pytest.mark.parametrize("num_bytes", range(1, 32))
