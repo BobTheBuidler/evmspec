@@ -55,3 +55,14 @@ def hexstr_to_bytes(hexstr: str) -> bytes:
         )
     else:
         return unhexlify(ascii_hex)
+
+
+def monkey_patch_hexbytes_utils() -> None:
+    """Monkey patch `hexbytes` lib with our C compiled versions of their util functions."""
+    import hexbytes._utils
+    import hexbytes.main
+
+    hexbytes.main.to_bytes = to_bytes
+
+    hexbytes._utils.to_bytes = to_bytes
+    hexbytes._utils.hexstr_to_bytes = hexstr_to_bytes
