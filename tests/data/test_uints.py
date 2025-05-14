@@ -39,7 +39,7 @@ def test_uint_init_out_of_bounds(num_bytes: int) -> None:
     assert (
         len(e.args) == 1
         and e.args[0]
-        == f"{hexbytes} ({too_large}) is larger than {uint_type.__name__} max value {max_value}"
+        == f"{hexbytes!r} ({too_large}) is larger than {uint_type.__name__} max value {max_value}"
     )
 
 
