@@ -1817,27 +1817,20 @@ Example: bytes.fromhex(‘B9 01EF’) -&gt; b’\xb9\x01\xef’.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="evmspec.structs.log.Data.hex">
-<span class="sig-name descname"><span class="pre">hex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.structs.log.Data.hex" title="Permalink to this definition"></a></dt>
-<dd><p>Create a string of hexadecimal numbers from a bytes object.</p>
-<blockquote>
-<div><dl class="simple">
-<dt>sep</dt><dd><p>An optional single character or byte to separate hex bytes.</p>
+<span class="sig-name descname"><span class="pre">hex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bytes_per_sep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.structs.log.Data.hex" title="Permalink to this definition"></a></dt>
+<dd><p>Output hex-encoded bytes, with an “0x” prefix.</p>
+<p>Everything following the “0x” is output exactly like <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes.hex" title="(in Python v3.13)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">bytes.hex()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><em>str</em></a><em> | </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.13)"><em>bytes</em></a>) – </p></li>
+<li><p><strong>bytes_per_sep</strong> (<em>SupportsIndex</em>) – </p></li>
+</ul>
 </dd>
-<dt>bytes_per_sep</dt><dd><p>How many bytes between separators.  Positive values count from the
-right, negative values count from the left.</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
 </dd>
 </dl>
-</div></blockquote>
-<p>Example:
-&gt;&gt;&gt; value = b’xb9x01xef’
-&gt;&gt;&gt; value.hex()
-‘b901ef’
-&gt;&gt;&gt; value.hex(‘:’)
-‘b9:01:ef’
-&gt;&gt;&gt; value.hex(‘:’, 2)
-‘b9:01ef’
-&gt;&gt;&gt; value.hex(‘:’, -2)
-‘b901:ef’</p>
 </dd></dl>
 
 <dl class="py method">
@@ -2100,17 +2093,6 @@ to lowercase ASCII and vice versa.</p>
 <span class="sig-name descname"><span class="pre">title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">copy</span> <span class="pre">of</span> <span class="pre">B</span></span></span><a class="headerlink" href="#evmspec.structs.log.Data.title" title="Permalink to this definition"></a></dt>
 <dd><p>Return a titlecased version of B, i.e. ASCII words start with uppercase
 characters, all remaining cased characters have lowercase.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="evmspec.structs.log.Data.to_0x_hex">
-<span class="sig-name descname"><span class="pre">to_0x_hex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.structs.log.Data.to_0x_hex" title="Permalink to this definition"></a></dt>
-<dd><p>Convert the bytes to a 0x-prefixed hex string</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -3235,17 +3217,6 @@ to lowercase ASCII and vice versa.</p>
 <span class="sig-name descname"><span class="pre">title</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">copy</span> <span class="pre">of</span> <span class="pre">B</span></span></span><a class="headerlink" href="#evmspec.structs.log.Topic.title" title="Permalink to this definition"></a></dt>
 <dd><p>Return a titlecased version of B, i.e. ASCII words start with uppercase
 characters, all remaining cased characters have lowercase.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="evmspec.structs.log.Topic.to_0x_hex">
-<span class="sig-name descname"><span class="pre">to_0x_hex</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#evmspec.structs.log.Topic.to_0x_hex" title="Permalink to this definition"></a></dt>
-<dd><p>Convert the bytes to a 0x-prefixed hex string</p>
-<dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py method">
