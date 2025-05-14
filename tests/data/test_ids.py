@@ -1,4 +1,5 @@
 import pytest
+from hexbytes import HexBytes
 
 from evmspec.data._ids import ChainId, TransactionIndex, LogIndex
 
