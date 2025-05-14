@@ -80,6 +80,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
 
@@ -102,10 +103,10 @@
 <span class="sd">        :class:`uint8`, :class:`uint64`, :class:`uint128`, :class:`uint256`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nb">bytes</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">bits</span><span class="p">:</span> <span class="nb">int</span>
-    <span class="n">min_value</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">max_value</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="nb">bytes</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">bits</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+    <span class="n">min_value</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">max_value</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">HexBytes</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -148,9 +149,9 @@
 <span class="sd">        uint8(1)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">bits</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
-    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span></div>
+    <span class="nb">bytes</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">bits</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
+    <span class="n">max_value</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span></div>
 
 
 <div class="viewcode-block" id="uint64"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.uint64">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">uint64</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
@@ -161,9 +162,9 @@
 <span class="sd">        uint64(18446744073709551615)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">8</span>
-    <span class="n">bits</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
-    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span></div>
+    <span class="nb">bytes</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="n">bits</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
+    <span class="n">max_value</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span></div>
 
 
 <div class="viewcode-block" id="uint128"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.uint128">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">uint128</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
@@ -174,9 +175,9 @@
 <span class="sd">        uint128(340282366920938463463374607431768211455)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">16</span>
-    <span class="n">bits</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
-    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span></div>
+    <span class="nb">bytes</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">16</span>
+    <span class="n">bits</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
+    <span class="n">max_value</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span></div>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">uint256</span><span class="p">(</span><span class="n">_UintData</span><span class="p">):</span>
@@ -187,9 +188,9 @@
 <span class="sd">        uint256(115792089237316195423570985008687907853269984665640564039457584007913129639935)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nb">bytes</span> <span class="o">=</span> <span class="mi">32</span>
-    <span class="n">bits</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
-    <span class="n">max_value</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="nb">bytes</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">bits</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="nb">bytes</span> <span class="o">*</span> <span class="mi">8</span>
+    <span class="n">max_value</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">bits</span> <span class="o">-</span> <span class="mi">1</span>
 
 
 <span class="c1"># dynamically define classes for remaining uint types</span>
