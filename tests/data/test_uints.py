@@ -36,12 +36,13 @@ def test_uint_init_out_of_bounds(num_bytes: int) -> None:
     bits = num_bytes * 8
     max_value = 2**bits - 1
     too_large = max_value + 1
+    hexbytes = HexBytes(too_large)
     with pytest.raises(ValueError) as e:
-        uint_type(HexBytes(too_large))
+        uint_type(hexbytes)
     assert (
         len(e.args) == 1
         and e.args[0]
-        == f"{too_large} is larger than {uint_type.__name__} max value {max_value}"
+        == f"{hexbytes} ({too_large}) is larger than {uint_type.__name__} max value {max_value}"
     )
 
 
