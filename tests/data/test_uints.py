@@ -1,5 +1,7 @@
 import pytest
 
+from hexbytes import HexBytes
+
 from evmspec.data import uints
 
 
