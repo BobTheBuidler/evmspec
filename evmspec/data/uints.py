@@ -61,11 +61,11 @@ class _UintData(uint):
             new = __int_new__(cls, 0)
         if new < cls.min_value:
             raise ValueError(
-                f"{v!r} ({new}) is smaller than {cls.__name__} min value {cls.min_value}"
+                f"{v} ({new}) is smaller than {cls.__name__} min value {cls.min_value}"
             )
         if new > cls.max_value:
             raise ValueError(
-                f"{v!r} ({new}) is larger than {cls.__name__} max value {cls.max_value}"
+                f"{v} ({new}) is larger than {cls.__name__} max value {cls.max_value}"
             )
         return new
 
