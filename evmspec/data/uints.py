@@ -9,6 +9,7 @@ Note:
 """
 
 import sys
+from typing import ClassVar, Final
 
 from hexbytes import HexBytes
 
@@ -31,10 +32,10 @@ class _UintData(uint):
         :class:`uint8`, :class:`uint64`, :class:`uint128`, :class:`uint256`
     """
 
-    bytes: int
-    bits: int
-    min_value = 0
-    max_value: int
+    bytes: ClassVar[int]
+    bits: ClassVar[int]
+    min_value: Final = 0
+    max_value: ClassVar[int]
 
     def __new__(cls, v: HexBytes):
         """
@@ -77,9 +78,9 @@ class uint8(_UintData):
         uint8(1)
     """
 
-    bytes = 1
-    bits = bytes * 8
-    max_value = 2**bits - 1
+    bytes: ClassVar[int] = 1
+    bits: ClassVar[int] = bytes * 8
+    max_value: ClassVar[int] = 2**bits - 1
 
 
 class uint64(_UintData):
@@ -90,9 +91,9 @@ class uint64(_UintData):
         uint64(18446744073709551615)
     """
 
-    bytes = 8
-    bits = bytes * 8
-    max_value = 2**bits - 1
+    bytes: ClassVar[int] = 8
+    bits: ClassVar[int] = bytes * 8
+    max_value: ClassVar[int] = 2**bits - 1
 
 
 class uint128(_UintData):
@@ -103,9 +104,9 @@ class uint128(_UintData):
         uint128(340282366920938463463374607431768211455)
     """
 
-    bytes = 16
-    bits = bytes * 8
-    max_value = 2**bits - 1
+    bytes: ClassVar[int] = 16
+    bits: ClassVar[int] = bytes * 8
+    max_value: ClassVar[int] = 2**bits - 1
 
 
 class uint256(_UintData):
@@ -116,9 +117,9 @@ class uint256(_UintData):
         uint256(115792089237316195423570985008687907853269984665640564039457584007913129639935)
     """
 
-    bytes = 32
-    bits = bytes * 8
-    max_value = 2**bits - 1
+    bytes: ClassVar[int] = 32
+    bits: ClassVar[int] = bytes * 8
+    max_value: ClassVar[int] = 2**bits - 1
 
 
 # dynamically define classes for remaining uint types
