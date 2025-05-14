@@ -1,5 +1,7 @@
 import pytest
 
+from evmspec.data._ids import ChainId, TransactionIndex, LogIndex
+
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
 def test_add(cls):
