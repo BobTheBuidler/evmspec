@@ -252,7 +252,16 @@ class Transaction4844(Transaction1559, tag="0x3", frozen=True, kw_only=True, for
     blobVersionedHashes: Tuple[HexBytes32, ...]
 
 
+@final
+class Transaction7702(Transaction1559, tag="0x4", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+    """
+    Represents a type-7702 (EIP-7702) Ethereum transaction to set an EOA's bytecode.
+    """
+
+    type: ClassVar[HexBytes] = HexBytes("4")
+
+
 Transaction = Union[
-    TransactionLegacy, Transaction2930, Transaction1559, Transaction4844
+    TransactionLegacy, Transaction2930, Transaction1559, Transaction4844, Transaction7702
 ]
 AnyTransaction = Union[Transaction, TransactionRLP]
