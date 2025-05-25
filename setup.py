@@ -152,6 +152,7 @@ def combine_markers(a, b):
 setup(
     name=poetry_config["name"],
     version=poetry_config["version"],
+    python_requires=">=3.8,<3.13",
     packages=find_packages(),
     package_data={"evmspec": ["py.typed"]},
     include_package_data=True,
