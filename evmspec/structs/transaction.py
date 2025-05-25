@@ -23,7 +23,7 @@ _decode_storage_keys: Final[Callable[[Raw], List[HexBytes32]]] = Decoder(
     type=List[HexBytes32], dec_hook=lambda hb_type, obj: hb_type(obj)
 ).decode
 
-    
+
 @final
 class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
     """
@@ -89,9 +89,9 @@ class AuthorizationListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=
     s: HexBytes
 
 
-_decode_authorization_list: Final[Callable[[Raw], List[AuthorizationListEntry]]] = Decoder(
-    type=List[AuthorizationListEntry]
-).decode
+_decode_authorization_list: Final[Callable[[Raw], List[AuthorizationListEntry]]] = (
+    Decoder(type=List[AuthorizationListEntry]).decode
+)
 
 
 class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
@@ -276,7 +276,7 @@ class Transaction7702(Transaction1559, tag="0x4", frozen=True, kw_only=True, for
 
     type: ClassVar[HexBytes] = HexBytes("4")
     _authorizationList: Raw = field(name="authorizationList")  # type: ignore [assignment]
-    
+
     @cached_property
     def authorizationList(self) -> List[AuthorizationListEntry]:
         """
