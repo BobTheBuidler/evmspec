@@ -78,6 +78,22 @@ _decode_access_list: Final[Callable[[Raw], List[AccessListEntry]]] = Decoder(
 ).decode
 
 
+@final
+class AuthorizationListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
+    chainId: ChainId
+    address: Address
+    nonce: Nonce
+    gas: Wei
+    yParity: uint
+    r: HexBytes
+    s: HexBytes
+
+
+_decode_authorization_list: Final[Callable[[Raw], List[AuthorizationListEntry]]] = (
+    Decoder(type=List[AuthorizationListEntry]).decode
+)
+
+
 class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
     """
     Base class for Ethereum transactions.
@@ -259,6 +275,25 @@ class Transaction7702(Transaction1559, tag="0x4", frozen=True, kw_only=True, for
     """
 
     type: ClassVar[HexBytes] = HexBytes("4")
+    _authorizationList: Raw = field(name="authorizationList")  # type: ignore [assignment]
+
+    @cached_property
+    def authorizationList(self) -> List[AuthorizationListEntry]:
+        """
+        Decodes the authorization list from raw format to a list of AuthorizationListEntry.
+
+        Example:
+            >>> transaction = _TransactionBase(...)
+            >>> access_list = transaction.accessList
+            >>> isinstance(access_list, list)
+            True
+            >>> isinstance(access_list[0], AccessListEntry)
+            True
+
+        See Also:
+            - :class:`AccessListEntry`
+        """
+        return _decode_authorization_list(self._authorizationList)
 
 
 Transaction = Union[
