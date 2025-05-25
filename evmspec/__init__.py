@@ -40,6 +40,8 @@ from evmspec.structs.transaction import (
     TransactionLegacy,
     Transaction1559,
     Transaction2930,
+    Transaction4844,
+    Transaction7702,
     Transaction,
     AnyTransaction,
 )
@@ -73,4 +75,6 @@ __all__ = [
     "TransactionLegacy",
     "Transaction2930",
     "Transaction1559",
+    "Transaction4844",
+    "Transaction7702",
 ]
