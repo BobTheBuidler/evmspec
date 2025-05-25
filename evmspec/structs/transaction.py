@@ -293,7 +293,7 @@ class Transaction7702(Transaction1559, tag="0x4", frozen=True, kw_only=True, for
         See Also:
             - :class:`AccessListEntry`
         """
-        return _decode_authorization_list(self._accessList)
+        return _decode_authorization_list(self._authorizationList)
 
 
 Transaction = Union[
