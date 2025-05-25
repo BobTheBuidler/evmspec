@@ -323,8 +323,21 @@
     <span class="n">blobVersionedHashes</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span></div>
 
 
+<div class="viewcode-block" id="Transaction7702"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Transaction7702">[docs]</a><span class="nd">@final</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Transaction7702</span><span class="p">(</span><span class="n">Transaction1559</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x4&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a type-7702 (EIP-7702) Ethereum transaction to set an EOA&#39;s bytecode.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;4&quot;</span><span class="p">)</span></div>
+
+
 <span class="n">Transaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
-    <span class="n">TransactionLegacy</span><span class="p">,</span> <span class="n">Transaction2930</span><span class="p">,</span> <span class="n">Transaction1559</span><span class="p">,</span> <span class="n">Transaction4844</span>
+    <span class="n">TransactionLegacy</span><span class="p">,</span>
+    <span class="n">Transaction2930</span><span class="p">,</span>
+    <span class="n">Transaction1559</span><span class="p">,</span>
+    <span class="n">Transaction4844</span><span class="p">,</span>
+    <span class="n">Transaction7702</span><span class="p">,</span>
 <span class="p">]</span>
 <span class="n">AnyTransaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Transaction</span><span class="p">,</span> <span class="n">TransactionRLP</span><span class="p">]</span>
 </pre></div>
