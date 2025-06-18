@@ -2,4 +2,11 @@ __pycache__/
 .hypothesis/
 .mypy_cache/
 .pytest_cache/
+build/**/*.py
+build/**/*.typed
+build/ops.txt
 dist/
+*.o
+*.so
+*.pyd
+evmspec.egg-info/
