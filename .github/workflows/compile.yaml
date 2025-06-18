@@ -24,11 +24,13 @@ jobs:
         with:
           python-version: "3.12"
           
-      - name: Install Requirements
-        run: pip install -r requirements.txt
+      - name: Install Poetry
+        run: pip install poetry
         
-      - name: Install Eth Portfolio
-        run: pip install .
+      - name: Install Evmspec
+        run: |
+          poetry install
+          poetry run pip install .
 
       - name: Check for changes
         run: |
