@@ -4,6 +4,7 @@ __pycache__/
 .pytest_cache/
 build/**/*.py
 build/**/*.typed
+build/ops.txt
 dist/
 *.o
 *.so
