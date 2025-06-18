@@ -6,3 +6,4 @@ dist/
 *.o
 *.so
 *.pyd
+evmspec.egg-info/
