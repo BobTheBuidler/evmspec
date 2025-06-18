@@ -1,0 +1,16 @@
+Metadata-Version: 2.4
+Name: evmspec
+Version: 0.4.1
+Requires-Python: >=3.8,<3.13
+License-File: LICENSE
+Requires-Dist: cachetools<6,>=4.1.1
+Requires-Dist: cchecksum>=0.0.3
+Requires-Dist: dictstruct>=0.0.1
+Requires-Dist: eth-utils>=1.10.0
+Requires-Dist: hexbytes
+Requires-Dist: typing_extensions>=4.0.0
+Requires-Dist: pysha3<2.0.0,>=1.0.0; python_version < "3.9"
+Requires-Dist: safe-pysha3>=1.0.0; python_version >= "3.9"
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python

@@ -1,0 +1,12 @@
+cachetools<6,>=4.1.1
+cchecksum>=0.0.3
+dictstruct>=0.0.1
+eth-utils>=1.10.0
+hexbytes
+typing_extensions>=4.0.0
+
+[:python_version < "3.9"]
+pysha3<2.0.0,>=1.0.0
+
+[:python_version >= "3.9"]
+safe-pysha3>=1.0.0
