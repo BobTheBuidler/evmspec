@@ -1,0 +1,1214 @@
+def Address(cls, address):
+    cls, address, r0, r1 :: object
+    r2 :: bool
+    r3 :: object[1]
+    r4 :: object_ptr
+    r5 :: object
+    r6 :: str
+    r7 :: object[3]
+    r8 :: object_ptr
+    r9, r10 :: object
+L0:
+    r0 = load_address PyUnicode_Type
+    r1 = evmspec._new.to_checksum_address :: static
+    if is_error(r1) goto L1 else goto L3
+L1:
+    r2 = raise NameError('value for final name "to_checksum_address" was not set')
+    if not r2 goto L6 (error at Address:31) else goto L2 :: bool
+L2:
+    unreachable
+L3:
+    r3 = [address]
+    r4 = load_address r3
+    r5 = PyObject_Vectorcall(r1, r4, 1, 0)
+    if is_error(r5) goto L6 (error at Address:31) else goto L4
+L4:
+    r6 = '__new__'
+    r7 = [r0, cls, r5]
+    r8 = load_address r7
+    r9 = PyObject_VectorcallMethod(r6, r8, 9223372036854775811, 0)
+    if is_error(r9) goto L7 (error at Address:31) else goto L5
+L5:
+    dec_ref r5
+    return r9
+L6:
+    r10 = <error> :: object
+    return r10
+L7:
+    dec_ref r5
+    goto L6
+
+def HexBytes32(cls, v):
+    cls :: object
+    v :: union[bytes, str]
+    r0 :: object
+    r1 :: i32
+    r2 :: bit
+    r3 :: bool
+    r4, r5 :: str
+    r6 :: i32
+    r7 :: bool
+    r8, r9 :: str
+    r10 :: object[2]
+    r11 :: object_ptr
+    r12 :: object
+    r13 :: bytes
+    r14 :: tuple
+    r15 :: bool
+    r16 :: ptr
+    r17 :: native_int
+    r18 :: short_int
+    r19 :: object
+    r20 :: bytes
+    r21 :: tuple[object, object, object]
+    r22 :: object
+    r23 :: str
+    r24 :: object
+    r25 :: bit
+    r26 :: object
+    r27, r28 :: str
+    r29 :: ptr
+    r30 :: native_int
+    r31 :: short_int
+    r32, r33 :: str
+    r34 :: object
+    r35 :: str
+    r36 :: object
+    r37 :: object[1]
+    r38 :: object_ptr
+    r39 :: object
+    r40 :: bit
+    r41 :: object
+    r42 :: bytes
+    r43 :: str
+    r44 :: object[3]
+    r45 :: object_ptr
+    r46, r47 :: object
+L0:
+    r0 = load_address PyUnicode_Type
+    r1 = PyObject_IsInstance(v, r0)
+    r2 = r1 >= 0 :: signed
+    if not r2 goto L31 (error at HexBytes32:37) else goto L1 :: bool
+L1:
+    r3 = truncate r1: i32 to builtins.bool
+    if r3 goto L2 else goto L7 :: bool
+L2:
+    inc_ref v
+    r4 = cast(str, v)
+    if is_error(r4) goto L31 (error at HexBytes32:37) else goto L3
+L3:
+    r5 = '0x'
+    r6 = CPyStr_Startswith(r4, r5)
+    dec_ref r4
+    r7 = truncate r6: i32 to builtins.bool
+    if r7 goto L4 else goto L7 :: bool
+L4:
+    inc_ref v
+    r8 = cast(str, v)
+    if is_error(r8) goto L31 (error at HexBytes32:38) else goto L5
+L5:
+    r9 = '_check_hexstr'
+    r10 = [cls, r8]
+    r11 = load_address r10
+    r12 = PyObject_VectorcallMethod(r9, r11, 9223372036854775810, 0)
+    if is_error(r12) goto L32 (error at HexBytes32:38) else goto L33
+L6:
+    dec_ref r8
+L7:
+    r13 = to_bytes(v)
+    if is_error(r13) goto L31 (error at HexBytes32:40) else goto L8
+L8:
+L9:
+    r14 = evmspec._new.MISSING_BYTES :: static
+    if is_error(r14) goto L10 else goto L12
+L10:
+    r15 = raise NameError('value for final name "MISSING_BYTES" was not set')
+    if not r15 goto L15 (error at HexBytes32:42) else goto L34 :: bool
+L11:
+    unreachable
+L12:
+    r16 = get_element_ptr r13 ob_size :: PyVarObject
+    r17 = load_mem r16 :: native_int*
+    r18 = r17 << 1
+    r19 = CPySequenceTuple_GetItem(r14, r18)
+    if is_error(r19) goto L15 (error at HexBytes32:42) else goto L13
+L13:
+    r20 = cast(bytes, r19)
+    if is_error(r20) goto L15 (error at HexBytes32:42) else goto L14
+L14:
+    goto L28
+L15:
+    r21 = CPy_CatchError()
+    r22 = builtins :: module
+    r23 = 'KeyError'
+    r24 = CPyObject_GetAttr(r22, r23)
+    if is_error(r24) goto L35 (error at HexBytes32:43) else goto L16
+L16:
+    r25 = CPy_ExceptionMatches(r24)
+    dec_ref r24
+    if r25 goto L17 else goto L36 :: bool
+L17:
+    r26 = CPy_GetExcValue()
+    dec_ref r26
+    r27 = PyObject_Repr(v)
+    if is_error(r27) goto L35 (error at HexBytes32:44) else goto L18
+L18:
+    r28 = ' is too long: '
+    r29 = get_element_ptr r13 ob_size :: PyVarObject
+    r30 = load_mem r29 :: native_int*
+    dec_ref r13
+    r31 = r30 << 1
+    r32 = CPyTagged_Str(r31)
+    if is_error(r32) goto L37 (error at HexBytes32:44) else goto L19
+L19:
+    r33 = CPyStr_Build(3, r27, r28, r32)
+    dec_ref r27
+    dec_ref r32
+    if is_error(r33) goto L26 (error at HexBytes32:44) else goto L20
+L20:
+    r34 = builtins :: module
+    r35 = 'ValueError'
+    r36 = CPyObject_GetAttr(r34, r35)
+    if is_error(r36) goto L38 (error at HexBytes32:44) else goto L21
+L21:
+    r37 = [r33]
+    r38 = load_address r37
+    r39 = PyObject_Vectorcall(r36, r38, 1, 0)
+    dec_ref r36
+    if is_error(r39) goto L38 (error at HexBytes32:44) else goto L22
+L22:
+    dec_ref r33
+    CPy_Raise(r39)
+    dec_ref r39
+    if not 0 goto L26 (error at HexBytes32:44) else goto L39 :: bool
+L23:
+    unreachable
+L24:
+    CPy_Reraise()
+    if not 0 goto L26 else goto L40 :: bool
+L25:
+    unreachable
+L26:
+    CPy_RestoreExcInfo(r21)
+    dec_ref r21
+    r40 = CPy_KeepPropagating()
+    if not r40 goto L31 else goto L27 :: bool
+L27:
+    unreachable
+L28:
+    r41 = load_address PyBytes_Type
+    r42 = CPyBytes_Concat(r20, r13)
+    dec_ref r13
+    if is_error(r42) goto L31 (error at HexBytes32:45) else goto L29
+L29:
+    r43 = '__new__'
+    r44 = [r41, cls, r42]
+    r45 = load_address r44
+    r46 = PyObject_VectorcallMethod(r43, r45, 9223372036854775811, 0)
+    if is_error(r46) goto L41 (error at HexBytes32:45) else goto L30
+L30:
+    dec_ref r42
+    return r46
+L31:
+    r47 = <error> :: object
+    return r47
+L32:
+    dec_ref r8
+    goto L31
+L33:
+    dec_ref r12
+    goto L6
+L34:
+    dec_ref r13
+    goto L11
+L35:
+    dec_ref r13
+    goto L26
+L36:
+    dec_ref r13
+    goto L24
+L37:
+    dec_ref r27
+    goto L26
+L38:
+    dec_ref r33
+    goto L26
+L39:
+    dec_ref r21
+    goto L23
+L40:
+    dec_ref r21
+    goto L25
+L41:
+    dec_ref r42
+    goto L31
+
+def __top_level__():
+    r0, r1 :: object
+    r2 :: bit
+    r3 :: str
+    r4, r5 :: object
+    r6 :: str
+    r7 :: dict
+    r8 :: object
+    r9 :: object_ptr
+    r10 :: object_ptr[1]
+    r11 :: c_ptr
+    r12 :: native_int[1]
+    r13 :: c_ptr
+    r14 :: object
+    r15 :: dict
+    r16, r17 :: str
+    r18 :: bit
+    r19 :: object
+    r20 :: str
+    r21 :: dict
+    r22, r23 :: object
+    r24 :: str
+    r25 :: dict
+    r26 :: object
+    r27 :: str
+    r28 :: dict
+    r29 :: str
+    r30 :: object
+    r31 :: object[1]
+    r32 :: object_ptr
+    r33 :: object
+    r34 :: dict
+    r35 :: str
+    r36 :: i32
+    r37 :: bit
+    r38 :: bytes
+    r39 :: dict
+    r40 :: str
+    r41 :: i32
+    r42 :: bit
+    r43 :: list
+    r44 :: short_int
+    i :: int
+    r45 :: bit
+    r46 :: int
+    r47 :: bytes
+    r48 :: bool
+    r49, r50 :: object
+    r51 :: bytes
+    r52 :: i32
+    r53 :: bit
+    r54 :: short_int
+    r55 :: tuple
+    r56 :: dict
+    r57 :: str
+    r58 :: i32
+    r59 :: bit
+    r60 :: object
+    r61 :: str
+    r62 :: object
+    r63 :: dict
+    r64 :: str
+    r65 :: i32
+    r66 :: bit
+    r67 :: None
+L0:
+    r0 = builtins :: module
+    r1 = load_address _Py_NoneStruct
+    r2 = r0 != r1
+    if r2 goto L3 else goto L1 :: bool
+L1:
+    r3 = 'builtins'
+    r4 = PyImport_Import(r3)
+    if is_error(r4) goto L26 (error at <module>:-1) else goto L2
+L2:
+    builtins = r4 :: module
+    dec_ref r4
+L3:
+    r5 = ('Final', 'Type', 'TypeVar', 'Union')
+    r6 = 'typing'
+    r7 = evmspec._new.globals :: static
+    r8 = CPyImport_ImportFromMany(r6, r5, r5, r7)
+    if is_error(r8) goto L26 (error at <module>:1) else goto L4
+L4:
+    typing = r8 :: module
+    dec_ref r8
+    r9 = load_address cchecksum :: module
+    r10 = [r9]
+    r11 = load_address r10
+    r12 = [3]
+    r13 = load_address r12
+    r14 = (('cchecksum', 'cchecksum', 'cchecksum'),)
+    r15 = evmspec._new.globals :: static
+    r16 = 'evmspec/_new.py'
+    r17 = '<module>'
+    r18 = CPyImport_ImportMany(r14, r11, r15, r16, r17, r13)
+    if not r18 goto L26 else goto L5 :: bool
+L5:
+    r19 = ('AnyAddress',)
+    r20 = 'eth_typing'
+    r21 = evmspec._new.globals :: static
+    r22 = CPyImport_ImportFromMany(r20, r19, r19, r21)
+    if is_error(r22) goto L26 (error at <module>:4) else goto L6
+L6:
+    eth_typing = r22 :: module
+    dec_ref r22
+    r23 = ('to_bytes',)
+    r24 = 'evmspec._utils'
+    r25 = evmspec._new.globals :: static
+    r26 = CPyImport_ImportFromMany(r24, r23, r23, r25)
+    if is_error(r26) goto L26 (error at <module>:6) else goto L7
+L7:
+    evmspec._utils = r26 :: module
+    dec_ref r26
+    r27 = '__T'
+    r28 = evmspec._new.globals :: static
+    r29 = 'TypeVar'
+    r30 = CPyDict_GetItem(r28, r29)
+    if is_error(r30) goto L26 (error at <module>:9) else goto L8
+L8:
+    r31 = [r27]
+    r32 = load_address r31
+    r33 = PyObject_Vectorcall(r30, r32, 1, 0)
+    dec_ref r30
+    if is_error(r33) goto L26 (error at <module>:9) else goto L9
+L9:
+    r34 = evmspec._new.globals :: static
+    r35 = '__T'
+    r36 = CPyDict_SetItem(r34, r35, r33)
+    dec_ref r33
+    r37 = r36 >= 0 :: signed
+    if not r37 goto L26 (error at <module>:9) else goto L10 :: bool
+L10:
+    r38 = b'\x00'
+    evmspec._new.ONE_EMPTY_BYTE = r38 :: static
+    r39 = evmspec._new.globals :: static
+    r40 = 'ONE_EMPTY_BYTE'
+    r41 = CPyDict_SetItem(r39, r40, r38)
+    r42 = r41 >= 0 :: signed
+    if not r42 goto L26 (error at <module>:12) else goto L11 :: bool
+L11:
+    r43 = PyList_New(0)
+    if is_error(r43) goto L26 (error at <module>:14) else goto L12
+L12:
+    r44 = 0
+    i = r44
+L13:
+    r45 = r44 < 66 :: signed
+    if r45 goto L14 else goto L27 :: bool
+L14:
+    r46 = CPyTagged_Subtract(64, i)
+    dec_ref i :: int
+    r47 = evmspec._new.ONE_EMPTY_BYTE :: static
+    if is_error(r47) goto L28 else goto L17
+L15:
+    r48 = raise NameError('value for final name "ONE_EMPTY_BYTE" was not set')
+    if not r48 goto L26 (error at <module>:14) else goto L16 :: bool
+L16:
+    unreachable
+L17:
+    r49 = box(int, r46)
+    r50 = PyNumber_Multiply(r49, r47)
+    dec_ref r49
+    if is_error(r50) goto L29 (error at <module>:14) else goto L18
+L18:
+    r51 = cast(bytes, r50)
+    if is_error(r51) goto L29 (error at <module>:14) else goto L19
+L19:
+    r52 = PyList_Append(r43, r51)
+    dec_ref r51
+    r53 = r52 >= 0 :: signed
+    if not r53 goto L29 (error at <module>:14) else goto L20 :: bool
+L20:
+    r54 = r44 + 2
+    r44 = r54
+    i = r54
+    goto L13
+L21:
+    r55 = PyList_AsTuple(r43)
+    dec_ref r43
+    if is_error(r55) goto L26 (error at <module>:14) else goto L22
+L22:
+    evmspec._new.MISSING_BYTES = r55 :: static
+    r56 = evmspec._new.globals :: static
+    r57 = 'MISSING_BYTES'
+    r58 = CPyDict_SetItem(r56, r57, r55)
+    dec_ref r55
+    r59 = r58 >= 0 :: signed
+    if not r59 goto L26 (error at <module>:14) else goto L23 :: bool
+L23:
+    r60 = cchecksum :: module
+    r61 = 'to_checksum_address'
+    r62 = CPyObject_GetAttr(r60, r61)
+    if is_error(r62) goto L26 (error at <module>:27) else goto L24
+L24:
+    evmspec._new.to_checksum_address = r62 :: static
+    r63 = evmspec._new.globals :: static
+    r64 = 'to_checksum_address'
+    r65 = CPyDict_SetItem(r63, r64, r62)
+    dec_ref r62
+    r66 = r65 >= 0 :: signed
+    if not r66 goto L26 (error at <module>:27) else goto L25 :: bool
+L25:
+    return 1
+L26:
+    r67 = <error> :: None
+    return r67
+L27:
+    dec_ref i :: int
+    goto L21
+L28:
+    dec_ref r43
+    dec_ref r46 :: int
+    goto L15
+L29:
+    dec_ref r43
+    goto L26
+
+def to_bytes(val):
+    val :: union[bool, object, bytes, int, str]
+    r0 :: object
+    r1 :: i32
+    r2 :: bit
+    r3 :: bool
+    r4 :: bytes
+    r5 :: object
+    r6 :: i32
+    r7 :: bit
+    r8 :: bool
+    r9 :: str
+    r10 :: bytes
+    r11 :: object
+    r12 :: str
+    r13 :: object
+    r14 :: i32
+    r15 :: bit
+    r16 :: bool
+    r17 :: object
+    r18 :: object[1]
+    r19 :: object_ptr
+    r20 :: object
+    r21 :: bytes
+    r22 :: object
+    r23 :: i32
+    r24 :: bit
+    r25, r26 :: bool
+    r27, r28, r29 :: bytes
+    r30 :: object
+    r31 :: i32
+    r32 :: bit
+    r33 :: bool
+    r34 :: int
+    r35 :: native_int
+    r36 :: bit
+    r37 :: native_int
+    r38, r39 :: bit
+    r40 :: bool
+    r41 :: bit
+    r42 :: str
+    r43 :: int
+    r44, r45, r46 :: str
+    r47 :: object
+    r48 :: str
+    r49 :: object
+    r50 :: object[1]
+    r51 :: object_ptr
+    r52 :: object
+    r53 :: int
+    r54 :: object
+    r55 :: str
+    r56, r57 :: object
+    r58 :: object[1]
+    r59 :: object_ptr
+    r60 :: object
+    r61 :: str
+    r62 :: bytes
+    r63 :: object
+    r64 :: str
+    r65 :: object
+    r66 :: i32
+    r67 :: bit
+    r68 :: bool
+    r69 :: object
+    r70 :: object[1]
+    r71 :: object_ptr
+    r72 :: object
+    r73 :: bytes
+    r74, r75, r76, r77, r78 :: str
+    r79 :: object[3]
+    r80 :: object_ptr
+    r81 :: object
+    r82, r83 :: str
+    r84 :: object
+    r85, r86 :: str
+    r87 :: object[3]
+    r88 :: object_ptr
+    r89 :: object
+    r90 :: str
+    r91 :: list
+    r92, r93, r94, r95, r96, r97 :: ptr
+    r98 :: str
+    r99 :: object
+    r100 :: str
+    r101 :: object
+    r102 :: object[1]
+    r103 :: object_ptr
+    r104 :: object
+    r105 :: bytes
+L0:
+    r0 = load_address PyBytes_Type
+    r1 = PyObject_IsInstance(val, r0)
+    r2 = r1 >= 0 :: signed
+    if not r2 goto L57 (error at to_bytes:17) else goto L1 :: bool
+L1:
+    r3 = truncate r1: i32 to builtins.bool
+    if r3 goto L2 else goto L4 :: bool
+L2:
+    inc_ref val
+    r4 = cast(bytes, val)
+    if is_error(r4) goto L57 (error at to_bytes:18) else goto L3
+L3:
+    return r4
+L4:
+    r5 = load_address PyUnicode_Type
+    r6 = PyObject_IsInstance(val, r5)
+    r7 = r6 >= 0 :: signed
+    if not r7 goto L57 (error at to_bytes:19) else goto L5 :: bool
+L5:
+    r8 = truncate r6: i32 to builtins.bool
+    if r8 goto L6 else goto L9 :: bool
+L6:
+    inc_ref val
+    r9 = cast(str, val)
+    if is_error(r9) goto L57 (error at to_bytes:20) else goto L7
+L7:
+    r10 = hexstr_to_bytes(r9)
+    dec_ref r9
+    if is_error(r10) goto L57 (error at to_bytes:20) else goto L8
+L8:
+    return r10
+L9:
+    r11 = builtins :: module
+    r12 = 'bytearray'
+    r13 = CPyObject_GetAttr(r11, r12)
+    if is_error(r13) goto L57 (error at to_bytes:21) else goto L10
+L10:
+    r14 = PyObject_IsInstance(val, r13)
+    dec_ref r13
+    r15 = r14 >= 0 :: signed
+    if not r15 goto L57 (error at to_bytes:21) else goto L11 :: bool
+L11:
+    r16 = truncate r14: i32 to builtins.bool
+    if r16 goto L12 else goto L15 :: bool
+L12:
+    r17 = load_address PyBytes_Type
+    r18 = [val]
+    r19 = load_address r18
+    r20 = PyObject_Vectorcall(r17, r19, 1, 0)
+    if is_error(r20) goto L57 (error at to_bytes:22) else goto L13
+L13:
+    r21 = cast(bytes, r20)
+    if is_error(r21) goto L57 (error at to_bytes:22) else goto L14
+L14:
+    return r21
+L15:
+    r22 = load_address PyBool_Type
+    r23 = PyObject_IsInstance(val, r22)
+    r24 = r23 >= 0 :: signed
+    if not r24 goto L57 (error at to_bytes:23) else goto L16 :: bool
+L16:
+    r25 = truncate r23: i32 to builtins.bool
+    if r25 goto L17 else goto L22 :: bool
+L17:
+    r26 = unbox(bool, val)
+    if is_error(r26) goto L57 (error at to_bytes:24) else goto L18
+L18:
+    if r26 goto L19 else goto L20 :: bool
+L19:
+    r27 = b'\x01'
+    inc_ref r27
+    r28 = r27
+    goto L21
+L20:
+    r29 = b'\x00'
+    inc_ref r29
+    r28 = r29
+L21:
+    return r28
+L22:
+    r30 = load_address PyLong_Type
+    r31 = PyObject_IsInstance(val, r30)
+    r32 = r31 >= 0 :: signed
+    if not r32 goto L57 (error at to_bytes:25) else goto L23 :: bool
+L23:
+    r33 = truncate r31: i32 to builtins.bool
+    if r33 goto L24 else goto L43 :: bool
+L24:
+    r34 = unbox(int, val)
+    if is_error(r34) goto L57 (error at to_bytes:28) else goto L25
+L25:
+    r35 = r34 & 1
+    r36 = r35 != 0
+    if r36 goto L27 else goto L26 :: bool
+L26:
+    r37 = 0 & 1
+    r38 = r37 != 0
+    if r38 goto L27 else goto L28 :: bool
+L27:
+    r39 = CPyTagged_IsLt_(r34, 0)
+    r40 = r39
+    goto L29
+L28:
+    r41 = r34 < 0 :: signed
+    r40 = r41
+L29:
+    dec_ref r34 :: int
+    if r40 goto L30 else goto L37 :: bool
+L30:
+    r42 = 'Cannot convert negative integer '
+    r43 = unbox(int, val)
+    if is_error(r43) goto L57 (error at to_bytes:29) else goto L31
+L31:
+    r44 = CPyTagged_Str(r43)
+    dec_ref r43 :: int
+    if is_error(r44) goto L57 (error at to_bytes:29) else goto L32
+L32:
+    r45 = ' to bytes'
+    r46 = CPyStr_Build(3, r42, r44, r45)
+    dec_ref r44
+    if is_error(r46) goto L57 (error at to_bytes:29) else goto L33
+L33:
+    r47 = builtins :: module
+    r48 = 'ValueError'
+    r49 = CPyObject_GetAttr(r47, r48)
+    if is_error(r49) goto L58 (error at to_bytes:29) else goto L34
+L34:
+    r50 = [r46]
+    r51 = load_address r50
+    r52 = PyObject_Vectorcall(r49, r51, 1, 0)
+    dec_ref r49
+    if is_error(r52) goto L58 (error at to_bytes:29) else goto L35
+L35:
+    dec_ref r46
+    CPy_Raise(r52)
+    dec_ref r52
+    if not 0 goto L57 (error at to_bytes:29) else goto L36 :: bool
+L36:
+    unreachable
+L37:
+    r53 = unbox(int, val)
+    if is_error(r53) goto L57 (error at to_bytes:31) else goto L38
+L38:
+    r54 = builtins :: module
+    r55 = 'hex'
+    r56 = CPyObject_GetAttr(r54, r55)
+    if is_error(r56) goto L59 (error at to_bytes:31) else goto L39
+L39:
+    r57 = box(int, r53)
+    r58 = [r57]
+    r59 = load_address r58
+    r60 = PyObject_Vectorcall(r56, r59, 1, 0)
+    dec_ref r56
+    if is_error(r60) goto L60 (error at to_bytes:31) else goto L40
+L40:
+    dec_ref r57
+    r61 = cast(str, r60)
+    if is_error(r61) goto L57 (error at to_bytes:31) else goto L41
+L41:
+    r62 = to_bytes(r61)
+    dec_ref r61
+    if is_error(r62) goto L57 (error at to_bytes:31) else goto L42
+L42:
+    return r62
+L43:
+    r63 = builtins :: module
+    r64 = 'memoryview'
+    r65 = CPyObject_GetAttr(r63, r64)
+    if is_error(r65) goto L57 (error at to_bytes:32) else goto L44
+L44:
+    r66 = PyObject_IsInstance(val, r65)
+    dec_ref r65
+    r67 = r66 >= 0 :: signed
+    if not r67 goto L57 (error at to_bytes:32) else goto L45 :: bool
+L45:
+    r68 = truncate r66: i32 to builtins.bool
+    if r68 goto L46 else goto L49 :: bool
+L46:
+    r69 = load_address PyBytes_Type
+    r70 = [val]
+    r71 = load_address r70
+    r72 = PyObject_Vectorcall(r69, r71, 1, 0)
+    if is_error(r72) goto L57 (error at to_bytes:33) else goto L47
+L47:
+    r73 = cast(bytes, r72)
+    if is_error(r73) goto L57 (error at to_bytes:33) else goto L48
+L48:
+    return r73
+L49:
+    r74 = ''
+    r75 = 'Cannot convert '
+    r76 = '{!r:{}}'
+    r77 = ''
+    r78 = 'format'
+    r79 = [r76, val, r77]
+    r80 = load_address r79
+    r81 = PyObject_VectorcallMethod(r78, r80, 9223372036854775811, 0)
+    if is_error(r81) goto L57 (error at to_bytes:35) else goto L50
+L50:
+    r82 = ' of type '
+    r83 = '{:{}}'
+    r84 = PyObject_Type(val)
+    r85 = ''
+    r86 = 'format'
+    r87 = [r83, r84, r85]
+    r88 = load_address r87
+    r89 = PyObject_VectorcallMethod(r86, r88, 9223372036854775811, 0)
+    if is_error(r89) goto L61 (error at to_bytes:35) else goto L51
+L51:
+    dec_ref r84
+    r90 = ' to bytes'
+    r91 = PyList_New(5)
+    if is_error(r91) goto L62 (error at to_bytes:35) else goto L52
+L52:
+    r92 = get_element_ptr r91 ob_item :: PyListObject
+    r93 = load_mem r92 :: ptr*
+    inc_ref r75
+    set_mem r93, r75 :: builtins.object*
+    r94 = r93 + 8
+    set_mem r94, r81 :: builtins.object*
+    inc_ref r82
+    r95 = r93 + 16
+    set_mem r95, r82 :: builtins.object*
+    r96 = r93 + 24
+    set_mem r96, r89 :: builtins.object*
+    inc_ref r90
+    r97 = r93 + 32
+    set_mem r97, r90 :: builtins.object*
+    r98 = PyUnicode_Join(r74, r91)
+    dec_ref r91
+    if is_error(r98) goto L57 (error at to_bytes:35) else goto L53
+L53:
+    r99 = builtins :: module
+    r100 = 'TypeError'
+    r101 = CPyObject_GetAttr(r99, r100)
+    if is_error(r101) goto L63 (error at to_bytes:35) else goto L54
+L54:
+    r102 = [r98]
+    r103 = load_address r102
+    r104 = PyObject_Vectorcall(r101, r103, 1, 0)
+    dec_ref r101
+    if is_error(r104) goto L63 (error at to_bytes:35) else goto L55
+L55:
+    dec_ref r98
+    CPy_Raise(r104)
+    dec_ref r104
+    if not 0 goto L57 (error at to_bytes:35) else goto L56 :: bool
+L56:
+    unreachable
+L57:
+    r105 = <error> :: bytes
+    return r105
+L58:
+    dec_ref r46
+    goto L57
+L59:
+    dec_ref r53 :: int
+    goto L57
+L60:
+    dec_ref r57
+    goto L57
+L61:
+    dec_ref r81
+    dec_ref r84
+    goto L57
+L62:
+    dec_ref r81
+    dec_ref r89
+    goto L57
+L63:
+    dec_ref r98
+    goto L57
+
+def hexstr_to_bytes(hexstr):
+    hexstr, r0, r1 :: str
+    r2 :: tuple[str, str]
+    r3 :: object
+    r4 :: bool
+    r5 :: object
+    r6, non_prefixed_hex :: str
+    r7 :: native_int
+    r8 :: bit
+    r9 :: short_int
+    r10 :: int
+    r11 :: bit
+    r12, r13, padded_hex :: str
+    r14 :: bytes
+    r15 :: tuple[object, object, object]
+    r16 :: object
+    r17 :: str
+    r18 :: object
+    r19 :: bit
+    r20, r21, r22 :: str
+    r23 :: object
+    r24 :: str
+    r25 :: object
+    r26 :: object[1]
+    r27 :: object_ptr
+    r28 :: object
+    r29 :: bit
+    r30 :: object
+    r31 :: bool
+    r32 :: object[1]
+    r33 :: object_ptr
+    r34 :: object
+    r35, r36 :: bytes
+L0:
+    r0 = '0x'
+    r1 = '0X'
+    inc_ref r0
+    inc_ref r1
+    r2 = (r0, r1)
+    r3 = box(tuple[str, str], r2)
+    r4 = CPyStr_Startswith(hexstr, r3)
+    dec_ref r3
+    if is_error(r4) goto L31 (error at hexstr_to_bytes:39) else goto L1
+L1:
+    if r4 goto L2 else goto L5 :: bool
+L2:
+    r5 = CPyStr_GetSlice(hexstr, 4, 9223372036854775806)
+    if is_error(r5) goto L31 (error at hexstr_to_bytes:40) else goto L3
+L3:
+    r6 = cast(str, r5)
+    if is_error(r6) goto L31 (error at hexstr_to_bytes:40) else goto L4
+L4:
+    non_prefixed_hex = r6
+    goto L6
+L5:
+    inc_ref hexstr
+    non_prefixed_hex = hexstr
+L6:
+    r7 = CPyStr_Size_size_t(hexstr)
+    r8 = r7 >= 0 :: signed
+    if not r8 goto L32 (error at hexstr_to_bytes:45) else goto L7 :: bool
+L7:
+    r9 = r7 << 1
+    r10 = CPyTagged_Remainder(r9, 4)
+    if is_error(r10) goto L32 (error at hexstr_to_bytes:45) else goto L8
+L8:
+    r11 = r10 != 0
+    dec_ref r10 :: int
+    if r11 goto L9 else goto L11 :: bool
+L9:
+    r12 = '0'
+    r13 = PyUnicode_Concat(r12, non_prefixed_hex)
+    dec_ref non_prefixed_hex
+    if is_error(r13) goto L31 (error at hexstr_to_bytes:46) else goto L10
+L10:
+    padded_hex = r13
+    goto L12
+L11:
+    padded_hex = non_prefixed_hex
+L12:
+    r14 = PyUnicode_AsASCIIString(padded_hex)
+    if is_error(r14) goto L14 (error at hexstr_to_bytes:51) else goto L33
+L13:
+    goto L25
+L14:
+    r15 = CPy_CatchError()
+    r16 = builtins :: module
+    r17 = 'UnicodeDecodeError'
+    r18 = CPyObject_GetAttr(r16, r17)
+    if is_error(r18) goto L34 (error at hexstr_to_bytes:52) else goto L15
+L15:
+    r19 = CPy_ExceptionMatches(r18)
+    dec_ref r18
+    if r19 goto L16 else goto L35 :: bool
+L16:
+    r20 = 'hex string '
+    r21 = ' may only contain [0-9a-fA-F] characters'
+    r22 = CPyStr_Build(3, r20, padded_hex, r21)
+    dec_ref padded_hex
+    if is_error(r22) goto L23 (error at hexstr_to_bytes:54) else goto L17
+L17:
+    r23 = builtins :: module
+    r24 = 'ValueError'
+    r25 = CPyObject_GetAttr(r23, r24)
+    if is_error(r25) goto L36 (error at hexstr_to_bytes:53) else goto L18
+L18:
+    r26 = [r22]
+    r27 = load_address r26
+    r28 = PyObject_Vectorcall(r25, r27, 1, 0)
+    dec_ref r25
+    if is_error(r28) goto L36 (error at hexstr_to_bytes:53) else goto L19
+L19:
+    dec_ref r22
+    CPy_Raise(r28)
+    dec_ref r28
+    if not 0 goto L23 (error at hexstr_to_bytes:53) else goto L37 :: bool
+L20:
+    unreachable
+L21:
+    CPy_Reraise()
+    if not 0 goto L23 else goto L38 :: bool
+L22:
+    unreachable
+L23:
+    CPy_RestoreExcInfo(r15)
+    dec_ref r15
+    r29 = CPy_KeepPropagating()
+    if not r29 goto L31 else goto L24 :: bool
+L24:
+    unreachable
+L25:
+    r30 = evmspec._utils.unhexlify :: static
+    if is_error(r30) goto L39 else goto L28
+L26:
+    r31 = raise NameError('value for final name "unhexlify" was not set')
+    if not r31 goto L31 (error at hexstr_to_bytes:57) else goto L27 :: bool
+L27:
+    unreachable
+L28:
+    r32 = [r14]
+    r33 = load_address r32
+    r34 = PyObject_Vectorcall(r30, r33, 1, 0)
+    if is_error(r34) goto L40 (error at hexstr_to_bytes:57) else goto L29
+L29:
+    dec_ref r14
+    r35 = cast(bytes, r34)
+    if is_error(r35) goto L31 (error at hexstr_to_bytes:57) else goto L30
+L30:
+    return r35
+L31:
+    r36 = <error> :: bytes
+    return r36
+L32:
+    dec_ref non_prefixed_hex
+    goto L31
+L33:
+    dec_ref padded_hex
+    goto L13
+L34:
+    dec_ref padded_hex
+    goto L23
+L35:
+    dec_ref padded_hex
+    goto L21
+L36:
+    dec_ref r22
+    goto L23
+L37:
+    dec_ref r15
+    goto L20
+L38:
+    dec_ref r15
+    goto L22
+L39:
+    dec_ref r14
+    goto L26
+L40:
+    dec_ref r14
+    goto L31
+
+def monkey_patch_hexbytes_utils():
+    r0 :: dict
+    r1, r2 :: object
+    r3 :: bit
+    r4 :: str
+    r5 :: object
+    r6 :: str
+    r7 :: dict
+    r8 :: str
+    r9 :: object
+    r10 :: i32
+    r11 :: bit
+    r12 :: dict
+    r13, r14 :: object
+    r15 :: bit
+    r16 :: str
+    r17 :: object
+    r18 :: str
+    r19 :: dict
+    r20 :: str
+    r21 :: object
+    r22 :: i32
+    r23 :: bit
+    r24 :: dict
+    r25 :: str
+    r26, r27 :: object
+    r28 :: str
+    r29 :: i32
+    r30 :: bit
+    r31 :: dict
+    r32 :: str
+    r33, r34 :: object
+    r35 :: str
+    r36 :: i32
+    r37 :: bit
+    r38 :: dict
+    r39 :: str
+    r40, r41 :: object
+    r42 :: str
+    r43 :: i32
+    r44 :: bit
+    r45 :: None
+L0:
+    r0 = evmspec._utils.globals :: static
+    r1 = hexbytes._utils :: module
+    r2 = load_address _Py_NoneStruct
+    r3 = r1 != r2
+    if r3 goto L3 else goto L1 :: bool
+L1:
+    r4 = 'hexbytes._utils'
+    r5 = PyImport_Import(r4)
+    if is_error(r5) goto L17 (error at monkey_patch_hexbytes_utils:62) else goto L2
+L2:
+    hexbytes._utils = r5 :: module
+    dec_ref r5
+L3:
+    r6 = 'hexbytes'
+    r7 = PyImport_GetModuleDict()
+    r8 = 'hexbytes'
+    r9 = CPyDict_GetItem(r7, r8)
+    if is_error(r9) goto L17 (error at monkey_patch_hexbytes_utils:62) else goto L4
+L4:
+    r10 = CPyDict_SetItem(r0, r6, r9)
+    dec_ref r9
+    r11 = r10 >= 0 :: signed
+    if not r11 goto L17 (error at monkey_patch_hexbytes_utils:62) else goto L5 :: bool
+L5:
+    r12 = evmspec._utils.globals :: static
+    r13 = hexbytes.main :: module
+    r14 = load_address _Py_NoneStruct
+    r15 = r13 != r14
+    if r15 goto L8 else goto L6 :: bool
+L6:
+    r16 = 'hexbytes.main'
+    r17 = PyImport_Import(r16)
+    if is_error(r17) goto L17 (error at monkey_patch_hexbytes_utils:63) else goto L7
+L7:
+    hexbytes.main = r17 :: module
+    dec_ref r17
+L8:
+    r18 = 'hexbytes'
+    r19 = PyImport_GetModuleDict()
+    r20 = 'hexbytes'
+    r21 = CPyDict_GetItem(r19, r20)
+    if is_error(r21) goto L17 (error at monkey_patch_hexbytes_utils:63) else goto L9
+L9:
+    r22 = CPyDict_SetItem(r12, r18, r21)
+    dec_ref r21
+    r23 = r22 >= 0 :: signed
+    if not r23 goto L17 (error at monkey_patch_hexbytes_utils:63) else goto L10 :: bool
+L10:
+    r24 = evmspec._utils.globals :: static
+    r25 = 'to_bytes'
+    r26 = CPyDict_GetItem(r24, r25)
+    if is_error(r26) goto L17 (error at monkey_patch_hexbytes_utils:65) else goto L11
+L11:
+    r27 = hexbytes.main :: module
+    r28 = 'to_bytes'
+    r29 = PyObject_SetAttr(r27, r28, r26)
+    dec_ref r26
+    r30 = r29 >= 0 :: signed
+    if not r30 goto L17 (error at monkey_patch_hexbytes_utils:65) else goto L12 :: bool
+L12:
+    r31 = evmspec._utils.globals :: static
+    r32 = 'to_bytes'
+    r33 = CPyDict_GetItem(r31, r32)
+    if is_error(r33) goto L17 (error at monkey_patch_hexbytes_utils:67) else goto L13
+L13:
+    r34 = hexbytes._utils :: module
+    r35 = 'to_bytes'
+    r36 = PyObject_SetAttr(r34, r35, r33)
+    dec_ref r33
+    r37 = r36 >= 0 :: signed
+    if not r37 goto L17 (error at monkey_patch_hexbytes_utils:67) else goto L14 :: bool
+L14:
+    r38 = evmspec._utils.globals :: static
+    r39 = 'hexstr_to_bytes'
+    r40 = CPyDict_GetItem(r38, r39)
+    if is_error(r40) goto L17 (error at monkey_patch_hexbytes_utils:68) else goto L15
+L15:
+    r41 = hexbytes._utils :: module
+    r42 = 'hexstr_to_bytes'
+    r43 = PyObject_SetAttr(r41, r42, r40)
+    dec_ref r40
+    r44 = r43 >= 0 :: signed
+    if not r44 goto L17 (error at monkey_patch_hexbytes_utils:68) else goto L16 :: bool
+L16:
+    return 1
+L17:
+    r45 = <error> :: None
+    return r45
+
+def __top_level__():
+    r0, r1 :: object
+    r2 :: bit
+    r3 :: str
+    r4 :: object
+    r5 :: object_ptr
+    r6 :: object_ptr[1]
+    r7 :: c_ptr
+    r8 :: native_int[1]
+    r9 :: c_ptr
+    r10 :: object
+    r11 :: dict
+    r12, r13 :: str
+    r14 :: bit
+    r15 :: object
+    r16 :: str
+    r17 :: dict
+    r18, r19 :: object
+    r20 :: str
+    r21 :: object
+    r22 :: dict
+    r23 :: str
+    r24 :: i32
+    r25 :: bit
+    r26 :: None
+L0:
+    r0 = builtins :: module
+    r1 = load_address _Py_NoneStruct
+    r2 = r0 != r1
+    if r2 goto L3 else goto L1 :: bool
+L1:
+    r3 = 'builtins'
+    r4 = PyImport_Import(r3)
+    if is_error(r4) goto L8 (error at <module>:-1) else goto L2
+L2:
+    builtins = r4 :: module
+    dec_ref r4
+L3:
+    r5 = load_address binascii :: module
+    r6 = [r5]
+    r7 = load_address r6
+    r8 = [3]
+    r9 = load_address r8
+    r10 = (('binascii', 'binascii', 'binascii'),)
+    r11 = evmspec._utils.globals :: static
+    r12 = 'evmspec/_utils.py'
+    r13 = '<module>'
+    r14 = CPyImport_ImportMany(r10, r7, r11, r12, r13, r9)
+    if not r14 goto L8 else goto L4 :: bool
+L4:
+    r15 = ('Final', 'Union')
+    r16 = 'typing'
+    r17 = evmspec._utils.globals :: static
+    r18 = CPyImport_ImportFromMany(r16, r15, r15, r17)
+    if is_error(r18) goto L8 (error at <module>:4) else goto L5
+L5:
+    typing = r18 :: module
+    dec_ref r18
+    r19 = binascii :: module
+    r20 = 'unhexlify'
+    r21 = CPyObject_GetAttr(r19, r20)
+    if is_error(r21) goto L8 (error at <module>:7) else goto L6
+L6:
+    evmspec._utils.unhexlify = r21 :: static
+    r22 = evmspec._utils.globals :: static
+    r23 = 'unhexlify'
+    r24 = CPyDict_SetItem(r22, r23, r21)
+    dec_ref r21
+    r25 = r24 >= 0 :: signed
+    if not r25 goto L8 (error at <module>:7) else goto L7 :: bool
+L7:
+    return 1
+L8:
+    r26 = <error> :: None
+    return r26
