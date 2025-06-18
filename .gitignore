@@ -2,6 +2,8 @@ __pycache__/
 .hypothesis/
 .mypy_cache/
 .pytest_cache/
+build/**/*.py
+build/**/*.typed
 dist/
 *.o
 *.so
