@@ -9,7 +9,7 @@ requires = ["setuptools", "wheel", "mypy[mypyc]>=1.14.1,<1.16.2", "types-cacheto
 build-backend = "setuptools.build_meta"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.13"
+python = ">=3.8,<3.14"
 cachetools = ">=4.1.1,<6"
 cchecksum = ">=0.0.3"
 dictstruct = ">=0.0.1"
