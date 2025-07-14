@@ -15,31 +15,9 @@
 #include "pythonsupport.c"
 #include "__native_77f6a255293717708ca2.h"
 #include "__native_internal_77f6a255293717708ca2.h"
-static PyMethodDef _newmodule_methods[] = {
-    {"Address", (PyCFunction)CPyPy__new___Address, METH_FASTCALL | METH_KEYWORDS, NULL /* docstring */},
-    {"HexBytes32", (PyCFunction)CPyPy__new___HexBytes32, METH_FASTCALL | METH_KEYWORDS, NULL /* docstring */},
-    {NULL, NULL, 0, NULL}
-};
-
-static struct PyModuleDef _newmodule = {
-    PyModuleDef_HEAD_INIT,
-    "evmspec._new",
-    NULL, /* docstring */
-    -1,       /* size of per-interpreter state of the module,
-                 or -1 if the module keeps state in global variables. */
-    _newmodule_methods
-};
-
-PyObject *CPyInit_evmspec____new(void)
+static int _new_exec(PyObject *module)
 {
     PyObject* modname = NULL;
-    if (CPyModule_evmspec____new_internal) {
-        Py_INCREF(CPyModule_evmspec____new_internal);
-        return CPyModule_evmspec____new_internal;
-    }
-    CPyModule_evmspec____new_internal = PyModule_Create(&_newmodule);
-    if (unlikely(CPyModule_evmspec____new_internal == NULL))
-        goto fail;
     modname = PyObject_GetAttrString((PyObject *)CPyModule_evmspec____new_internal, "__name__");
     CPyStatic__new___globals = PyModule_GetDict(CPyModule_evmspec____new_internal);
     if (unlikely(CPyStatic__new___globals == NULL))
@@ -50,7 +28,7 @@ PyObject *CPyInit_evmspec____new(void)
     if (result == 2)
         goto fail;
     Py_DECREF(modname);
-    return CPyModule_evmspec____new_internal;
+    return 0;
     fail:
     Py_CLEAR(CPyModule_evmspec____new_internal);
     Py_CLEAR(modname);
@@ -60,6 +38,36 @@ PyObject *CPyInit_evmspec____new(void)
     CPyStatic__new___MISSING_BYTES = NULL;
     CPy_XDECREF(CPyStatic__new___to_checksum_address);
     CPyStatic__new___to_checksum_address = NULL;
+    return -1;
+}
+static PyMethodDef _newmodule_methods[] = {
+    {"Address", (PyCFunction)CPyPy__new___Address, METH_FASTCALL | METH_KEYWORDS, NULL /* docstring */},
+    {"HexBytes32", (PyCFunction)CPyPy__new___HexBytes32, METH_FASTCALL | METH_KEYWORDS, NULL /* docstring */},
+    {NULL, NULL, 0, NULL}
+};
+
+static struct PyModuleDef _newmodule = {
+    PyModuleDef_HEAD_INIT,
+    "evmspec._new",
+    NULL, /* docstring */
+    0,       /* size of per-interpreter state of the module */
+    _newmodule_methods,
+    NULL,
+};
+
+PyObject *CPyInit_evmspec____new(void)
+{
+    if (CPyModule_evmspec____new_internal) {
+        Py_INCREF(CPyModule_evmspec____new_internal);
+        return CPyModule_evmspec____new_internal;
+    }
+    CPyModule_evmspec____new_internal = PyModule_Create(&_newmodule);
+    if (unlikely(CPyModule_evmspec____new_internal == NULL))
+        goto fail;
+    if (_new_exec(CPyModule_evmspec____new_internal) != 0)
+        goto fail;
+    return CPyModule_evmspec____new_internal;
+    fail:
     return NULL;
 }
 
@@ -672,6 +680,27 @@ CPyL29: ;
     CPy_DecRef(cpy_r_r43);
     goto CPyL26;
 }
+static int _utils_exec(PyObject *module)
+{
+    PyObject* modname = NULL;
+    modname = PyObject_GetAttrString((PyObject *)CPyModule_evmspec____utils_internal, "__name__");
+    CPyStatic__utils___globals = PyModule_GetDict(CPyModule_evmspec____utils_internal);
+    if (unlikely(CPyStatic__utils___globals == NULL))
+        goto fail;
+    if (CPyGlobalsInit() < 0)
+        goto fail;
+    char result = CPyDef__utils_____top_level__();
+    if (result == 2)
+        goto fail;
+    Py_DECREF(modname);
+    return 0;
+    fail:
+    Py_CLEAR(CPyModule_evmspec____utils_internal);
+    Py_CLEAR(modname);
+    CPy_XDECREF(CPyStatic__utils___unhexlify);
+    CPyStatic__utils___unhexlify = NULL;
+    return -1;
+}
 static PyMethodDef _utilsmodule_methods[] = {
     {"to_bytes", (PyCFunction)CPyPy__utils___to_bytes, METH_FASTCALL | METH_KEYWORDS, NULL /* docstring */},
     {"hexstr_to_bytes", (PyCFunction)CPyPy__utils___hexstr_to_bytes, METH_FASTCALL | METH_KEYWORDS, NULL /* docstring */},
@@ -683,14 +712,13 @@ static struct PyModuleDef _utilsmodule = {
     PyModuleDef_HEAD_INIT,
     "evmspec._utils",
     NULL, /* docstring */
-    -1,       /* size of per-interpreter state of the module,
-                 or -1 if the module keeps state in global variables. */
-    _utilsmodule_methods
+    0,       /* size of per-interpreter state of the module */
+    _utilsmodule_methods,
+    NULL,
 };
 
 PyObject *CPyInit_evmspec____utils(void)
 {
-    PyObject* modname = NULL;
     if (CPyModule_evmspec____utils_internal) {
         Py_INCREF(CPyModule_evmspec____utils_internal);
         return CPyModule_evmspec____utils_internal;
@@ -698,22 +726,10 @@ PyObject *CPyInit_evmspec____utils(void)
     CPyModule_evmspec____utils_internal = PyModule_Create(&_utilsmodule);
     if (unlikely(CPyModule_evmspec____utils_internal == NULL))
         goto fail;
-    modname = PyObject_GetAttrString((PyObject *)CPyModule_evmspec____utils_internal, "__name__");
-    CPyStatic__utils___globals = PyModule_GetDict(CPyModule_evmspec____utils_internal);
-    if (unlikely(CPyStatic__utils___globals == NULL))
+    if (_utils_exec(CPyModule_evmspec____utils_internal) != 0)
         goto fail;
-    if (CPyGlobalsInit() < 0)
-        goto fail;
-    char result = CPyDef__utils_____top_level__();
-    if (result == 2)
-        goto fail;
-    Py_DECREF(modname);
     return CPyModule_evmspec____utils_internal;
     fail:
-    Py_CLEAR(CPyModule_evmspec____utils_internal);
-    Py_CLEAR(modname);
-    CPy_XDECREF(CPyStatic__utils___unhexlify);
-    CPyStatic__utils___unhexlify = NULL;
     return NULL;
 }
 
