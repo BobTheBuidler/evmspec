@@ -23,6 +23,7 @@ cachetools = ">=4.1.1,<6"
 cchecksum = ">=0.0.3"
 dictstruct = ">=0.0.1"
 eth-hash = ">=0.7.0,<1"
+eth-typing = ">=4.4.0,<6"
 hexbytes = "*"
 typing_extensions = ">=4.0.0"
 pysha3 = { version = ">=1.0.0,<2.0.0", markers = "python_version < '3.9'" }
