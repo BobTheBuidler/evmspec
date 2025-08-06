@@ -5,7 +5,14 @@ description = "A collection of msgspec.Struct definitions for use with the Ether
 authors = ["BobTheBuidler <bobthebuidlerdefi@gmail.com>"]
 
 [build-system]
-requires = ["setuptools", "wheel", "mypy[mypyc]>=1.14.1,<1.17.1", "types-cachetools", "tomli>=2.0.0; python_version < '3.11'"]
+requires = [
+  "setuptools",
+  "wheel",
+  "mypy[mypyc]>=1.14.1,<1.17.1",
+  "types-cachetools",
+  "tomli>=2.0.0; python_version < '3.11'",
+  "cchecksum>=0.3.1",
+]
 build-backend = "setuptools.build_meta"
 
 [tool.poetry.dependencies]
