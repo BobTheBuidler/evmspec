@@ -20,7 +20,6 @@ python = ">=3.8,<3.13"
 cachetools = ">=4.1.1,<6"
 cchecksum = ">=0.0.3"
 dictstruct = ">=0.0.1"
-eth-utils = ">=1.10.0"
 hexbytes = "*"
 typing_extensions = ">=4.0.0"
 pysha3 = { version = ">=1.0.0,<2.0.0", markers = "python_version < '3.9'" }
@@ -32,6 +31,8 @@ sphinx-rtd-theme = "*"
 mypy = "*"
 types-cachetools = "*"
 pytest = "*"
+# we keep this here for sphinx crosslinking
+eth-utils = ">=1.10.0"
 
 [tool.mypy]
 ignore_missing_imports = true
