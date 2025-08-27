@@ -1,13 +1,13 @@
 from collections import MutableMapping, OrderedDict
 from importlib.metadata import version
+from math import inf
 from time import monotonic
-from typing import Any, Callable, Final, Literal, Optional, Tuple, Type, TypedDict, final
+from typing import Any, Callable, Final, Iterator, Literal, Optional, Tuple, Type, TypedDict, final
 
 from cachetools import cached, keys
-from cachetools.func import TTLCache, _UnboundTTLCache  # type: ignore [attr-defined]
 
 
-_CACHETOOLS_VERSION: Final = tuple(int(i) for i in version("cachetools").split("."))
+_CACHETOOLS_VERSION: Final = tuple(map(int, version("cachetools").split(".")))
 
 
 @final
@@ -18,7 +18,7 @@ class CacheParams(TypedDict):
 
 _LinkKey = Any
 
-def ttl_cache(maxsize: int = 128, ttl: float = 600, timer = monotonic, typed: bool = False):
+def ttl_cache(maxsize: Optional[int] = 128, ttl: float = 600, timer = monotonic, typed: bool = False):
     """Decorator to wrap a function with a memoizing callable that saves
     up to `maxsize` results based on a Least Recently Used (LRU)
     algorithm with a per-item time-to-live (TTL) value.
@@ -325,6 +325,15 @@ class TTLCache(Cache):
         value = self.__links[key]
         self.__links.move_to_end(key)
         return value
+
+
+class _UnboundTTLCache(TTLCache):
+    def __init__(self, ttl, timer):
+        TTLCache.__init__(self, inf, ttl, timer)
+
+    @property
+    def maxsize(self):
+        return None
 
 
 @final
