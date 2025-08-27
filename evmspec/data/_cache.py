@@ -2,7 +2,18 @@ from collections import MutableMapping, OrderedDict
 from importlib.metadata import version
 from math import inf
 from time import monotonic
-from typing import Any, Callable, Final, Iterator, Literal, Optional, Tuple, Type, TypedDict, final
+from typing import (
+    Any,
+    Callable,
+    Final,
+    Iterator,
+    Literal,
+    Optional,
+    Tuple,
+    Type,
+    TypedDict,
+    final,
+)
 
 from cachetools import cached, keys
 
@@ -18,7 +29,10 @@ class CacheParams(TypedDict):
 
 _LinkKey = Any
 
-def ttl_cache(maxsize: Optional[int] = 128, ttl: float = 600, timer = monotonic, typed: bool = False):
+
+def ttl_cache(
+    maxsize: Optional[int] = 128, ttl: float = 600, timer=monotonic, typed: bool = False
+):
     """Decorator to wrap a function with a memoizing callable that saves
     up to `maxsize` results based on a Least Recently Used (LRU)
     algorithm with a per-item time-to-live (TTL) value.
