@@ -1,6 +1,7 @@
+from collections import MutableMapping, OrderedDict
 from importlib.metadata import version
 from time import monotonic
-from typing import Final, Optional, TypedDict, final
+from typing import Any, Callable, Final, Literal, Optional, Tuple, Type, TypedDict, final
 
 from cachetools import cached, keys
 from cachetools.func import TTLCache, _UnboundTTLCache  # type: ignore [attr-defined]
@@ -14,6 +15,8 @@ class CacheParams(TypedDict):
     maxsize: Optional[int]
     typed: bool
 
+
+_LinkKey = Any
 
 def ttl_cache(maxsize: int = 128, ttl: float = 600, timer = monotonic, typed: bool = False):
     """Decorator to wrap a function with a memoizing callable that saves
@@ -74,15 +77,13 @@ class Cache(MutableMapping):
 
     __marker: Final = object()
 
-    def __init__(self, maxsize, getsizeof=None):
-        if getsizeof:
-            self.getsizeof = getsizeof
-        self.__size: Final = _DefaultSize() if self.getsizeof is Cache.getsizeof else dict()
-        self.__data: Final = dict()
+    def __init__(self, maxsize: int) -> None:
+        self.__size: Final = _DefaultSize()
+        self.__data: Final = {}
         self.__currsize: int = 0
         self.__maxsize: Final = maxsize
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return "%s(%r, maxsize=%r, currsize=%r)" % (
             self.__class__.__name__,
             list(self.__data.items()),
@@ -96,7 +97,7 @@ class Cache(MutableMapping):
         except KeyError:
             return self.__missing__(key)
 
-    def __setitem__(self, key, value):
+    def __setitem__(self, key, value) -> None:
         maxsize = self.__maxsize
         size = self.getsizeof(value)
         if size > maxsize:
@@ -117,16 +118,16 @@ class Cache(MutableMapping):
         del self.__data[key]
         self.__currsize -= size
 
-    def __contains__(self, key):
+    def __contains__(self, key) -> bool:
         return key in self.__data
 
-    def __missing__(self, key):
+    def __missing__(self, key) -> NoReturn:
         raise KeyError(key)
 
     def __iter__(self):
         return iter(self.__data)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self.__data)
 
     def get(self, key, default=None):
@@ -153,17 +154,17 @@ class Cache(MutableMapping):
         return value
 
     @property
-    def maxsize(self):
+    def maxsize(self) -> int:
         """The maximum size of the cache."""
         return self.__maxsize
 
     @property
-    def currsize(self):
+    def currsize(self) -> int:
         """The current size of the cache."""
         return self.__currsize
 
     @staticmethod
-    def getsizeof(value):
+    def getsizeof(value: Any) -> Literal[1]:
         """Return the size of a cache element's value."""
         return 1
 
@@ -172,15 +173,16 @@ class Cache(MutableMapping):
 class TTLCache(Cache):
     """LRU Cache implementation with per-item time-to-live (TTL) value."""
 
-    def __init__(self, maxsize, ttl, timer=time.monotonic, getsizeof=None):
+    def __init__(self, maxsize: int, ttl: float, timer: Callable[[], float] = monotonic, getsizeof=None):
         Cache.__init__(self, maxsize, getsizeof)
-        self.__root: Final = root = _Link()
+        root = _Link()
+        self.__root: Final = _Link()
         root.prev = root.next = root
-        self.__links: Final = collections.OrderedDict()
+        self.__links: Final[OrderedDict[_LinkKey, _Link]] = OrderedDict()
         self.__timer: Final = _Timer(timer)
         self.__ttl: Final = ttl
 
-    def __contains__(self, key):
+    def __contains__(self, key: _LinkKey) -> bool:
         try:
             link = self.__links[key]  # no reordering
         except KeyError:
@@ -200,29 +202,30 @@ class TTLCache(Cache):
         else:
             return cache_getitem(self, key)
 
-    def __setitem__(self, key, value, cache_setitem=Cache.__setitem__):
+    def __setitem__(self, key, value, cache_setitem=Cache.__setitem__) -> None:
         with self.__timer as time:
             self.expire(time)
             cache_setitem(self, key, value)
+        expiration = time + self.__ttl
         try:
             link = self.__getlink(key)
         except KeyError:
-            self.__links[key] = link = _Link(key)
+            self.__links[key] = link = _Link(key, expiration)
         else:
             link.unlink()
-        link.expire = time + self.__ttl
+            link.expire = expiration
         link.next = root = self.__root
         link.prev = prev = root.prev
         prev.next = root.prev = link
 
-    def __delitem__(self, key, cache_delitem=Cache.__delitem__):
+    def __delitem__(self, key, cache_delitem=Cache.__delitem__) -> None:
         cache_delitem(self, key)
         link = self.__links.pop(key)
         link.unlink()
         if link.expire < self.__timer():
             raise KeyError(key)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[_LinkKey]:
         root = self.__root
         curr = root.next
         while curr is not root:
@@ -232,7 +235,7 @@ class TTLCache(Cache):
                     yield curr.key
             curr = curr.next
 
-    def __len__(self):
+    def __len__(self) -> int:
         root = self.__root
         curr = root.next
         time = self.__timer()
@@ -252,28 +255,28 @@ class TTLCache(Cache):
             prev.next = root.prev = link
         self.expire(self.__timer())
 
-    def __repr__(self, cache_repr=Cache.__repr__):
+    def __repr__(self, cache_repr=Cache.__repr__) -> str:
         with self.__timer as time:
             self.expire(time)
             return cache_repr(self)
 
     @property
-    def currsize(self):
+    def currsize(self) -> int:
         with self.__timer as time:
             self.expire(time)
             return super().currsize
 
     @property
-    def timer(self):
+    def timer(self) -> "_Timer":
         """The timer function used by the cache."""
         return self.__timer
 
     @property
-    def ttl(self):
+    def ttl(self) -> float:
         """The time-to-live value of the cache's items."""
         return self.__ttl
 
-    def expire(self, time=None):
+    def expire(self, time: Optional[float] = None) -> None:
         """Remove expired items from the cache."""
         if time is None:
             time = self.__timer()
@@ -287,7 +290,7 @@ class TTLCache(Cache):
             curr.unlink()
             curr = next
 
-    def clear(self):
+    def clear(self) -> None:
         with self.__timer as time:
             self.expire(time)
             Cache.clear(self)
@@ -318,7 +321,7 @@ class TTLCache(Cache):
             else:
                 return (key, self.pop(key))
 
-    def __getlink(self, key):
+    def __getlink(self, key) -> "_Link":
         value = self.__links[key]
         self.__links.move_to_end(key)
         return value
@@ -329,32 +332,41 @@ class _Link:
 
     __slots__ = ("key", "expire", "next", "prev")
 
-    def __init__(self, key=None, expire=None):
-        self.key: Final = key
-        self.expire: Final = expire
+    next: "_Link"
+    prev: "_Link"
 
-    def __reduce__(self):
+    def __init__(self, key: _LinkKey = None, expire: Optional[float] = None) -> None:
+        self.key: Final = key
+        self.expire = expire
+
+    def __reduce__(self) -> Tuple[Type["_Link"], Tuple[_LinkKey, Any]]:
         return _Link, (self.key, self.expire)
 
-    def unlink(self):
+    def unlink(self) -> None:
         next = self.next
         prev = self.prev
         prev.next = next
         next.prev = prev
 
 
+@final
 class _Timer:
-    def __init__(self, timer):
-        self.__timer: Final = timer
-        self.__nesting: Final = 0
 
-    def __call__(self):
+    __slots__ = ("__timer", "__nesting", "__time")
+
+    __time: float
+
+    def __init__(self, timer: Callable[[], float]) -> None:
+        self.__timer: Final = timer
+        self.__nesting: int = 0
+
+    def __call__(self) -> float:
         if self.__nesting == 0:
             return self.__timer()
         else:
             return self.__time
 
-    def __enter__(self):
+    def __enter__(self) -> float:
         if self.__nesting == 0:
             self.__time = time = self.__timer()
         else:
@@ -362,11 +374,11 @@ class _Timer:
         self.__nesting += 1
         return time
 
-    def __exit__(self, *exc):
+    def __exit__(self, *exc) -> None:
         self.__nesting -= 1
 
-    def __reduce__(self):
+    def __reduce__(self) -> Tuple[Type["_Timer"], Tuple[Callable[[], float]]]:
         return _Timer, (self.__timer,)
 
-    def __getattr__(self, name):
+    def __getattr__(self, name: str) -> Any:
         return getattr(self.__timer, name)
