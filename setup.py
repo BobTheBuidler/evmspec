@@ -162,7 +162,7 @@ setup(
     ext_modules=mypycify(
         [
             "evmspec/_new.py",
-            "evmspec/data/_cache",
+            "evmspec/data/_cache.py",
             "--pretty",
             "--install-types",
             "--non-interactive",
