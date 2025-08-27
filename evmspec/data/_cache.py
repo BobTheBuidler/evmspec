@@ -63,10 +63,13 @@ def _cache(cache, maxsize: int, typed: bool, info: bool = False):
 @final
 class _DefaultSize:
     __slots__ = ()
+
     def __getitem__(self, _):
         return 1
+
     def __setitem__(self, _, value):
         assert value == 1
+
     def pop(self, _):
         return 1
 
@@ -173,7 +176,13 @@ class Cache(MutableMapping):
 class TTLCache(Cache):
     """LRU Cache implementation with per-item time-to-live (TTL) value."""
 
-    def __init__(self, maxsize: int, ttl: float, timer: Callable[[], float] = monotonic, getsizeof=None):
+    def __init__(
+        self,
+        maxsize: int,
+        ttl: float,
+        timer: Callable[[], float] = monotonic,
+        getsizeof=None,
+    ):
         Cache.__init__(self, maxsize, getsizeof)
         root = _Link()
         self.__root: Final = _Link()
