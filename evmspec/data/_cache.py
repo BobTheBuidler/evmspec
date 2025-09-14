@@ -32,7 +32,7 @@ def _cache(cache, maxsize: int, typed: bool, info: bool = False):
     # reimplement ttl_cache with no RLock for race conditions
 
     key = keys.typedkey if typed else keys.hashkey
-    cache_params: CacheParams = CacheParams({"maxsize": maxsize, "typed": typed})
+    cache_params = CacheParams(maxsize=maxsize, typed=typed)
 
     def get_cache_params() -> CacheParams:
         return cache_params
