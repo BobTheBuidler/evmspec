@@ -163,6 +163,7 @@ setup(
         [
             "evmspec/_new.py",
             "evmspec/_utils.py",
+            "evmspec/data/_cache.py",
             "--pretty",
             "--install-types",
             "--non-interactive",
