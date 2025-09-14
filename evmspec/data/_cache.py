@@ -74,15 +74,12 @@ class Cache(MutableMapping):
 
     __marker: Final = object()
 
-    __size: Final = _DefaultSize()
-
     def __init__(self, maxsize, getsizeof=None):
         if getsizeof:
-            self.getsizeof: Final = getsizeof
-        if self.getsizeof is not Cache.getsizeof:
-            self.__size: Final = dict()
+            self.getsizeof = getsizeof
+        self.__size: Final = _DefaultSize() if self.getsizeof is Cache.getsizeof else dict()
         self.__data: Final = dict()
-        self.__currsize: Final = 0
+        self.__currsize: int = 0
         self.__maxsize: Final = maxsize
 
     def __repr__(self):
