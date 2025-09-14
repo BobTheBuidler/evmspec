@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,9 +12,9 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
-      <script src="../../../_static/doctools.js?v=888ff710"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -123,7 +123,9 @@
 <span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 
 
-<div class="viewcode-block" id="TinyBlock"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.TinyBlock">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">TinyBlock</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">dict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<div class="viewcode-block" id="TinyBlock">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.TinyBlock">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TinyBlock</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="nb">dict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a minimal block structure with essential fields.</span>
 
@@ -142,6 +144,8 @@
     <span class="n">_transactions</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;transactions&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Array of transaction objects, or 32 Bytes transaction hashes depending on the context of the RPC call.&quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="TinyBlock.transactions">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.TinyBlock.transactions">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">transactions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Transactions</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -181,9 +185,13 @@
         <span class="k">if</span> <span class="n">transactions</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">transactions</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">TransactionHash</span><span class="p">(</span><span class="n">txhash</span><span class="p">)</span> <span class="k">for</span> <span class="n">txhash</span> <span class="ow">in</span> <span class="n">transactions</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">transactions</span><span class="p">)</span>  <span class="c1"># type: ignore [return-value]</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Block"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.Block">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Block</span><span class="p">(</span><span class="n">TinyBlock</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+
+<div class="viewcode-block" id="Block">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.Block">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Block</span><span class="p">(</span><span class="n">TinyBlock</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a full Ethereum block with all standard fields.</span>
 
@@ -240,7 +248,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Hash of the parent block.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="MinedBlock"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.MinedBlock">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">MinedBlock</span><span class="p">(</span><span class="n">Block</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+
+<div class="viewcode-block" id="MinedBlock">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.MinedBlock">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">MinedBlock</span><span class="p">(</span><span class="n">Block</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a mined Ethereum block with difficulty fields.</span>
 
@@ -267,7 +278,10 @@
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="BaseBlock"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.BaseBlock">[docs]</a><span class="nd">@final</span>
+
+<div class="viewcode-block" id="BaseBlock">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.BaseBlock">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BaseBlock</span><span class="p">(</span><span class="n">MinedBlock</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a base Ethereum block with base fee per gas.</span>
@@ -280,7 +294,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The base fee per gas.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="StakingWithdrawal"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.StakingWithdrawal">[docs]</a><span class="nd">@final</span>
+
+<div class="viewcode-block" id="StakingWithdrawal">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.StakingWithdrawal">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">StakingWithdrawal</span><span class="p">(</span><span class="n">DictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A Struct representing an Ethereum staking withdrawal.</span>
 
@@ -300,12 +317,15 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is not always present.&quot;&quot;&quot;</span></div>
 
 
+
 <span class="n">_decode_staking_withdrawals</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">(</span>
     <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="ShanghaiCapellaBlock"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.ShanghaiCapellaBlock">[docs]</a><span class="nd">@final</span>
+<div class="viewcode-block" id="ShanghaiCapellaBlock">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.ShanghaiCapellaBlock">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ShanghaiCapellaBlock</span><span class="p">(</span><span class="n">Block</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a block from the Ethereum Shanghai or Capella upgrades, which includes staking withdrawals.</span>
@@ -318,6 +338,8 @@
     <span class="n">_withdrawals</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;withdrawals&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is specific to the Shanghai and Capella upgrades in Ethereum.&quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="ShanghaiCapellaBlock.withdrawals">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.ShanghaiCapellaBlock.withdrawals">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">withdrawals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -334,6 +356,8 @@
 <span class="sd">            - :class:`StakingWithdrawal`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_decode_staking_withdrawals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_withdrawals</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
            </div>

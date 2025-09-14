@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,9 +12,9 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
-      <script src="../../../_static/doctools.js?v=888ff710"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -121,7 +121,9 @@
 <span class="n">_get_transaction_receipt_raw</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-<div class="viewcode-block" id="Address"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Address">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Address</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="Address">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Address">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Address</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents an Ethereum address in its EIP-55 checksum format.</span>
 
@@ -199,7 +201,9 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook_unsafe</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Address&quot;</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">__str_new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Address.checksum"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Address.checksum">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Address.checksum">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Address.checksum">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">checksum</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="c1"># sourcery skip: use-contextlib-suppress</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the checksummed version of the address.</span>
@@ -230,10 +234,12 @@
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">pass</span></div>
 
+
     <span class="nd">@classmethod</span>
     <span class="nd">@ttl_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="mi">600</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__checksum</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">address</span><span class="p">)</span></div>
+
 
 
 <span class="n">_TA</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_TA&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Address</span><span class="p">)</span>
@@ -242,7 +248,9 @@
 <span class="c1"># Integers</span>
 
 
-<div class="viewcode-block" id="uint"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.uint">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">uint</span><span class="p">(</span><span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="uint">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.uint">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">uint</span><span class="p">(</span><span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents an unsigned integer with additional utility methods for hexadecimal conversion and representation.</span>
 
@@ -255,7 +263,9 @@
 <span class="sd">        - :meth:`uint.fromhex`: Method to create a uint from a hexadecimal string.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="uint.fromhex"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.uint.fromhex">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="uint.fromhex">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.uint.fromhex">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">fromhex</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">hexstr</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts a hexadecimal string to a uint.</span>
 
@@ -270,6 +280,7 @@
 <span class="sd">            uint(26)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">hexstr</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span></div>
+
 
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    NOTE: Storing encoded data as string is cheaper than ints when integer value is sufficiently high:</span>
@@ -337,7 +348,12 @@
             <span class="k">raise</span></div>
 
 
-<div class="viewcode-block" id="Wei"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Wei">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Wei</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Wei">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Wei">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Wei</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span>
+<div class="viewcode-block" id="Wei.scaled">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Wei.scaled">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">scaled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Decimal&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the scaled decimal representation of Wei.</span>
@@ -351,22 +367,34 @@
 <span class="sd">            Decimal(&#39;1&#39;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Decimal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="mi">18</span></div>
+</div>
+
 
     <span class="c1"># @property</span>
     <span class="c1"># def as_gwei(self) -&gt; &quot;Gwei&quot;:</span>
     <span class="c1">#    return Gwei(self) / 10**9</span>
 
 
-<div class="viewcode-block" id="BlockNumber"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.BlockNumber">[docs]</a><span class="nd">@final</span>
+<div class="viewcode-block" id="BlockNumber">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.BlockNumber">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlockNumber</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span> <span class="o">...</span></div>
 
 
-<div class="viewcode-block" id="Nonce"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Nonce">[docs]</a><span class="nd">@final</span>
+
+<div class="viewcode-block" id="Nonce">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Nonce">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Nonce</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span> <span class="o">...</span></div>
 
 
-<div class="viewcode-block" id="UnixTimestamp"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.UnixTimestamp">[docs]</a><span class="nd">@final</span>
+
+<div class="viewcode-block" id="UnixTimestamp">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.UnixTimestamp">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">UnixTimestamp</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span>
+<div class="viewcode-block" id="UnixTimestamp.datetime">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.UnixTimestamp.datetime">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts the Unix timestamp to a datetime object in UTC.</span>
@@ -380,6 +408,8 @@
 <span class="sd">            datetime.datetime(2021, 12, 1, 0, 0, tzinfo=datetime.timezone.utc)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span></div>
+</div>
+
 
 
 <span class="c1"># Hook</span>
@@ -447,7 +477,9 @@
 <span class="sd">&quot;&quot;&quot;An alias for `bytes.hex`&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="HexBytes32"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">HexBytes32</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
+<div class="viewcode-block" id="HexBytes32">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">HexBytes32</span><span class="p">(</span><span class="n">HexBytes</span><span class="p">):</span>
     <span class="fm">__new__</span> <span class="o">=</span> <span class="n">_new</span><span class="o">.</span><span class="n">HexBytes32</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new HexBytes32 object.</span>
 
@@ -489,7 +521,9 @@
         <span class="c1"># TODO: can we just remove this?</span>
         <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
-<div class="viewcode-block" id="HexBytes32.hex"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.hex">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore [override]</span>
+<div class="viewcode-block" id="HexBytes32.hex">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.hex">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore [override]</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Output hex-encoded bytes, with an &quot;0x&quot; prefix.</span>
 
@@ -497,7 +531,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;0x</span><span class="si">{</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span></div>
 
-<div class="viewcode-block" id="HexBytes32.strip"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.strip">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">strip</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore [override]</span>
+
+<div class="viewcode-block" id="HexBytes32.strip">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.strip">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">strip</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore [override]</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns self.hex() with leading zeroes removed.</span>
 
 <span class="sd">        Examples:</span>
@@ -507,6 +544,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># we trim all leading zeroes since we know how many we need to put back later</span>
         <span class="k">return</span> <span class="nb">hex</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="mi">16</span><span class="p">))[</span><span class="mi">2</span><span class="p">:]</span></div>
+
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_hexstr</span><span class="p">(</span><span class="n">hexstr</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
@@ -529,10 +567,13 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;too smol&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hexstr</span><span class="p">),</span> <span class="n">hexstr</span><span class="p">)</span></div>
 
 
+
 <span class="n">_THB32</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_THB32&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">HexBytes32</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="TransactionHash"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.TransactionHash">[docs]</a><span class="nd">@final</span>
+<div class="viewcode-block" id="TransactionHash">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.TransactionHash">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TransactionHash</span><span class="p">(</span><span class="n">HexBytes32</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">a_sync</span><span class="p">:</span>  <span class="c1"># type: ignore [truthy-function]</span>
 
@@ -604,8 +645,12 @@
             <span class="k">return</span> <span class="n">_decode_logs</span><span class="p">(</span><span class="k">await</span> <span class="n">_get_transaction_receipt_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>  <span class="c1"># type: ignore [misc]</span></div>
 
 
-<div class="viewcode-block" id="BlockHash"><a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.BlockHash">[docs]</a><span class="nd">@final</span>
+
+<div class="viewcode-block" id="BlockHash">
+<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.BlockHash">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BlockHash</span><span class="p">(</span><span class="n">HexBytes32</span><span class="p">):</span> <span class="o">...</span></div>
+
 
 
 <span class="n">__str_new__</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="fm">__new__</span>

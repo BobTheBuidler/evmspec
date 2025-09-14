@@ -17,45 +17,45 @@ evmspec.structs.block module
 
 .. automodule:: evmspec.structs.block
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 evmspec.structs.header module
 -----------------------------
 
 .. automodule:: evmspec.structs.header
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 evmspec.structs.log module
 --------------------------
 
 .. automodule:: evmspec.structs.log
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 evmspec.structs.receipt module
 ------------------------------
 
 .. automodule:: evmspec.structs.receipt
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 evmspec.structs.transaction module
 ----------------------------------
 
 .. automodule:: evmspec.structs.transaction
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: evmspec.structs
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

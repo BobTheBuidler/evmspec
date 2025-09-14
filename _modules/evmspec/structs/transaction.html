@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,9 +12,9 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=b3ba4146"></script>
-      <script src="../../../_static/doctools.js?v=888ff710"></script>
-      <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
@@ -95,7 +95,9 @@
 <span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 
 
-<div class="viewcode-block" id="AccessListEntry"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.AccessListEntry">[docs]</a><span class="nd">@final</span>
+<div class="viewcode-block" id="AccessListEntry">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.AccessListEntry">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">AccessListEntry</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents an entry in an Ethereum transaction access list.</span>
@@ -121,6 +123,8 @@
     <span class="n">_storageKeys</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;storageKeys&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The raw encoded storage slot keys within the contract that will be accessed.&quot;&quot;&quot;</span>
 
+<div class="viewcode-block" id="AccessListEntry.storageKeys">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.AccessListEntry.storageKeys">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">storageKeys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -142,6 +146,8 @@
 <span class="sd">            - :meth:`_TransactionBase.accessList`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_decode_storage_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storageKeys</span><span class="p">)</span></div>
+</div>
+
 
 
 <span class="n">_decode_access_list</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span>
@@ -149,7 +155,9 @@
 <span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 
 
-<div class="viewcode-block" id="AuthorizationListEntry"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.AuthorizationListEntry">[docs]</a><span class="nd">@final</span>
+<div class="viewcode-block" id="AuthorizationListEntry">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.AuthorizationListEntry">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">AuthorizationListEntry</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
     <span class="n">chainId</span><span class="p">:</span> <span class="n">ChainId</span>
     <span class="n">address</span><span class="p">:</span> <span class="n">Address</span>
@@ -158,6 +166,7 @@
     <span class="n">yParity</span><span class="p">:</span> <span class="n">uint</span>
     <span class="n">r</span><span class="p">:</span> <span class="n">HexBytes</span>
     <span class="n">s</span><span class="p">:</span> <span class="n">HexBytes</span></div>
+
 
 
 <span class="n">_decode_authorization_list</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">AuthorizationListEntry</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">(</span>
@@ -272,7 +281,9 @@
         <span class="k">return</span> <span class="n">_decode_access_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_accessList</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="TransactionRLP"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.TransactionRLP">[docs]</a><span class="nd">@final</span>
+<div class="viewcode-block" id="TransactionRLP">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.TransactionRLP">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TransactionRLP</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a RLP encoded transaction that might have network-specific fields.</span>
@@ -288,7 +299,10 @@
     <span class="n">arbSubType</span><span class="p">:</span> <span class="n">uint</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span></div>
 
 
-<div class="viewcode-block" id="TransactionLegacy"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.TransactionLegacy">[docs]</a><span class="nd">@final</span>
+
+<div class="viewcode-block" id="TransactionLegacy">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.TransactionLegacy">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">TransactionLegacy</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x0&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a Legacy Ethereum transaction (pre-EIP-2718).</span>
@@ -297,7 +311,10 @@
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="Transaction2930"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Transaction2930">[docs]</a><span class="nd">@final</span>
+
+<div class="viewcode-block" id="Transaction2930">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Transaction2930">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Transaction2930</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x1&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a type-2930 (EIP-2930) Ethereum transaction with an access list.</span>
@@ -309,7 +326,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The yParity for the transaction.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="Transaction1559"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Transaction1559">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">Transaction1559</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x2&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+
+<div class="viewcode-block" id="Transaction1559">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Transaction1559">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Transaction1559</span><span class="p">(</span><span class="n">_TransactionBase</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x2&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a type-1559 (EIP-1559) Ethereum transaction with dynamic fee.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -326,7 +346,10 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The yParity for the transaction.&quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="Transaction4844"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Transaction4844">[docs]</a><span class="nd">@final</span>
+
+<div class="viewcode-block" id="Transaction4844">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Transaction4844">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Transaction4844</span><span class="p">(</span><span class="n">Transaction1559</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x3&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a type-1559 (EIP-1559) Ethereum transaction with dynamic fee.</span>
@@ -339,7 +362,10 @@
     <span class="n">blobVersionedHashes</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="Transaction7702"><a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Transaction7702">[docs]</a><span class="nd">@final</span>
+
+<div class="viewcode-block" id="Transaction7702">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Transaction7702">[docs]</a>
+<span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Transaction7702</span><span class="p">(</span><span class="n">Transaction1559</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;0x4&quot;</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a type-7702 (EIP-7702) Ethereum transaction to set an EOA&#39;s bytecode.</span>
@@ -348,6 +374,8 @@
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;4&quot;</span><span class="p">)</span>
     <span class="n">_authorizationList</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;authorizationList&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore [assignment]</span>
 
+<div class="viewcode-block" id="Transaction7702.authorizationList">
+<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Transaction7702.authorizationList">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">authorizationList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AuthorizationListEntry</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -365,6 +393,8 @@
 <span class="sd">            - :class:`AccessListEntry`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_decode_authorization_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_authorizationList</span><span class="p">)</span></div>
+</div>
+
 
 
 <span class="n">Transaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
