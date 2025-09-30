@@ -4,11 +4,11 @@ PyMODINIT_FUNC
 PyInit__new(void)
 {
     PyObject *tmp;
-    if (!(tmp = PyImport_ImportModule("77f6a255293717708ca2__mypyc"))) return NULL;
+    if (!(tmp = PyImport_ImportModule("evmspec._new__mypyc"))) return NULL;
     PyObject *capsule = PyObject_GetAttrString(tmp, "init_evmspec____new");
     Py_DECREF(tmp);
     if (capsule == NULL) return NULL;
-    void *init_func = PyCapsule_GetPointer(capsule, "77f6a255293717708ca2__mypyc.init_evmspec____new");
+    void *init_func = PyCapsule_GetPointer(capsule, "evmspec._new__mypyc.init_evmspec____new");
     Py_DECREF(capsule);
     if (!init_func) {
         return NULL;
