@@ -15,6 +15,7 @@ from typing import (
     final,
 )
 
+from faster_hexbytes import HexBytes as FasterHexBytes
 from hexbytes import HexBytes
 from msgspec import Raw, Struct
 from msgspec.json import Decoder
@@ -376,7 +377,7 @@ _hex: Final = bytes.hex
 """An alias for `bytes.hex`"""
 
 
-class HexBytes32(HexBytes):
+class HexBytes32(FasterHexBytes):
     __new__ = _new.HexBytes32  # type: ignore [assignment]
     """Create a new HexBytes32 object.
 
@@ -408,7 +409,7 @@ class HexBytes32(HexBytes):
     def __repr__(self) -> str:
         return f"{type(self).__name__}(0x{_hex(self)})"
 
-    __getitem__ = lambda self, key: HexBytes(self)[key]  # type: ignore [assignment]
+    __getitem__ = lambda self, key: FasterHexBytes(self)[key]  # type: ignore [assignment]
 
     # TODO: keep the instance small and just task on the length for operations as needed
     # def __len__(self) -> Literal[32]:
