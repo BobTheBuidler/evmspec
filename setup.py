@@ -162,7 +162,6 @@ setup(
     ext_modules=mypycify(
         [
             "evmspec/_new.py",
-            "evmspec/_utils.py",
             "--pretty",
             "--install-types",
             "--non-interactive",
