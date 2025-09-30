@@ -8,7 +8,7 @@ authors = ["BobTheBuidler <bobthebuidlerdefi@gmail.com>"]
 requires = [
     "setuptools",
     "wheel",
-    "mypy[mypyc]>=1.14.1,<1.18.2",
+    "mypy[mypyc]==1.18.2",
     "types-cachetools",
     "tomli>=2.0.0; python_version < '3.11'",
     "cchecksum>=0.3.1",
@@ -18,7 +18,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.14"
+python = ">=3.9,<3.14"
 cachetools = ">=4.1.1,<7"
 cchecksum = ">=0.0.3"
 dictstruct = ">=0.0.1"
@@ -26,8 +26,7 @@ eth-hash = ">=0.7.0,<1"
 eth-typing = ">=4.4.0,<6"
 hexbytes = "*"
 typing_extensions = ">=4.0.0"
-pysha3 = { version = ">=1.0.0,<2.0.0", markers = "python_version < '3.9'" }
-safe-pysha3 = { version = ">=1.0.0", markers = "python_version >= '3.9'" }
+safe-pysha3 = ">=1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 sphinx = "*"
