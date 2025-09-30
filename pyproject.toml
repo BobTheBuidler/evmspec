@@ -14,8 +14,6 @@ requires = [
     "cchecksum>=0.3.1",
     "eth-hash>=0.7.0,<1",
     "eth-typing>=4.4.0,<6",
-    "faster-eth-utils>=4,<6",
-    "faster-hexbytes<2",
 ]
 build-backend = "setuptools.build_meta"
 
