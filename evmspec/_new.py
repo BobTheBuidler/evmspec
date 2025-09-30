@@ -2,6 +2,7 @@ from typing import Final, Type, TypeVar, Union
 
 import cchecksum
 import faster_eth_utils
+import faster_hexbytes._utils
 from eth_typing import AnyAddress
 
 
@@ -24,7 +25,7 @@ Examples:
     b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
 """
 
-to_bytes: Final = faster_eth_utils.to_bytes
+to_bytes: Final = faster_hexbytes._utils.to_bytes
 to_checksum_address: Final = cchecksum.to_checksum_address
 
 
