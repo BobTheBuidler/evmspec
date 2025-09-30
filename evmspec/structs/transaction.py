@@ -2,7 +2,7 @@ from functools import cached_property
 from typing import Any, Callable, ClassVar, Final, List, Optional, Tuple, Union, final
 
 from dictstruct import LazyDictStruct
-from hexbytes import HexBytes
+from faster_hexbytes import HexBytes
 from msgspec import UNSET, Raw, field
 from msgspec.json import Decoder
 

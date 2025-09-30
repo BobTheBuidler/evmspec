@@ -22,7 +22,7 @@ Structs:
     :class:`~evmspec.Transaction1559`: Represents a transaction with EIP-1559.
 """
 
-from evmspec import _utils, structs
+from evmspec import structs
 from evmspec.structs import (
     ErigonBlockHeader,
     FilterTrace,
@@ -45,9 +45,6 @@ from evmspec.structs.transaction import (
     Transaction,
     AnyTransaction,
 )
-
-
-_utils.monkey_patch_hexbytes_utils()
 
 
 __all__ = [

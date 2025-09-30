@@ -2,7 +2,7 @@ from enum import Enum
 from functools import cached_property
 from typing import Callable, ClassVar, Final, Literal, Optional, final
 
-from hexbytes import HexBytes
+from faster_hexbytes import HexBytes
 from msgspec import UNSET, Raw, field
 from msgspec.json import Decoder
 

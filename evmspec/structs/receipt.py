@@ -5,7 +5,7 @@ from typing import Callable, Final, Optional, Tuple
 
 from dictstruct import DictStruct, LazyDictStruct
 from eth_typing import HexStr
-from hexbytes import HexBytes
+from faster_hexbytes import HexBytes
 from msgspec import UNSET, Raw, field
 from msgspec.json import Decoder
 

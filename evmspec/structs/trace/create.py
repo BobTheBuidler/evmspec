@@ -2,7 +2,7 @@ from functools import cached_property
 from logging import getLogger
 from typing import Callable, ClassVar, Final, Literal, final
 
-from hexbytes import HexBytes
+from faster_hexbytes import HexBytes
 from msgspec import UNSET, Raw, ValidationError, field, json
 
 from evmspec.data import Address, _decode_hook
