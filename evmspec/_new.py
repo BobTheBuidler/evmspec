@@ -1,9 +1,8 @@
 from typing import Final, Type, TypeVar, Union
 
 import cchecksum
+import faster_eth_utils
 from eth_typing import AnyAddress
-
-from evmspec._utils import to_bytes
 
 
 __T = TypeVar("__T")
@@ -24,6 +23,8 @@ Examples:
     >>> HexBytes32._get_missing_bytes(HexBytes("0x1234"))
     b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
 """
+
+to_bytes: Final = faster_eth_utils.to_bytes
 to_checksum_address: Final = cchecksum.to_checksum_address
 
 
