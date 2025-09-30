@@ -11,7 +11,7 @@ Note:
 import sys
 from typing import ClassVar, Final
 
-from hexbytes import HexBytes
+from faster_hexbytes import HexBytes
 
 from evmspec.data._main import uint
 
