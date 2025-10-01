@@ -155,6 +155,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name=poetry_config["name"],
+    url="https://github.com/BobTheBuidler/evmspec",
     description="A collection of msgspec.Struct definitions for use with the Ethereum Virtual Machine",
     license="MIT",
     long_description=long_description,
