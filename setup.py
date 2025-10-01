@@ -149,9 +149,15 @@ def combine_markers(a, b):
             continue
 
 
+this_directory = Path(__file__).parent
+long_description = (this_directory / "README.md").read_text()
+
+
 setup(
     name=poetry_config["name"],
     description="A collection of msgspec.Struct definitions for use with the Ethereum Virtual Machine",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     version=poetry_config["version"],
     python_requires=">=3.9,<3.14",
     packages=find_packages(),
