@@ -160,6 +160,8 @@ setup(
     long_description_content_type="text/markdown",
     version=poetry_config["version"],
     python_requires=">=3.9,<3.14",
+    author="BobTheBuidler",
+    author_email="bobthebuidlerdefi@gmail.com",
     packages=find_packages(),
     package_data={"evmspec": ["py.typed"]},
     include_package_data=True,
