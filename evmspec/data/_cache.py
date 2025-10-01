@@ -1,14 +1,21 @@
 from importlib.metadata import version
 from time import monotonic
+from typing import Final, Optional, TypedDict, final
 
 from cachetools import cached, keys
 from cachetools.func import TTLCache, _UnboundTTLCache  # type: ignore [attr-defined]
 
 
-_CACHETOOLS_VERSION = tuple(int(i) for i in version("cachetools").split("."))
+_CACHETOOLS_VERSION: Final = tuple(int(i) for i in version("cachetools").split("."))
 
 
-def ttl_cache(maxsize=128, ttl=600, timer=monotonic, typed=False):
+@final
+class CacheParams(TypedDict):
+    maxsize: Optional[int]
+    typed: bool
+
+
+def ttl_cache(maxsize: int = 128, ttl: float = 600, timer = monotonic, typed: bool = False):
     """Decorator to wrap a function with a memoizing callable that saves
     up to `maxsize` results based on a Least Recently Used (LRU)
     algorithm with a per-item time-to-live (TTL) value.
@@ -21,19 +28,18 @@ def ttl_cache(maxsize=128, ttl=600, timer=monotonic, typed=False):
         return _cache(TTLCache(maxsize, ttl, timer), maxsize, typed)
 
 
-def _cache(cache, maxsize, typed, info: bool = False):
+def _cache(cache, maxsize: int, typed: bool, info: bool = False):
     # reimplement ttl_cache with no RLock for race conditions
 
     key = keys.typedkey if typed else keys.hashkey
-    get_params = lambda: {"maxsize": maxsize, "typed": typed}
+    cache_params: CacheParams = CacheParams({"maxsize": maxsize, "typed": typed})
+
+    def get_cache_params() -> CacheParams:
+        return cache_params
 
     # `info` param was added in 5.3
     if _CACHETOOLS_VERSION >= (5, 3):
-
-        def decorator(func):
-            wrapper = cached(cache=cache, key=key, lock=None, info=info)(func)
-            wrapper.cache_parameters = get_params
-            return wrapper
+        cache_deco = cached(cache=cache, key=key, lock=None, info=info)
 
     elif info:
         raise ValueError(
@@ -41,10 +47,329 @@ def _cache(cache, maxsize, typed, info: bool = False):
         )
 
     else:
+        cache_deco = cached(cache=cache, key=key, lock=None)
 
-        def decorator(func):
-            wrapper = cached(cache=cache, key=key, lock=None)(func)
-            wrapper.cache_parameters = get_params
-            return wrapper
+    def decorator(func):
+        wrapper = cache_deco(func)
+        wrapper.cache_parameters = get_cache_params
+        return wrapper
 
     return decorator
+
+
+@final
+class _DefaultSize:
+    __slots__ = ()
+    def __getitem__(self, _):
+        return 1
+    def __setitem__(self, _, value):
+        assert value == 1
+    def pop(self, _):
+        return 1
+
+
+@final
+class Cache(MutableMapping):
+    """Mutable mapping to serve as a simple cache or cache base class."""
+
+    __marker: Final = object()
+
+    __size: Final = _DefaultSize()
+
+    def __init__(self, maxsize, getsizeof=None):
+        if getsizeof:
+            self.getsizeof: Final = getsizeof
+        if self.getsizeof is not Cache.getsizeof:
+            self.__size: Final = dict()
+        self.__data: Final = dict()
+        self.__currsize: Final = 0
+        self.__maxsize: Final = maxsize
+
+    def __repr__(self):
+        return "%s(%r, maxsize=%r, currsize=%r)" % (
+            self.__class__.__name__,
+            list(self.__data.items()),
+            self.__maxsize,
+            self.__currsize,
+        )
+
+    def __getitem__(self, key):
+        try:
+            return self.__data[key]
+        except KeyError:
+            return self.__missing__(key)
+
+    def __setitem__(self, key, value):
+        maxsize = self.__maxsize
+        size = self.getsizeof(value)
+        if size > maxsize:
+            raise ValueError("value too large")
+        if key not in self.__data or self.__size[key] < size:
+            while self.__currsize + size > maxsize:
+                self.popitem()
+        if key in self.__data:
+            diffsize = size - self.__size[key]
+        else:
+            diffsize = size
+        self.__data[key] = value
+        self.__size[key] = size
+        self.__currsize += diffsize
+
+    def __delitem__(self, key):
+        size = self.__size.pop(key)
+        del self.__data[key]
+        self.__currsize -= size
+
+    def __contains__(self, key):
+        return key in self.__data
+
+    def __missing__(self, key):
+        raise KeyError(key)
+
+    def __iter__(self):
+        return iter(self.__data)
+
+    def __len__(self):
+        return len(self.__data)
+
+    def get(self, key, default=None):
+        if key in self:
+            return self[key]
+        else:
+            return default
+
+    def pop(self, key, default=__marker):
+        if key in self:
+            value = self[key]
+            del self[key]
+        elif default is self.__marker:
+            raise KeyError(key)
+        else:
+            value = default
+        return value
+
+    def setdefault(self, key, default=None):
+        if key in self:
+            value = self[key]
+        else:
+            self[key] = value = default
+        return value
+
+    @property
+    def maxsize(self):
+        """The maximum size of the cache."""
+        return self.__maxsize
+
+    @property
+    def currsize(self):
+        """The current size of the cache."""
+        return self.__currsize
+
+    @staticmethod
+    def getsizeof(value):
+        """Return the size of a cache element's value."""
+        return 1
+
+
+@final
+class TTLCache(Cache):
+    """LRU Cache implementation with per-item time-to-live (TTL) value."""
+
+    def __init__(self, maxsize, ttl, timer=time.monotonic, getsizeof=None):
+        Cache.__init__(self, maxsize, getsizeof)
+        self.__root: Final = root = _Link()
+        root.prev = root.next = root
+        self.__links: Final = collections.OrderedDict()
+        self.__timer: Final = _Timer(timer)
+        self.__ttl: Final = ttl
+
+    def __contains__(self, key):
+        try:
+            link = self.__links[key]  # no reordering
+        except KeyError:
+            return False
+        else:
+            return not (link.expire < self.__timer())
+
+    def __getitem__(self, key, cache_getitem=Cache.__getitem__):
+        try:
+            link = self.__getlink(key)
+        except KeyError:
+            expired = False
+        else:
+            expired = link.expire < self.__timer()
+        if expired:
+            return self.__missing__(key)
+        else:
+            return cache_getitem(self, key)
+
+    def __setitem__(self, key, value, cache_setitem=Cache.__setitem__):
+        with self.__timer as time:
+            self.expire(time)
+            cache_setitem(self, key, value)
+        try:
+            link = self.__getlink(key)
+        except KeyError:
+            self.__links[key] = link = _Link(key)
+        else:
+            link.unlink()
+        link.expire = time + self.__ttl
+        link.next = root = self.__root
+        link.prev = prev = root.prev
+        prev.next = root.prev = link
+
+    def __delitem__(self, key, cache_delitem=Cache.__delitem__):
+        cache_delitem(self, key)
+        link = self.__links.pop(key)
+        link.unlink()
+        if link.expire < self.__timer():
+            raise KeyError(key)
+
+    def __iter__(self):
+        root = self.__root
+        curr = root.next
+        while curr is not root:
+            # "freeze" time for iterator access
+            with self.__timer as time:
+                if not (curr.expire < time):
+                    yield curr.key
+            curr = curr.next
+
+    def __len__(self):
+        root = self.__root
+        curr = root.next
+        time = self.__timer()
+        count = len(self.__links)
+        while curr is not root and curr.expire < time:
+            count -= 1
+            curr = curr.next
+        return count
+
+    def __setstate__(self, state):
+        self.__dict__.update(state)
+        root = self.__root
+        root.prev = root.next = root
+        for link in sorted(self.__links.values(), key=lambda obj: obj.expire):
+            link.next = root
+            link.prev = prev = root.prev
+            prev.next = root.prev = link
+        self.expire(self.__timer())
+
+    def __repr__(self, cache_repr=Cache.__repr__):
+        with self.__timer as time:
+            self.expire(time)
+            return cache_repr(self)
+
+    @property
+    def currsize(self):
+        with self.__timer as time:
+            self.expire(time)
+            return super().currsize
+
+    @property
+    def timer(self):
+        """The timer function used by the cache."""
+        return self.__timer
+
+    @property
+    def ttl(self):
+        """The time-to-live value of the cache's items."""
+        return self.__ttl
+
+    def expire(self, time=None):
+        """Remove expired items from the cache."""
+        if time is None:
+            time = self.__timer()
+        root = self.__root
+        curr = root.next
+        links = self.__links
+        while curr is not root and curr.expire < time:
+            Cache.__delitem__(self, curr.key)
+            del links[curr.key]
+            next = curr.next
+            curr.unlink()
+            curr = next
+
+    def clear(self):
+        with self.__timer as time:
+            self.expire(time)
+            Cache.clear(self)
+
+    def get(self, *args, **kwargs):
+        with self.__timer:
+            return Cache.get(self, *args, **kwargs)
+
+    def pop(self, *args, **kwargs):
+        with self.__timer:
+            return Cache.pop(self, *args, **kwargs)
+
+    def setdefault(self, *args, **kwargs):
+        with self.__timer:
+            return Cache.setdefault(self, *args, **kwargs)
+
+    def popitem(self):
+        """Remove and return the `(key, value)` pair least recently used that
+        has not already expired.
+
+        """
+        with self.__timer as time:
+            self.expire(time)
+            try:
+                key = next(iter(self.__links))
+            except StopIteration:
+                raise KeyError("%s is empty" % type(self).__name__) from None
+            else:
+                return (key, self.pop(key))
+
+    def __getlink(self, key):
+        value = self.__links[key]
+        self.__links.move_to_end(key)
+        return value
+
+
+@final
+class _Link:
+
+    __slots__ = ("key", "expire", "next", "prev")
+
+    def __init__(self, key=None, expire=None):
+        self.key: Final = key
+        self.expire: Final = expire
+
+    def __reduce__(self):
+        return _Link, (self.key, self.expire)
+
+    def unlink(self):
+        next = self.next
+        prev = self.prev
+        prev.next = next
+        next.prev = prev
+
+
+class _Timer:
+    def __init__(self, timer):
+        self.__timer: Final = timer
+        self.__nesting: Final = 0
+
+    def __call__(self):
+        if self.__nesting == 0:
+            return self.__timer()
+        else:
+            return self.__time
+
+    def __enter__(self):
+        if self.__nesting == 0:
+            self.__time = time = self.__timer()
+        else:
+            time = self.__time
+        self.__nesting += 1
+        return time
+
+    def __exit__(self, *exc):
+        self.__nesting -= 1
+
+    def __reduce__(self):
+        return _Timer, (self.__timer,)
+
+    def __getattr__(self, name):
+        return getattr(self.__timer, name)
