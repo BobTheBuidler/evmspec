@@ -151,6 +151,7 @@ def combine_markers(a, b):
 
 setup(
     name=poetry_config["name"],
+    description="A collection of msgspec.Struct definitions for use with the Ethereum Virtual Machine",
     version=poetry_config["version"],
     python_requires=">=3.9,<3.14",
     packages=find_packages(),
