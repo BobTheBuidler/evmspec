@@ -39,7 +39,7 @@ jobs:
         # This makes it much easier to diffcheck changes in the C files
         run: |
           # Insert DIFFCHECK_PLACEHOLDER macro at the top if not present
-          for f in build/*.c; do
+          for f in build/**/*.c; do
             if ! grep -q 'DIFFCHECK_PLACEHOLDER' "$f"; then
               sed -i '1i#ifndef DIFFCHECK_PLACEHOLDER\n#define DIFFCHECK_PLACEHOLDER 0\n#endif' "$f"
             fi
