@@ -63,6 +63,11 @@ jobs:
         if: steps.cached-poetry.outputs.cache-hit != 'true' && matrix.pyversion != '3.8'
         uses: snok/install-poetry@v1
 
+      - name: Add Poetry to PATH (Windows only)
+        if: runner.os == 'Windows'
+        run: echo "$env:APPDATA\Python\Scripts" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+        shell: pwsh
+
       - name: Install Pytest
         run: poetry run python -m pip install pytest
 
