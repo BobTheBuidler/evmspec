@@ -8,6 +8,8 @@ on:
       - '**/pytest.yaml'
       - 'pyproject.toml'
       - 'poetry.lock'
+  schedule:
+    - cron: '0 2 * * *' # Every day at 2:00 AM UTC
       
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
