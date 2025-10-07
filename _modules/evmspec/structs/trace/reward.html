@@ -185,8 +185,6 @@
     <span class="n">_action</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Raw data of the reward action, requires decoding to be useful.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Trace.action">
-<a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.reward.Trace.action">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Action</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Decodes the raw reward action into an :class:`Action` object, using parity style.</span>
@@ -205,7 +203,6 @@
 <span class="sd">            0x123</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_decode_action</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">)</span></div>
-</div>
 
 
 

@@ -123,8 +123,6 @@
     <span class="n">_storageKeys</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;storageKeys&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The raw encoded storage slot keys within the contract that will be accessed.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="AccessListEntry.storageKeys">
-<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.AccessListEntry.storageKeys">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">storageKeys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -146,7 +144,6 @@
 <span class="sd">            - :meth:`_TransactionBase.accessList`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_decode_storage_keys</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_storageKeys</span><span class="p">)</span></div>
-</div>
 
 
 
@@ -374,8 +371,6 @@
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;4&quot;</span><span class="p">)</span>
     <span class="n">_authorizationList</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;authorizationList&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore [assignment]</span>
 
-<div class="viewcode-block" id="Transaction7702.authorizationList">
-<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Transaction7702.authorizationList">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">authorizationList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AuthorizationListEntry</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -393,7 +388,6 @@
 <span class="sd">            - :class:`AccessListEntry`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_decode_authorization_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_authorizationList</span><span class="p">)</span></div>
-</div>
 
 
 

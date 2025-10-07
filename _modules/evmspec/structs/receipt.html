@@ -236,8 +236,6 @@
     <span class="n">_logs</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The logs that were generated during this transaction.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="TransactionReceipt.logs">
-<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.TransactionReceipt.logs">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">logs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Log</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The logs that were generated during this transaction.</span>
@@ -246,8 +244,7 @@
 <span class="sd">            &gt;&gt;&gt; receipt.logs</span>
 <span class="sd">            (Log(...), Log(...))</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_decode_logs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_logs</span><span class="p">)</span></div>
-
+        <span class="k">return</span> <span class="n">_decode_logs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_logs</span><span class="p">)</span>
 
     <span class="c1"># These fields are only present on Mainnet.</span>
     <span class="n">effectiveGasPrice</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
@@ -328,8 +325,6 @@
     <span class="n">_feeStats</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;feeStats&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UNSET</span><span class="p">)</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Arbitrum.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="TransactionReceipt.feeStats">
-<a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.TransactionReceipt.feeStats">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">feeStats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ArbitrumFeeStats</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;This field is only present on Arbitrum.</span>
@@ -339,7 +334,6 @@
 <span class="sd">            ArbitrumFeeStats(...)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_decode_fee_stats</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_feeStats</span><span class="p">)</span></div>
-</div>
 
 
 

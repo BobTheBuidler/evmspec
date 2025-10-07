@@ -353,8 +353,6 @@
 <div class="viewcode-block" id="Wei">
 <a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Wei">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Wei</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span>
-<div class="viewcode-block" id="Wei.scaled">
-<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.Wei.scaled">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">scaled</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Decimal&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns the scaled decimal representation of Wei.</span>
@@ -368,7 +366,6 @@
 <span class="sd">            Decimal(&#39;1&#39;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Decimal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">/</span> <span class="mi">10</span><span class="o">**</span><span class="mi">18</span></div>
-</div>
 
 
     <span class="c1"># @property</span>
@@ -394,8 +391,6 @@
 <a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.UnixTimestamp">[docs]</a>
 <span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">UnixTimestamp</span><span class="p">(</span><span class="n">uint</span><span class="p">):</span>
-<div class="viewcode-block" id="UnixTimestamp.datetime">
-<a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.UnixTimestamp.datetime">[docs]</a>
     <span class="nd">@cached_property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Converts the Unix timestamp to a datetime object in UTC.</span>
@@ -409,7 +404,6 @@
 <span class="sd">            datetime.datetime(2021, 12, 1, 0, 0, tzinfo=datetime.timezone.utc)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span></div>
-</div>
 
 
 
