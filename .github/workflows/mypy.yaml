@@ -1,6 +1,13 @@
 name: MyPy
 
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - '**.py'
+      - '.github/workflows/mypy.yaml'
+      - 'pyproject.toml'
+      - 'poetry.lock'
+      - 'setup.py'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
