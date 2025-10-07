@@ -1,3 +1,6 @@
+#ifndef DIFFCHECK_PLACEHOLDER
+#define DIFFCHECK_PLACEHOLDER 0
+#endif
 #include "init.c"
 #include "getargs.c"
 #include "getargsfast.c"
@@ -90,7 +93,7 @@ PyObject *CPyDef_Address(PyObject *cpy_r_cls, PyObject *cpy_r_address) {
     PyErr_SetString(PyExc_NameError, "value for final name \"to_checksum_address\" was not set");
     cpy_r_r2 = 0;
     if (unlikely(!cpy_r_r2)) {
-        CPy_AddTraceback("evmspec/_new.py", "Address", 33, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "Address", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL7;
     }
     CPy_Unreachable();
@@ -99,7 +102,7 @@ CPyL3: ;
     cpy_r_r4 = (PyObject **)&cpy_r_r3;
     cpy_r_r5 = PyObject_Vectorcall(cpy_r_r1, cpy_r_r4, 1, 0);
     if (unlikely(cpy_r_r5 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "Address", 33, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "Address", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL7;
     }
     if (likely(PyUnicode_Check(cpy_r_r5)))
@@ -108,12 +111,12 @@ CPyL3: ;
         CPy_TypeErrorTraceback("evmspec/_new.py", "Address", 33, CPyStatic_globals, "str", cpy_r_r5);
         goto CPyL7;
     }
-    cpy_r_r7 = CPyStatics[3]; /* '__new__' */
+    cpy_r_r7 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* '__new__' */
     PyObject *cpy_r_r8[3] = {cpy_r_r0, cpy_r_cls, cpy_r_r6};
     cpy_r_r9 = (PyObject **)&cpy_r_r8;
     cpy_r_r10 = PyObject_VectorcallMethod(cpy_r_r7, cpy_r_r9, 9223372036854775811ULL, 0);
     if (unlikely(cpy_r_r10 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "Address", 33, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "Address", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL8;
     }
     CPy_DECREF(cpy_r_r6);
@@ -139,7 +142,7 @@ PyObject *CPyPy_Address(PyObject *self, PyObject *const *args, size_t nargs, PyO
     PyObject *retval = CPyDef_Address(arg_cls, arg_address);
     return retval;
 fail: ;
-    CPy_AddTraceback("evmspec/_new.py", "Address", 32, CPyStatic_globals);
+    CPy_AddTraceback("evmspec/_new.py", "Address", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
     return NULL;
 }
 
@@ -199,7 +202,7 @@ PyObject *CPyDef_HexBytes32(PyObject *cpy_r_cls, PyObject *cpy_r_v) {
         CPy_TypeErrorTraceback("evmspec/_new.py", "HexBytes32", 39, CPyStatic_globals, "str", cpy_r_v);
         goto CPyL34;
     }
-    cpy_r_r2 = CPyStatics[4]; /* '0x' */
+    cpy_r_r2 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* '0x' */
     cpy_r_r3 = CPyStr_Startswith(cpy_r_r1, cpy_r_r2);
     CPy_DECREF(cpy_r_r1);
     cpy_r_r4 = cpy_r_r3;
@@ -211,12 +214,12 @@ PyObject *CPyDef_HexBytes32(PyObject *cpy_r_cls, PyObject *cpy_r_v) {
         CPy_TypeErrorTraceback("evmspec/_new.py", "HexBytes32", 40, CPyStatic_globals, "str", cpy_r_v);
         goto CPyL34;
     }
-    cpy_r_r6 = CPyStatics[5]; /* '_check_hexstr' */
+    cpy_r_r6 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* '_check_hexstr' */
     PyObject *cpy_r_r7[2] = {cpy_r_cls, cpy_r_r5};
     cpy_r_r8 = (PyObject **)&cpy_r_r7;
     cpy_r_r9 = PyObject_VectorcallMethod(cpy_r_r6, cpy_r_r8, 9223372036854775810ULL, 0);
     if (unlikely(cpy_r_r9 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 40, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL35;
     } else
         goto CPyL36;
@@ -228,7 +231,7 @@ CPyL6: ;
     PyErr_SetString(PyExc_NameError, "value for final name \"to_bytes\" was not set");
     cpy_r_r11 = 0;
     if (unlikely(!cpy_r_r11)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 42, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL34;
     }
     CPy_Unreachable();
@@ -237,7 +240,7 @@ CPyL9: ;
     cpy_r_r13 = (PyObject **)&cpy_r_r12;
     cpy_r_r14 = PyObject_Vectorcall(cpy_r_r10, cpy_r_r13, 1, 0);
     if (unlikely(cpy_r_r14 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 42, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL34;
     }
     if (likely(PyBytes_Check(cpy_r_r14) || PyByteArray_Check(cpy_r_r14)))
@@ -251,7 +254,7 @@ CPyL9: ;
     PyErr_SetString(PyExc_NameError, "value for final name \"MISSING_BYTES\" was not set");
     cpy_r_r17 = 0;
     if (unlikely(!cpy_r_r17)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 44, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL18;
     } else
         goto CPyL37;
@@ -263,7 +266,7 @@ CPyL15: ;
     cpy_r_r20 = cpy_r_r19 << 1;
     cpy_r_r21 = CPySequenceTuple_GetItem(cpy_r_r16, cpy_r_r20);
     if (unlikely(cpy_r_r21 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 44, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL18;
     }
     if (likely(PyBytes_Check(cpy_r_r21) || PyByteArray_Check(cpy_r_r21)))
@@ -276,10 +279,10 @@ CPyL15: ;
 CPyL18: ;
     cpy_r_r23 = CPy_CatchError();
     cpy_r_r24 = CPyModule_builtins;
-    cpy_r_r25 = CPyStatics[6]; /* 'KeyError' */
+    cpy_r_r25 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'KeyError' */
     cpy_r_r26 = CPyObject_GetAttr(cpy_r_r24, cpy_r_r25);
     if (unlikely(cpy_r_r26 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 45, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL38;
     }
     cpy_r_r27 = CPy_ExceptionMatches(cpy_r_r26);
@@ -289,31 +292,31 @@ CPyL18: ;
     CPy_DecRef(cpy_r_r28);
     cpy_r_r29 = PyObject_Repr(cpy_r_v);
     if (unlikely(cpy_r_r29 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 46, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL38;
     }
-    cpy_r_r30 = CPyStatics[7]; /* ' is too long: ' */
+    cpy_r_r30 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* ' is too long: ' */
     cpy_r_r31 = (CPyPtr)&((PyVarObject *)cpy_r_r15)->ob_size;
     cpy_r_r32 = *(int64_t *)cpy_r_r31;
     CPy_DecRef(cpy_r_r15);
     cpy_r_r33 = cpy_r_r32 << 1;
     cpy_r_r34 = CPyTagged_Str(cpy_r_r33);
     if (unlikely(cpy_r_r34 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 46, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL40;
     }
     cpy_r_r35 = CPyStr_Build(3, cpy_r_r29, cpy_r_r30, cpy_r_r34);
     CPy_DecRef(cpy_r_r29);
     CPy_DecRef(cpy_r_r34);
     if (unlikely(cpy_r_r35 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 46, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL29;
     }
     cpy_r_r36 = CPyModule_builtins;
-    cpy_r_r37 = CPyStatics[8]; /* 'ValueError' */
+    cpy_r_r37 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'ValueError' */
     cpy_r_r38 = CPyObject_GetAttr(cpy_r_r36, cpy_r_r37);
     if (unlikely(cpy_r_r38 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 46, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL41;
     }
     PyObject *cpy_r_r39[1] = {cpy_r_r35};
@@ -321,14 +324,14 @@ CPyL18: ;
     cpy_r_r41 = PyObject_Vectorcall(cpy_r_r38, cpy_r_r40, 1, 0);
     CPy_DecRef(cpy_r_r38);
     if (unlikely(cpy_r_r41 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 46, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL41;
     }
     CPy_DecRef(cpy_r_r35);
     CPy_Raise(cpy_r_r41);
     CPy_DecRef(cpy_r_r41);
     if (unlikely(!0)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 46, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL29;
     } else
         goto CPyL42;
@@ -355,15 +358,15 @@ CPyL31: ;
     cpy_r_r44 = CPyBytes_Concat(cpy_r_r22, cpy_r_r15);
     CPy_DECREF(cpy_r_r15);
     if (unlikely(cpy_r_r44 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 47, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL34;
     }
-    cpy_r_r45 = CPyStatics[3]; /* '__new__' */
+    cpy_r_r45 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* '__new__' */
     PyObject *cpy_r_r46[3] = {cpy_r_r43, cpy_r_cls, cpy_r_r44};
     cpy_r_r47 = (PyObject **)&cpy_r_r46;
     cpy_r_r48 = PyObject_VectorcallMethod(cpy_r_r45, cpy_r_r47, 9223372036854775811ULL, 0);
     if (unlikely(cpy_r_r48 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 47, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL44;
     }
     CPy_DECREF(cpy_r_r44);
@@ -435,7 +438,7 @@ __LL1: ;
     PyObject *retval = CPyDef_HexBytes32(arg_cls, arg_v);
     return retval;
 fail: ;
-    CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 36, CPyStatic_globals);
+    CPy_AddTraceback("evmspec/_new.py", "HexBytes32", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
     return NULL;
 }
 
@@ -515,7 +518,7 @@ char CPyDef___top_level__(void) {
     cpy_r_r1 = (PyObject *)&_Py_NoneStruct;
     cpy_r_r2 = cpy_r_r0 != cpy_r_r1;
     if (cpy_r_r2) goto CPyL3;
-    cpy_r_r3 = CPyStatics[9]; /* 'builtins' */
+    cpy_r_r3 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'builtins' */
     cpy_r_r4 = PyImport_Import(cpy_r_r3);
     if (unlikely(cpy_r_r4 == NULL)) {
         CPy_AddTraceback("evmspec/_new.py", "<module>", -1, CPyStatic_globals);
@@ -525,12 +528,12 @@ char CPyDef___top_level__(void) {
     CPy_INCREF(CPyModule_builtins);
     CPy_DECREF(cpy_r_r4);
 CPyL3: ;
-    cpy_r_r5 = CPyStatics[29]; /* ('Final', 'Type', 'TypeVar', 'Union') */
-    cpy_r_r6 = CPyStatics[14]; /* 'typing' */
+    cpy_r_r5 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* ('Final', 'Type', 'TypeVar', 'Union') */
+    cpy_r_r6 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'typing' */
     cpy_r_r7 = CPyStatic_globals;
     cpy_r_r8 = CPyImport_ImportFromMany(cpy_r_r6, cpy_r_r5, cpy_r_r5, cpy_r_r7);
     if (unlikely(cpy_r_r8 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 1, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     CPyModule_typing = cpy_r_r8;
@@ -543,33 +546,33 @@ CPyL3: ;
     cpy_r_r13 = (void *)&cpy_r_r12;
     int64_t cpy_r_r14[3] = {3, 4, 5};
     cpy_r_r15 = (void *)&cpy_r_r14;
-    cpy_r_r16 = CPyStatics[33]; /* (('cchecksum', 'cchecksum', 'cchecksum'),
+    cpy_r_r16 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* (('cchecksum', 'cchecksum', 'cchecksum'),
                                    ('faster_eth_utils', 'faster_eth_utils',
                                     'faster_eth_utils'),
                                    ('faster_hexbytes._utils', 'faster_hexbytes',
                                     'faster_hexbytes')) */
     cpy_r_r17 = CPyStatic_globals;
-    cpy_r_r18 = CPyStatics[19]; /* 'evmspec/_new.py' */
-    cpy_r_r19 = CPyStatics[20]; /* '<module>' */
+    cpy_r_r18 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'evmspec/_new.py' */
+    cpy_r_r19 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* '<module>' */
     cpy_r_r20 = CPyImport_ImportMany(cpy_r_r16, cpy_r_r13, cpy_r_r17, cpy_r_r18, cpy_r_r19, cpy_r_r15);
     if (!cpy_r_r20) goto CPyL27;
-    cpy_r_r21 = CPyStatics[34]; /* ('AnyAddress',) */
-    cpy_r_r22 = CPyStatics[22]; /* 'eth_typing' */
+    cpy_r_r21 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* ('AnyAddress',) */
+    cpy_r_r22 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'eth_typing' */
     cpy_r_r23 = CPyStatic_globals;
     cpy_r_r24 = CPyImport_ImportFromMany(cpy_r_r22, cpy_r_r21, cpy_r_r21, cpy_r_r23);
     if (unlikely(cpy_r_r24 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 6, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     CPyModule_eth_typing = cpy_r_r24;
     CPy_INCREF(CPyModule_eth_typing);
     CPy_DECREF(cpy_r_r24);
-    cpy_r_r25 = CPyStatics[23]; /* '__T' */
+    cpy_r_r25 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* '__T' */
     cpy_r_r26 = CPyStatic_globals;
-    cpy_r_r27 = CPyStatics[12]; /* 'TypeVar' */
+    cpy_r_r27 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'TypeVar' */
     cpy_r_r28 = CPyDict_GetItem(cpy_r_r26, cpy_r_r27);
     if (unlikely(cpy_r_r28 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 9, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     PyObject *cpy_r_r29[1] = {cpy_r_r25};
@@ -577,32 +580,32 @@ CPyL3: ;
     cpy_r_r31 = PyObject_Vectorcall(cpy_r_r28, cpy_r_r30, 1, 0);
     CPy_DECREF(cpy_r_r28);
     if (unlikely(cpy_r_r31 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 9, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     cpy_r_r32 = CPyStatic_globals;
-    cpy_r_r33 = CPyStatics[23]; /* '__T' */
+    cpy_r_r33 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* '__T' */
     cpy_r_r34 = CPyDict_SetItem(cpy_r_r32, cpy_r_r33, cpy_r_r31);
     CPy_DECREF(cpy_r_r31);
     cpy_r_r35 = cpy_r_r34 >= 0;
     if (unlikely(!cpy_r_r35)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 9, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
-    cpy_r_r36 = CPyStatics[28]; /* b'\x00' */
+    cpy_r_r36 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* b'\x00' */
     CPyStatic_ONE_EMPTY_BYTE = cpy_r_r36;
     CPy_INCREF(CPyStatic_ONE_EMPTY_BYTE);
     cpy_r_r37 = CPyStatic_globals;
-    cpy_r_r38 = CPyStatics[24]; /* 'ONE_EMPTY_BYTE' */
+    cpy_r_r38 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'ONE_EMPTY_BYTE' */
     cpy_r_r39 = CPyDict_SetItem(cpy_r_r37, cpy_r_r38, cpy_r_r36);
     cpy_r_r40 = cpy_r_r39 >= 0;
     if (unlikely(!cpy_r_r40)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 12, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     cpy_r_r41 = PyList_New(0);
     if (unlikely(cpy_r_r41 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 14, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     cpy_r_r42 = 0;
@@ -621,7 +624,7 @@ CPyL14: ;
     PyErr_SetString(PyExc_NameError, "value for final name \"ONE_EMPTY_BYTE\" was not set");
     cpy_r_r46 = 0;
     if (unlikely(!cpy_r_r46)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 14, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     CPy_Unreachable();
@@ -630,7 +633,7 @@ CPyL16: ;
     cpy_r_r48 = PyNumber_Multiply(cpy_r_r47, cpy_r_r45);
     CPy_DECREF(cpy_r_r47);
     if (unlikely(cpy_r_r48 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 14, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL30;
     }
     if (likely(PyBytes_Check(cpy_r_r48) || PyByteArray_Check(cpy_r_r48)))
@@ -643,7 +646,7 @@ CPyL16: ;
     CPy_DECREF(cpy_r_r49);
     cpy_r_r51 = cpy_r_r50 >= 0;
     if (unlikely(!cpy_r_r51)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 14, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL30;
     }
     cpy_r_r52 = cpy_r_r42 + 2;
@@ -654,54 +657,54 @@ CPyL20: ;
     cpy_r_r53 = PyList_AsTuple(cpy_r_r41);
     CPy_DECREF_NO_IMM(cpy_r_r41);
     if (unlikely(cpy_r_r53 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 14, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     CPyStatic_MISSING_BYTES = cpy_r_r53;
     CPy_INCREF(CPyStatic_MISSING_BYTES);
     cpy_r_r54 = CPyStatic_globals;
-    cpy_r_r55 = CPyStatics[25]; /* 'MISSING_BYTES' */
+    cpy_r_r55 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'MISSING_BYTES' */
     cpy_r_r56 = CPyDict_SetItem(cpy_r_r54, cpy_r_r55, cpy_r_r53);
     CPy_DECREF(cpy_r_r53);
     cpy_r_r57 = cpy_r_r56 >= 0;
     if (unlikely(!cpy_r_r57)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 14, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     cpy_r_r58 = CPyModule_faster_hexbytes____utils;
-    cpy_r_r59 = CPyStatics[26]; /* 'to_bytes' */
+    cpy_r_r59 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'to_bytes' */
     cpy_r_r60 = CPyObject_GetAttr(cpy_r_r58, cpy_r_r59);
     if (unlikely(cpy_r_r60 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 28, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     CPyStatic_to_bytes = cpy_r_r60;
     CPy_INCREF(CPyStatic_to_bytes);
     cpy_r_r61 = CPyStatic_globals;
-    cpy_r_r62 = CPyStatics[26]; /* 'to_bytes' */
+    cpy_r_r62 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'to_bytes' */
     cpy_r_r63 = CPyDict_SetItem(cpy_r_r61, cpy_r_r62, cpy_r_r60);
     CPy_DECREF(cpy_r_r60);
     cpy_r_r64 = cpy_r_r63 >= 0;
     if (unlikely(!cpy_r_r64)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 28, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     cpy_r_r65 = CPyModule_cchecksum;
-    cpy_r_r66 = CPyStatics[27]; /* 'to_checksum_address' */
+    cpy_r_r66 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'to_checksum_address' */
     cpy_r_r67 = CPyObject_GetAttr(cpy_r_r65, cpy_r_r66);
     if (unlikely(cpy_r_r67 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 29, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     CPyStatic_to_checksum_address = cpy_r_r67;
     CPy_INCREF(CPyStatic_to_checksum_address);
     cpy_r_r68 = CPyStatic_globals;
-    cpy_r_r69 = CPyStatics[27]; /* 'to_checksum_address' */
+    cpy_r_r69 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'to_checksum_address' */
     cpy_r_r70 = CPyDict_SetItem(cpy_r_r68, cpy_r_r69, cpy_r_r67);
     CPy_DECREF(cpy_r_r67);
     cpy_r_r71 = cpy_r_r70 >= 0;
     if (unlikely(!cpy_r_r71)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 29, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", DIFFCHECK_PLACEHOLDER, CPyStatic_globals);
         goto CPyL27;
     }
     return 1;
@@ -740,7 +743,7 @@ int CPyGlobalsInit(void)
     return 0;
 }
 
-PyObject *CPyStatics[35];
+PyObject *CPyStatics[DIFFCHECK_PLACEHOLDER];
 const char * const CPyLit_Str[] = {
     "\a\a__new__\0020x\r_check_hexstr\bKeyError\016 is too long: \nValueError\bbuiltins",
     "\a\005Final\004Type\aTypeVar\005Union\006typing\tcchecksum\020faster_eth_utils",
