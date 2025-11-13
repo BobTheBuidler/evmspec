@@ -50,13 +50,11 @@ jobs:
     - name: Install Poetry
       if: steps.cached-poetry.outputs.cache-hit != 'true' && matrix.pyversion != '3.8'
       uses: snok/install-poetry@v1
-      
-    - name: Add Poetry to PATH on Windows
-      if: runner.os == 'Windows'
-      run: $env:Path += ";$env:USERPROFILE\.poetry\bin"
 
     - name: Install Dependencies
+      shell: bash
       run: poetry install --no-interaction
 
     - name: Run MyPy
+      shell: bash
       run: make mypy
