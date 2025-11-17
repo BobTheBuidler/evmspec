@@ -1,4 +1,10 @@
+from typing import NoReturn
+
 from evmspec.data._main import uint
+
+
+def _fail_at_math(*_) -> NoReturn:
+    raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
 
 
 class IntId(uint):
@@ -79,41 +85,18 @@ class IntId(uint):
         - :class:`LogIndex`
     """
 
-    def __add__(*_):
-        raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
-
-    def __sub__(*_):
-        raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
-
-    def __mul__(*_):
-        raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
-
-    def __truediv__(*_):
-        raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
-
-    def __floordiv__(*_):
-        raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
-
-    def __pow__(*_):
-        raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
-
-    def __radd__(*_):
-        raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
-
-    def __rsub__(*_):
-        raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
-
-    def __rmul__(*_):
-        raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
-
-    def __rtruediv__(*_):
-        raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
-
-    def __rfloordiv__(*_):
-        raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
-
-    def __rpow__(*_):
-        raise TypeError(f"You cannot perform math on a {type(_[0]).__name__}")
+    __add__ = _fail_at_math
+    __sub__ = _fail_at_math
+    __mul__ = _fail_at_math
+    __truediv__ = _fail_at_math
+    __floordiv__ = _fail_at_math
+    __pow__ = _fail_at_math
+    __radd__ = _fail_at_math
+    __rsub__ = _fail_at_math
+    __rmul__ = _fail_at_math
+    __rtruediv__ = _fail_at_math
+    __rfloordiv__ = _fail_at_math
+    __rpow__ = _fail_at_math
 
 
 class ChainId(IntId):
