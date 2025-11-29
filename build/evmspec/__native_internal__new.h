@@ -1,5 +1,5 @@
-#ifndef MYPYC_NATIVE_INTERNAL_evmspec____new_H
-#define MYPYC_NATIVE_INTERNAL_evmspec____new_H
+#ifndef MYPYC_LIBRT_INTERNAL_evmspec____new_H
+#define MYPYC_LIBRT_INTERNAL_evmspec____new_H
 #include <Python.h>
 #include <CPy.h>
 #include "__native__new.h"
