@@ -8,7 +8,7 @@ authors = ["BobTheBuidler <bobthebuidlerdefi@gmail.com>"]
 requires = [
     "setuptools",
     "wheel",
-    "mypy[mypyc]==1.18.2",
+    "mypy[mypyc]==1.19.0",
     "types-cachetools",
     "tomli>=2.0.0; python_version < '3.11'",
     "cchecksum>=0.3.1",
