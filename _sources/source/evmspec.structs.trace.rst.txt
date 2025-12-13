@@ -9,37 +9,37 @@ evmspec.structs.trace.call module
 
 .. automodule:: evmspec.structs.trace.call
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 evmspec.structs.trace.create module
 -----------------------------------
 
 .. automodule:: evmspec.structs.trace.create
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 evmspec.structs.trace.reward module
 -----------------------------------
 
 .. automodule:: evmspec.structs.trace.reward
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 evmspec.structs.trace.suicide module
 ------------------------------------
 
 .. automodule:: evmspec.structs.trace.suicide
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
 
 .. automodule:: evmspec.structs.trace
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
