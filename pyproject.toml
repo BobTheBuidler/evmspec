@@ -30,7 +30,7 @@ typing_extensions = ">=4.0.0"
 safe-pysha3 = ">=1.0.0"
 
 [tool.poetry.group.dev.dependencies]
-sphinx = "*"
+sphinx = ">=7,<10"
 sphinx-rtd-theme = "*"
 mypy = "*"
 types-cachetools = "*"
