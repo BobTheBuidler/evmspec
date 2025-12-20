@@ -96,8 +96,8 @@
 <span class="n">logger</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">Transactions</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
-    <span class="n">Tuple</span><span class="p">[</span><span class="n">TransactionHash</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
-    <span class="n">Tuple</span><span class="p">[</span><span class="n">Transaction</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="nb">tuple</span><span class="p">[</span><span class="n">TransactionHash</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+    <span class="nb">tuple</span><span class="p">[</span><span class="n">Transaction</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
 <span class="p">]</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Represents a collection of transactions within a block, which can be</span>
@@ -112,14 +112,14 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<span class="n">_decode_transactions</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">],</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
+<span class="n">_decode_transactions</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">],</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Transaction</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 <span class="p">)</span>
 <span class="n">_decode_transactions_rlp</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span>
-    <span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TransactionRLP</span><span class="p">],</span> <span class="o">...</span><span class="p">]]</span>
-<span class="p">]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TransactionRLP</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
-<span class="n">_decode_raw_multi</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Raw</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span>
-    <span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Raw</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TransactionRLP</span><span class="p">],</span> <span class="o">...</span><span class="p">]]</span>
+<span class="p">]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TransactionRLP</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
+<span class="n">_decode_raw_multi</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Raw</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="nb">tuple</span><span class="p">[</span><span class="n">Raw</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
 <span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 
 
@@ -223,7 +223,7 @@
     <span class="n">gasUsed</span><span class="p">:</span> <span class="n">Wei</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The total used gas by all transactions in this block.&quot;&quot;&quot;</span>
 
-    <span class="n">uncles</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
+    <span class="n">uncles</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An array of uncle hashes.&quot;&quot;&quot;</span>
 
     <span class="n">sha3Uncles</span><span class="p">:</span> <span class="n">HexBytes</span>
@@ -315,8 +315,8 @@
 
 
 
-<span class="n">_decode_staking_withdrawals</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
+<span class="n">_decode_staking_withdrawals</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 <span class="p">)</span>
 
 
@@ -336,7 +336,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is specific to the Shanghai and Capella upgrades in Ethereum.&quot;&quot;&quot;</span>
 
     <span class="nd">@cached_property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">withdrawals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">withdrawals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Decodes and returns the staking withdrawals in the block.</span>
 

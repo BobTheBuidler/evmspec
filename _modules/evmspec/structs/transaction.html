@@ -90,8 +90,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data._ids</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChainId</span><span class="p">,</span> <span class="n">TransactionIndex</span>
 
 
-<span class="n">_decode_storage_keys</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span>
-    <span class="nb">type</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="k">lambda</span> <span class="n">hb_type</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">hb_type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<span class="n">_decode_storage_keys</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="nb">list</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="k">lambda</span> <span class="n">hb_type</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">hb_type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 <span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 
 
@@ -124,7 +124,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The raw encoded storage slot keys within the contract that will be accessed.&quot;&quot;&quot;</span>
 
     <span class="nd">@cached_property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">storageKeys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">storageKeys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Decodes storage keys from raw format to a list of HexBytes32.</span>
 
@@ -147,8 +147,8 @@
 
 
 
-<span class="n">_decode_access_list</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span>
-    <span class="nb">type</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">]</span>
+<span class="n">_decode_access_list</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="nb">list</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">]</span>
 <span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 
 
@@ -166,8 +166,8 @@
 
 
 
-<span class="n">_decode_authorization_list</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="n">AuthorizationListEntry</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">List</span><span class="p">[</span><span class="n">AuthorizationListEntry</span><span class="p">])</span><span class="o">.</span><span class="n">decode</span>
+<span class="n">_decode_authorization_list</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">AuthorizationListEntry</span><span class="p">]]]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">list</span><span class="p">[</span><span class="n">AuthorizationListEntry</span><span class="p">])</span><span class="o">.</span><span class="n">decode</span>
 <span class="p">)</span>
 
 
@@ -260,7 +260,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A list of addresses and storage keys that the transaction plans to access.&quot;&quot;&quot;</span>
 
     <span class="nd">@cached_property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">accessList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">accessList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">AccessListEntry</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Decodes the access list from raw format to a list of AccessListEntry.</span>
 
@@ -356,7 +356,7 @@
 
     <span class="n">maxFeePerBlobGas</span><span class="p">:</span> <span class="n">Wei</span>
 
-    <span class="n">blobVersionedHashes</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span></div>
+    <span class="n">blobVersionedHashes</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span></div>
 
 
 
@@ -372,7 +372,7 @@
     <span class="n">_authorizationList</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;authorizationList&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore [assignment]</span>
 
     <span class="nd">@cached_property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">authorizationList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">AuthorizationListEntry</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">authorizationList</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">AuthorizationListEntry</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Decodes the authorization list from raw format to a list of AuthorizationListEntry.</span>
 

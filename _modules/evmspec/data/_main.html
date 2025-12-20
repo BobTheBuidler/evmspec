@@ -109,11 +109,11 @@
 <span class="n">_T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_T&quot;</span><span class="p">)</span>
 <span class="sd">&quot;&quot;&quot;A generic type variable.&quot;&quot;&quot;</span>
 
-<span class="n">DecodeHook</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">_T</span><span class="p">]</span>
+<span class="n">DecodeHook</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">_T</span><span class="p">]</span>
 <span class="sd">&quot;&quot;&quot;A type alias for a function that decodes an object into a specific type.&quot;&quot;&quot;</span>
 
 <span class="c1"># due to a circ import issue we will import this later</span>
-<span class="n">_decode_logs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="s2">&quot;Log&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_decode_logs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="s2">&quot;Log&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="c1"># If you have dank mids installed, evmspec gets some extra functionality</span>
 <span class="c1"># To prevent a circ import issue, we will fill these in later too</span>
@@ -164,7 +164,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;_TA&quot;</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;_TA&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span> <span class="s2">&quot;_TA&quot;</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;_TA&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">type</span><span class="p">[</span><span class="s2">&quot;_TA&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">],</span> <span class="s2">&quot;_TA&quot;</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="s2">&quot;_TA&quot;</span><span class="p">],</span> <span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a tuple describing how to reconstruct the object without re-checksumming.&quot;&quot;&quot;</span>
         <span class="c1"># (1) The first item is `str.__new__` used to create a new instance</span>
         <span class="c1">#     without calling `Address.__new__`. We define that below.</span>
@@ -172,7 +172,7 @@
         <span class="k">return</span> <span class="n">__str_new__</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Address&quot;</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="s2">&quot;Address&quot;</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Decodes an object into an Address instance with checksum validation.</span>
 
 <span class="sd">        This function takes a hex address and returns it in the checksummed format</span>
@@ -199,7 +199,7 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook_unsafe</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="s2">&quot;Address&quot;</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook_unsafe</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="s2">&quot;Address&quot;</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">__str_new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Address.checksum">
@@ -306,7 +306,7 @@
     <span class="fm">__str__</span> <span class="o">=</span> <span class="nb">int</span><span class="o">.</span><span class="fm">__repr__</span>
 
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Self</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">typ</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">Self</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Decodes a hexadecimal string into a uint.</span>
 
 <span class="sd">        Args:</span>
@@ -410,7 +410,7 @@
 <span class="c1"># Hook</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook</span><span class="p">(</span><span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook</span><span class="p">(</span><span class="n">typ</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="p">:</span>
     <span class="c1"># sourcery skip: assign-if-exp</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A generic decode hook for converting objects to specific types.</span>
 
@@ -449,7 +449,7 @@
     <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook_unsafe</span><span class="p">(</span><span class="n">typ</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook_unsafe</span><span class="p">(</span><span class="n">typ</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="p">:</span>
     <span class="c1"># sourcery skip: assign-if-exp</span>
     <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="p">(</span><span class="n">HexBytes</span><span class="p">,</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">)):</span>
         <span class="k">return</span> <span class="n">typ</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type, return-value]</span>
@@ -494,8 +494,8 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;_THB32&quot;</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span>
-        <span class="n">Callable</span><span class="p">[[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">],</span> <span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
+        <span class="n">Callable</span><span class="p">[[</span><span class="nb">type</span><span class="p">[</span><span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">],</span> <span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">]</span>
     <span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a tuple describing how to reconstruct the object without re-calling `to_bytes` or checking length.&quot;&quot;&quot;</span>
         <span class="c1"># (1) The first item is `bytes.__new__` used to create a new instance</span>
@@ -573,7 +573,7 @@
     <span class="k">if</span> <span class="n">a_sync</span><span class="p">:</span>  <span class="c1"># type: ignore [truthy-function]</span>
 
         <span class="n">StructType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;StructType&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Struct</span><span class="p">)</span>
-        <span class="n">ReceiptDataType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Type</span><span class="p">[</span><span class="n">StructType</span><span class="p">]]</span>
+        <span class="n">ReceiptDataType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">type</span><span class="p">[</span><span class="n">StructType</span><span class="p">]]</span>
 
         <span class="nd">@a_sync</span><span class="p">(</span><span class="s2">&quot;async&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type]</span>
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_receipt</span><span class="p">(</span>
@@ -611,7 +611,7 @@
             <span class="p">)</span>
 
         <span class="nd">@a_sync</span>  <span class="c1"># TODO; compare how these type check, they both function the same</span>
-        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_logs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="s2">&quot;Log&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_logs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="s2">&quot;Log&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
             <span class="c1"># sourcery skip: hoist-if-from-if</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;Async method to get the logs for the transaction.</span>
 
@@ -656,7 +656,7 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.log</span><span class="w"> </span><span class="kn">import</span> <span class="n">Log</span>
 
     <span class="k">global</span> <span class="n">_decode_logs</span>
-    <span class="n">_decode_logs</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">Tuple</span><span class="p">[</span><span class="s2">&quot;Log&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
+    <span class="n">_decode_logs</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="nb">tuple</span><span class="p">[</span><span class="s2">&quot;Log&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">__import_dank_tx_methods</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
