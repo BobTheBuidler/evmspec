@@ -14,8 +14,8 @@ from evmspec.data._ids import TransactionIndex
 from evmspec.structs.log import Log
 
 
-_decode_logs: Final[Callable[[Raw], Tuple[Log, ...]]] = Decoder(
-    type=Tuple[Log, ...], dec_hook=_decode_hook
+_decode_logs: Final[Callable[[Raw], tuple[Log, ...]]] = Decoder(
+    type=tuple[Log, ...], dec_hook=_decode_hook
 ).decode
 
 
@@ -155,7 +155,7 @@ class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_default
     """The logs that were generated during this transaction."""
 
     @cached_property
-    def logs(self) -> Tuple[Log, ...]:
+    def logs(self) -> tuple[Log, ...]:
         """The logs that were generated during this transaction.
 
         Examples:

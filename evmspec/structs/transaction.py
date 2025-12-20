@@ -19,8 +19,8 @@ from evmspec.data import (
 from evmspec.data._ids import ChainId, TransactionIndex
 
 
-_decode_storage_keys: Final[Callable[[Raw], List[HexBytes32]]] = Decoder(
-    type=List[HexBytes32], dec_hook=lambda hb_type, obj: hb_type(obj)
+_decode_storage_keys: Final[Callable[[Raw], list[HexBytes32]]] = Decoder(
+    type=list[HexBytes32], dec_hook=lambda hb_type, obj: hb_type(obj)
 ).decode
 
 
@@ -51,7 +51,7 @@ class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True): 
     """The raw encoded storage slot keys within the contract that will be accessed."""
 
     @cached_property
-    def storageKeys(self) -> List[HexBytes32]:
+    def storageKeys(self) -> list[HexBytes32]:
         """
         Decodes storage keys from raw format to a list of HexBytes32.
 
@@ -73,8 +73,8 @@ class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True): 
         return _decode_storage_keys(self._storageKeys)
 
 
-_decode_access_list: Final[Callable[[Raw], List[AccessListEntry]]] = Decoder(
-    type=List[AccessListEntry]
+_decode_access_list: Final[Callable[[Raw], list[AccessListEntry]]] = Decoder(
+    type=list[AccessListEntry]
 ).decode
 
 
@@ -89,8 +89,8 @@ class AuthorizationListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=
     s: HexBytes
 
 
-_decode_authorization_list: Final[Callable[[Raw], List[AuthorizationListEntry]]] = (
-    Decoder(type=List[AuthorizationListEntry]).decode
+_decode_authorization_list: Final[Callable[[Raw], list[AuthorizationListEntry]]] = (
+    Decoder(type=list[AuthorizationListEntry]).decode
 )
 
 
@@ -183,7 +183,7 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
     """A list of addresses and storage keys that the transaction plans to access."""
 
     @cached_property
-    def accessList(self) -> List[AccessListEntry]:
+    def accessList(self) -> list[AccessListEntry]:
         """
         Decodes the access list from raw format to a list of AccessListEntry.
 
@@ -265,7 +265,7 @@ class Transaction4844(Transaction1559, tag="0x3", frozen=True, kw_only=True, for
 
     maxFeePerBlobGas: Wei
 
-    blobVersionedHashes: Tuple[HexBytes32, ...]
+    blobVersionedHashes: tuple[HexBytes32, ...]
 
 
 @final
@@ -278,7 +278,7 @@ class Transaction7702(Transaction1559, tag="0x4", frozen=True, kw_only=True, for
     _authorizationList: Raw = field(name="authorizationList")  # type: ignore [assignment]
 
     @cached_property
-    def authorizationList(self) -> List[AuthorizationListEntry]:
+    def authorizationList(self) -> list[AuthorizationListEntry]:
         """
         Decodes the authorization list from raw format to a list of AuthorizationListEntry.
 

@@ -25,8 +25,8 @@ from evmspec.structs.transaction import Transaction, TransactionRLP
 logger: Final = logging.getLogger(__name__)
 
 Transactions = Union[
-    Tuple[TransactionHash, ...],
-    Tuple[Transaction, ...],
+    tuple[TransactionHash, ...],
+    tuple[Transaction, ...],
 ]
 """
 Represents a collection of transactions within a block, which can be
@@ -41,14 +41,14 @@ See Also:
 """
 
 
-_decode_transactions: Final[Callable[[Raw], Tuple[Union[str, Transaction], ...]]] = (
-    Decoder(type=Tuple[Union[str, Transaction], ...], dec_hook=_decode_hook).decode
+_decode_transactions: Final[Callable[[Raw], tuple[Union[str, Transaction], ...]]] = (
+    Decoder(type=tuple[Union[str, Transaction], ...], dec_hook=_decode_hook).decode
 )
 _decode_transactions_rlp: Final[
-    Callable[[Raw], Tuple[Union[str, TransactionRLP], ...]]
-] = Decoder(type=Tuple[Union[str, TransactionRLP], ...], dec_hook=_decode_hook).decode
-_decode_raw_multi: Final[Callable[[Raw], Tuple[Raw, ...]]] = Decoder(
-    type=Tuple[Raw, ...]
+    Callable[[Raw], tuple[Union[str, TransactionRLP], ...]]
+] = Decoder(type=tuple[Union[str, TransactionRLP], ...], dec_hook=_decode_hook).decode
+_decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(
+    type=tuple[Raw, ...]
 ).decode
 
 
@@ -147,7 +147,7 @@ class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, om
     gasUsed: Wei
     """The total used gas by all transactions in this block."""
 
-    uncles: Tuple[HexBytes, ...]
+    uncles: tuple[HexBytes, ...]
     """An array of uncle hashes."""
 
     sha3Uncles: HexBytes
@@ -229,8 +229,8 @@ class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fi
     """This field is not always present."""
 
 
-_decode_staking_withdrawals: Final[Callable[[Raw], Tuple[StakingWithdrawal, ...]]] = (
-    Decoder(type=Tuple[StakingWithdrawal, ...], dec_hook=_decode_hook).decode
+_decode_staking_withdrawals: Final[Callable[[Raw], tuple[StakingWithdrawal, ...]]] = (
+    Decoder(type=tuple[StakingWithdrawal, ...], dec_hook=_decode_hook).decode
 )
 
 
@@ -248,7 +248,7 @@ class ShanghaiCapellaBlock(Block, frozen=True, kw_only=True, forbid_unknown_fiel
     """This field is specific to the Shanghai and Capella upgrades in Ethereum."""
 
     @cached_property
-    def withdrawals(self) -> Tuple[StakingWithdrawal, ...]:
+    def withdrawals(self) -> tuple[StakingWithdrawal, ...]:
         """
         Decodes and returns the staking withdrawals in the block.
 
