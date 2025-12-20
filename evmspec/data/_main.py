@@ -38,11 +38,11 @@ except ModuleNotFoundError:
 _T = TypeVar("_T")
 """A generic type variable."""
 
-DecodeHook = Callable[[Type[_T], Any], _T]
+DecodeHook = Callable[[type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
 # due to a circ import issue we will import this later
-_decode_logs: Optional[Callable[[Raw], Tuple["Log", ...]]] = None
+_decode_logs: Optional[Callable[[Raw], tuple["Log", ...]]] = None
 
 # If you have dank mids installed, evmspec gets some extra functionality
 # To prevent a circ import issue, we will fill these in later too
@@ -91,7 +91,7 @@ class Address(str):
 
     def __reduce__(
         self: "_TA",
-    ) -> Tuple[Callable[[Type["_TA"], str], "_TA"], Tuple[Type["_TA"], str]]:
+    ) -> tuple[Callable[[type["_TA"], str], "_TA"], tuple[type["_TA"], str]]:
         """Return a tuple describing how to reconstruct the object without re-checksumming."""
         # (1) The first item is `str.__new__` used to create a new instance
         #     without calling `Address.__new__`. We define that below.
@@ -99,7 +99,7 @@ class Address(str):
         return __str_new__, (type(self), str(self))
 
     @classmethod
-    def _decode_hook(cls, typ: Type["Address"], obj: str) -> Self:
+    def _decode_hook(cls, typ: type["Address"], obj: str) -> Self:
         """Decodes an object into an Address instance with checksum validation.
 
         This function takes a hex address and returns it in the checksummed format
@@ -126,7 +126,7 @@ class Address(str):
         return cls.checksum(obj)
 
     @classmethod
-    def _decode_hook_unsafe(cls, typ: Type["Address"], obj: str) -> Self:
+    def _decode_hook_unsafe(cls, typ: type["Address"], obj: str) -> Self:
         return __str_new__(cls, obj)
 
     @classmethod
@@ -224,7 +224,7 @@ class uint(int):
     __str__ = int.__repr__
 
     @classmethod
-    def _decode_hook(cls, typ: Type[Self], obj: str) -> Self:
+    def _decode_hook(cls, typ: type[Self], obj: str) -> Self:
         """Decodes a hexadecimal string into a uint.
 
         Args:
@@ -315,7 +315,7 @@ class UnixTimestamp(uint):
 # Hook
 
 
-def _decode_hook(typ: Type[_T], obj: object) -> _T:
+def _decode_hook(typ: type[_T], obj: object) -> _T:
     # sourcery skip: assign-if-exp
     """A generic decode hook for converting objects to specific types.
 
@@ -354,7 +354,7 @@ def _decode_hook(typ: Type[_T], obj: object) -> _T:
     raise NotImplementedError(typ, obj, type(obj))
 
 
-def _decode_hook_unsafe(typ: Type[_T], obj: object) -> _T:
+def _decode_hook_unsafe(typ: type[_T], obj: object) -> _T:
     # sourcery skip: assign-if-exp
     if issubclass(typ, (HexBytes, Enum, Decimal)):
         return typ(obj)  # type: ignore [arg-type, return-value]
@@ -397,8 +397,8 @@ class HexBytes32(FasterHexBytes):
 
     def __reduce__(
         self: "_THB32",
-    ) -> Tuple[
-        Callable[[Type["_THB32"], bytes], "_THB32"], Tuple[Type["_THB32"], bytes]
+    ) -> tuple[
+        Callable[[type["_THB32"], bytes], "_THB32"], tuple[type["_THB32"], bytes]
     ]:
         """Return a tuple describing how to reconstruct the object without re-calling `to_bytes` or checking length."""
         # (1) The first item is `bytes.__new__` used to create a new instance
@@ -467,7 +467,7 @@ class TransactionHash(HexBytes32):
     if a_sync:  # type: ignore [truthy-function]
 
         StructType = TypeVar("StructType", bound=Struct)
-        ReceiptDataType = Union[Type[Raw], Type[StructType]]
+        ReceiptDataType = Union[type[Raw], type[StructType]]
 
         @a_sync("async")  # type: ignore [arg-type]
         async def get_receipt(
@@ -505,7 +505,7 @@ class TransactionHash(HexBytes32):
             )
 
         @a_sync  # TODO; compare how these type check, they both function the same
-        async def get_logs(self) -> Tuple["Log", ...]:
+        async def get_logs(self) -> tuple["Log", ...]:
             # sourcery skip: hoist-if-from-if
             """Async method to get the logs for the transaction.
 
@@ -546,7 +546,7 @@ def __make_decode_logs() -> None:
     from evmspec.structs.log import Log
 
     global _decode_logs
-    _decode_logs = Decoder(type=Tuple["Log", ...], dec_hook=_decode_hook).decode
+    _decode_logs = Decoder(type=tuple["Log", ...], dec_hook=_decode_hook).decode
 
 
 def __import_dank_tx_methods() -> None:
