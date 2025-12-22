@@ -1,5 +1,3 @@
-from evmspec import *
-from evmspec.structs import *
 
 
 def test_imports():

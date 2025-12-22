@@ -1,7 +1,7 @@
 from decimal import Decimal
 from enum import Enum, EnumMeta
 from functools import cached_property
-from typing import Callable, Final, Optional, Tuple
+from typing import Callable, Final, Optional
 
 from dictstruct import DictStruct, LazyDictStruct
 from eth_typing import HexStr

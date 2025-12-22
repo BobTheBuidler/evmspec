@@ -1,5 +1,3 @@
-from evmspec import *
-from evmspec.data import *
 
 
 def test_imports():
