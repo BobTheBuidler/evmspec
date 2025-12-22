@@ -1,6 +1,6 @@
 import logging
 from functools import cached_property
-from typing import Callable, Final, Optional, Tuple, Union, final
+from typing import Callable, Final, Optional, Union, final
 
 from dictstruct import DictStruct, LazyDictStruct
 from faster_hexbytes import HexBytes

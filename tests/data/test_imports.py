@@ -1,5 +1,5 @@
-from evmspec import *
-from evmspec.data import *
+from evmspec import *  # noqa
+from evmspec.data import *  # noqa
 
 
 def test_imports():

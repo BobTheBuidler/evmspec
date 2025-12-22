@@ -8,8 +8,6 @@ from typing import (
     Callable,
     Final,
     Optional,
-    Tuple,
-    Type,
     TypeVar,
     Union,
     final,
@@ -543,7 +541,7 @@ __bytes_new__: Final = bytes.__new__
 
 
 def __make_decode_logs() -> None:
-    from evmspec.structs.log import Log
+    from evmspec.structs.log import Log  # noqa
 
     global _decode_logs
     _decode_logs = Decoder(type=tuple["Log", ...], dec_hook=_decode_hook).decode

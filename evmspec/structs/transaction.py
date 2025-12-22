@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import Any, Callable, ClassVar, Final, List, Optional, Tuple, Union, final
+from typing import Any, Callable, ClassVar, Final, Optional, Union, final
 
 from dictstruct import LazyDictStruct
 from faster_hexbytes import HexBytes

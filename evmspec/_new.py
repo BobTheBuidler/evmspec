@@ -1,7 +1,6 @@
 from typing import Final, Type, TypeVar, Union
 
 import cchecksum
-import faster_eth_utils
 import faster_hexbytes._utils
 from eth_typing import AnyAddress
 
