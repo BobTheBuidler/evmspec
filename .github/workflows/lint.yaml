@@ -1,4 +1,4 @@
-name: Line
+name: Lint
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - master
     paths:
       - '**.py'
-      - '.github/workflows/black.yaml'
+      - '.github/workflows/lint.yaml'
 
 jobs:
   pyupgrade:
