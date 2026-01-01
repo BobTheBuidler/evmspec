@@ -1,4 +1,3 @@
-
 from dictstruct import DictStruct, LazyDictStruct
 from msgspec import UNSET, field
 
