@@ -1,4 +1,3 @@
-from typing import List
 
 from dictstruct import DictStruct, LazyDictStruct
 from msgspec import UNSET, field

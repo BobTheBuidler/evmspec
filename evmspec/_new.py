@@ -1,4 +1,4 @@
-from typing import Final, Type, TypeVar, Union
+from typing import Final, TypeVar, Union
 
 import cchecksum
 import faster_hexbytes._utils
