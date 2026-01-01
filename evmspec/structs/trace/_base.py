@@ -1,4 +1,3 @@
-from typing import List
 
 from dictstruct import DictStruct, LazyDictStruct
 from msgspec import UNSET, field
@@ -194,7 +193,7 @@ class _FilterTraceBase(
         1
     """
 
-    traceAddress: List[uint]
+    traceAddress: list[uint]
     """The trace addresses (array) representing the path of the call within the trace tree.
 
     Examples:
