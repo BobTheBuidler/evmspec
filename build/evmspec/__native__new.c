@@ -527,7 +527,7 @@ char CPyDef___top_level__(void) {
     CPy_INCREF(CPyModule_builtins);
     CPy_DECREF(cpy_r_r4);
 CPyL3: ;
-    cpy_r_r5 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* ('Final', 'Type', 'TypeVar', 'Union') */
+    cpy_r_r5 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* ('Final', 'TypeVar', 'Union') */
     cpy_r_r6 = CPyStatics[DIFFCHECK_PLACEHOLDER]; /* 'typing' */
     cpy_r_r7 = CPyStatic_globals;
     cpy_r_r8 = CPyImport_ImportFromMany(cpy_r_r6, cpy_r_r5, cpy_r_r5, cpy_r_r7);
@@ -741,7 +741,7 @@ int CPyGlobalsInit(void)
 PyObject *CPyStatics[DIFFCHECK_PLACEHOLDER];
 const char * const CPyLit_Str[] = {
     "\a\a__new__\0020x\r_check_hexstr\bKeyError\016 is too long: \nValueError\bbuiltins",
-    "\a\005Final\004Type\aTypeVar\005Union\006typing\tcchecksum\026faster_hexbytes._utils",
+    "\006\005Final\aTypeVar\005Union\006typing\tcchecksum\026faster_hexbytes._utils",
     "\006\017faster_hexbytes\017evmspec/_new.py\b<module>\nAnyAddress\neth_typing\003__T",
     "\004\016ONE_EMPTY_BYTE\rMISSING_BYTES\bto_bytes\023to_checksum_address",
     "",
@@ -755,10 +755,7 @@ const char * const CPyLit_Int[] = {
 };
 const double CPyLit_Float[] = {0};
 const double CPyLit_Complex[] = {0};
-const int CPyLit_Tuple[] = {
-    5, 4, 10, 11, 12, 13, 3, 15, 15, 15, 3, 16, 17, 17, 2, 29, 30, 1,
-    20
-};
+const int CPyLit_Tuple[] = {5, 3, 10, 11, 12, 3, 14, 14, 14, 3, 15, 16, 16, 2, 28, 29, 1, 19};
 const int CPyLit_FrozenSet[] = {0};
 CPyModule *CPyModule_evmspec____new__internal = NULL;
 CPyModule *CPyModule_evmspec____new;
