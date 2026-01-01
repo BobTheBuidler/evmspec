@@ -161,7 +161,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     version=poetry_config["version"],
-    python_requires=">=3.9,<3.14",
+    python_requires=">=3.10,<3.14",
     author="BobTheBuidler",
     author_email="bobthebuidlerdefi@gmail.com",
     packages=find_packages(),
@@ -183,7 +183,6 @@ setup(
     classifiers=[
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
