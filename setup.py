@@ -161,7 +161,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     version=poetry_config["version"],
-    python_requires=">=3.9,<3.14",
+    python_requires=">=3.10,<3.14",
     author="BobTheBuidler",
     author_email="bobthebuidlerdefi@gmail.com",
     packages=find_packages(),
