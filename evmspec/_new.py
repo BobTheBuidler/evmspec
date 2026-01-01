@@ -28,11 +28,11 @@ to_bytes: Final = faster_hexbytes._utils.to_bytes
 to_checksum_address: Final = cchecksum.to_checksum_address
 
 
-def Address(cls: Type[__T], address: AnyAddress) -> __T:
+def Address(cls: type[__T], address: AnyAddress) -> __T:
     return str.__new__(cls, to_checksum_address(address))  # type: ignore [type-var]
 
 
-def HexBytes32(cls: Type[__T], v: Union[bytes, str]) -> __T:
+def HexBytes32(cls: type[__T], v: Union[bytes, str]) -> __T:
     # if it has 0x prefix it came from the chain or a user and we should validate the size
     # when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.
     if isinstance(v, str) and v.startswith("0x"):
