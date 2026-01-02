@@ -1,5 +1,5 @@
-#ifndef MYPYC_NATIVE_evmspec____new_H
-#define MYPYC_NATIVE_evmspec____new_H
+#ifndef MYPYC_NATIVE_evmspec_H
+#define MYPYC_NATIVE_evmspec_H
 #include <Python.h>
 #include <CPy.h>
 #ifndef MYPYC_DECLARED_tuple_T3OOO
