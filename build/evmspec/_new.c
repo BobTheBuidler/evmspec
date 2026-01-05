@@ -1,6 +1,3 @@
-#ifndef DIFFCHECK_PLACEHOLDER
-#define DIFFCHECK_PLACEHOLDER 0
-#endif
 #include <Python.h>
 
 PyMODINIT_FUNC

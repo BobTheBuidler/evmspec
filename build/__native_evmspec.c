@@ -1,3 +1,6 @@
+#ifndef DIFFCHECK_PLACEHOLDER
+#define DIFFCHECK_PLACEHOLDER 0
+#endif
 #include "init.c"
 #include "getargs.c"
 #include "getargsfast.c"
