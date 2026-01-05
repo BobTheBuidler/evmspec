@@ -177,7 +177,8 @@ setup(
             "--install-types",
             "--non-interactive",
             "--disable-error-code=unused-ignore",
-        ]
+        ],
+        group_name="evmspec",
     ),
     zip_safe=False,
     classifiers=[
