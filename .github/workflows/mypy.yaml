@@ -38,12 +38,14 @@ jobs:
       id: cached-poetry
       uses: actions/cache@v5
       with:
-        path: ~/.local  # the path depends on the OS
+        path: ${{ github.workspace }}/.poetry
         key: poetry-${{ runner.os }}-${{ matrix.pyversion }}-0  # increment to reset cache
         
     - name: Install Poetry
       if: steps.cached-poetry.outputs.cache-hit != 'true'
       uses: snok/install-poetry@v1
+      with:
+        poetry-home: ${{ github.workspace }}/.poetry
 
     - name: Install Dependencies
       shell: bash
