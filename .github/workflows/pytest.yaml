@@ -30,10 +30,6 @@ jobs:
           path: ~/Library/Caches/pip
         - os: windows-latest
           path: ~\AppData\Local\pip\Cache
-    defaults:
-      run:
-        shell: bash
-
     steps:
       - name: Check out repository code
         uses: actions/checkout@v6
@@ -49,18 +45,19 @@ jobs:
         id: cached-poetry
         uses: actions/cache@v5
         with:
-          path: ~/.local  # the path depends on the OS
+          path: ${{ github.workspace }}/.poetry
           key: poetry-${{ runner.os }}-${{ matrix.pyversion }}-0  # increment to reset cache
-          
-      - name: Install Poetry (Python3.8)
-        if: steps.cached-poetry.outputs.cache-hit != 'true' &&  matrix.pyversion == '3.8'
-        uses: snok/install-poetry@v1
-        with:
-          version: "1.8.5" 
+
+      - name: Add cached Poetry to PATH
+        if: steps.cached-poetry.outputs.cache-hit == 'true'
+        shell: bash
+        run: echo "${{ github.workspace }}/.poetry/bin" >> "$GITHUB_PATH"
           
       - name: Install Poetry
-        if: steps.cached-poetry.outputs.cache-hit != 'true' && matrix.pyversion != '3.8'
+        if: steps.cached-poetry.outputs.cache-hit != 'true'
         uses: snok/install-poetry@v1
+        with:
+          poetry-home: ${{ github.workspace }}/.poetry
 
       - name: Install Pytest and Evmspec
         shell: bash
