@@ -6,6 +6,3 @@ docs:
 	rm -r ./docs/_templates -f
 	rm -r ./docs/_build -f
 	poetry run sphinx-apidoc -o ./docs/source ./evmspec
-
-mypy:
-	poetry run mypy ./evmspec
