@@ -39,6 +39,7 @@ pytest = "*"
 eth-utils = ">=1.10.0"
 
 [tool.mypy]
+files = ["evmspec"]
 ignore_missing_imports = true
 pretty = true
 show_error_codes = true
