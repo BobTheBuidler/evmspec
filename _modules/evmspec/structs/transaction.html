@@ -89,7 +89,6 @@
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data._ids</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChainId</span><span class="p">,</span> <span class="n">TransactionIndex</span>
 
-
 <span class="n">_decode_storage_keys</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">]]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span>
     <span class="nb">type</span><span class="o">=</span><span class="nb">list</span><span class="p">[</span><span class="n">HexBytes32</span><span class="p">],</span> <span class="n">dec_hook</span><span class="o">=</span><span class="k">lambda</span> <span class="n">hb_type</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">hb_type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 <span class="p">)</span><span class="o">.</span><span class="n">decode</span>
