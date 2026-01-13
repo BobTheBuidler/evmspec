@@ -53,4 +53,4 @@ jobs:
 
     - name: Run MyPy
       shell: bash
-      run: make mypy
+      run: poetry run mypy ./evmspec --pretty --ignore-missing-imports --show-error-codes --show-error-context --no-warn-no-return
