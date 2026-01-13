@@ -13,7 +13,6 @@ from evmspec.data import Address, BlockNumber, TransactionHash, Wei, _decode_hoo
 from evmspec.data._ids import TransactionIndex
 from evmspec.structs.log import Log
 
-
 _decode_logs: Final[Callable[[Raw], tuple[Log, ...]]] = Decoder(
     type=tuple[Log, ...], dec_hook=_decode_hook
 ).decode

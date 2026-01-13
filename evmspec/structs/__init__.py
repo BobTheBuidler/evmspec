@@ -3,14 +3,14 @@ from evmspec.structs.log import Log
 from evmspec.structs.receipt import FullTransactionReceipt, TransactionReceipt
 from evmspec.structs.trace import FilterTrace
 from evmspec.structs.transaction import (
-    Transaction,
     AnyTransaction,
-    TransactionRLP,
-    TransactionLegacy,
+    Transaction,
     Transaction1559,
     Transaction2930,
     Transaction4844,
     Transaction7702,
+    TransactionLegacy,
+    TransactionRLP,
 )
 
 __all__ = [

@@ -18,7 +18,6 @@ from evmspec.data import (
 )
 from evmspec.data._ids import ChainId, TransactionIndex
 
-
 _decode_storage_keys: Final[Callable[[Raw], list[HexBytes32]]] = Decoder(
     type=list[HexBytes32], dec_hook=lambda hb_type, obj: hb_type(obj)
 ).decode

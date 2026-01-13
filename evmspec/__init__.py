@@ -36,16 +36,15 @@ from evmspec.structs import (
     transaction,
 )
 from evmspec.structs.transaction import (
-    TransactionRLP,
-    TransactionLegacy,
+    AnyTransaction,
+    Transaction,
     Transaction1559,
     Transaction2930,
     Transaction4844,
     Transaction7702,
-    Transaction,
-    AnyTransaction,
+    TransactionLegacy,
+    TransactionRLP,
 )
-
 
 __all__ = [
     # modules

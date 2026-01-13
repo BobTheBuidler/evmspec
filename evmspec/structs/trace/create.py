@@ -8,7 +8,6 @@ from msgspec import UNSET, Raw, ValidationError, field, json
 from evmspec.data import Address, _decode_hook
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
 
-
 logger = getLogger(__name__)
 
 

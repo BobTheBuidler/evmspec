@@ -4,7 +4,6 @@ from time import monotonic
 from cachetools import cached, keys
 from cachetools.func import TTLCache, _UnboundTTLCache  # type: ignore [attr-defined]
 
-
 _CACHETOOLS_VERSION = tuple(int(i) for i in version("cachetools").split("."))
 
 

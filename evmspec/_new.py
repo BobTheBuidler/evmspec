@@ -4,7 +4,6 @@ import cchecksum
 import faster_hexbytes._utils
 from eth_typing import AnyAddress
 
-
 __T = TypeVar("__T")
 
 

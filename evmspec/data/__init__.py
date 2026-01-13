@@ -9,8 +9,8 @@ from evmspec.data._main import (
     TransactionHash,
     UnixTimestamp,
     Wei,
-    uint,
     _decode_hook,
+    uint,
 )
 
 __all__ = [

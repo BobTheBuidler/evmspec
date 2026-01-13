@@ -21,7 +21,6 @@ from evmspec.data import (
 from evmspec.data._ids import IntId
 from evmspec.structs.transaction import Transaction, TransactionRLP
 
-
 logger: Final = logging.getLogger(__name__)
 
 Transactions = Union[

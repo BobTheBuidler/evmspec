@@ -2,16 +2,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Callable,
-    Final,
-    Optional,
-    TypeVar,
-    Union,
-    final,
-)
+from typing import TYPE_CHECKING, Any, Callable, Final, Optional, TypeVar, Union, final
 
 from faster_hexbytes import HexBytes as FasterHexBytes
 from hexbytes import HexBytes

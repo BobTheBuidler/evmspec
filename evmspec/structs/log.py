@@ -14,7 +14,6 @@ from evmspec.data import (
 )
 from evmspec.data._ids import LogIndex, TransactionIndex
 
-
 _ADDRESS_TOPIC_PREFIX = HexBytes("0") * 12
 
 
