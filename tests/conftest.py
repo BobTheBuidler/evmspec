@@ -2,7 +2,7 @@ import os
 import sys
 
 
-def modify_sys_path():
+def modify_sys_path() -> None:
     """
     Inserts the absolute path of the current working directory at the beginning of the system path.
 

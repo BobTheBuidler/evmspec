@@ -1,10 +1,10 @@
 import pytest
 
-from evmspec.data._ids import ChainId, LogIndex, TransactionIndex
+from evmspec.data._ids import ChainId, IntId, LogIndex, TransactionIndex
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_add(cls):
+def test_add(cls: type[IntId]) -> None:
     with pytest.raises(TypeError) as exc_info:
         cls(1) + 1
     e = exc_info.value
@@ -14,7 +14,7 @@ def test_add(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_sub(cls):
+def test_sub(cls: type[IntId]) -> None:
     with pytest.raises(TypeError) as exc_info:
         cls(1) - 1
     e = exc_info.value
@@ -24,7 +24,7 @@ def test_sub(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_mul(cls):
+def test_mul(cls: type[IntId]) -> None:
     with pytest.raises(TypeError) as exc_info:
         cls(1) * 1
     e = exc_info.value
@@ -34,7 +34,7 @@ def test_mul(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_truediv(cls):
+def test_truediv(cls: type[IntId]) -> None:
     with pytest.raises(TypeError) as exc_info:
         cls(1) / 1
     e = exc_info.value
@@ -44,7 +44,7 @@ def test_truediv(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_floordiv(cls):
+def test_floordiv(cls: type[IntId]) -> None:
     with pytest.raises(TypeError) as exc_info:
         cls(1) // 1
     e = exc_info.value
@@ -54,7 +54,7 @@ def test_floordiv(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_pow(cls):
+def test_pow(cls: type[IntId]) -> None:
     with pytest.raises(TypeError) as exc_info:
         cls(1) ** 1
     e = exc_info.value
@@ -64,7 +64,7 @@ def test_pow(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_radd(cls):
+def test_radd(cls: type[IntId]) -> None:
     with pytest.raises(TypeError) as exc_info:
         1 + cls(1)
     e = exc_info.value
@@ -74,7 +74,7 @@ def test_radd(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_rsub(cls):
+def test_rsub(cls: type[IntId]) -> None:
     with pytest.raises(TypeError) as exc_info:
         1 - cls(1)
     e = exc_info.value
@@ -84,7 +84,7 @@ def test_rsub(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_rmul(cls):
+def test_rmul(cls: type[IntId]) -> None:
     with pytest.raises(TypeError) as exc_info:
         1 * cls(1)
     e = exc_info.value
@@ -94,7 +94,7 @@ def test_rmul(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_rtruediv(cls):
+def test_rtruediv(cls: type[IntId]) -> None:
     with pytest.raises(TypeError) as exc_info:
         1 / cls(1)
     e = exc_info.value
@@ -104,7 +104,7 @@ def test_rtruediv(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_rfloordiv(cls):
+def test_rfloordiv(cls: type[IntId]) -> None:
     with pytest.raises(TypeError) as exc_info:
         1 // cls(1)
     e = exc_info.value
@@ -114,7 +114,7 @@ def test_rfloordiv(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_rpow(cls):
+def test_rpow(cls: type[IntId]) -> None:
     with pytest.raises(TypeError) as exc_info:
         1 ** cls(1)
     e = exc_info.value
@@ -124,7 +124,7 @@ def test_rpow(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_iadd(cls):
+def test_iadd(cls: type[IntId]) -> None:
     obj = cls(1)
     with pytest.raises(TypeError) as exc_info:
         obj += 1
@@ -135,7 +135,7 @@ def test_iadd(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_isub(cls):
+def test_isub(cls: type[IntId]) -> None:
     obj = cls(1)
     with pytest.raises(TypeError) as exc_info:
         obj -= 1
@@ -146,7 +146,7 @@ def test_isub(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_imul(cls):
+def test_imul(cls: type[IntId]) -> None:
     obj = cls(1)
     with pytest.raises(TypeError) as exc_info:
         obj *= 1
@@ -157,7 +157,7 @@ def test_imul(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_itruediv(cls):
+def test_itruediv(cls: type[IntId]) -> None:
     obj = cls(1)
     with pytest.raises(TypeError) as exc_info:
         obj /= 1
@@ -168,7 +168,7 @@ def test_itruediv(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_ifloordiv(cls):
+def test_ifloordiv(cls: type[IntId]) -> None:
     obj = cls(1)
     with pytest.raises(TypeError) as exc_info:
         obj //= 1
@@ -179,7 +179,7 @@ def test_ifloordiv(cls):
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
-def test_ipow(cls):
+def test_ipow(cls: type[IntId]) -> None:
     obj = cls(1)
     with pytest.raises(TypeError) as exc_info:
         obj **= 1
