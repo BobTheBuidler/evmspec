@@ -1,8 +1,7 @@
 from dictstruct import DictStruct, LazyDictStruct
 from msgspec import UNSET, field
 
-from evmspec.data import (Address, BlockHash, BlockNumber, TransactionHash,
-                          Wei, uint)
+from evmspec.data import Address, BlockHash, BlockNumber, TransactionHash, Wei, uint
 
 
 class _ActionBase(
