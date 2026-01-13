@@ -1,6 +1,7 @@
 from pathlib import Path
-from setuptools import find_packages, setup
+
 from mypyc.build import mypycify
+from setuptools import find_packages, setup
 
 try:
     import tomllib  # Python 3.11+

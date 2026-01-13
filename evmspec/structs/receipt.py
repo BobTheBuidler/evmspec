@@ -9,10 +9,10 @@ from faster_hexbytes import HexBytes
 from msgspec import UNSET, Raw, field
 from msgspec.json import Decoder
 
-from evmspec.data import Address, BlockNumber, TransactionHash, Wei, _decode_hook, uint
+from evmspec.data import (Address, BlockNumber, TransactionHash, Wei,
+                          _decode_hook, uint)
 from evmspec.data._ids import TransactionIndex
 from evmspec.structs.log import Log
-
 
 _decode_logs: Final[Callable[[Raw], tuple[Log, ...]]] = Decoder(
     type=tuple[Log, ...], dec_hook=_decode_hook
