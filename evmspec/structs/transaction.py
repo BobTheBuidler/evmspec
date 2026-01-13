@@ -6,16 +6,8 @@ from faster_hexbytes import HexBytes
 from msgspec import UNSET, Raw, field
 from msgspec.json import Decoder
 
-from evmspec.data import (
-    Address,
-    BlockHash,
-    BlockNumber,
-    HexBytes32,
-    Nonce,
-    TransactionHash,
-    Wei,
-    uint,
-)
+from evmspec.data import (Address, BlockHash, BlockNumber, HexBytes32, Nonce,
+                          TransactionHash, Wei, uint)
 from evmspec.data._ids import ChainId, TransactionIndex
 
 _decode_storage_keys: Final[Callable[[Raw], list[HexBytes32]]] = Decoder(

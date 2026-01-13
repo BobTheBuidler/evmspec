@@ -23,28 +23,13 @@ Structs:
 """
 
 from evmspec import structs
-from evmspec.structs import (
-    ErigonBlockHeader,
-    FilterTrace,
-    FullTransactionReceipt,
-    Log,
-    TransactionReceipt,
-    block,
-    header,
-    receipt,
-    trace,
-    transaction,
-)
-from evmspec.structs.transaction import (
-    AnyTransaction,
-    Transaction,
-    Transaction1559,
-    Transaction2930,
-    Transaction4844,
-    Transaction7702,
-    TransactionLegacy,
-    TransactionRLP,
-)
+from evmspec.structs import (ErigonBlockHeader, FilterTrace,
+                             FullTransactionReceipt, Log, TransactionReceipt,
+                             block, header, receipt, trace, transaction)
+from evmspec.structs.transaction import (AnyTransaction, Transaction,
+                                         Transaction1559, Transaction2930,
+                                         Transaction4844, Transaction7702,
+                                         TransactionLegacy, TransactionRLP)
 
 __all__ = [
     # modules
