@@ -47,6 +47,11 @@ jobs:
         with:
           path: ${{ github.workspace }}/.poetry
           key: poetry-${{ runner.os }}-${{ matrix.pyversion }}-0  # increment to reset cache
+
+      - name: Add cached Poetry to PATH
+        if: steps.cached-poetry.outputs.cache-hit == 'true'
+        shell: bash
+        run: echo "${{ github.workspace }}/.poetry/bin" >> "$GITHUB_PATH"
           
       - name: Install Poetry
         if: steps.cached-poetry.outputs.cache-hit != 'true'
