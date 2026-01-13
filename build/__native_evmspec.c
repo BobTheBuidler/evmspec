@@ -93,7 +93,7 @@ PyObject *CPyDef_Address(PyObject *cpy_r_cls, PyObject *cpy_r_address) {
     PyErr_SetString(PyExc_NameError, "value for final name \"to_checksum_address\" was not set");
     cpy_r_r2 = 0;
     if (unlikely(!cpy_r_r2)) {
-        CPy_AddTraceback("evmspec/_new.py", "Address", 32, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "Address", 31, CPyStatic_globals);
         goto CPyL7;
     }
     CPy_Unreachable();
@@ -102,13 +102,13 @@ CPyL3: ;
     cpy_r_r4 = (PyObject **)&cpy_r_r3;
     cpy_r_r5 = PyObject_Vectorcall(cpy_r_r1, cpy_r_r4, 1, 0);
     if (unlikely(cpy_r_r5 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "Address", 32, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "Address", 31, CPyStatic_globals);
         goto CPyL7;
     }
     if (likely(PyUnicode_Check(cpy_r_r5)))
         cpy_r_r6 = cpy_r_r5;
     else {
-        CPy_TypeErrorTraceback("evmspec/_new.py", "Address", 32, CPyStatic_globals, "str", cpy_r_r5);
+        CPy_TypeErrorTraceback("evmspec/_new.py", "Address", 31, CPyStatic_globals, "str", cpy_r_r5);
         goto CPyL7;
     }
     cpy_r_r7 = CPyStatics[3]; /* '__new__' */
@@ -116,7 +116,7 @@ CPyL3: ;
     cpy_r_r9 = (PyObject **)&cpy_r_r8;
     cpy_r_r10 = PyObject_VectorcallMethod(cpy_r_r7, cpy_r_r9, 9223372036854775811ULL, 0);
     if (unlikely(cpy_r_r10 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "Address", 32, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "Address", 31, CPyStatic_globals);
         goto CPyL8;
     }
     CPy_DECREF(cpy_r_r6);
@@ -142,7 +142,7 @@ PyObject *CPyPy_Address(PyObject *self, PyObject *const *args, size_t nargs, PyO
     PyObject *retval = CPyDef_Address(arg_cls, arg_address);
     return retval;
 fail: ;
-    CPy_AddTraceback("evmspec/_new.py", "Address", 31, CPyStatic_globals);
+    CPy_AddTraceback("evmspec/_new.py", "Address", 30, CPyStatic_globals);
     return NULL;
 }
 
@@ -199,7 +199,7 @@ PyObject *CPyDef_HexBytes32(PyObject *cpy_r_cls, PyObject *cpy_r_v) {
     if (likely(PyUnicode_Check(cpy_r_v)))
         cpy_r_r1 = cpy_r_v;
     else {
-        CPy_TypeErrorTraceback("evmspec/_new.py", "HexBytes32", 38, CPyStatic_globals, "str", cpy_r_v);
+        CPy_TypeErrorTraceback("evmspec/_new.py", "HexBytes32", 37, CPyStatic_globals, "str", cpy_r_v);
         goto CPyL34;
     }
     cpy_r_r2 = CPyStatics[4]; /* '0x' */
@@ -211,7 +211,7 @@ PyObject *CPyDef_HexBytes32(PyObject *cpy_r_cls, PyObject *cpy_r_v) {
     if (likely(PyUnicode_Check(cpy_r_v)))
         cpy_r_r5 = cpy_r_v;
     else {
-        CPy_TypeErrorTraceback("evmspec/_new.py", "HexBytes32", 39, CPyStatic_globals, "str", cpy_r_v);
+        CPy_TypeErrorTraceback("evmspec/_new.py", "HexBytes32", 38, CPyStatic_globals, "str", cpy_r_v);
         goto CPyL34;
     }
     cpy_r_r6 = CPyStatics[5]; /* '_check_hexstr' */
@@ -219,7 +219,7 @@ PyObject *CPyDef_HexBytes32(PyObject *cpy_r_cls, PyObject *cpy_r_v) {
     cpy_r_r8 = (PyObject **)&cpy_r_r7;
     cpy_r_r9 = PyObject_VectorcallMethod(cpy_r_r6, cpy_r_r8, 9223372036854775810ULL, 0);
     if (unlikely(cpy_r_r9 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 39, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 38, CPyStatic_globals);
         goto CPyL35;
     } else
         goto CPyL36;
@@ -231,7 +231,7 @@ CPyL6: ;
     PyErr_SetString(PyExc_NameError, "value for final name \"to_bytes\" was not set");
     cpy_r_r11 = 0;
     if (unlikely(!cpy_r_r11)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 41, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 40, CPyStatic_globals);
         goto CPyL34;
     }
     CPy_Unreachable();
@@ -240,13 +240,13 @@ CPyL9: ;
     cpy_r_r13 = (PyObject **)&cpy_r_r12;
     cpy_r_r14 = PyObject_Vectorcall(cpy_r_r10, cpy_r_r13, 1, 0);
     if (unlikely(cpy_r_r14 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 41, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 40, CPyStatic_globals);
         goto CPyL34;
     }
     if (likely(PyBytes_Check(cpy_r_r14) || PyByteArray_Check(cpy_r_r14)))
         cpy_r_r15 = cpy_r_r14;
     else {
-        CPy_TypeErrorTraceback("evmspec/_new.py", "HexBytes32", 41, CPyStatic_globals, "bytes", cpy_r_r14);
+        CPy_TypeErrorTraceback("evmspec/_new.py", "HexBytes32", 40, CPyStatic_globals, "bytes", cpy_r_r14);
         goto CPyL34;
     }
     cpy_r_r16 = CPyStatic_MISSING_BYTES;
@@ -254,7 +254,7 @@ CPyL9: ;
     PyErr_SetString(PyExc_NameError, "value for final name \"MISSING_BYTES\" was not set");
     cpy_r_r17 = 0;
     if (unlikely(!cpy_r_r17)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 43, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 42, CPyStatic_globals);
         goto CPyL18;
     } else
         goto CPyL37;
@@ -266,13 +266,13 @@ CPyL15: ;
     cpy_r_r20 = cpy_r_r19 << 1;
     cpy_r_r21 = CPySequenceTuple_GetItem(cpy_r_r16, cpy_r_r20);
     if (unlikely(cpy_r_r21 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 43, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 42, CPyStatic_globals);
         goto CPyL18;
     }
     if (likely(PyBytes_Check(cpy_r_r21) || PyByteArray_Check(cpy_r_r21)))
         cpy_r_r22 = cpy_r_r21;
     else {
-        CPy_TypeErrorTraceback("evmspec/_new.py", "HexBytes32", 43, CPyStatic_globals, "bytes", cpy_r_r21);
+        CPy_TypeErrorTraceback("evmspec/_new.py", "HexBytes32", 42, CPyStatic_globals, "bytes", cpy_r_r21);
         goto CPyL18;
     }
     goto CPyL31;
@@ -282,7 +282,7 @@ CPyL18: ;
     cpy_r_r25 = CPyStatics[6]; /* 'KeyError' */
     cpy_r_r26 = CPyObject_GetAttr(cpy_r_r24, cpy_r_r25);
     if (unlikely(cpy_r_r26 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 44, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 43, CPyStatic_globals);
         goto CPyL38;
     }
     cpy_r_r27 = CPy_ExceptionMatches(cpy_r_r26);
@@ -292,7 +292,7 @@ CPyL18: ;
     CPy_DecRef(cpy_r_r28);
     cpy_r_r29 = PyObject_Repr(cpy_r_v);
     if (unlikely(cpy_r_r29 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 45, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 44, CPyStatic_globals);
         goto CPyL38;
     }
     cpy_r_r30 = CPyStatics[7]; /* ' is too long: ' */
@@ -302,21 +302,21 @@ CPyL18: ;
     cpy_r_r33 = cpy_r_r32 << 1;
     cpy_r_r34 = CPyTagged_Str(cpy_r_r33);
     if (unlikely(cpy_r_r34 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 45, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 44, CPyStatic_globals);
         goto CPyL40;
     }
     cpy_r_r35 = CPyStr_Build(3, cpy_r_r29, cpy_r_r30, cpy_r_r34);
     CPy_DecRef(cpy_r_r29);
     CPy_DecRef(cpy_r_r34);
     if (unlikely(cpy_r_r35 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 45, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 44, CPyStatic_globals);
         goto CPyL29;
     }
     cpy_r_r36 = CPyModule_builtins;
     cpy_r_r37 = CPyStatics[8]; /* 'ValueError' */
     cpy_r_r38 = CPyObject_GetAttr(cpy_r_r36, cpy_r_r37);
     if (unlikely(cpy_r_r38 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 45, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 44, CPyStatic_globals);
         goto CPyL41;
     }
     PyObject *cpy_r_r39[1] = {cpy_r_r35};
@@ -324,14 +324,14 @@ CPyL18: ;
     cpy_r_r41 = PyObject_Vectorcall(cpy_r_r38, cpy_r_r40, 1, 0);
     CPy_DecRef(cpy_r_r38);
     if (unlikely(cpy_r_r41 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 45, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 44, CPyStatic_globals);
         goto CPyL41;
     }
     CPy_DecRef(cpy_r_r35);
     CPy_Raise(cpy_r_r41);
     CPy_DecRef(cpy_r_r41);
     if (unlikely(!0)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 45, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 44, CPyStatic_globals);
         goto CPyL29;
     } else
         goto CPyL42;
@@ -358,7 +358,7 @@ CPyL31: ;
     cpy_r_r44 = CPyBytes_Concat(cpy_r_r22, cpy_r_r15);
     CPy_DECREF(cpy_r_r15);
     if (unlikely(cpy_r_r44 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 46, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 45, CPyStatic_globals);
         goto CPyL34;
     }
     cpy_r_r45 = CPyStatics[3]; /* '__new__' */
@@ -366,7 +366,7 @@ CPyL31: ;
     cpy_r_r47 = (PyObject **)&cpy_r_r46;
     cpy_r_r48 = PyObject_VectorcallMethod(cpy_r_r45, cpy_r_r47, 9223372036854775811ULL, 0);
     if (unlikely(cpy_r_r48 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 46, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 45, CPyStatic_globals);
         goto CPyL44;
     }
     CPy_DECREF(cpy_r_r44);
@@ -438,7 +438,7 @@ __LL1: ;
     PyObject *retval = CPyDef_HexBytes32(arg_cls, arg_v);
     return retval;
 fail: ;
-    CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 35, CPyStatic_globals);
+    CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 34, CPyStatic_globals);
     return NULL;
 }
 
@@ -568,7 +568,7 @@ CPyL3: ;
     cpy_r_r26 = CPyStatics[11]; /* 'TypeVar' */
     cpy_r_r27 = CPyDict_GetItem(cpy_r_r25, cpy_r_r26);
     if (unlikely(cpy_r_r27 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 8, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 7, CPyStatic_globals);
         goto CPyL27;
     }
     PyObject *cpy_r_r28[1] = {cpy_r_r24};
@@ -576,7 +576,7 @@ CPyL3: ;
     cpy_r_r30 = PyObject_Vectorcall(cpy_r_r27, cpy_r_r29, 1, 0);
     CPy_DECREF(cpy_r_r27);
     if (unlikely(cpy_r_r30 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 8, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 7, CPyStatic_globals);
         goto CPyL27;
     }
     cpy_r_r31 = CPyStatic_globals;
@@ -585,7 +585,7 @@ CPyL3: ;
     CPy_DECREF(cpy_r_r30);
     cpy_r_r34 = cpy_r_r33 >= 0;
     if (unlikely(!cpy_r_r34)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 8, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 7, CPyStatic_globals);
         goto CPyL27;
     }
     cpy_r_r35 = CPyStatics[26]; /* b'\x00' */
@@ -596,12 +596,12 @@ CPyL3: ;
     cpy_r_r38 = CPyDict_SetItem(cpy_r_r36, cpy_r_r37, cpy_r_r35);
     cpy_r_r39 = cpy_r_r38 >= 0;
     if (unlikely(!cpy_r_r39)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 11, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 10, CPyStatic_globals);
         goto CPyL27;
     }
     cpy_r_r40 = PyList_New(0);
     if (unlikely(cpy_r_r40 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 13, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 12, CPyStatic_globals);
         goto CPyL27;
     }
     cpy_r_r41 = 0;
@@ -620,7 +620,7 @@ CPyL14: ;
     PyErr_SetString(PyExc_NameError, "value for final name \"ONE_EMPTY_BYTE\" was not set");
     cpy_r_r45 = 0;
     if (unlikely(!cpy_r_r45)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 13, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 12, CPyStatic_globals);
         goto CPyL27;
     }
     CPy_Unreachable();
@@ -629,20 +629,20 @@ CPyL16: ;
     cpy_r_r47 = PyNumber_Multiply(cpy_r_r46, cpy_r_r44);
     CPy_DECREF(cpy_r_r46);
     if (unlikely(cpy_r_r47 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 13, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 12, CPyStatic_globals);
         goto CPyL30;
     }
     if (likely(PyBytes_Check(cpy_r_r47) || PyByteArray_Check(cpy_r_r47)))
         cpy_r_r48 = cpy_r_r47;
     else {
-        CPy_TypeErrorTraceback("evmspec/_new.py", "<module>", 13, CPyStatic_globals, "bytes", cpy_r_r47);
+        CPy_TypeErrorTraceback("evmspec/_new.py", "<module>", 12, CPyStatic_globals, "bytes", cpy_r_r47);
         goto CPyL30;
     }
     cpy_r_r49 = PyList_Append(cpy_r_r40, cpy_r_r48);
     CPy_DECREF(cpy_r_r48);
     cpy_r_r50 = cpy_r_r49 >= 0;
     if (unlikely(!cpy_r_r50)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 13, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 12, CPyStatic_globals);
         goto CPyL30;
     }
     cpy_r_r51 = cpy_r_r41 + 2;
@@ -653,7 +653,7 @@ CPyL20: ;
     cpy_r_r52 = PyList_AsTuple(cpy_r_r40);
     CPy_DECREF_NO_IMM(cpy_r_r40);
     if (unlikely(cpy_r_r52 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 13, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 12, CPyStatic_globals);
         goto CPyL27;
     }
     CPyStatic_MISSING_BYTES = cpy_r_r52;
@@ -664,14 +664,14 @@ CPyL20: ;
     CPy_DECREF(cpy_r_r52);
     cpy_r_r56 = cpy_r_r55 >= 0;
     if (unlikely(!cpy_r_r56)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 13, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 12, CPyStatic_globals);
         goto CPyL27;
     }
     cpy_r_r57 = CPyModule_faster_hexbytes____utils;
     cpy_r_r58 = CPyStatics[24]; /* 'to_bytes' */
     cpy_r_r59 = CPyObject_GetAttr(cpy_r_r57, cpy_r_r58);
     if (unlikely(cpy_r_r59 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 27, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 26, CPyStatic_globals);
         goto CPyL27;
     }
     CPyStatic_to_bytes = cpy_r_r59;
@@ -682,14 +682,14 @@ CPyL20: ;
     CPy_DECREF(cpy_r_r59);
     cpy_r_r63 = cpy_r_r62 >= 0;
     if (unlikely(!cpy_r_r63)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 27, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 26, CPyStatic_globals);
         goto CPyL27;
     }
     cpy_r_r64 = CPyModule_cchecksum;
     cpy_r_r65 = CPyStatics[25]; /* 'to_checksum_address' */
     cpy_r_r66 = CPyObject_GetAttr(cpy_r_r64, cpy_r_r65);
     if (unlikely(cpy_r_r66 == NULL)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 28, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 27, CPyStatic_globals);
         goto CPyL27;
     }
     CPyStatic_to_checksum_address = cpy_r_r66;
@@ -700,7 +700,7 @@ CPyL20: ;
     CPy_DECREF(cpy_r_r66);
     cpy_r_r70 = cpy_r_r69 >= 0;
     if (unlikely(!cpy_r_r70)) {
-        CPy_AddTraceback("evmspec/_new.py", "<module>", 28, CPyStatic_globals);
+        CPy_AddTraceback("evmspec/_new.py", "<module>", 27, CPyStatic_globals);
         goto CPyL27;
     }
     return 1;
