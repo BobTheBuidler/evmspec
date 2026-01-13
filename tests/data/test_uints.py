@@ -1,4 +1,5 @@
 from itertools import product
+from typing import cast
 
 import pytest
 from hexbytes import HexBytes
@@ -10,8 +11,8 @@ def _get_uint_cls_name(num_bytes: int) -> str:
     return f"uint{num_bytes*8}"
 
 
-def _get_uint_cls(num_bytes: int) -> str:
-    return getattr(uints, _get_uint_cls_name(num_bytes))
+def _get_uint_cls(num_bytes: int) -> type[uints._UintData]:
+    return cast(type[uints._UintData], getattr(uints, _get_uint_cls_name(num_bytes)))
 
 
 @pytest.mark.parametrize("num_bytes", range(1, 32))
