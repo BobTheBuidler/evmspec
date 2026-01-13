@@ -3,15 +3,8 @@ from typing import Optional
 from dictstruct import LazyDictStruct
 from faster_hexbytes import HexBytes
 
-from evmspec.data import (
-    Address,
-    BlockHash,
-    BlockNumber,
-    HexBytes32,
-    TransactionHash,
-    uint,
-    uints,
-)
+from evmspec.data import (Address, BlockHash, BlockNumber, HexBytes32,
+                          TransactionHash, uint, uints)
 from evmspec.data._ids import LogIndex, TransactionIndex
 
 _ADDRESS_TOPIC_PREFIX = HexBytes("0") * 12
