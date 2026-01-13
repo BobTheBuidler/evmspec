@@ -39,8 +39,8 @@ pytest = "*"
 eth-utils = ">=1.10.0"
 
 [tool.mypy]
-pretty = true
 ignore_missing_imports = true
+pretty = true
 show_error_codes = true
 show_error_context = true
 no_warn_no_return = true
