@@ -195,7 +195,7 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
             raise AttributeError(new_err) from None
 
 
-class SmallLog(TinyLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
+class SmallLog(TinyLog, frozen=True, kw_only=True):  # type: ignore [call-arg, misc]
     """
     Represents a log with additional attributes for the contract address and data.
 
@@ -210,7 +210,7 @@ class SmallLog(TinyLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
     """Array of 32-bytes non-indexed return data of the log."""
 
 
-class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
+class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg, misc]
     """
     Represents a comprehensive log structure with additional transaction
     details.
@@ -240,7 +240,7 @@ class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg]
         return self.blockNumber
 
 
-class FullLog(Log, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
+class FullLog(Log, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
     """
     Represents a full log structure with comprehensive block and transaction
     details.

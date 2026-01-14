@@ -42,7 +42,7 @@ class Action(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg]
+):  # type: ignore [call-arg, misc]
     """
     Action type for contract calls.
 
