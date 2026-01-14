@@ -8,7 +8,7 @@ authors = ["BobTheBuidler <bobthebuidlerdefi@gmail.com>"]
 requires = [
     "setuptools",
     "wheel",
-    "mypy[mypyc]==1.19.0",
+    "mypy[mypyc]==1.19.1",
     "types-cachetools",
     "tomli>=2.0.0; python_version < '3.11'",
     "cchecksum>=0.3.1",
@@ -32,7 +32,7 @@ safe-pysha3 = ">=1.0.0"
 [tool.poetry.group.dev.dependencies]
 sphinx = ">=7,<10"
 sphinx-rtd-theme = "3.1.0"
-mypy = "*"
+mypy = "==1.19.1"
 types-cachetools = "*"
 pytest = "*"
 # we keep this here for sphinx crosslinking
