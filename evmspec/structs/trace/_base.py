@@ -1,5 +1,5 @@
-from dictstruct import DictStruct, LazyDictStruct
-from msgspec import UNSET, field
+from dictstruct import DictStruct, LazyDictStruct  # type: ignore [import-not-found]
+from msgspec import UNSET, field  # type: ignore [import-not-found]
 
 from evmspec.data import Address, BlockHash, BlockNumber, TransactionHash, Wei, uint
 
