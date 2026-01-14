@@ -36,14 +36,14 @@ class Type(Enum, metaclass=StringToIntEnumMeta):
 
 
 @final
-class Action(
+class Action(  # type: ignore [misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """
     Action type for contract calls.
 
@@ -68,7 +68,7 @@ class Action(
 
 
 @final
-class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """
     Represents the result of a contract call action, including the output data of the contract call.
 
@@ -86,7 +86,7 @@ class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True,
 
 
 @final
-class Trace(
+class Trace(  # type: ignore [misc]
     _FilterTraceBase,
     tag="call",
     frozen=True,
@@ -94,7 +94,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """
     Represents a trace of a contract call, including action and result details.
 
