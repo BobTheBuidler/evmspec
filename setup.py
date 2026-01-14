@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from mypyc.build import mypycify
-from setuptools import find_packages, setup
+from setuptools import Extension, find_packages, setup
 
 try:
     import tomllib  # Python 3.11+
@@ -153,6 +153,7 @@ def combine_markers(a, b):
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
+ext_modules: list[Extension] = mypycify(["evmspec/_new.py", "--pretty", "--disable-error-code=unused-ignore"], group_name="evmspec")
 
 setup(
     name=poetry_config["name"],
@@ -168,19 +169,8 @@ setup(
     packages=find_packages(),
     package_data={"evmspec": ["py.typed"]},
     include_package_data=True,
-    install_requires=poetry_dependencies_to_install_requires(
-        poetry_config["dependencies"]
-    ),
-    ext_modules=mypycify(
-        [
-            "evmspec/_new.py",
-            "--pretty",
-            "--install-types",
-            "--non-interactive",
-            "--disable-error-code=unused-ignore",
-        ],
-        group_name="evmspec",
-    ),
+    install_requires=poetry_dependencies_to_install_requires(poetry_config["dependencies"]),
+    ext_modules=ext_modules,
     zip_safe=False,
     classifiers=[
         "Intended Audience :: Developers",
