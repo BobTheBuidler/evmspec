@@ -5,12 +5,8 @@ from typing import Final, TypeAlias, cast, final
 
 from dictstruct import DictStruct, LazyDictStruct  # type: ignore [import-not-found]
 from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
-from msgspec import (
-    UNSET,
-    Raw,  # type: ignore [import-not-found]
-    ValidationError,
-    field,
-)
+from msgspec import Raw  # type: ignore [import-not-found]
+from msgspec import UNSET, ValidationError, field
 from msgspec.json import Decoder  # type: ignore [import-not-found]
 
 from evmspec.data import (
