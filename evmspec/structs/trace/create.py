@@ -15,7 +15,7 @@ from msgspec import (  # type: ignore [import-not-found]
 from evmspec.data import Address, _decode_hook
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
 
-logger = getLogger(__name__)
+logger: Final = getLogger(__name__)
 
 
 @final
