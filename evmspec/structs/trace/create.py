@@ -1,6 +1,7 @@
+from collections.abc import Callable
 from functools import cached_property
 from logging import getLogger
-from typing import Callable, ClassVar, Final, Literal, final
+from typing import ClassVar, Final, Literal, final
 
 from faster_hexbytes import HexBytes
 from msgspec import UNSET, Raw, ValidationError, field, json

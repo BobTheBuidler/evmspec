@@ -1,6 +1,7 @@
+from collections.abc import Callable
 from enum import Enum
 from functools import cached_property
-from typing import Callable, ClassVar, Final, Literal, final
+from typing import ClassVar, Final, Literal, final
 
 from msgspec import Raw, field
 from msgspec.json import Decoder

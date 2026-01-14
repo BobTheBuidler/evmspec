@@ -1,7 +1,8 @@
+from collections.abc import Callable
 from decimal import Decimal
 from enum import Enum, EnumMeta
 from functools import cached_property
-from typing import Callable, Final, Optional
+from typing import Final
 
 from dictstruct import DictStruct, LazyDictStruct
 from eth_typing import HexStr
@@ -109,7 +110,7 @@ class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_default
         BlockNumber(1234567)
     """
 
-    contractAddress: Optional[Address]
+    contractAddress: Address | None
     """The contract address created, if the transaction was a contract creation, otherwise `None`.
 
     Examples:
@@ -232,7 +233,7 @@ class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_default
         >>> receipt.l1BlockNumber
         BlockNumber(1234567)
     """
-    l1InboxBatchInfo: Optional[HexBytes] = UNSET  # type: ignore [assignment]
+    l1InboxBatchInfo: HexBytes | None = UNSET  # type: ignore [assignment]
     """This field is only present on Arbitrum.
 
     Examples:

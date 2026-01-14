@@ -1,6 +1,7 @@
 import logging
+from collections.abc import Callable
 from functools import cached_property
-from typing import Callable, Final, Optional, Union, final
+from typing import Final, Union, final
 
 from dictstruct import DictStruct, LazyDictStruct
 from faster_hexbytes import HexBytes
@@ -40,12 +41,12 @@ See Also:
 """
 
 
-_decode_transactions: Final[Callable[[Raw], tuple[Union[str, Transaction], ...]]] = (
-    Decoder(type=tuple[Union[str, Transaction], ...], dec_hook=_decode_hook).decode
+_decode_transactions: Final[Callable[[Raw], tuple[str | Transaction, ...]]] = Decoder(
+    type=tuple[Union[str, Transaction], ...], dec_hook=_decode_hook
+).decode
+_decode_transactions_rlp: Final[Callable[[Raw], tuple[str | TransactionRLP, ...]]] = (
+    Decoder(type=tuple[Union[str, TransactionRLP], ...], dec_hook=_decode_hook).decode
 )
-_decode_transactions_rlp: Final[
-    Callable[[Raw], tuple[Union[str, TransactionRLP], ...]]
-] = Decoder(type=tuple[Union[str, TransactionRLP], ...], dec_hook=_decode_hook).decode
 _decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(
     type=tuple[Raw, ...]
 ).decode
@@ -82,7 +83,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
             >>> block = TinyBlock(timestamp=..., _transactions=...)
             >>> transactions = block.transactions
         """
-        transactions: tuple[Union[str, Transaction, TransactionRLP], ...]
+        transactions: tuple[str | Transaction | TransactionRLP, ...]
         try:
 
             transactions = _decode_transactions(self._transactions)
@@ -186,7 +187,7 @@ class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True): 
         uint(123456789)
     """
 
-    totalDifficulty: Optional[uint] = UNSET  # type: ignore [assignment]
+    totalDifficulty: uint | None = UNSET  # type: ignore [assignment]
     """The total difficulty of the chain until this block.
 
     Examples:

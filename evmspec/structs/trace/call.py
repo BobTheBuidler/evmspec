@@ -1,6 +1,7 @@
+from collections.abc import Callable
 from enum import Enum
 from functools import cached_property
-from typing import Callable, ClassVar, Final, Literal, Optional, final
+from typing import ClassVar, Final, Literal, final
 
 from faster_hexbytes import HexBytes
 from msgspec import UNSET, Raw, field
@@ -134,7 +135,7 @@ class Trace(
         """The decoded call action, parity style."""
         return _decode_action(self._action)
 
-    result: Optional[Result]
+    result: Result | None
     """
     The result object, parity style.
 

@@ -1,4 +1,3 @@
-from typing import Optional
 
 from dictstruct import LazyDictStruct
 from faster_hexbytes import HexBytes
@@ -203,10 +202,10 @@ class SmallLog(TinyLog, frozen=True, kw_only=True):  # type: ignore [call-arg, m
         :class:`TinyLog` for the base log structure.
     """
 
-    address: Optional[Address]
+    address: Address | None
     """The address of the contract that generated the log."""
 
-    data: Optional[Data]
+    data: Data | None
     """Array of 32-bytes non-indexed return data of the log."""
 
 
@@ -219,10 +218,10 @@ class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg, misc]
         :class:`SmallLog` for the log structure with address and data.
     """
 
-    removed: Optional[bool]
+    removed: bool | None
     """`True` when the log was removed, due to a chain reorganization. `False` if it's a valid log."""
 
-    blockNumber: Optional[BlockNumber]
+    blockNumber: BlockNumber | None
     """The block where the transaction was included where the log originated from. `None` for pending transactions."""
 
     transactionHash: TransactionHash
@@ -235,7 +234,7 @@ class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg, misc]
     """The index of the transaction in the block, where the log originated from."""
 
     @property
-    def block(self) -> Optional[BlockNumber]:
+    def block(self) -> BlockNumber | None:
         """A shorthand getter for 'blockNumber'."""
         return self.blockNumber
 
@@ -249,5 +248,5 @@ class FullLog(Log, frozen=True, kw_only=True, forbid_unknown_fields=True):  # ty
         :class:`Log` for the comprehensive log structure with transaction details.
     """
 
-    blockHash: Optional[BlockHash]
+    blockHash: BlockHash | None
     """The hash of the block where the transaction was included where the log originated from. `None` for pending transactions."""

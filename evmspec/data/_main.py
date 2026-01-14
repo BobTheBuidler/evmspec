@@ -1,8 +1,9 @@
+from collections.abc import Callable
 from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, Callable, Final, Optional, TypeVar, Union, final
+from typing import TYPE_CHECKING, Any, Final, TypeVar, Union, final
 
 from faster_hexbytes import HexBytes as FasterHexBytes
 from hexbytes import HexBytes
@@ -21,7 +22,7 @@ try:
     # If you have ez-a-sync installed, evmspec gets some extra functionality
     from a_sync import a_sync
 except ModuleNotFoundError:
-    a_sync: Optional[Callable] = None  # type: ignore [type-arg, no-redef]
+    a_sync: Callable | None = None  # type: ignore [type-arg, no-redef]
 
 
 _T = TypeVar("_T")
@@ -31,13 +32,13 @@ DecodeHook = Callable[[type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
 # due to a circ import issue we will import this later
-_decode_logs: Optional[Callable[[Raw], tuple["Log", ...]]] = None
+_decode_logs: Callable[[Raw], tuple["Log", ...]] | None = None
 
 # If you have dank mids installed, evmspec gets some extra functionality
 # To prevent a circ import issue, we will fill these in later too
 _dank_import_attempted: bool = False
-_get_transaction_receipt: Optional[Callable] = None
-_get_transaction_receipt_raw: Optional[Callable] = None
+_get_transaction_receipt: Callable | None = None
+_get_transaction_receipt_raw: Callable | None = None
 
 
 class Address(str):

@@ -1,5 +1,6 @@
+from collections.abc import Callable
 from functools import cached_property
-from typing import Any, Callable, ClassVar, Final, Optional, Union, final
+from typing import Any, ClassVar, Final, Union, final
 
 from dictstruct import LazyDictStruct
 from faster_hexbytes import HexBytes
@@ -104,7 +105,7 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
     hash: TransactionHash
     """The hash of the transaction."""
 
-    to: Optional[Address]
+    to: Address | None
     """The address of the receiver. `None` when it's a contract creation transaction."""
 
     gas: Wei
@@ -116,7 +117,7 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
     nonce: Nonce
     """The number of transactions made by the sender before this one."""
 
-    chainId: Optional[ChainId] = UNSET  # type: ignore [assignment]
+    chainId: ChainId | None = UNSET  # type: ignore [assignment]
     """
     The chain id of the transaction, if any.
 
@@ -233,7 +234,7 @@ class Transaction2930(_TransactionBase, tag="0x1", frozen=True, kw_only=True, fo
 
     type: ClassVar[HexBytes] = HexBytes("1")
 
-    yParity: Optional[uint] = UNSET  # type: ignore [assignment]
+    yParity: uint | None = UNSET  # type: ignore [assignment]
     """The yParity for the transaction."""
 
 
@@ -250,7 +251,7 @@ class Transaction1559(_TransactionBase, tag="0x2", frozen=True, kw_only=True, fo
     maxPriorityFeePerGas: Wei
     """The maximum priority gas fee set in the transaction."""
 
-    yParity: Optional[uint] = UNSET  # type: ignore [assignment]
+    yParity: uint | None = UNSET  # type: ignore [assignment]
     """The yParity for the transaction."""
 
 
