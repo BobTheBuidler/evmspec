@@ -1,7 +1,7 @@
 import logging
 from collections.abc import Callable
 from functools import cached_property
-from typing import Final, Union, final
+from typing import Final, TypeAlias, cast, final
 
 from dictstruct import DictStruct, LazyDictStruct
 from faster_hexbytes import HexBytes
@@ -24,10 +24,7 @@ from evmspec.structs.transaction import Transaction, TransactionRLP
 
 logger: Final = logging.getLogger(__name__)
 
-Transactions = Union[
-    tuple[TransactionHash, ...],
-    tuple[Transaction, ...],
-]
+Transactions: TypeAlias = tuple[TransactionHash, ...] | tuple[Transaction, ...]
 """
 Represents a collection of transactions within a block, which can be
 either transaction hashes or full transaction objects.
@@ -42,10 +39,10 @@ See Also:
 
 
 _decode_transactions: Final[Callable[[Raw], tuple[str | Transaction, ...]]] = Decoder(
-    type=tuple[Union[str, Transaction], ...], dec_hook=_decode_hook
+    type=tuple[str | Transaction, ...], dec_hook=_decode_hook
 ).decode
 _decode_transactions_rlp: Final[Callable[[Raw], tuple[str | TransactionRLP, ...]]] = (
-    Decoder(type=tuple[Union[str, TransactionRLP], ...], dec_hook=_decode_hook).decode
+    Decoder(type=tuple[str | TransactionRLP, ...], dec_hook=_decode_hook).decode
 )
 _decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(
     type=tuple[Raw, ...]
@@ -97,22 +94,23 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
                 # TODO: debug why this happens and how to build around it
                 transactions = _decode_transactions_rlp(self._transactions)
             else:
-                from dank_mids.types import (
-                    better_decode,
-                )  # type: ignore [import-not-found]  # noqa
+                import dank_mids.types  # type: ignore [import-not-found]
 
                 if "Object contains unknown field" not in arg0:
                     logger.exception(e)
 
-                transactions = [  # type: ignore [assignment]
-                    better_decode(
-                        raw_tx, type=Union[str, Transaction], dec_hook=_decode_hook  # type: ignore [arg-type]
-                    )
-                    for raw_tx in _decode_raw_multi(self._transactions)
-                ]
+                transactions = cast(
+                    tuple[str | Transaction | TransactionRLP, ...],
+                    [
+                        dank_mids.types.better_decode(
+                            raw_tx, type=str | Transaction, dec_hook=_decode_hook
+                        )
+                        for raw_tx in _decode_raw_multi(self._transactions)
+                    ],
+                )
         if transactions and isinstance(transactions[0], str):
-            return tuple(TransactionHash(txhash) for txhash in transactions)
-        return tuple(transactions)  # type: ignore [return-value]
+            return tuple(map(TransactionHash, transactions))
+        return tuple(cast(tuple[Transaction | TransactionRLP, ...], transactions))
 
 
 class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
