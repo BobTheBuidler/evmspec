@@ -82,7 +82,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
             >>> block = TinyBlock(timestamp=..., _transactions=...)
             >>> transactions = block.transactions
         """
-        transactions: tuple[str, ...] | tuple[Transaction | TransactionRLP, ...]
+        transactions: tuple[str | Transaction | TransactionRLP, ...]
         try:
 
             transactions = _decode_transactions(self._transactions)
@@ -101,17 +101,17 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
                 if "Object contains unknown field" not in arg0:
                     logger.exception(e)
 
-                transactions = cast(
-                    tuple[str | Transaction, ...],
-                    [
-                        dank_mids.types.better_decode(
-                            raw_tx, type=str | Transaction, dec_hook=_decode_hook
-                        )
-                        for raw_tx in _decode_raw_multi(self._transactions)
-                    ],
+                decoded = [
+                    dank_mids.types.better_decode(
+                        raw_tx, type=str | Transaction, dec_hook=_decode_hook
+                    )
+                    for raw_tx in _decode_raw_multi(self._transactions)
+                ]
+                transactions = tuple(
+                    cast(list[str | Transaction | TransactionRLP], decoded)
                 )
         if transactions and isinstance(transactions[0], str):
-            return tuple(map(TransactionHash, transactions))
+            return tuple(map(TransactionHash, cast(tuple[str, ...], transactions)))
         return tuple(cast(tuple[Transaction | TransactionRLP, ...], transactions))
 
 
