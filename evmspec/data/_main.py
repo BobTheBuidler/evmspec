@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, Final, TypeVar, Union, final
+from typing import TYPE_CHECKING, Any, Final, TypeVar, final
 
 from faster_hexbytes import HexBytes as FasterHexBytes
 from hexbytes import HexBytes
@@ -457,7 +457,7 @@ class TransactionHash(HexBytes32):
     if a_sync:  # type: ignore [truthy-function]
 
         StructType = TypeVar("StructType", bound=Struct)
-        ReceiptDataType = Union[type[Raw], type[StructType]]
+        ReceiptDataType = type[Raw] | type[StructType]
 
         @a_sync("async")  # type: ignore [arg-type]
         async def get_receipt(
