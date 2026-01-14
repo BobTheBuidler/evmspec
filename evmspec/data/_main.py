@@ -5,7 +5,9 @@ from enum import Enum
 from functools import cached_property
 from typing import TYPE_CHECKING, Any, Final, TypeVar, final
 
-from faster_hexbytes import HexBytes as FasterHexBytes  # type: ignore [import-not-found]
+from faster_hexbytes import (
+    HexBytes as FasterHexBytes,
+)  # type: ignore [import-not-found]
 from hexbytes import HexBytes  # type: ignore [import-not-found]
 from msgspec import Raw, Struct  # type: ignore [import-not-found]
 from msgspec.json import Decoder  # type: ignore [import-not-found]
