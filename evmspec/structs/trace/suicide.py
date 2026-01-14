@@ -3,7 +3,7 @@ from typing import ClassVar, Literal
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase
 
 
-class Action(  # type: ignore [misc]
+class Action(  # type: ignore [call-arg, misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
@@ -37,7 +37,7 @@ class Action(  # type: ignore [misc]
     """
 
 
-class Trace(  # type: ignore [misc]
+class Trace(  # type: ignore [call-arg, misc]
     _FilterTraceBase,
     tag="suicide",
     frozen=True,
