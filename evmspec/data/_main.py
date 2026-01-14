@@ -3,7 +3,16 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, Final, SupportsIndex, TypeAlias, TypeVar, final, overload
+from typing import (
+    TYPE_CHECKING,
+    Any,
+    Final,
+    SupportsIndex,
+    TypeAlias,
+    TypeVar,
+    final,
+    overload,
+)
 
 import faster_hexbytes  # type: ignore [import-not-found]
 from hexbytes import HexBytes  # type: ignore [import-not-found]
@@ -15,11 +24,11 @@ from evmspec import _new
 from evmspec.data._cache import ttl_cache
 
 if TYPE_CHECKING:
-    from evmspec.structs.log import Log
-    from evmspec.structs.receipt import TransactionReceipt
-
     # If you have ez-a-sync installed, evmspec gets some extra functionality
     from a_sync import a_sync as a_sync  # type: ignore[import-not-found]
+
+    from evmspec.structs.log import Log
+    from evmspec.structs.receipt import TransactionReceipt
 else:
     try:
         # If you have ez-a-sync installed, evmspec gets some extra functionality
@@ -372,6 +381,7 @@ FasterHexBytes: Final = faster_hexbytes.HexBytes
 _hex: Final = bytes.hex
 """An alias for `bytes.hex`"""
 
+
 class HexBytes32(faster_hexbytes.HexBytes):
     __new__ = _new.HexBytes32  # type: ignore [assignment]
     """Create a new HexBytes32 object.
@@ -405,12 +415,10 @@ class HexBytes32(faster_hexbytes.HexBytes):
         return f"{type(self).__name__}(0x{_hex(self)})"
 
     @overload
-    def __getitem__(self, key: SupportsIndex) -> int:
-        ...
+    def __getitem__(self, key: SupportsIndex) -> int: ...
 
     @overload
-    def __getitem__(self, key: slice) -> faster_hexbytes.HexBytes:
-        ...
+    def __getitem__(self, key: slice) -> faster_hexbytes.HexBytes: ...
 
     def __getitem__(self, key: SupportsIndex | slice) -> int | faster_hexbytes.HexBytes:
         return FasterHexBytes(self)[key]
