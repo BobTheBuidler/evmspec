@@ -1,10 +1,10 @@
 from pathlib import Path
 
 from mypyc.build import mypycify
-from setuptools import Extension, find_packages, setup
+from setuptools import Extension, find_packages, setup  # type: ignore[import-untyped]
 
 try:
-    import tomllib  # Python 3.11+
+    import tomllib  # type: ignore[import-not-found]  # Python 3.11+
 except ModuleNotFoundError:
     import tomli as tomllib  # Older Python
 

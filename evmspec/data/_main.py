@@ -18,11 +18,15 @@ if TYPE_CHECKING:
     from evmspec.structs.log import Log
     from evmspec.structs.receipt import TransactionReceipt
 
-try:
+if TYPE_CHECKING:
     # If you have ez-a-sync installed, evmspec gets some extra functionality
-    from a_sync import a_sync
-except ModuleNotFoundError:
-    a_sync: Callable | None = None  # type: ignore [type-arg, no-redef]
+    from a_sync import a_sync as a_sync  # type: ignore[import-not-found]
+else:
+    try:
+        # If you have ez-a-sync installed, evmspec gets some extra functionality
+        from a_sync import a_sync
+    except ModuleNotFoundError:
+        a_sync: Callable | None = None  # type: ignore [type-arg, no-redef]
 
 
 _T = TypeVar("_T")
