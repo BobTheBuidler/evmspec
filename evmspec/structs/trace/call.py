@@ -68,7 +68,7 @@ class Action(  # type: ignore [call-arg, misc]
 
 
 @final
-class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
+class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
     """
     Represents the result of a contract call action, including the output data of the contract call.
 
