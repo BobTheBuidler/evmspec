@@ -546,7 +546,7 @@ def __import_dank_tx_methods() -> None:
     global _get_transaction_receipt_raw
 
     try:
-        from dank_mids import dank_eth
+        from dank_mids import dank_eth  # type: ignore [import-not-found]
     except ImportError:
         _dank_import_attempted = True
     else:

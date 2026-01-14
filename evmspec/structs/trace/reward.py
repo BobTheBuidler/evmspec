@@ -32,14 +32,14 @@ class Type(Enum, metaclass=StringToIntEnumMeta):
 
 
 @final
-class Action(
+class Action(  # type: ignore [misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Action type for rewards.
 
     This class extends :class:`_ActionBase` to include specific attributes
@@ -63,7 +63,7 @@ class Action(
 
 
 @final
-class Trace(
+class Trace(  # type: ignore [misc]
     _FilterTraceBase,
     tag="reward",
     frozen=True,
@@ -71,7 +71,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Represents the trace for a reward in Ethereum.
 
     This class extends :class:`_FilterTraceBase` and is specifically tagged
