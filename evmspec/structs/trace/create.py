@@ -3,13 +3,9 @@ from functools import cached_property
 from logging import getLogger
 from typing import ClassVar, Final, Literal, final
 
+import msgspec  # type: ignore [import-not-found]
 from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
-from msgspec import (
-    UNSET,
-    Raw,  # type: ignore [import-not-found]
-    ValidationError,
-    field,
-)
+from msgspec import UNSET, Raw, ValidationError  # type: ignore [import-not-found]
 from msgspec.json import Decoder, decode  # type: ignore [import-not-found]
 
 from evmspec.data import Address, _decode_hook
@@ -121,7 +117,7 @@ class Trace(  # type: ignore [call-arg, misc]
         'create'
     """
 
-    _action: Raw = field(name="action")
+    _action: Raw = msgspec.field(name="action")
     """The raw action data for contract creation, stored as a :class:`msgspec.Raw` type.
 
     This field holds the raw data that will be decoded into an :class:`Action` object
