@@ -1,4 +1,3 @@
-
 from dictstruct import LazyDictStruct
 from faster_hexbytes import HexBytes
 
