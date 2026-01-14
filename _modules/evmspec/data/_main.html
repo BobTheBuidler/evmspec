@@ -483,9 +483,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__reduce__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">:</span> <span class="s2">&quot;_THB32&quot;</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
-        <span class="n">Callable</span><span class="p">[[</span><span class="nb">type</span><span class="p">[</span><span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">],</span> <span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">]</span>
-    <span class="p">]:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="nb">type</span><span class="p">[</span><span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">],</span> <span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="s2">&quot;_THB32&quot;</span><span class="p">],</span> <span class="nb">bytes</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a tuple describing how to reconstruct the object without re-calling `to_bytes` or checking length.&quot;&quot;&quot;</span>
         <span class="c1"># (1) The first item is `bytes.__new__` used to create a new instance</span>
         <span class="c1">#     without calling `HexBytes32.__new__`. We define that below.</span>
