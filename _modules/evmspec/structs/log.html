@@ -218,7 +218,7 @@
 
 <div class="viewcode-block" id="TinyLog">
 <a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.TinyLog">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">TinyLog</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">TinyLog</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a minimal log structure with topics.</span>
 
@@ -277,7 +277,7 @@
 
 <div class="viewcode-block" id="SmallLog">
 <a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.SmallLog">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">SmallLog</span><span class="p">(</span><span class="n">TinyLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SmallLog</span><span class="p">(</span><span class="n">TinyLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a log with additional attributes for the contract address and data.</span>
 
@@ -295,7 +295,7 @@
 
 <div class="viewcode-block" id="Log">
 <a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.Log">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">Log</span><span class="p">(</span><span class="n">SmallLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Log</span><span class="p">(</span><span class="n">SmallLog</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a comprehensive log structure with additional transaction</span>
 <span class="sd">    details.</span>
@@ -328,7 +328,7 @@
 
 <div class="viewcode-block" id="FullLog">
 <a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.FullLog">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">FullLog</span><span class="p">(</span><span class="n">Log</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FullLog</span><span class="p">(</span><span class="n">Log</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a full log structure with comprehensive block and transaction</span>
 <span class="sd">    details.</span>
