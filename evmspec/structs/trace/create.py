@@ -4,7 +4,13 @@ from logging import getLogger
 from typing import ClassVar, Final, Literal, final
 
 from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
-from msgspec import UNSET, Raw, ValidationError, field, json  # type: ignore [import-not-found]
+from msgspec import (
+    UNSET,
+    Raw,  # type: ignore [import-not-found]
+    ValidationError,
+    field,
+    json,
+)
 
 from evmspec.data import Address, _decode_hook
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
