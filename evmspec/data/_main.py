@@ -402,9 +402,7 @@ class HexBytes32(faster_hexbytes.HexBytes):
 
     def __reduce__(
         self: "_THB32",
-    ) -> tuple[
-        Callable[[type["_THB32"], bytes], "_THB32"], tuple[type["_THB32"], bytes]
-    ]:
+    ) -> tuple[Callable[[type["_THB32"], bytes], "_THB32"], tuple[type["_THB32"], bytes]]:
         """Return a tuple describing how to reconstruct the object without re-calling `to_bytes` or checking length."""
         # (1) The first item is `bytes.__new__` used to create a new instance
         #     without calling `HexBytes32.__new__`. We define that below.

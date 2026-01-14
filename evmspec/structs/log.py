@@ -1,15 +1,7 @@
 from dictstruct import LazyDictStruct  # type: ignore [import-not-found]
 from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
 
-from evmspec.data import (
-    Address,
-    BlockHash,
-    BlockNumber,
-    HexBytes32,
-    TransactionHash,
-    uint,
-    uints,
-)
+from evmspec.data import Address, BlockHash, BlockNumber, HexBytes32, TransactionHash, uint, uints
 from evmspec.data._ids import LogIndex, TransactionIndex
 
 _ADDRESS_TOPIC_PREFIX = HexBytes("0") * 12
@@ -55,9 +47,7 @@ class Data(HexBytes):
             '0x000000000000000000000000000000000000000a'
         """
         if self[:12] != _ADDRESS_TOPIC_PREFIX:
-            raise ValueError(
-                f"This {type(self).__name__} does not represent an address", self
-            )
+            raise ValueError(f"This {type(self).__name__} does not represent an address", self)
 
         return Address.checksum(self[-20:].hex())
 
@@ -165,9 +155,7 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
         try:
             return self.topics[1]
         except IndexError:
-            new_err = (
-                f"'this {type(self).__name__} object '{self}' has no attribute 'topic1'"
-            )
+            new_err = f"'this {type(self).__name__} object '{self}' has no attribute 'topic1'"
             raise AttributeError(new_err) from None
 
     @property
@@ -176,9 +164,7 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
         try:
             return self.topics[2]
         except IndexError:
-            new_err = (
-                f"this {type(self).__name__} object '{self}' has no attribute 'topic2'"
-            )
+            new_err = f"this {type(self).__name__} object '{self}' has no attribute 'topic2'"
             raise AttributeError(new_err) from None
 
     @property
@@ -187,9 +173,7 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
         try:
             return self.topics[3]
         except IndexError:
-            new_err = (
-                f"this {type(self).__name__} object '{self}' has no attribute 'topic3'"
-            )
+            new_err = f"this {type(self).__name__} object '{self}' has no attribute 'topic3'"
             raise AttributeError(new_err) from None
 
 

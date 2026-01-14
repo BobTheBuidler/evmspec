@@ -89,9 +89,9 @@ class AuthorizationListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=
     s: HexBytes
 
 
-_decode_authorization_list: Final[Callable[[Raw], list[AuthorizationListEntry]]] = (
-    Decoder(type=list[AuthorizationListEntry]).decode
-)
+_decode_authorization_list: Final[Callable[[Raw], list[AuthorizationListEntry]]] = Decoder(
+    type=list[AuthorizationListEntry]
+).decode
 
 
 class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
