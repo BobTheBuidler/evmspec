@@ -13,14 +13,14 @@ logger = getLogger(__name__)
 
 
 @final
-class Action(
+class Action(  # type: ignore [misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Represents the action type for contract creations.
 
     This class captures the initialization code necessary for deploying a
@@ -43,14 +43,14 @@ class Action(
 
 
 @final
-class Result(
+class Result(  # type: ignore [misc]
     _ResultBase,
     frozen=True,
     kw_only=True,
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Represents the result of a contract creation action.
 
     It includes details such as the address and bytecode of the newly
@@ -76,7 +76,7 @@ class Result(
 
 
 @final
-class Trace(
+class Trace(  # type: ignore [misc]
     _FilterTraceBase,
     tag="create",
     frozen=True,
@@ -84,7 +84,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Represents a trace of a contract deployment.
 
     Provides a detailed trace structure which includes raw action data
