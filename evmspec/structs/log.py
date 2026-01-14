@@ -1,17 +1,7 @@
-from typing import Optional
+from dictstruct import LazyDictStruct  # type: ignore [import-not-found]
+from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
 
-from dictstruct import LazyDictStruct
-from faster_hexbytes import HexBytes
-
-from evmspec.data import (
-    Address,
-    BlockHash,
-    BlockNumber,
-    HexBytes32,
-    TransactionHash,
-    uint,
-    uints,
-)
+from evmspec.data import Address, BlockHash, BlockNumber, HexBytes32, TransactionHash, uint, uints
 from evmspec.data._ids import LogIndex, TransactionIndex
 
 _ADDRESS_TOPIC_PREFIX = HexBytes("0") * 12
@@ -57,9 +47,7 @@ class Data(HexBytes):
             '0x000000000000000000000000000000000000000a'
         """
         if self[:12] != _ADDRESS_TOPIC_PREFIX:
-            raise ValueError(
-                f"This {type(self).__name__} does not represent an address", self
-            )
+            raise ValueError(f"This {type(self).__name__} does not represent an address", self)
 
         return Address.checksum(self[-20:].hex())
 
@@ -167,9 +155,7 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
         try:
             return self.topics[1]
         except IndexError:
-            new_err = (
-                f"'this {type(self).__name__} object '{self}' has no attribute 'topic1'"
-            )
+            new_err = f"'this {type(self).__name__} object '{self}' has no attribute 'topic1'"
             raise AttributeError(new_err) from None
 
     @property
@@ -178,9 +164,7 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
         try:
             return self.topics[2]
         except IndexError:
-            new_err = (
-                f"this {type(self).__name__} object '{self}' has no attribute 'topic2'"
-            )
+            new_err = f"this {type(self).__name__} object '{self}' has no attribute 'topic2'"
             raise AttributeError(new_err) from None
 
     @property
@@ -189,9 +173,7 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
         try:
             return self.topics[3]
         except IndexError:
-            new_err = (
-                f"this {type(self).__name__} object '{self}' has no attribute 'topic3'"
-            )
+            new_err = f"this {type(self).__name__} object '{self}' has no attribute 'topic3'"
             raise AttributeError(new_err) from None
 
 
@@ -203,10 +185,10 @@ class SmallLog(TinyLog, frozen=True, kw_only=True):  # type: ignore [call-arg, m
         :class:`TinyLog` for the base log structure.
     """
 
-    address: Optional[Address]
+    address: Address | None
     """The address of the contract that generated the log."""
 
-    data: Optional[Data]
+    data: Data | None
     """Array of 32-bytes non-indexed return data of the log."""
 
 
@@ -219,10 +201,10 @@ class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg, misc]
         :class:`SmallLog` for the log structure with address and data.
     """
 
-    removed: Optional[bool]
+    removed: bool | None
     """`True` when the log was removed, due to a chain reorganization. `False` if it's a valid log."""
 
-    blockNumber: Optional[BlockNumber]
+    blockNumber: BlockNumber | None
     """The block where the transaction was included where the log originated from. `None` for pending transactions."""
 
     transactionHash: TransactionHash
@@ -235,7 +217,7 @@ class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg, misc]
     """The index of the transaction in the block, where the log originated from."""
 
     @property
-    def block(self) -> Optional[BlockNumber]:
+    def block(self) -> BlockNumber | None:
         """A shorthand getter for 'blockNumber'."""
         return self.blockNumber
 
@@ -249,5 +231,5 @@ class FullLog(Log, frozen=True, kw_only=True, forbid_unknown_fields=True):  # ty
         :class:`Log` for the comprehensive log structure with transaction details.
     """
 
-    blockHash: Optional[BlockHash]
+    blockHash: BlockHash | None
     """The hash of the block where the transaction was included where the log originated from. `None` for pending transactions."""

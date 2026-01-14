@@ -1,10 +1,11 @@
+from collections.abc import Callable
 from functools import cached_property
-from typing import Any, Callable, ClassVar, Final, Optional, Union, final
+from typing import Any, ClassVar, Final, TypeAlias, final
 
-from dictstruct import LazyDictStruct
-from faster_hexbytes import HexBytes
-from msgspec import UNSET, Raw, field
-from msgspec.json import Decoder
+from dictstruct import LazyDictStruct  # type: ignore [import-not-found]
+from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
+from msgspec import UNSET, Raw, field  # type: ignore [import-not-found]
+from msgspec.json import Decoder  # type: ignore [import-not-found]
 
 from evmspec.data import (
     Address,
@@ -88,9 +89,9 @@ class AuthorizationListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=
     s: HexBytes
 
 
-_decode_authorization_list: Final[Callable[[Raw], list[AuthorizationListEntry]]] = (
-    Decoder(type=list[AuthorizationListEntry]).decode
-)
+_decode_authorization_list: Final[Callable[[Raw], list[AuthorizationListEntry]]] = Decoder(
+    type=list[AuthorizationListEntry]
+).decode
 
 
 class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
@@ -104,7 +105,7 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
     hash: TransactionHash
     """The hash of the transaction."""
 
-    to: Optional[Address]
+    to: Address | None
     """The address of the receiver. `None` when it's a contract creation transaction."""
 
     gas: Wei
@@ -116,7 +117,7 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
     nonce: Nonce
     """The number of transactions made by the sender before this one."""
 
-    chainId: Optional[ChainId] = UNSET  # type: ignore [assignment]
+    chainId: ChainId | None = UNSET  # type: ignore [assignment]
     """
     The chain id of the transaction, if any.
 
@@ -233,7 +234,7 @@ class Transaction2930(_TransactionBase, tag="0x1", frozen=True, kw_only=True, fo
 
     type: ClassVar[HexBytes] = HexBytes("1")
 
-    yParity: Optional[uint] = UNSET  # type: ignore [assignment]
+    yParity: uint | None = UNSET  # type: ignore [assignment]
     """The yParity for the transaction."""
 
 
@@ -250,7 +251,7 @@ class Transaction1559(_TransactionBase, tag="0x2", frozen=True, kw_only=True, fo
     maxPriorityFeePerGas: Wei
     """The maximum priority gas fee set in the transaction."""
 
-    yParity: Optional[uint] = UNSET  # type: ignore [assignment]
+    yParity: uint | None = UNSET  # type: ignore [assignment]
     """The yParity for the transaction."""
 
 
@@ -295,11 +296,7 @@ class Transaction7702(Transaction1559, tag="0x4", frozen=True, kw_only=True, for
         return _decode_authorization_list(self._authorizationList)
 
 
-Transaction = Union[
-    TransactionLegacy,
-    Transaction2930,
-    Transaction1559,
-    Transaction4844,
-    Transaction7702,
-]
-AnyTransaction = Union[Transaction, TransactionRLP]
+Transaction: TypeAlias = (
+    TransactionLegacy | Transaction2930 | Transaction1559 | Transaction4844 | Transaction7702
+)
+AnyTransaction: TypeAlias = Transaction | TransactionRLP

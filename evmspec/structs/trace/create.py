@@ -1,25 +1,28 @@
+from collections.abc import Callable
 from functools import cached_property
 from logging import getLogger
-from typing import Callable, ClassVar, Final, Literal, final
+from typing import ClassVar, Final, Literal, final
 
-from faster_hexbytes import HexBytes
-from msgspec import UNSET, Raw, ValidationError, field, json
+import msgspec  # type: ignore [import-not-found]
+from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
+from msgspec import UNSET, Raw, ValidationError  # type: ignore [import-not-found]
+from msgspec.json import Decoder, decode  # type: ignore [import-not-found]
 
 from evmspec.data import Address, _decode_hook
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
 
-logger = getLogger(__name__)
+logger: Final = getLogger(__name__)
 
 
 @final
-class Action(
+class Action(  # type: ignore [call-arg, misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Represents the action type for contract creations.
 
     This class captures the initialization code necessary for deploying a
@@ -42,14 +45,14 @@ class Action(
 
 
 @final
-class Result(
+class Result(  # type: ignore [call-arg, misc]
     _ResultBase,
     frozen=True,
     kw_only=True,
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Represents the result of a contract creation action.
 
     It includes details such as the address and bytecode of the newly
@@ -75,7 +78,7 @@ class Result(
 
 
 @final
-class Trace(
+class Trace(  # type: ignore [call-arg, misc]
     _FilterTraceBase,
     tag="create",
     frozen=True,
@@ -83,7 +86,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Represents a trace of a contract deployment.
 
     Provides a detailed trace structure which includes raw action data
@@ -114,7 +117,7 @@ class Trace(
         'create'
     """
 
-    _action: Raw = field(name="action")
+    _action: Raw = msgspec.field(name="action")
     """The raw action data for contract creation, stored as a :class:`msgspec.Raw` type.
 
     This field holds the raw data that will be decoded into an :class:`Action` object
@@ -141,7 +144,7 @@ class Trace(
             return _decode_action(self._action)
         except ValidationError as e:
             logger.error(
-                f"error decoding {json.decode(self._action)} into evmspec.structs.trace.create.Action"
+                f"error decoding {decode(self._action)} into evmspec.structs.trace.create.Action"
             )
             raise
 
@@ -157,6 +160,4 @@ class Trace(
     """
 
 
-_decode_action: Final[Callable[[Raw], Action]] = json.Decoder(
-    type=Action, dec_hook=_decode_hook
-).decode
+_decode_action: Final[Callable[[Raw], Action]] = Decoder(type=Action, dec_hook=_decode_hook).decode

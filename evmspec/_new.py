@@ -1,7 +1,7 @@
-from typing import Final, TypeVar, Union
+from typing import Final, TypeVar
 
 import cchecksum
-import faster_hexbytes._utils
+import faster_hexbytes._utils  # type: ignore [import-not-found]
 from eth_typing import AnyAddress
 
 __T = TypeVar("__T")
@@ -31,7 +31,7 @@ def Address(cls: type[__T], address: AnyAddress) -> __T:
     return str.__new__(cls, to_checksum_address(address))  # type: ignore [type-var]
 
 
-def HexBytes32(cls: type[__T], v: Union[bytes, str]) -> __T:
+def HexBytes32(cls: type[__T], v: bytes | str) -> __T:
     # if it has 0x prefix it came from the chain or a user and we should validate the size
     # when it doesnt have the prefix it came out of one of my dbs in a downstream lib and we can trust the size.
     if isinstance(v, str) and v.startswith("0x"):
