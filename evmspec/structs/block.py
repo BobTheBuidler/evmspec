@@ -97,9 +97,9 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
                 # TODO: debug why this happens and how to build around it
                 transactions = _decode_transactions_rlp(self._transactions)
             else:
-                from dank_mids.types import (  # type: ignore [import-not-found]
+                from dank_mids.types import (
                     better_decode,
-                )
+                )  # type: ignore [import-not-found]
 
                 if "Object contains unknown field" not in arg0:
                     logger.exception(e)
