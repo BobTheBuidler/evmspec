@@ -168,9 +168,7 @@ setup(
     packages=find_packages(),
     package_data={"evmspec": ["py.typed"]},
     include_package_data=True,
-    install_requires=poetry_dependencies_to_install_requires(
-        poetry_config["dependencies"]
-    ),
+    install_requires=poetry_dependencies_to_install_requires(poetry_config["dependencies"]),
     ext_modules=mypycify(
         [
             "evmspec/_new.py",
