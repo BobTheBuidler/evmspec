@@ -430,14 +430,14 @@ cython = ["cython"]
 
 [[package]]
 name = "dictstruct"
-version = "0.0.7"
+version = "0.0.8"
 description = "A msgspec.Struct implementation compatible with the standard dictionary API"
 optional = false
-python-versions = "<3.14,>=3.8"
+python-versions = "<3.14,>=3.9"
 groups = ["main"]
 files = [
-    {file = "dictstruct-0.0.7-py3-none-any.whl", hash = "sha256:ad7986cacc8e070a440c93dbaea0302af71cfb78d31fe903d3a3340f1c65d437"},
-    {file = "dictstruct-0.0.7.tar.gz", hash = "sha256:a549f7c64ca504309840ce672e3b4d7d5a19c61f0ece662aff7857d8c54f0c43"},
+    {file = "dictstruct-0.0.8-py3-none-any.whl", hash = "sha256:29ab3012dd8061d3bf291f48927e2f5dc084f034ea706084e1738b2100d1e9a2"},
+    {file = "dictstruct-0.0.8.tar.gz", hash = "sha256:dfec1afae605c40083a5ab3d97eb1c899f5f248cc136215539861f9b42edce06"},
 ]
 
 [package.dependencies]
