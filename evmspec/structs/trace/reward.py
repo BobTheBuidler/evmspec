@@ -1,9 +1,10 @@
+from collections.abc import Callable
 from enum import Enum
 from functools import cached_property
-from typing import Callable, ClassVar, Final, Literal, final
+from typing import ClassVar, Final, Literal, final
 
-from msgspec import Raw, field
-from msgspec.json import Decoder
+from msgspec import Raw, field  # type: ignore [import-not-found]
+from msgspec.json import Decoder  # type: ignore [import-not-found]
 
 from evmspec.data import Address, _decode_hook
 from evmspec.data._enum import StringToIntEnumMeta
@@ -31,14 +32,14 @@ class Type(Enum, metaclass=StringToIntEnumMeta):
 
 
 @final
-class Action(
+class Action(  # type: ignore [call-arg, misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Action type for rewards.
 
     This class extends :class:`_ActionBase` to include specific attributes
@@ -62,7 +63,7 @@ class Action(
 
 
 @final
-class Trace(
+class Trace(  # type: ignore [call-arg, misc]
     _FilterTraceBase,
     tag="reward",
     frozen=True,
@@ -70,7 +71,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Represents the trace for a reward in Ethereum.
 
     This class extends :class:`_FilterTraceBase` and is specifically tagged
@@ -126,6 +127,4 @@ class Trace(
         return _decode_action(self._action)
 
 
-_decode_action: Final[Callable[[Raw], Action]] = Decoder(
-    type=Action, dec_hook=_decode_hook
-).decode
+_decode_action: Final[Callable[[Raw], Action]] = Decoder(type=Action, dec_hook=_decode_hook).decode

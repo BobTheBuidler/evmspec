@@ -2,7 +2,7 @@ from itertools import product
 from typing import cast
 
 import pytest
-from hexbytes import HexBytes
+from hexbytes import HexBytes  # type: ignore [import-not-found]
 
 from evmspec.data import uints
 

@@ -1,17 +1,17 @@
-from dictstruct import DictStruct, LazyDictStruct
-from msgspec import UNSET, field
+from dictstruct import DictStruct, LazyDictStruct  # type: ignore [import-not-found]
+from msgspec import UNSET, field  # type: ignore [import-not-found]
 
 from evmspec.data import Address, BlockHash, BlockNumber, TransactionHash, Wei, uint
 
 
-class _ActionBase(
+class _ActionBase(  # type: ignore [call-arg, misc]
     LazyDictStruct,
     frozen=True,
     kw_only=True,
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Base class for representing actions in parity-style Ethereum traces.
 
     This class provides common attributes for transaction actions such as the
@@ -75,14 +75,14 @@ class _ActionBase(
     """
 
 
-class _ResultBase(
+class _ResultBase(  # type: ignore [call-arg, misc]
     DictStruct,
     frozen=True,
     kw_only=True,
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Base class for representing results in parity-style Ethereum traces.
 
     This class encapsulates the outcome of transaction actions, specifically
@@ -117,14 +117,14 @@ class _ResultBase(
     """
 
 
-class _FilterTraceBase(
+class _FilterTraceBase(  # type: ignore [call-arg, misc]
     LazyDictStruct,
     frozen=True,
     kw_only=True,
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """Base class for representing parity-style traces.
 
     This class contains attributes detailing the block and transaction being traced,
