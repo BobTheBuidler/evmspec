@@ -18,7 +18,7 @@ _decode_logs: Final[Callable[[Raw], tuple[Log, ...]]] = Decoder(
 ).decode
 
 
-class FeeStats(DictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
+class FeeStats(DictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
     """Arbitrum includes this in the `feeStats` field of a tx receipt.
 
     See Also:
@@ -31,7 +31,7 @@ class FeeStats(DictStruct, frozen=True, forbid_unknown_fields=True):  # type: ig
     l2Computation: Wei
 
 
-class ArbitrumFeeStats(DictStruct, frozen=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+class ArbitrumFeeStats(DictStruct, frozen=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
     """Arbitrum includes these with a tx receipt.
 
     See Also:
@@ -86,7 +86,7 @@ class Status(Enum, metaclass=_HexStringToIntEnumMeta):
     success = 1
 
 
-class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_defaults=True, repr_omit_defaults=True, dict=True):  # type: ignore [call-arg]
+class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_defaults=True, repr_omit_defaults=True, dict=True):  # type: ignore [call-arg, misc]
     """Represents the receipt of a transaction within a block.
 
     See Also:
@@ -253,7 +253,7 @@ class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_default
         return _decode_fee_stats(self._feeStats)
 
 
-class FullTransactionReceipt(TransactionReceipt, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+class FullTransactionReceipt(TransactionReceipt, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
     """Extends :class:`TransactionReceipt` to include full details."""
 
     blockHash: HexBytes

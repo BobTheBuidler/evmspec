@@ -38,7 +38,7 @@ class Action(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg]
+):  # type: ignore [call-arg, misc]
     """Action type for rewards.
 
     This class extends :class:`_ActionBase` to include specific attributes
@@ -70,7 +70,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg]
+):  # type: ignore [call-arg, misc]
     """Represents the trace for a reward in Ethereum.
 
     This class extends :class:`_FilterTraceBase` and is specifically tagged

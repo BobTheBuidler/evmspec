@@ -5,7 +5,7 @@ from evmspec.data import Address, UnixTimestamp, uint
 
 
 # WIP - pretty sure this will fail right now
-class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
+class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
     """
     Represents a block header in the Erigon client.
 
