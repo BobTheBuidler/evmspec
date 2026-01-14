@@ -32,7 +32,7 @@ class Type(Enum, metaclass=StringToIntEnumMeta):
 
 
 @final
-class Action(  # type: ignore [misc]
+class Action(  # type: ignore [call-arg, misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
@@ -63,7 +63,7 @@ class Action(  # type: ignore [misc]
 
 
 @final
-class Trace(  # type: ignore [misc]
+class Trace(  # type: ignore [call-arg, misc]
     _FilterTraceBase,
     tag="reward",
     frozen=True,

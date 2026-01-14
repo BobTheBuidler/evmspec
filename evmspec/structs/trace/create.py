@@ -13,7 +13,7 @@ logger = getLogger(__name__)
 
 
 @final
-class Action(  # type: ignore [misc]
+class Action(  # type: ignore [call-arg, misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
@@ -43,7 +43,7 @@ class Action(  # type: ignore [misc]
 
 
 @final
-class Result(  # type: ignore [misc]
+class Result(  # type: ignore [call-arg, misc]
     _ResultBase,
     frozen=True,
     kw_only=True,
@@ -76,7 +76,7 @@ class Result(  # type: ignore [misc]
 
 
 @final
-class Trace(  # type: ignore [misc]
+class Trace(  # type: ignore [call-arg, misc]
     _FilterTraceBase,
     tag="create",
     frozen=True,

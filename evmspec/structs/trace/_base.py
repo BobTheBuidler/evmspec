@@ -4,7 +4,7 @@ from msgspec import UNSET, field
 from evmspec.data import Address, BlockHash, BlockNumber, TransactionHash, Wei, uint
 
 
-class _ActionBase(  # type: ignore [misc]
+class _ActionBase(  # type: ignore [call-arg, misc]
     LazyDictStruct,
     frozen=True,
     kw_only=True,
@@ -75,7 +75,7 @@ class _ActionBase(  # type: ignore [misc]
     """
 
 
-class _ResultBase(  # type: ignore [misc]
+class _ResultBase(  # type: ignore [call-arg, misc]
     DictStruct,
     frozen=True,
     kw_only=True,
@@ -117,7 +117,7 @@ class _ResultBase(  # type: ignore [misc]
     """
 
 
-class _FilterTraceBase(  # type: ignore [misc]
+class _FilterTraceBase(  # type: ignore [call-arg, misc]
     LazyDictStruct,
     frozen=True,
     kw_only=True,
