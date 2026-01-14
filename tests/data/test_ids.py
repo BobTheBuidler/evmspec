@@ -1,8 +1,7 @@
+# mypy: disable-error-code=assignment
 import pytest
 
 from evmspec.data._ids import ChainId, IntId, LogIndex, TransactionIndex
-
-# mypy: disable-error-code=assignment
 
 
 @pytest.mark.parametrize("cls", (ChainId, TransactionIndex, LogIndex))
