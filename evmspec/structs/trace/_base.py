@@ -11,7 +11,7 @@ class _ActionBase(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg]
+):  # type: ignore [call-arg, misc]
     """Base class for representing actions in parity-style Ethereum traces.
 
     This class provides common attributes for transaction actions such as the
@@ -82,7 +82,7 @@ class _ResultBase(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg]
+):  # type: ignore [call-arg, misc]
     """Base class for representing results in parity-style Ethereum traces.
 
     This class encapsulates the outcome of transaction actions, specifically
@@ -124,7 +124,7 @@ class _FilterTraceBase(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg]
+):  # type: ignore [call-arg, misc]
     """Base class for representing parity-style traces.
 
     This class contains attributes detailing the block and transaction being traced,
