@@ -69,46 +69,50 @@
            <div itemprop="articleBody">
              
   <h1>Source code for evmspec.data._main</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">final</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">SupportsIndex</span><span class="p">,</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">final</span><span class="p">,</span> <span class="n">overload</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">faster_hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span> <span class="k">as</span> <span class="n">FasterHexBytes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">Struct</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">faster_hexbytes</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">Struct</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>  <span class="c1"># type: ignore [import-not-found]</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Self</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">_new</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data._cache</span><span class="w"> </span><span class="kn">import</span> <span class="n">ttl_cache</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="c1"># If you have ez-a-sync installed, evmspec gets some extra functionality</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">a_sync</span><span class="w"> </span><span class="kn">import</span> <span class="n">a_sync</span> <span class="k">as</span> <span class="n">a_sync</span>  <span class="c1"># type: ignore[import-not-found]</span>
+
     <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.log</span><span class="w"> </span><span class="kn">import</span> <span class="n">Log</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.receipt</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransactionReceipt</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="c1"># If you have ez-a-sync installed, evmspec gets some extra functionality</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">a_sync</span><span class="w"> </span><span class="kn">import</span> <span class="n">a_sync</span>
-<span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
-    <span class="n">a_sync</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore [type-arg, no-redef]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># If you have ez-a-sync installed, evmspec gets some extra functionality</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">a_sync</span><span class="w"> </span><span class="kn">import</span> <span class="n">a_sync</span>
+    <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
+        <span class="n">a_sync</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore [type-arg, no-redef]</span>
 
 
 <span class="n">_T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;_T&quot;</span><span class="p">)</span>
 <span class="sd">&quot;&quot;&quot;A generic type variable.&quot;&quot;&quot;</span>
 
-<span class="n">DecodeHook</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">_T</span><span class="p">]</span>
+<span class="n">DecodeHook</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">Any</span><span class="p">],</span> <span class="n">_T</span><span class="p">]</span>
 <span class="sd">&quot;&quot;&quot;A type alias for a function that decodes an object into a specific type.&quot;&quot;&quot;</span>
 
 <span class="c1"># due to a circ import issue we will import this later</span>
-<span class="n">_decode_logs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="s2">&quot;Log&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_decode_logs</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">tuple</span><span class="p">[</span><span class="s2">&quot;Log&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
 <span class="c1"># If you have dank mids installed, evmspec gets some extra functionality</span>
 <span class="c1"># To prevent a circ import issue, we will fill these in later too</span>
 <span class="n">_dank_import_attempted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="n">_get_transaction_receipt</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">_get_transaction_receipt_raw</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_get_transaction_receipt</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">_get_transaction_receipt_raw</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
 
 <div class="viewcode-block" id="Address">
@@ -457,13 +461,16 @@
 
 <span class="c1"># Hexbytes</span>
 
+<span class="n">FasterHexBytes</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="n">faster_hexbytes</span><span class="o">.</span><span class="n">HexBytes</span>
+<span class="sd">&quot;&quot;&quot;An alias for `faster_hexbytes.HexBytes`, used to prevent a name conflict&quot;&quot;&quot;</span>
+
 <span class="n">_hex</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="nb">bytes</span><span class="o">.</span><span class="n">hex</span>
 <span class="sd">&quot;&quot;&quot;An alias for `bytes.hex`&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="HexBytes32">
 <a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">HexBytes32</span><span class="p">(</span><span class="n">FasterHexBytes</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">HexBytes32</span><span class="p">(</span><span class="n">faster_hexbytes</span><span class="o">.</span><span class="n">HexBytes</span><span class="p">):</span>
     <span class="fm">__new__</span> <span class="o">=</span> <span class="n">_new</span><span class="o">.</span><span class="n">HexBytes32</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a new HexBytes32 object.</span>
 
@@ -493,7 +500,14 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">(0x</span><span class="si">{</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
 
-    <span class="fm">__getitem__</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">FasterHexBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)[</span><span class="n">key</span><span class="p">]</span>  <span class="c1"># type: ignore [assignment]</span>
+    <span class="nd">@overload</span>  <span class="c1">#  type: ignore [override]</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">SupportsIndex</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@overload</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">faster_hexbytes</span><span class="o">.</span><span class="n">HexBytes</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="n">SupportsIndex</span> <span class="o">|</span> <span class="nb">slice</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">faster_hexbytes</span><span class="o">.</span><span class="n">HexBytes</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">FasterHexBytes</span><span class="p">(</span><span class="bp">self</span><span class="p">)[</span><span class="n">key</span><span class="p">]</span>
 
     <span class="c1"># TODO: keep the instance small and just task on the length for operations as needed</span>
     <span class="c1"># def __len__(self) -&gt; Literal[32]:</span>
@@ -560,7 +574,7 @@
     <span class="k">if</span> <span class="n">a_sync</span><span class="p">:</span>  <span class="c1"># type: ignore [truthy-function]</span>
 
         <span class="n">StructType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;StructType&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Struct</span><span class="p">)</span>
-        <span class="n">ReceiptDataType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Raw</span><span class="p">],</span> <span class="nb">type</span><span class="p">[</span><span class="n">StructType</span><span class="p">]]</span>
+        <span class="n">ReceiptDataType</span> <span class="o">=</span> <span class="nb">type</span><span class="p">[</span><span class="n">Raw</span><span class="p">]</span> <span class="o">|</span> <span class="nb">type</span><span class="p">[</span><span class="n">StructType</span><span class="p">]</span>
 
         <span class="nd">@a_sync</span><span class="p">(</span><span class="s2">&quot;async&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type]</span>
         <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_receipt</span><span class="p">(</span>
@@ -653,7 +667,7 @@
     <span class="k">global</span> <span class="n">_get_transaction_receipt_raw</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">dank_mids</span><span class="w"> </span><span class="kn">import</span> <span class="n">dank_eth</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">dank_mids</span><span class="w"> </span><span class="kn">import</span> <span class="n">dank_eth</span>  <span class="c1"># type: ignore [import-not-found]</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="n">_dank_import_attempted</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">else</span><span class="p">:</span>

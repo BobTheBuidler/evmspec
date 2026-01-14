@@ -69,16 +69,17 @@
            <div itemprop="articleBody">
              
   <h1>Source code for evmspec.structs.receipt</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">decimal</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decimal</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">EnumMeta</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Final</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">dictstruct</span><span class="w"> </span><span class="kn">import</span> <span class="n">DictStruct</span><span class="p">,</span> <span class="n">LazyDictStruct</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dictstruct</span><span class="w"> </span><span class="kn">import</span> <span class="n">DictStruct</span><span class="p">,</span> <span class="n">LazyDictStruct</span>  <span class="c1"># type: ignore [import-not-found]</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">eth_typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexStr</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">faster_hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">faster_hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>  <span class="c1"># type: ignore [import-not-found]</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Address</span><span class="p">,</span> <span class="n">BlockNumber</span><span class="p">,</span> <span class="n">TransactionHash</span><span class="p">,</span> <span class="n">Wei</span><span class="p">,</span> <span class="n">_decode_hook</span><span class="p">,</span> <span class="n">uint</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data._ids</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransactionIndex</span>
@@ -191,7 +192,7 @@
 <span class="sd">        BlockNumber(1234567)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">contractAddress</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Address</span><span class="p">]</span>
+    <span class="n">contractAddress</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The contract address created, if the transaction was a contract creation, otherwise `None`.</span>
 
 <span class="sd">    Examples:</span>
@@ -314,7 +315,7 @@
 <span class="sd">        &gt;&gt;&gt; receipt.l1BlockNumber</span>
 <span class="sd">        BlockNumber(1234567)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">l1InboxBatchInfo</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+    <span class="n">l1InboxBatchInfo</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is only present on Arbitrum.</span>
 
 <span class="sd">    Examples:</span>

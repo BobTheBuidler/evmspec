@@ -69,13 +69,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for evmspec.structs.transaction</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">final</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">final</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">dictstruct</span><span class="w"> </span><span class="kn">import</span> <span class="n">LazyDictStruct</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">faster_hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dictstruct</span><span class="w"> </span><span class="kn">import</span> <span class="n">LazyDictStruct</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">faster_hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>  <span class="c1"># type: ignore [import-not-found]</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">Address</span><span class="p">,</span>
@@ -181,7 +182,7 @@
     <span class="nb">hash</span><span class="p">:</span> <span class="n">TransactionHash</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the transaction.&quot;&quot;&quot;</span>
 
-    <span class="n">to</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Address</span><span class="p">]</span>
+    <span class="n">to</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="kc">None</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The address of the receiver. `None` when it&#39;s a contract creation transaction.&quot;&quot;&quot;</span>
 
     <span class="n">gas</span><span class="p">:</span> <span class="n">Wei</span>
@@ -193,7 +194,7 @@
     <span class="n">nonce</span><span class="p">:</span> <span class="n">Nonce</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The number of transactions made by the sender before this one.&quot;&quot;&quot;</span>
 
-    <span class="n">chainId</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ChainId</span><span class="p">]</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+    <span class="n">chainId</span><span class="p">:</span> <span class="n">ChainId</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The chain id of the transaction, if any.</span>
 
@@ -318,7 +319,7 @@
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="n">HexBytes</span><span class="p">]</span> <span class="o">=</span> <span class="n">HexBytes</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
 
-    <span class="n">yParity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">uint</span><span class="p">]</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+    <span class="n">yParity</span><span class="p">:</span> <span class="n">uint</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The yParity for the transaction.&quot;&quot;&quot;</span></div>
 
 
@@ -338,7 +339,7 @@
     <span class="n">maxPriorityFeePerGas</span><span class="p">:</span> <span class="n">Wei</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The maximum priority gas fee set in the transaction.&quot;&quot;&quot;</span>
 
-    <span class="n">yParity</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">uint</span><span class="p">]</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+    <span class="n">yParity</span><span class="p">:</span> <span class="n">uint</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The yParity for the transaction.&quot;&quot;&quot;</span></div>
 
 
@@ -390,14 +391,10 @@
 
 
 
-<span class="n">Transaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span>
-    <span class="n">TransactionLegacy</span><span class="p">,</span>
-    <span class="n">Transaction2930</span><span class="p">,</span>
-    <span class="n">Transaction1559</span><span class="p">,</span>
-    <span class="n">Transaction4844</span><span class="p">,</span>
-    <span class="n">Transaction7702</span><span class="p">,</span>
-<span class="p">]</span>
-<span class="n">AnyTransaction</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">Transaction</span><span class="p">,</span> <span class="n">TransactionRLP</span><span class="p">]</span>
+<span class="n">Transaction</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">TransactionLegacy</span> <span class="o">|</span> <span class="n">Transaction2930</span> <span class="o">|</span> <span class="n">Transaction1559</span> <span class="o">|</span> <span class="n">Transaction4844</span> <span class="o">|</span> <span class="n">Transaction7702</span>
+<span class="p">)</span>
+<span class="n">AnyTransaction</span><span class="p">:</span> <span class="n">TypeAlias</span> <span class="o">=</span> <span class="n">Transaction</span> <span class="o">|</span> <span class="n">TransactionRLP</span>
 </pre></div>
 
            </div>

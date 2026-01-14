@@ -69,30 +69,33 @@
            <div itemprop="articleBody">
              
   <h1>Source code for evmspec.structs.trace.create</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">getLogger</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">final</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">final</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">faster_hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">ValidationError</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">msgspec</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">faster_hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">ValidationError</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span><span class="p">,</span> <span class="n">decode</span>  <span class="c1"># type: ignore [import-not-found]</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Address</span><span class="p">,</span> <span class="n">_decode_hook</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.trace._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_ActionBase</span><span class="p">,</span> <span class="n">_FilterTraceBase</span><span class="p">,</span> <span class="n">_ResultBase</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">logger</span><span class="p">:</span> <span class="n">Final</span> <span class="o">=</span> <span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Action">
 <a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.create.Action">[docs]</a>
 <span class="nd">@final</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Action</span><span class="p">(</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Action</span><span class="p">(</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
     <span class="n">_ActionBase</span><span class="p">,</span>
     <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">):</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the action type for contract creations.</span>
 
 <span class="sd">    This class captures the initialization code necessary for deploying a</span>
@@ -118,14 +121,14 @@
 <div class="viewcode-block" id="Result">
 <a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.create.Result">[docs]</a>
 <span class="nd">@final</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
     <span class="n">_ResultBase</span><span class="p">,</span>
     <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">):</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents the result of a contract creation action.</span>
 
 <span class="sd">    It includes details such as the address and bytecode of the newly</span>
@@ -154,7 +157,7 @@
 <div class="viewcode-block" id="Trace">
 <a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.create.Trace">[docs]</a>
 <span class="nd">@final</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Trace</span><span class="p">(</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Trace</span><span class="p">(</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
     <span class="n">_FilterTraceBase</span><span class="p">,</span>
     <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;create&quot;</span><span class="p">,</span>
     <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -162,7 +165,7 @@
     <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="p">):</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Represents a trace of a contract deployment.</span>
 
 <span class="sd">    Provides a detailed trace structure which includes raw action data</span>
@@ -193,7 +196,7 @@
 <span class="sd">        &#39;create&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">_action</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>
+    <span class="n">_action</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">msgspec</span><span class="o">.</span><span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The raw action data for contract creation, stored as a :class:`msgspec.Raw` type.</span>
 
 <span class="sd">    This field holds the raw data that will be decoded into an :class:`Action` object</span>
@@ -220,7 +223,7 @@
             <span class="k">return</span> <span class="n">_decode_action</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">ValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;error decoding </span><span class="si">{</span><span class="n">json</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">)</span><span class="si">}</span><span class="s2"> into evmspec.structs.trace.create.Action&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;error decoding </span><span class="si">{</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_action</span><span class="p">)</span><span class="si">}</span><span class="s2"> into evmspec.structs.trace.create.Action&quot;</span>
             <span class="p">)</span>
             <span class="k">raise</span>
 
@@ -237,9 +240,7 @@
 
 
 
-<span class="n">_decode_action</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Action</span><span class="p">]]</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">Decoder</span><span class="p">(</span>
-    <span class="nb">type</span><span class="o">=</span><span class="n">Action</span><span class="p">,</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span>
-<span class="p">)</span><span class="o">.</span><span class="n">decode</span>
+<span class="n">_decode_action</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">Callable</span><span class="p">[[</span><span class="n">Raw</span><span class="p">],</span> <span class="n">Action</span><span class="p">]]</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="n">Action</span><span class="p">,</span> <span class="n">dec_hook</span><span class="o">=</span><span class="n">_decode_hook</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span>
 </pre></div>
 
            </div>
