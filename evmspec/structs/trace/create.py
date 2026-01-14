@@ -4,9 +4,9 @@ from logging import getLogger
 from typing import ClassVar, Final, Literal, final
 
 from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
-from msgspec import (  # type: ignore [import-not-found]  # noqa
+from msgspec import (
     UNSET,
-    Raw,
+    Raw,  # type: ignore [import-not-found]  # noqa
     ValidationError,
     field,
     json,
