@@ -24,7 +24,9 @@ from evmspec.structs.transaction import Transaction, TransactionRLP
 
 logger: Final = logging.getLogger(__name__)
 
-Transactions: TypeAlias = tuple[TransactionHash, ...] | tuple[Transaction | TransactionRLP, ...]
+Transactions: TypeAlias = (
+    tuple[TransactionHash, ...] | tuple[Transaction | TransactionRLP, ...]
+)
 """
 Represents a collection of transactions within a block, which can be
 either transaction hashes or full transaction objects.
