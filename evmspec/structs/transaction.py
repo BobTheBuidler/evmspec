@@ -2,9 +2,9 @@ from collections.abc import Callable
 from functools import cached_property
 from typing import Any, ClassVar, Final, TypeAlias, final
 
-from dictstruct import LazyDictStruct
-from faster_hexbytes import HexBytes
-from msgspec import UNSET, Raw, field
+from dictstruct import LazyDictStruct  # type: ignore [import-not-found]
+from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
+from msgspec import UNSET, Raw, field  # type: ignore [import-not-found]
 from msgspec.json import Decoder  # type: ignore [import-not-found]
 
 from evmspec.data import (

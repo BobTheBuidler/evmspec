@@ -4,10 +4,10 @@ from enum import Enum, EnumMeta
 from functools import cached_property
 from typing import Final
 
-from dictstruct import DictStruct, LazyDictStruct
+from dictstruct import DictStruct, LazyDictStruct  # type: ignore [import-not-found]
 from eth_typing import HexStr
-from faster_hexbytes import HexBytes
-from msgspec import UNSET, Raw, field
+from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
+from msgspec import UNSET, Raw, field  # type: ignore [import-not-found]
 from msgspec.json import Decoder  # type: ignore [import-not-found]
 
 from evmspec.data import Address, BlockNumber, TransactionHash, Wei, _decode_hook, uint
