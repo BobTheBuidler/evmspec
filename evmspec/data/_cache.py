@@ -35,9 +35,7 @@ def _cache(cache, maxsize, typed, info: bool = False):
             return wrapper
 
     elif info:
-        raise ValueError(
-            "You cannot use the `info` param with cachetools versions < 5.3"
-        )
+        raise ValueError("You cannot use the `info` param with cachetools versions < 5.3")
 
     else:
 

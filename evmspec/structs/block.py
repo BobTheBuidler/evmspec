@@ -40,15 +40,13 @@ See Also:
 """
 
 
-_decode_transactions: Final[Callable[[Raw], tuple[Union[str, Transaction], ...]]] = (
-    Decoder(type=tuple[Union[str, Transaction], ...], dec_hook=_decode_hook).decode
-)
-_decode_transactions_rlp: Final[
-    Callable[[Raw], tuple[Union[str, TransactionRLP], ...]]
-] = Decoder(type=tuple[Union[str, TransactionRLP], ...], dec_hook=_decode_hook).decode
-_decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(
-    type=tuple[Raw, ...]
+_decode_transactions: Final[Callable[[Raw], tuple[Union[str, Transaction], ...]]] = Decoder(
+    type=tuple[Union[str, Transaction], ...], dec_hook=_decode_hook
 ).decode
+_decode_transactions_rlp: Final[Callable[[Raw], tuple[Union[str, TransactionRLP], ...]]] = Decoder(
+    type=tuple[Union[str, TransactionRLP], ...], dec_hook=_decode_hook
+).decode
+_decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(type=tuple[Raw, ...]).decode
 
 
 class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: ignore [call-arg, misc]
@@ -89,10 +87,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
         except ValidationError as e:
             arg0: str = e.args[0]
             split_pos = arg0.find("$")
-            if (
-                split_pos >= 0
-                and arg0[:split_pos] == "Object missing required field `type` - at `"
-            ):
+            if split_pos >= 0 and arg0[:split_pos] == "Object missing required field `type` - at `":
                 # TODO: debug why this happens and how to build around it
                 transactions = _decode_transactions_rlp(self._transactions)
             else:
@@ -229,9 +224,9 @@ class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fi
     """This field is not always present."""
 
 
-_decode_staking_withdrawals: Final[Callable[[Raw], tuple[StakingWithdrawal, ...]]] = (
-    Decoder(type=tuple[StakingWithdrawal, ...], dec_hook=_decode_hook).decode
-)
+_decode_staking_withdrawals: Final[Callable[[Raw], tuple[StakingWithdrawal, ...]]] = Decoder(
+    type=tuple[StakingWithdrawal, ...], dec_hook=_decode_hook
+).decode
 
 
 @final
