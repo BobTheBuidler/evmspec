@@ -14,11 +14,12 @@ requires = [
     "cchecksum>=0.3.1",
     "eth-hash>=0.7.0,<1",
     "eth-typing==5.2.1",
+    "ez-a-sync==0.33.10",
 ]
 build-backend = "setuptools.build_meta"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.14"
+python = ">=3.10,<3.14"
 cachetools = ">=4.1.1,<7"
 cchecksum = ">=0.0.3"
 dictstruct = ">=0.0.1"

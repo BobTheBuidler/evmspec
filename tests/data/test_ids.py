@@ -1,3 +1,4 @@
+# mypy: disable-error-code=assignment
 import pytest
 
 from evmspec.data._ids import ChainId, IntId, LogIndex, TransactionIndex

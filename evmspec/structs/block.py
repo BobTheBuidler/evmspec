@@ -1,11 +1,13 @@
 import logging
+from collections.abc import Callable
 from functools import cached_property
-from typing import Callable, Final, Optional, Union, final
+from typing import Final, TypeAlias, cast, final
 
-from dictstruct import DictStruct, LazyDictStruct
-from faster_hexbytes import HexBytes
-from msgspec import UNSET, Raw, ValidationError, field
-from msgspec.json import Decoder
+from dictstruct import DictStruct, LazyDictStruct  # type: ignore [import-not-found]
+from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
+from msgspec import Raw  # type: ignore [import-not-found]
+from msgspec import UNSET, ValidationError, field
+from msgspec.json import Decoder  # type: ignore [import-not-found]
 
 from evmspec.data import (
     Address,
@@ -23,10 +25,7 @@ from evmspec.structs.transaction import Transaction, TransactionRLP
 
 logger: Final = logging.getLogger(__name__)
 
-Transactions = Union[
-    tuple[TransactionHash, ...],
-    tuple[Transaction, ...],
-]
+Transactions: TypeAlias = tuple[TransactionHash, ...] | tuple[Transaction | TransactionRLP, ...]
 """
 Represents a collection of transactions within a block, which can be
 either transaction hashes or full transaction objects.
@@ -40,11 +39,11 @@ See Also:
 """
 
 
-_decode_transactions: Final[Callable[[Raw], tuple[Union[str, Transaction], ...]]] = Decoder(
-    type=tuple[Union[str, Transaction], ...], dec_hook=_decode_hook
+_decode_transactions: Final[Callable[[Raw], tuple[str | Transaction, ...]]] = Decoder(
+    type=tuple[str | Transaction, ...], dec_hook=_decode_hook
 ).decode
-_decode_transactions_rlp: Final[Callable[[Raw], tuple[Union[str, TransactionRLP], ...]]] = Decoder(
-    type=tuple[Union[str, TransactionRLP], ...], dec_hook=_decode_hook
+_decode_transactions_rlp: Final[Callable[[Raw], tuple[str | TransactionRLP, ...]]] = Decoder(
+    type=tuple[str | TransactionRLP, ...], dec_hook=_decode_hook
 ).decode
 _decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(type=tuple[Raw, ...]).decode
 
@@ -80,7 +79,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
             >>> block = TinyBlock(timestamp=..., _transactions=...)
             >>> transactions = block.transactions
         """
-        transactions: tuple[Union[str, Transaction, TransactionRLP], ...]
+        transactions: tuple[str | Transaction | TransactionRLP, ...]
         try:
 
             transactions = _decode_transactions(self._transactions)
@@ -91,20 +90,21 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
                 # TODO: debug why this happens and how to build around it
                 transactions = _decode_transactions_rlp(self._transactions)
             else:
-                from dank_mids.types import better_decode
+                import dank_mids.types  # type: ignore [import-not-found]
 
                 if "Object contains unknown field" not in arg0:
                     logger.exception(e)
 
-                transactions = [  # type: ignore [assignment]
-                    better_decode(
-                        raw_tx, type=Union[str, Transaction], dec_hook=_decode_hook  # type: ignore [arg-type]
+                decoded = [
+                    dank_mids.types.better_decode(
+                        raw_tx, type=str | Transaction, dec_hook=_decode_hook
                     )
                     for raw_tx in _decode_raw_multi(self._transactions)
                 ]
+                transactions = tuple(cast(list[str | Transaction | TransactionRLP], decoded))
         if transactions and isinstance(transactions[0], str):
-            return tuple(TransactionHash(txhash) for txhash in transactions)
-        return tuple(transactions)  # type: ignore [return-value]
+            return tuple(map(TransactionHash, cast(tuple[str, ...], transactions)))
+        return tuple(cast(tuple[Transaction | TransactionRLP, ...], transactions))
 
 
 class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
@@ -181,7 +181,7 @@ class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True): 
         uint(123456789)
     """
 
-    totalDifficulty: Optional[uint] = UNSET  # type: ignore [assignment]
+    totalDifficulty: uint | None = UNSET  # type: ignore [assignment]
     """The total difficulty of the chain until this block.
 
     Examples:
