@@ -100,7 +100,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
                     logger.exception(e)
 
                 transactions = cast(
-                    tuple[str | Transaction | TransactionRLP, ...],
+                    tuple[str | Transaction, ...],
                     [
                         dank_mids.types.better_decode(
                             raw_tx, type=str | Transaction, dec_hook=_decode_hook
