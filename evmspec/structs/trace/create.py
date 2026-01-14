@@ -160,6 +160,4 @@ class Trace(  # type: ignore [call-arg, misc]
     """
 
 
-_decode_action: Final[Callable[[Raw], Action]] = Decoder(
-    type=Action, dec_hook=_decode_hook
-).decode
+_decode_action: Final[Callable[[Raw], Action]] = Decoder(type=Action, dec_hook=_decode_hook).decode

@@ -3,16 +3,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from typing import (
-    TYPE_CHECKING,
-    Any,
-    Final,
-    SupportsIndex,
-    TypeAlias,
-    TypeVar,
-    final,
-    overload,
-)
+from typing import TYPE_CHECKING, Any, Final, SupportsIndex, TypeAlias, TypeVar, final, overload
 
 import faster_hexbytes  # type: ignore [import-not-found]
 from hexbytes import HexBytes  # type: ignore [import-not-found]

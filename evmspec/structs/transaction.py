@@ -297,10 +297,6 @@ class Transaction7702(Transaction1559, tag="0x4", frozen=True, kw_only=True, for
 
 
 Transaction: TypeAlias = (
-    TransactionLegacy
-    | Transaction2930
-    | Transaction1559
-    | Transaction4844
-    | Transaction7702
+    TransactionLegacy | Transaction2930 | Transaction1559 | Transaction4844 | Transaction7702
 )
 AnyTransaction: TypeAlias = Transaction | TransactionRLP

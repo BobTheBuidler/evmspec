@@ -25,9 +25,7 @@ from evmspec.structs.transaction import Transaction, TransactionRLP
 
 logger: Final = logging.getLogger(__name__)
 
-Transactions: TypeAlias = (
-    tuple[TransactionHash, ...] | tuple[Transaction | TransactionRLP, ...]
-)
+Transactions: TypeAlias = tuple[TransactionHash, ...] | tuple[Transaction | TransactionRLP, ...]
 """
 Represents a collection of transactions within a block, which can be
 either transaction hashes or full transaction objects.
@@ -44,12 +42,10 @@ See Also:
 _decode_transactions: Final[Callable[[Raw], tuple[str | Transaction, ...]]] = Decoder(
     type=tuple[str | Transaction, ...], dec_hook=_decode_hook
 ).decode
-_decode_transactions_rlp: Final[Callable[[Raw], tuple[str | TransactionRLP, ...]]] = (
-    Decoder(type=tuple[str | TransactionRLP, ...], dec_hook=_decode_hook).decode
-)
-_decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(
-    type=tuple[Raw, ...]
+_decode_transactions_rlp: Final[Callable[[Raw], tuple[str | TransactionRLP, ...]]] = Decoder(
+    type=tuple[str | TransactionRLP, ...], dec_hook=_decode_hook
 ).decode
+_decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(type=tuple[Raw, ...]).decode
 _decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(type=tuple[Raw, ...]).decode
 
 
@@ -106,9 +102,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
                     )
                     for raw_tx in _decode_raw_multi(self._transactions)
                 ]
-                transactions = tuple(
-                    cast(list[str | Transaction | TransactionRLP], decoded)
-                )
+                transactions = tuple(cast(list[str | Transaction | TransactionRLP], decoded))
         if transactions and isinstance(transactions[0], str):
             return tuple(map(TransactionHash, cast(tuple[str, ...], transactions)))
         return tuple(cast(tuple[Transaction | TransactionRLP, ...], transactions))
