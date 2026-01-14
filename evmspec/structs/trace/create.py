@@ -19,7 +19,7 @@ class Action(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg]
+):  # type: ignore [call-arg, misc]
     """Represents the action type for contract creations.
 
     This class captures the initialization code necessary for deploying a
@@ -49,7 +49,7 @@ class Result(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg]
+):  # type: ignore [call-arg, misc]
     """Represents the result of a contract creation action.
 
     It includes details such as the address and bytecode of the newly
@@ -83,7 +83,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg]
+):  # type: ignore [call-arg, misc]
     """Represents a trace of a contract deployment.
 
     Provides a detailed trace structure which includes raw action data
