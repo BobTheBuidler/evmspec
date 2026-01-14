@@ -1,5 +1,5 @@
-from dictstruct import LazyDictStruct
-from faster_hexbytes import HexBytes
+from dictstruct import LazyDictStruct  # type: ignore [import-not-found]
+from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
 
 from evmspec.data import Address, UnixTimestamp, uint
 

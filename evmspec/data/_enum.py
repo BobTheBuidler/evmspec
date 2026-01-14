@@ -1,5 +1,4 @@
 from enum import EnumMeta
-from typing import Union
 
 
 class StringToIntEnumMeta(EnumMeta):
@@ -46,7 +45,7 @@ class StringToIntEnumMeta(EnumMeta):
         - :meth:`EnumMeta.__call__`
     """
 
-    def __call__(cls, value: Union[str, int], *args, **kw):
+    def __call__(cls, value: str | int, *args, **kw):
         """
         Attempts to convert a given value to an Enum member.
 

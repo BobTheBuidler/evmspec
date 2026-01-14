@@ -1,43 +1,47 @@
+from collections.abc import Callable
 from datetime import datetime, timezone
 from decimal import Decimal
 from enum import Enum
 from functools import cached_property
-from typing import TYPE_CHECKING, Any, Callable, Final, Optional, TypeVar, Union, final
+from typing import TYPE_CHECKING, Any, Final, SupportsIndex, TypeAlias, TypeVar, final, overload
 
-from faster_hexbytes import HexBytes as FasterHexBytes
-from hexbytes import HexBytes
-from msgspec import Raw, Struct
-from msgspec.json import Decoder
+import faster_hexbytes  # type: ignore [import-not-found]
+from hexbytes import HexBytes  # type: ignore [import-not-found]
+from msgspec import Raw, Struct  # type: ignore [import-not-found]
+from msgspec.json import Decoder  # type: ignore [import-not-found]
 from typing_extensions import Self
 
 from evmspec import _new
 from evmspec.data._cache import ttl_cache
 
 if TYPE_CHECKING:
+    # If you have ez-a-sync installed, evmspec gets some extra functionality
+    from a_sync import a_sync as a_sync  # type: ignore[import-not-found]
+
     from evmspec.structs.log import Log
     from evmspec.structs.receipt import TransactionReceipt
-
-try:
-    # If you have ez-a-sync installed, evmspec gets some extra functionality
-    from a_sync import a_sync
-except ModuleNotFoundError:
-    a_sync: Optional[Callable] = None  # type: ignore [type-arg, no-redef]
+else:
+    try:
+        # If you have ez-a-sync installed, evmspec gets some extra functionality
+        from a_sync import a_sync
+    except ModuleNotFoundError:
+        a_sync: Callable | None = None  # type: ignore [type-arg, no-redef]
 
 
 _T = TypeVar("_T")
 """A generic type variable."""
 
-DecodeHook = Callable[[type[_T], Any], _T]
+DecodeHook: TypeAlias = Callable[[type[_T], Any], _T]
 """A type alias for a function that decodes an object into a specific type."""
 
 # due to a circ import issue we will import this later
-_decode_logs: Optional[Callable[[Raw], tuple["Log", ...]]] = None
+_decode_logs: Callable[[Raw], tuple["Log", ...]] | None = None
 
 # If you have dank mids installed, evmspec gets some extra functionality
 # To prevent a circ import issue, we will fill these in later too
 _dank_import_attempted: bool = False
-_get_transaction_receipt: Optional[Callable] = None
-_get_transaction_receipt_raw: Optional[Callable] = None
+_get_transaction_receipt: Callable | None = None
+_get_transaction_receipt_raw: Callable | None = None
 
 
 class Address(str):
@@ -362,11 +366,14 @@ def _decode_hook_unsafe(typ: type[_T], obj: object) -> _T:
 
 # Hexbytes
 
+FasterHexBytes: Final = faster_hexbytes.HexBytes
+"""An alias for `faster_hexbytes.HexBytes`, used to prevent a name conflict"""
+
 _hex: Final = bytes.hex
 """An alias for `bytes.hex`"""
 
 
-class HexBytes32(FasterHexBytes):
+class HexBytes32(faster_hexbytes.HexBytes):
     __new__ = _new.HexBytes32  # type: ignore [assignment]
     """Create a new HexBytes32 object.
 
@@ -386,9 +393,7 @@ class HexBytes32(FasterHexBytes):
 
     def __reduce__(
         self: "_THB32",
-    ) -> tuple[
-        Callable[[type["_THB32"], bytes], "_THB32"], tuple[type["_THB32"], bytes]
-    ]:
+    ) -> tuple[Callable[[type["_THB32"], bytes], "_THB32"], tuple[type["_THB32"], bytes]]:
         """Return a tuple describing how to reconstruct the object without re-calling `to_bytes` or checking length."""
         # (1) The first item is `bytes.__new__` used to create a new instance
         #     without calling `HexBytes32.__new__`. We define that below.
@@ -398,7 +403,14 @@ class HexBytes32(FasterHexBytes):
     def __repr__(self) -> str:
         return f"{type(self).__name__}(0x{_hex(self)})"
 
-    __getitem__ = lambda self, key: FasterHexBytes(self)[key]  # type: ignore [assignment]
+    @overload  #  type: ignore [override]
+    def __getitem__(self, key: SupportsIndex) -> int: ...
+
+    @overload
+    def __getitem__(self, key: slice) -> faster_hexbytes.HexBytes: ...
+
+    def __getitem__(self, key: SupportsIndex | slice) -> int | faster_hexbytes.HexBytes:
+        return FasterHexBytes(self)[key]
 
     # TODO: keep the instance small and just task on the length for operations as needed
     # def __len__(self) -> Literal[32]:
@@ -456,7 +468,7 @@ class TransactionHash(HexBytes32):
     if a_sync:  # type: ignore [truthy-function]
 
         StructType = TypeVar("StructType", bound=Struct)
-        ReceiptDataType = Union[type[Raw], type[StructType]]
+        ReceiptDataType = type[Raw] | type[StructType]
 
         @a_sync("async")  # type: ignore [arg-type]
         async def get_receipt(
@@ -545,7 +557,7 @@ def __import_dank_tx_methods() -> None:
     global _get_transaction_receipt_raw
 
     try:
-        from dank_mids import dank_eth
+        from dank_mids import dank_eth  # type: ignore [import-not-found]
     except ImportError:
         _dank_import_attempted = True
     else:

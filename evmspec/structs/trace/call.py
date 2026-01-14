@@ -1,10 +1,11 @@
+from collections.abc import Callable
 from enum import Enum
 from functools import cached_property
-from typing import Callable, ClassVar, Final, Literal, Optional, final
+from typing import ClassVar, Final, Literal, final
 
-from faster_hexbytes import HexBytes
-from msgspec import UNSET, Raw, field
-from msgspec.json import Decoder
+from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
+from msgspec import UNSET, Raw, field  # type: ignore [import-not-found]
+from msgspec.json import Decoder  # type: ignore [import-not-found]
 
 from evmspec.data import Address, _decode_hook
 from evmspec.data._enum import StringToIntEnumMeta
@@ -35,14 +36,14 @@ class Type(Enum, metaclass=StringToIntEnumMeta):
 
 
 @final
-class Action(
+class Action(  # type: ignore [call-arg, misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """
     Action type for contract calls.
 
@@ -85,7 +86,7 @@ class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True,
 
 
 @final
-class Trace(
+class Trace(  # type: ignore [call-arg, misc]
     _FilterTraceBase,
     tag="call",
     frozen=True,
@@ -93,7 +94,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """
     Represents a trace of a contract call, including action and result details.
 
@@ -134,7 +135,7 @@ class Trace(
         """The decoded call action, parity style."""
         return _decode_action(self._action)
 
-    result: Optional[Result]
+    result: Result | None
     """
     The result object, parity style.
 
@@ -145,6 +146,4 @@ class Trace(
     """The error message, if an error occurred."""
 
 
-_decode_action: Final[Callable[[Raw], Action]] = Decoder(
-    type=Action, dec_hook=_decode_hook
-).decode
+_decode_action: Final[Callable[[Raw], Action]] = Decoder(type=Action, dec_hook=_decode_hook).decode
