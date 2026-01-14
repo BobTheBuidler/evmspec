@@ -1,7 +1,7 @@
 from typing import Final, TypeVar
 
 import cchecksum
-import faster_hexbytes._utils
+import faster_hexbytes._utils  # type: ignore [import-not-found]
 from eth_typing import AnyAddress
 
 __T = TypeVar("__T")

@@ -3,7 +3,7 @@ from enum import Enum
 from functools import cached_property
 from typing import ClassVar, Final, Literal, final
 
-from msgspec import Raw, field
+from msgspec import Raw, field  # type: ignore [import-not-found]
 from msgspec.json import Decoder  # type: ignore [import-not-found]
 
 from evmspec.data import Address, _decode_hook
