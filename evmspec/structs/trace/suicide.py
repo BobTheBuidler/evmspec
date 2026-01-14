@@ -3,14 +3,14 @@ from typing import ClassVar, Literal
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase
 
 
-class Action(
+class Action(  # type: ignore [misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """
     Represents the action type for contract suicides.
 
@@ -37,7 +37,7 @@ class Action(
     """
 
 
-class Trace(
+class Trace(  # type: ignore [misc]
     _FilterTraceBase,
     tag="suicide",
     frozen=True,
@@ -45,7 +45,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg, misc]
+):
     """
     Represents a trace of a contract self-destruct operation.
 
