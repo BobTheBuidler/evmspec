@@ -46,7 +46,6 @@ _decode_transactions_rlp: Final[Callable[[Raw], tuple[str | TransactionRLP, ...]
     type=tuple[str | TransactionRLP, ...], dec_hook=_decode_hook
 ).decode
 _decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(type=tuple[Raw, ...]).decode
-_decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(type=tuple[Raw, ...]).decode
 
 
 class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: ignore [call-arg, misc]
