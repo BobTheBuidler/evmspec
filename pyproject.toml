@@ -15,6 +15,7 @@ requires = [
     "eth-hash>=0.7.0,<1",
     "eth-typing==5.2.1",
     "ez-a-sync==0.33.10",
+    "faster-hexbytes==1.3.5",
 ]
 build-backend = "setuptools.build_meta"
 
