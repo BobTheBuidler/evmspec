@@ -296,5 +296,11 @@ class Transaction7702(Transaction1559, tag="0x4", frozen=True, kw_only=True, for
         return _decode_authorization_list(self._authorizationList)
 
 
-Transaction: TypeAlias = TransactionLegacy | Transaction2930 | Transaction1559 | Transaction4844 | Transaction7702
+Transaction: TypeAlias = (
+    TransactionLegacy
+    | Transaction2930
+    | Transaction1559
+    | Transaction4844
+    | Transaction7702
+)
 AnyTransaction: TypeAlias = Transaction | TransactionRLP
