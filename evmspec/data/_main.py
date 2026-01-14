@@ -414,7 +414,7 @@ class HexBytes32(faster_hexbytes.HexBytes):
     def __repr__(self) -> str:
         return f"{type(self).__name__}(0x{_hex(self)})"
 
-    @overload
+    @overload  #  type: ignore [override]
     def __getitem__(self, key: SupportsIndex) -> int: ...
 
     @overload
