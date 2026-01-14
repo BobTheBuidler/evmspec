@@ -4,13 +4,8 @@ from logging import getLogger
 from typing import ClassVar, Final, Literal, final
 
 from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
-from msgspec import (
-    UNSET,
-    Raw,  # type: ignore [import-not-found]  # noqa
-    ValidationError,
-    field,
-    json,
-)
+from msgspec import UNSET, Raw, ValidationError, field  # type: ignore [import-not-found]
+from msgspec.json import Decoder, decode  # type: ignore [import-not-found]
 
 from evmspec.data import Address, _decode_hook
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
@@ -148,7 +143,7 @@ class Trace(  # type: ignore [call-arg, misc]
             return _decode_action(self._action)
         except ValidationError as e:
             logger.error(
-                f"error decoding {json.decode(self._action)} into evmspec.structs.trace.create.Action"
+                f"error decoding {decode(self._action)} into evmspec.structs.trace.create.Action"
             )
             raise
 
@@ -164,6 +159,6 @@ class Trace(  # type: ignore [call-arg, misc]
     """
 
 
-_decode_action: Final[Callable[[Raw], Action]] = json.Decoder(
+_decode_action: Final[Callable[[Raw], Action]] = Decoder(
     type=Action, dec_hook=_decode_hook
 ).decode
