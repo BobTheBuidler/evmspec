@@ -18,7 +18,7 @@ requires = [
 build-backend = "setuptools.build_meta"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.14"
+python = ">=3.10,<3.14"
 cachetools = ">=4.1.1,<7"
 cchecksum = ">=0.0.3"
 dictstruct = ">=0.0.1"
