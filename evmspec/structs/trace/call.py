@@ -67,7 +67,7 @@ class Action(
 
 
 @final
-class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
     """
     Represents the result of a contract call action, including the output data of the contract call.
 
@@ -93,7 +93,7 @@ class Trace(
     forbid_unknown_fields=True,
     omit_defaults=True,
     repr_omit_defaults=True,
-):  # type: ignore [call-arg]
+):  # type: ignore [call-arg, misc]
     """
     Represents a trace of a contract call, including action and result details.
 

@@ -51,7 +51,7 @@ _decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(
 ).decode
 
 
-class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: ignore [call-arg]
+class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: ignore [call-arg, misc]
     """
     Represents a minimal block structure with essential fields.
 
@@ -82,6 +82,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
             >>> block = TinyBlock(timestamp=..., _transactions=...)
             >>> transactions = block.transactions
         """
+        transactions: tuple[Union[str, Transaction, TransactionRLP], ...]
         try:
 
             transactions = _decode_transactions(self._transactions)
@@ -111,7 +112,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
         return tuple(transactions)  # type: ignore [return-value]
 
 
-class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
     """
     Represents a full Ethereum block with all standard fields.
 
@@ -168,7 +169,7 @@ class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, om
     """Hash of the parent block."""
 
 
-class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
+class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
     """
     Represents a mined Ethereum block with difficulty fields.
 
@@ -196,7 +197,7 @@ class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True): 
 
 
 @final
-class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
+class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
     """
     Represents a base Ethereum block with base fee per gas.
 
@@ -209,7 +210,7 @@ class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=Tru
 
 
 @final
-class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg]
+class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
     """A Struct representing an Ethereum staking withdrawal.
 
     See Also:
@@ -234,7 +235,7 @@ _decode_staking_withdrawals: Final[Callable[[Raw], tuple[StakingWithdrawal, ...]
 
 
 @final
-class ShanghaiCapellaBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg]
+class ShanghaiCapellaBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
     """
     Represents a block from the Ethereum Shanghai or Capella upgrades, which includes staking withdrawals.
 

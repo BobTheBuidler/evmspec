@@ -139,7 +139,7 @@ for i in range(2, 31):
     setattr(Topic, f"as_{uint_cls_name}", property(uint_cls))
 
 
-class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-arg]
+class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-arg, misc]
     """
     Represents a minimal log structure with topics.
 
