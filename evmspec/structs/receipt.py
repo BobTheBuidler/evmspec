@@ -8,7 +8,7 @@ from dictstruct import DictStruct, LazyDictStruct
 from eth_typing import HexStr
 from faster_hexbytes import HexBytes
 from msgspec import UNSET, Raw, field
-from msgspec.json import Decoder
+from msgspec.json import Decoder  # type: ignore [import-not-found]
 
 from evmspec.data import Address, BlockNumber, TransactionHash, Wei, _decode_hook, uint
 from evmspec.data._ids import TransactionIndex

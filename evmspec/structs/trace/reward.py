@@ -4,7 +4,7 @@ from functools import cached_property
 from typing import ClassVar, Final, Literal, final
 
 from msgspec import Raw, field
-from msgspec.json import Decoder
+from msgspec.json import Decoder  # type: ignore [import-not-found]
 
 from evmspec.data import Address, _decode_hook
 from evmspec.data._enum import StringToIntEnumMeta

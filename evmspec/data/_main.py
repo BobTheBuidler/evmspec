@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, Final, TypeVar, final
 from faster_hexbytes import HexBytes as FasterHexBytes
 from hexbytes import HexBytes
 from msgspec import Raw, Struct
-from msgspec.json import Decoder
+from msgspec.json import Decoder  # type: ignore [import-not-found]
 from typing_extensions import Self
 
 from evmspec import _new

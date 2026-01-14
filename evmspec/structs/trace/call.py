@@ -5,7 +5,7 @@ from typing import ClassVar, Final, Literal, final
 
 from faster_hexbytes import HexBytes
 from msgspec import UNSET, Raw, field
-from msgspec.json import Decoder
+from msgspec.json import Decoder  # type: ignore [import-not-found]
 
 from evmspec.data import Address, _decode_hook
 from evmspec.data._enum import StringToIntEnumMeta

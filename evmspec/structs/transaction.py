@@ -5,7 +5,7 @@ from typing import Any, ClassVar, Final, TypeAlias, final
 from dictstruct import LazyDictStruct
 from faster_hexbytes import HexBytes
 from msgspec import UNSET, Raw, field
-from msgspec.json import Decoder
+from msgspec.json import Decoder  # type: ignore [import-not-found]
 
 from evmspec.data import (
     Address,
