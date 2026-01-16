@@ -15,6 +15,7 @@ from evmspec.data import (
     Nonce,
     TransactionHash,
     Wei,
+    _decode_hook,
     uint,
 )
 from evmspec.data._ids import ChainId, TransactionIndex
@@ -74,7 +75,7 @@ class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True): 
 
 
 _decode_access_list: Final[Callable[[Raw], list[AccessListEntry]]] = Decoder(
-    type=list[AccessListEntry]
+    type=list[AccessListEntry], dec_hook=_decode_hook
 ).decode
 
 
@@ -90,7 +91,7 @@ class AuthorizationListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=
 
 
 _decode_authorization_list: Final[Callable[[Raw], list[AuthorizationListEntry]]] = Decoder(
-    type=list[AuthorizationListEntry]
+    type=list[AuthorizationListEntry], dec_hook=_decode_hook
 ).decode
 
 
