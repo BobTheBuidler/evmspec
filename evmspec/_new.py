@@ -40,6 +40,6 @@ def HexBytes32(cls: type[__T], v: bytes | str) -> __T:
     input_bytes = to_bytes(v)
     try:
         missing_bytes = MISSING_BYTES[len(input_bytes)]
-    except KeyError as e:
+    except IndexError as e:
         raise ValueError(f"{repr(v)} is too long: {len(input_bytes)}") from e.__cause__
     return bytes.__new__(cls, missing_bytes + input_bytes)  # type: ignore [type-var]
