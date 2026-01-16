@@ -28,29 +28,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-wheel:
-    name: Build wheel for Python3.14
-    runs-on: ubuntu-latest
-    outputs:
-      artifact-name: ${{ steps.mypycify.outputs.artifact-name }}
-    steps:
-      - uses: actions/checkout@v6
-      - name: Build wheel with mypycify
-        id: mypycify
-        uses: BobTheBuidler/mypycify@v0.3.0
-        with:
-          python-version: "3.14"
-          hash-key: |
-            pyproject.toml
-            setup.py
-            evmspec/**/*.py
-          pip-cache-dependency-path: |
-            pyproject.toml
-            setup.py
-            poetry.lock
-
-  codspeed-benchmark:
-    needs: build-wheel
+  codspeed:
     name: Run CodSpeed Benchmarks
     runs-on: ubuntu-latest
     strategy:
@@ -63,23 +41,17 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.14"
+          python-version: "3.13"
           cache: pip
           cache-dependency-path: |
             pyproject.toml
             setup.py
             poetry.lock
 
-      - name: Download wheel
-        uses: actions/download-artifact@v7
-        with:
-          name: ${{ needs.build-wheel.outputs.artifact-name }}
-          path: .
-
       - name: Install built wheel and codspeed dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install "$(find . -name '*.whl')" -r requirements-codspeed.txt
+          pip install .
 
       - name: Remove source package to force use of installed C extensions
         run: rm -rf evmspec
