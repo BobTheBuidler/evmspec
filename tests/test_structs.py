@@ -1,3 +1,7 @@
+import pytest
+
+pytest.importorskip("dictstruct")
+
 from evmspec import *  # noqa
 from evmspec.structs import *  # noqa
 
