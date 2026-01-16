@@ -2,14 +2,13 @@ import json
 
 import pytest
 from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
-from msgspec import Raw
-from msgspec import ValidationError
+from msgspec import Raw, ValidationError
 
 from evmspec.data import Address, BlockHash, BlockNumber, TransactionHash, Wei, uint
+
 pytest.importorskip("dictstruct")
 
 from evmspec.structs.trace import call, create, reward, suicide
-
 
 ADDRESS = "0x" + "11" * 20
 ADDRESS_2 = "0x" + "22" * 20

@@ -10,7 +10,6 @@ from evmspec.data import Address, BlockHash, BlockNumber, Nonce, TransactionHash
 from evmspec.data._ids import ChainId, TransactionIndex
 from evmspec.structs.transaction import AccessListEntry, Transaction2930, Transaction7702
 
-
 ADDRESS = "0x" + "11" * 20
 ADDRESS_2 = "0x" + "22" * 20
 TX_HASH = "0x" + "33" * 32

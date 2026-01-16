@@ -1,14 +1,13 @@
 import json
 
 import pytest
-from msgspec import Raw, UNSET
+from msgspec import Raw
 
 pytest.importorskip("dictstruct")
 
-from evmspec.data import Address, BlockNumber, TransactionHash, Wei
+from evmspec.data import BlockNumber, TransactionHash, Wei
 from evmspec.data._ids import TransactionIndex
 from evmspec.structs.receipt import Status, TransactionReceipt
-
 
 ADDRESS = "0x" + "11" * 20
 TX_HASH = "0x" + "22" * 32

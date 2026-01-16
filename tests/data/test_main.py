@@ -10,7 +10,6 @@ from hexbytes import HexBytes  # type: ignore [import-not-found]
 from evmspec.data import Address, HexBytes32, UnixTimestamp, Wei, uint
 from evmspec.data._main import _decode_hook, _decode_hook_unsafe
 
-
 ADDRESS_LOWER = "0xde0b295669a9fd93d5f28d9ec85e40f4cb697bae"
 ADDRESS_CHECKSUM = "0xDe0B295669a9FD93d5F28D9Ec85E40f4cb697BAe"
 HEX32 = "0x" + "11" * 32
