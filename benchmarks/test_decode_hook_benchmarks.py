@@ -26,4 +26,4 @@ DECODE_HOOK_IDS = [case_id for _, _, _, case_id in DECODE_HOOK_CASES]
 @pytest.mark.benchmark(group="decode_hook")
 @pytest.mark.parametrize("hook, typ, value", DECODE_HOOK_VALUES, ids=DECODE_HOOK_IDS)
 def test_decode_hook(benchmark: BenchmarkFixture, hook, typ, value) -> None:
-    benchmark(batch, 200, hook, typ, value)
+    benchmark(batch, 20_000, hook, typ, value)
