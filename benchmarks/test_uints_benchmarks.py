@@ -24,10 +24,6 @@ UINT_CLASS_IDS = [
 ]
 
 
-def _construct_uint(cls) -> None:
-    cls(HEXBYTE_VALUE)
-
-
 @pytest.mark.benchmark(group="uints_construct")
 @pytest.mark.parametrize("cls", UINT_CLASSES, ids=UINT_CLASS_IDS)
 def test_uints_construct(benchmark: BenchmarkFixture, cls) -> None:
