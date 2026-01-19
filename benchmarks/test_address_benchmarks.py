@@ -27,25 +27,30 @@ def test_address_construct(benchmark: BenchmarkFixture, address: str) -> None:
 
 
 @pytest.mark.benchmark(group="address_reduce")
-def test_address_reduce(benchmark: BenchmarkFixture) -> None:
-    benchmark(batch, 1000, _reduce, ADDRESS_INSTANCE)
+@pytest.mark.parametrize("address", ADDRESS_CASES, ids=ADDRESS_CASE_IDS)
+def test_address_reduce(benchmark: BenchmarkFixture, address: str) -> None:
+    benchmark(batch, 1000, _reduce, address)
 
 
 @pytest.mark.benchmark(group="address_decode_hook")
-def test_address_decode_hook(benchmark: BenchmarkFixture) -> None:
-    benchmark(batch, 1000, Address._decode_hook, Address, ADDRESS_CHECKSUM)
+@pytest.mark.parametrize("address", ADDRESS_CASES, ids=ADDRESS_CASE_IDS)
+def test_address_decode_hook(benchmark: BenchmarkFixture, address: str) -> None:
+    benchmark(batch, 1000, Address._decode_hook, Address, address)
 
 
 @pytest.mark.benchmark(group="address_decode_hook_unsafe")
-def test_address_decode_hook_unsafe(benchmark: BenchmarkFixture) -> None:
-    benchmark(batch, 1000, Address._decode_hook_unsafe, Address, ADDRESS_CHECKSUM)
+@pytest.mark.parametrize("address", ADDRESS_CASES, ids=ADDRESS_CASE_IDS)
+def test_address_decode_hook_unsafe(benchmark: BenchmarkFixture, address: str) -> None:
+    benchmark(batch, 1000, Address._decode_hook_unsafe, Address, address)
 
 
 @pytest.mark.benchmark(group="address_new_function")
-def test_address_new_function(benchmark: BenchmarkFixture) -> None:
-    benchmark(batch, 1000, _new.Address, Address, ADDRESS_CHECKSUM)
+@pytest.mark.parametrize("address", ADDRESS_CASES, ids=ADDRESS_CASE_IDS)
+def test_address_new_function(benchmark: BenchmarkFixture, address: str) -> None:
+    benchmark(batch, 1000, _new.Address, Address, address)
 
 
 @pytest.mark.benchmark(group="address_checksum_internal")
-def test_address_checksum_internal(benchmark: BenchmarkFixture) -> None:
-    benchmark(batch, 1000, Address._Address__checksum, ADDRESS_LOWER)
+@pytest.mark.parametrize("address", ADDRESS_CASES, ids=ADDRESS_CASE_IDS)
+def test_address_checksum_internal(benchmark: BenchmarkFixture, address: str) -> None:
+    benchmark(batch, 1000, Address._Address__checksum, address)
