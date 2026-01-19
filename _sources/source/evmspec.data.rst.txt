@@ -9,13 +9,13 @@ evmspec.data.uints module
 
 .. automodule:: evmspec.data.uints
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
 
 Module contents
 ---------------
 
 .. automodule:: evmspec.data
    :members:
-   :show-inheritance:
    :undoc-members:
+   :show-inheritance:
