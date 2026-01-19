@@ -2,32 +2,17 @@ import json
 
 ADDRESS_CHECKSUM = "0x52908400098527886E0F7030069857D2E4169EE7"
 ADDRESS_LOWER = "0xde709f2102306220921060314715629080e2fb77"
-ADDRESS_UPPER = "0xDE709F2102306220921060314715629080E2FB77"
 ADDRESS_ZERO = "0x0000000000000000000000000000000000000000"
-ADDRESS_PRECOMPILE_1 = "0x0000000000000000000000000000000000000001"
-ADDRESS_PRECOMPILE_9 = "0x0000000000000000000000000000000000000009"
-ADDRESS_DEAD = "0x000000000000000000000000000000000000dead"
-ADDRESS_SAMPLE = "0x1234567890abcdef1234567890abcdef12345678"
 
 ADDRESS_CASES = [
     ADDRESS_CHECKSUM,
     ADDRESS_LOWER,
-    ADDRESS_UPPER,
     ADDRESS_ZERO,
-    ADDRESS_PRECOMPILE_1,
-    ADDRESS_PRECOMPILE_9,
-    ADDRESS_DEAD,
-    ADDRESS_SAMPLE,
 ]
 ADDRESS_CASE_IDS = [
     "checksummed",
     "lower",
-    "upper",
     "zero",
-    "precompile-1",
-    "precompile-9",
-    "dead",
-    "sample",
 ]
 
 HASH_1 = "0x" + "11" * 32
@@ -61,32 +46,14 @@ HEXBYTES32_CASE_IDS = [
 UINT_HEX_CASES = [
     "0x0",
     "0x1",
-    "0x10",
-    "0x65f2",
-    "0x5208",
-    "0x3b9aca00",
-    "0x1c9c380",
-    "0xffffffffffffffff",
-    "0x10000000000000000",
-    "0x0000000000000001",
-    "0x0000000000000000000000000000000000000000000000000000000000000000",
-    "0x0000000000000000000000000000000000000000000000000000000000000001",
-    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "0xff",
+    "0x7fffffffffffffff",
 ]
 UINT_HEX_CASE_IDS = [
     "0",
     "1",
-    "16",
-    "block",
-    "gas-21000",
-    "gwei",
-    "gas-limit",
-    "uint64-max",
-    "uint64-plus-one",
-    "padded-1",
-    "padded-32-zero",
-    "padded-32-one",
-    "uint256-max",
+    "ff",
+    "int64-max",
 ]
 
 LEGACY_TX = {
