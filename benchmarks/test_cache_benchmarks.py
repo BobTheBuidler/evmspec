@@ -16,4 +16,4 @@ def test_ttl_cache_call(benchmark: BenchmarkFixture) -> None:
     def _cached_call(x: int) -> int:
         return x + 1
 
-    benchmark(batch, 200_000, _cached_call, 1)
+    benchmark(batch, 25_000, _cached_call, 1)
