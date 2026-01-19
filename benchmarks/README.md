@@ -6,7 +6,7 @@ This directory contains CodSpeed-friendly benchmarks for key hot paths and micro
 - `test_hexbytes_benchmarks.py`: `HexBytes32` construction and helpers.
 - `test_numeric_benchmarks.py`: `uint` parsing/formatting, `Wei.scaled`, and timestamps.
 - `test_uints_benchmarks.py`: fixed-width uint constructors.
-- `test_cache_benchmarks.py`: `ttl_cache` wrapper creation and cached call paths.
+- `test_cache_benchmarks.py`: cached call paths.
 - `test_enum_benchmarks.py`: enum metaclass conversions.
 - `test_ids_benchmarks.py`: `IntId` arithmetic guard methods.
 - `test_decoding_benchmarks.py`: Transaction, receipt, and log decoding.
