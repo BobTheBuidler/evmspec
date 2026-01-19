@@ -39,8 +39,17 @@ UINT_HEX_WORKLOAD_IDS = [
 ]
 
 UINT_INSTANCE: Final = uint(42)
-WEI_INSTANCE: Final = Wei(10**18)
-TIMESTAMP_INSTANCE: Final = UnixTimestamp(1700000000)
+WEI_VALUE: Final = 10**18
+TIMESTAMP_VALUE: Final = 1700000000
+
+
+def _wei_scaled(value: int) -> None:
+    Wei(value).scaled
+
+
+def _unix_timestamp_datetime(value: int) -> None:
+    UnixTimestamp(value).datetime
+
 
 NUMERIC_CALLS = [
     pytest.param(
@@ -80,15 +89,15 @@ NUMERIC_CALLS = [
     ),
     pytest.param(
         2000,
-        getattr,
-        (WEI_INSTANCE, "scaled"),
+        _wei_scaled,
+        (WEI_VALUE,),
         id="wei-scaled",
         marks=pytest.mark.benchmark(group="wei_scaled"),
     ),
     pytest.param(
         2000,
-        getattr,
-        (TIMESTAMP_INSTANCE, "datetime"),
+        _unix_timestamp_datetime,
+        (TIMESTAMP_VALUE,),
         id="unix-timestamp-datetime",
         marks=pytest.mark.benchmark(group="unix_timestamp_datetime"),
     ),
