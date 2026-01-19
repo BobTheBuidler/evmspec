@@ -7,9 +7,6 @@ from benchmarks.data import ADDRESS_CASES, ADDRESS_CASE_IDS, ADDRESS_CHECKSUM, A
 from evmspec import _new
 from evmspec.data import Address
 
-ADDRESS_INSTANCE = Address(ADDRESS_CHECKSUM)
-
-
 def _reduce(obj: Address) -> None:
     obj.__reduce__()
 
