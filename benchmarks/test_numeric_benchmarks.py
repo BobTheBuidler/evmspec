@@ -1,7 +1,4 @@
 # mypy: disable-error-code=misc
-from collections.abc import Callable
-from typing import Final
-
 import pytest
 from pytest_codspeed import BenchmarkFixture
 
@@ -9,112 +6,120 @@ from benchmarks.batch import batch
 from benchmarks.data import UINT_HEX_CASES, UINT_HEX_CASE_IDS
 from evmspec.data import UnixTimestamp, Wei, uint
 
-UINT_HEX_WORKLOAD_CASES = [
-    *UINT_HEX_CASES,
-    "0x10",
-    "0x65f2",
-    "0x5208",
-    "0x3b9aca00",
-    "0x1c9c380",
-    "0xffffffffffffffff",
-    "0x10000000000000000",
-    "0x0000000000000001",
-    "0x0000000000000000000000000000000000000000000000000000000000000000",
-    "0x0000000000000000000000000000000000000000000000000000000000000001",
-    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+UINT_VALUE_CASES = [
+    uint(0),
+    uint(1),
+    uint(0x5208),
+    uint(0xFFFFFFFFFFFFFFFF),
+    uint(int("0x" + "ff" * 32, 16)),
 ]
-UINT_HEX_WORKLOAD_IDS = [
-    *UINT_HEX_CASE_IDS,
-    "16",
-    "block",
+UINT_VALUE_CASE_IDS = [
+    "0",
+    "1",
     "gas-21000",
-    "gwei",
-    "gas-limit",
     "uint64-max",
-    "uint64-plus-one",
-    "padded-1",
-    "padded-32-zero",
-    "padded-32-one",
     "uint256-max",
 ]
 
-UINT_INSTANCE: Final = uint(42)
-WEI_VALUE: Final = 10**18
-TIMESTAMP_VALUE: Final = 1700000000
+UINT_DECODE_STR_CASES = [
+    "0x2a",
+    "0x0000000000000001",
+    "0xffffffffffffffff",
+    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+]
+UINT_DECODE_STR_CASE_IDS = [
+    "42",
+    "padded-1",
+    "uint64-max",
+    "uint256-max",
+]
 
+UINT_DECODE_INT_CASES = [
+    42,
+    0xFFFFFFFFFFFFFFFF,
+    int("0x" + "ff" * 32, 16),
+]
+UINT_DECODE_INT_CASE_IDS = [
+    "42",
+    "uint64-max",
+    "uint256-max",
+]
 
-def _wei_scaled(value: int) -> None:
-    Wei(value).scaled
+WEI_INSTANCES = [
+    Wei(10**9),
+    Wei(10**18),
+]
+WEI_INSTANCE_IDS = [
+    "gwei",
+    "ether",
+]
 
-
-def _unix_timestamp_datetime(value: int) -> None:
-    UnixTimestamp(value).datetime
-
-
-NUMERIC_CALLS = [
-    pytest.param(
-        50_000,
-        repr,
-        (UINT_INSTANCE,),
-        id="uint-repr",
-        marks=pytest.mark.benchmark(group="uint_repr"),
-    ),
-    pytest.param(
-        50_000,
-        str,
-        (UINT_INSTANCE,),
-        id="uint-str",
-        marks=pytest.mark.benchmark(group="uint_str"),
-    ),
-    pytest.param(
-        20_000,
-        uint._decode,
-        ("0x2a",),
-        id="uint-decode-str",
-        marks=pytest.mark.benchmark(group="uint_decode_str"),
-    ),
-    pytest.param(
-        20_000,
-        uint._decode,
-        (42,),
-        id="uint-decode-int",
-        marks=pytest.mark.benchmark(group="uint_decode_int"),
-    ),
-    pytest.param(
-        20_000,
-        uint._decode_hook,
-        (uint, "0x2a"),
-        id="uint-decode-hook",
-        marks=pytest.mark.benchmark(group="uint_decode_hook"),
-    ),
-    pytest.param(
-        20_000,
-        _wei_scaled,
-        (WEI_VALUE,),
-        id="wei-scaled",
-        marks=pytest.mark.benchmark(group="wei_scaled"),
-    ),
-    pytest.param(
-        20_000,
-        _unix_timestamp_datetime,
-        (TIMESTAMP_VALUE,),
-        id="unix-timestamp-datetime",
-        marks=pytest.mark.benchmark(group="unix_timestamp_datetime"),
-    ),
+TIMESTAMP_INSTANCES = [
+    UnixTimestamp(0),
+    UnixTimestamp(1700000000),
+]
+TIMESTAMP_INSTANCE_IDS = [
+    "epoch",
+    "recent",
 ]
 
 
+def _wei_scaled_uncached(value: Wei) -> None:
+    value.__dict__.pop("scaled", None)
+    value.scaled
+
+
+def _unix_timestamp_datetime_uncached(value: UnixTimestamp) -> None:
+    value.__dict__.pop("datetime", None)
+    value.datetime
+
+
 @pytest.mark.benchmark(group="uint_fromhex")
-@pytest.mark.parametrize("hexstr", UINT_HEX_WORKLOAD_CASES, ids=UINT_HEX_WORKLOAD_IDS)
+@pytest.mark.parametrize("hexstr", UINT_HEX_CASES, ids=UINT_HEX_CASE_IDS)
 def test_uint_fromhex(benchmark: BenchmarkFixture, hexstr: str) -> None:
     benchmark(batch, 20_000, uint.fromhex, hexstr)
 
 
-@pytest.mark.parametrize("iterations, func, args", NUMERIC_CALLS)
-def test_numeric_helpers(
+@pytest.mark.benchmark(group="uint_repr")
+@pytest.mark.parametrize("value", UINT_VALUE_CASES, ids=UINT_VALUE_CASE_IDS)
+def test_uint_repr(benchmark: BenchmarkFixture, value: uint) -> None:
+    benchmark(batch, 50_000, repr, value)
+
+
+@pytest.mark.benchmark(group="uint_str")
+@pytest.mark.parametrize("value", UINT_VALUE_CASES, ids=UINT_VALUE_CASE_IDS)
+def test_uint_str(benchmark: BenchmarkFixture, value: uint) -> None:
+    benchmark(batch, 50_000, str, value)
+
+
+@pytest.mark.benchmark(group="uint_decode_str")
+@pytest.mark.parametrize("value", UINT_DECODE_STR_CASES, ids=UINT_DECODE_STR_CASE_IDS)
+def test_uint_decode_str(benchmark: BenchmarkFixture, value: str) -> None:
+    benchmark(batch, 20_000, uint._decode, value)
+
+
+@pytest.mark.benchmark(group="uint_decode_int")
+@pytest.mark.parametrize("value", UINT_DECODE_INT_CASES, ids=UINT_DECODE_INT_CASE_IDS)
+def test_uint_decode_int(benchmark: BenchmarkFixture, value: int) -> None:
+    benchmark(batch, 20_000, uint._decode, value)
+
+
+@pytest.mark.benchmark(group="uint_decode_hook")
+@pytest.mark.parametrize("hexstr", UINT_DECODE_STR_CASES, ids=UINT_DECODE_STR_CASE_IDS)
+def test_uint_decode_hook(benchmark: BenchmarkFixture, hexstr: str) -> None:
+    benchmark(batch, 20_000, uint._decode_hook, uint, hexstr)
+
+
+@pytest.mark.benchmark(group="wei_scaled")
+@pytest.mark.parametrize("value", WEI_INSTANCES, ids=WEI_INSTANCE_IDS)
+def test_wei_scaled(benchmark: BenchmarkFixture, value: Wei) -> None:
+    benchmark(batch, 20_000, _wei_scaled_uncached, value)
+
+
+@pytest.mark.benchmark(group="unix_timestamp_datetime")
+@pytest.mark.parametrize("value", TIMESTAMP_INSTANCES, ids=TIMESTAMP_INSTANCE_IDS)
+def test_unix_timestamp_datetime(
     benchmark: BenchmarkFixture,
-    iterations: int,
-    func: Callable[..., object],
-    args: tuple[object, ...],
+    value: UnixTimestamp,
 ) -> None:
-    benchmark(batch, iterations, func, *args)
+    benchmark(batch, 20_000, _unix_timestamp_datetime_uncached, value)
