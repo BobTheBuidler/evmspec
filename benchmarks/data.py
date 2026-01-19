@@ -23,14 +23,24 @@ HASH_4 = "0x" + "44" * 32
 TOPIC_0 = "0x" + "aa" * 32
 TOPIC_1 = "0x" + "bb" * 32
 DATA_32 = "0x" + "00" * 32
+HASH_PADDED = "0x" + "00" * 31 + "01"
+ADDRESS_TOPIC_CHECKSUM = "0x" + "00" * 12 + ADDRESS_CHECKSUM[2:]
 
 HEXBYTES32_CASES = [
     HASH_1,
-    bytes.fromhex("11" * 32),
+    bytes.fromhex(HASH_1[2:]),
+    HASH_1[2:],
+    HASH_PADDED,
+    ADDRESS_TOPIC_CHECKSUM,
+    DATA_32,
 ]
 HEXBYTES32_CASE_IDS = [
     "hexstr",
     "bytes",
+    "hexstr-no-prefix",
+    "padded-small",
+    "address-topic",
+    "all-zero",
 ]
 
 UINT_HEX_CASES = [
