@@ -31,4 +31,4 @@ def _construct_uint(cls) -> None:
 @pytest.mark.benchmark(group="uints_construct")
 @pytest.mark.parametrize("cls", UINT_CLASSES, ids=UINT_CLASS_IDS)
 def test_uints_construct(benchmark: BenchmarkFixture, cls) -> None:
-    benchmark(batch, 2000, _construct_uint, cls)
+    benchmark(batch, 2000, cls, HEXBYTE_VALUE)
