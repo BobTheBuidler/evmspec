@@ -12,7 +12,6 @@ This directory contains CodSpeed-friendly benchmarks for key hot paths and micro
 - `test_decoding_benchmarks.py`: Transaction, receipt, and log decoding.
 - `test_block_benchmarks.py`: `TinyBlock.transactions` decoding.
 - `test_decode_hook_benchmarks.py`: global decode hooks and internal helpers.
-- `test_async_benchmarks.py`: optional async helpers (skipped if a_sync missing).
 
 ## Running Benchmarks
 
