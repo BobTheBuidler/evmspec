@@ -6,42 +6,31 @@ from benchmarks.batch import batch
 from evmspec.structs.receipt import Status
 from evmspec.structs.trace import call, reward
 
-CALL_TYPE_CASES = [
-    ("call", "str-call"),
-    ("delegatecall", "str-delegatecall"),
-    ("staticcall", "str-staticcall"),
-    (0, "int-call"),
-    (1, "int-delegatecall"),
-    (2, "int-staticcall"),
-    (call.Type.call, "enum-call"),
-    (call.Type.delegatecall, "enum-delegatecall"),
-    (call.Type.staticcall, "enum-staticcall"),
+TRACE_TYPE_CASES = [
+    (call.Type, "call", "call-str-call"),
+    (call.Type, "delegatecall", "call-str-delegatecall"),
+    (call.Type, "staticcall", "call-str-staticcall"),
+    (call.Type, 0, "call-int-call"),
+    (call.Type, 1, "call-int-delegatecall"),
+    (call.Type, 2, "call-int-staticcall"),
+    (call.Type, call.Type.call, "call-enum-call"),
+    (call.Type, call.Type.delegatecall, "call-enum-delegatecall"),
+    (call.Type, call.Type.staticcall, "call-enum-staticcall"),
+    (reward.Type, "block", "reward-str-block"),
+    (reward.Type, "uncle", "reward-str-uncle"),
+    (reward.Type, 0, "reward-int-block"),
+    (reward.Type, 1, "reward-int-uncle"),
+    (reward.Type, reward.Type.block, "reward-enum-block"),
+    (reward.Type, reward.Type.uncle, "reward-enum-uncle"),
 ]
-CALL_TYPE_VALUES = [value for value, _ in CALL_TYPE_CASES]
-CALL_TYPE_IDS = [case_id for _, case_id in CALL_TYPE_CASES]
-
-REWARD_TYPE_CASES = [
-    ("block", "str-block"),
-    ("uncle", "str-uncle"),
-    (0, "int-block"),
-    (1, "int-uncle"),
-    (reward.Type.block, "enum-block"),
-    (reward.Type.uncle, "enum-uncle"),
-]
-REWARD_TYPE_VALUES = [value for value, _ in REWARD_TYPE_CASES]
-REWARD_TYPE_IDS = [case_id for _, case_id in REWARD_TYPE_CASES]
+TRACE_TYPE_VALUES = [(enum_cls, value) for enum_cls, value, _ in TRACE_TYPE_CASES]
+TRACE_TYPE_IDS = [case_id for _, _, case_id in TRACE_TYPE_CASES]
 
 
-@pytest.mark.benchmark(group="call_type_enum")
-@pytest.mark.parametrize("value", CALL_TYPE_VALUES, ids=CALL_TYPE_IDS)
-def test_call_type_enum(benchmark: BenchmarkFixture, value) -> None:
-    benchmark(batch, 2000, call.Type, value)
-
-
-@pytest.mark.benchmark(group="reward_type_enum")
-@pytest.mark.parametrize("value", REWARD_TYPE_VALUES, ids=REWARD_TYPE_IDS)
-def test_reward_type_enum(benchmark: BenchmarkFixture, value) -> None:
-    benchmark(batch, 2000, reward.Type, value)
+@pytest.mark.benchmark(group="trace_type_enum")
+@pytest.mark.parametrize("enum_cls, value", TRACE_TYPE_VALUES, ids=TRACE_TYPE_IDS)
+def test_trace_type_enum(benchmark: BenchmarkFixture, enum_cls, value) -> None:
+    benchmark(batch, 2000, enum_cls, value)
 
 
 @pytest.mark.benchmark(group="status_enum_hex")
