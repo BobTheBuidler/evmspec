@@ -6,25 +6,37 @@ from pytest_codspeed import BenchmarkFixture
 from benchmarks.batch import batch
 from evmspec.data import uints
 
-HEXBYTE_VALUE = HexBytes(1)
 
-UINT_CLASSES = [
-    uints.uint8,
-    uints.uint40,
-    uints.uint64,
-    uints.uint128,
-    uints.uint256,
-]
-UINT_CLASS_IDS = [
-    "uint8",
-    "uint40",
-    "uint64",
-    "uint128",
-    "uint256",
-]
+def _collect_uint_classes() -> list[type]:
+    # Discover all uint<N> classes, including dynamically generated ones.
+    classes: list[tuple[int, type]] = []
+    for name in dir(uints):
+        if not name.startswith("uint"):
+            continue
+        suffix = name[4:]
+        if not suffix.isdigit():
+            continue
+        cls = getattr(uints, name)
+        if isinstance(cls, type):
+            classes.append((int(suffix), cls))
+    classes.sort(key=lambda item: item[0])
+    return [cls for _, cls in classes]
+
+
+UINT_CLASSES = _collect_uint_classes()
+ZERO_VALUE = HexBytes("0x")
+
+UINT_CASES = []
+for cls in UINT_CLASSES:
+    max_value = HexBytes("0x" + "ff" * cls.bytes)
+    UINT_CASES.append((cls, ZERO_VALUE, f"{cls.__name__}-zero"))
+    UINT_CASES.append((cls, max_value, f"{cls.__name__}-max"))
+
+UINT_CASE_VALUES = [(cls, value) for cls, value, _ in UINT_CASES]
+UINT_CASE_IDS = [case_id for _, _, case_id in UINT_CASES]
 
 
 @pytest.mark.benchmark(group="uints_construct")
-@pytest.mark.parametrize("cls", UINT_CLASSES, ids=UINT_CLASS_IDS)
-def test_uints_construct(benchmark: BenchmarkFixture, cls) -> None:
-    benchmark(batch, 2000, cls, HEXBYTE_VALUE)
+@pytest.mark.parametrize("cls, value", UINT_CASE_VALUES, ids=UINT_CASE_IDS)
+def test_uints_construct(benchmark: BenchmarkFixture, cls, value) -> None:
+    benchmark(batch, 20_000, cls, value)
