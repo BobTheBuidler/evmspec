@@ -61,14 +61,32 @@ HEXBYTES32_CASE_IDS = [
 UINT_HEX_CASES = [
     "0x0",
     "0x1",
-    "0xff",
-    "0x7fffffffffffffff",
+    "0x10",
+    "0x65f2",
+    "0x5208",
+    "0x3b9aca00",
+    "0x1c9c380",
+    "0xffffffffffffffff",
+    "0x10000000000000000",
+    "0x0000000000000001",
+    "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "0x0000000000000000000000000000000000000000000000000000000000000001",
+    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
 ]
 UINT_HEX_CASE_IDS = [
     "0",
     "1",
-    "ff",
-    "int64-max",
+    "16",
+    "block",
+    "gas-21000",
+    "gwei",
+    "gas-limit",
+    "uint64-max",
+    "uint64-plus-one",
+    "padded-1",
+    "padded-32-zero",
+    "padded-32-one",
+    "uint256-max",
 ]
 
 LEGACY_TX = {
