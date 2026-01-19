@@ -9,6 +9,7 @@ on:
       - "benchmarks/**"
       - "setup.py"
       - "pyproject.toml"
+      - "poetry.lock"
       - "requirements-codspeed.txt"
       - "requirements-pytest.txt"
   push:
@@ -19,6 +20,7 @@ on:
       - "benchmarks/**"
       - "setup.py"
       - "pyproject.toml"
+      - "poetry.lock"
       - "requirements-codspeed.txt"
       - "requirements-pytest.txt"
   workflow_dispatch:
