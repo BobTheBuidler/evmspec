@@ -25,6 +25,16 @@ TRACE_TYPE_CASES = [
 ]
 TRACE_TYPE_VALUES = [(enum_cls, value) for enum_cls, value, _ in TRACE_TYPE_CASES]
 TRACE_TYPE_IDS = [case_id for _, _, case_id in TRACE_TYPE_CASES]
+STATUS_CASES = [
+    ("0x1", "hex-success"),
+    ("0x0", "hex-failure"),
+    ("1", "dec-success"),
+    ("0", "dec-failure"),
+    ("0X1", "hex-upper-success"),
+    ("0X0", "hex-upper-failure"),
+]
+STATUS_VALUES = [value for value, _ in STATUS_CASES]
+STATUS_IDS = [case_id for _, case_id in STATUS_CASES]
 
 
 @pytest.mark.benchmark(group="trace_type_enum")
@@ -33,6 +43,7 @@ def test_trace_type_enum(benchmark: BenchmarkFixture, enum_cls, value) -> None:
     benchmark(batch, 2000, enum_cls, value)
 
 
-@pytest.mark.benchmark(group="status_enum_hex")
-def test_status_enum_hex(benchmark: BenchmarkFixture) -> None:
-    benchmark(batch, 2000, Status, "0x1")
+@pytest.mark.benchmark(group="status_enum")
+@pytest.mark.parametrize("value", STATUS_VALUES, ids=STATUS_IDS)
+def test_status_enum(benchmark: BenchmarkFixture, value) -> None:
+    benchmark(batch, 2000, Status, value)
