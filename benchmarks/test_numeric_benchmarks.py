@@ -53,49 +53,49 @@ def _unix_timestamp_datetime(value: int) -> None:
 
 NUMERIC_CALLS = [
     pytest.param(
-        5000,
+        50_000,
         repr,
         (UINT_INSTANCE,),
         id="uint-repr",
         marks=pytest.mark.benchmark(group="uint_repr"),
     ),
     pytest.param(
-        5000,
+        50_000,
         str,
         (UINT_INSTANCE,),
         id="uint-str",
         marks=pytest.mark.benchmark(group="uint_str"),
     ),
     pytest.param(
-        2000,
+        20_000,
         uint._decode,
         ("0x2a",),
         id="uint-decode-str",
         marks=pytest.mark.benchmark(group="uint_decode_str"),
     ),
     pytest.param(
-        2000,
+        20_000,
         uint._decode,
         (42,),
         id="uint-decode-int",
         marks=pytest.mark.benchmark(group="uint_decode_int"),
     ),
     pytest.param(
-        2000,
+        20_000,
         uint._decode_hook,
         (uint, "0x2a"),
         id="uint-decode-hook",
         marks=pytest.mark.benchmark(group="uint_decode_hook"),
     ),
     pytest.param(
-        2000,
+        20_000,
         _wei_scaled,
         (WEI_VALUE,),
         id="wei-scaled",
         marks=pytest.mark.benchmark(group="wei_scaled"),
     ),
     pytest.param(
-        2000,
+        20_000,
         _unix_timestamp_datetime,
         (TIMESTAMP_VALUE,),
         id="unix-timestamp-datetime",
@@ -107,7 +107,7 @@ NUMERIC_CALLS = [
 @pytest.mark.benchmark(group="uint_fromhex")
 @pytest.mark.parametrize("hexstr", UINT_HEX_WORKLOAD_CASES, ids=UINT_HEX_WORKLOAD_IDS)
 def test_uint_fromhex(benchmark: BenchmarkFixture, hexstr: str) -> None:
-    benchmark(batch, 2000, uint.fromhex, hexstr)
+    benchmark(batch, 20_000, uint.fromhex, hexstr)
 
 
 @pytest.mark.parametrize("iterations, func, args", NUMERIC_CALLS)
