@@ -62,4 +62,4 @@ def _ipow(obj):
 @pytest.mark.benchmark(group="intid_ops")
 @pytest.mark.parametrize("cls", [ChainId, TransactionIndex, LogIndex], ids=["chain", "tx", "log"])
 def test_intid_ops(benchmark: BenchmarkFixture, cls) -> None:
-    benchmark(batch, 5, _exercise_intid_ops, cls)
+    benchmark(batch, 50, _exercise_intid_ops, cls)
