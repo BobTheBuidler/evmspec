@@ -8,8 +8,8 @@ from benchmarks.data import (
     DATA_32,
     HASH_1,
     HASH_PADDED,
-    HEXBYTES32_CASES,
     HEXBYTES32_CASE_IDS,
+    HEXBYTES32_CASES,
 )
 from evmspec import _new
 from evmspec.data import HexBytes32
@@ -26,9 +26,7 @@ HEXBYTES32_WORKLOAD_IDS = [
     "padded-small",
     "all-zero",
 ]
-HEXBYTES32_WORKLOAD_INSTANCES = [
-    HexBytes32(value) for value in HEXBYTES32_WORKLOAD_HEXSTRS
-]
+HEXBYTES32_WORKLOAD_INSTANCES = [HexBytes32(value) for value in HEXBYTES32_WORKLOAD_HEXSTRS]
 
 GETITEM_INT_CASES = [0, 15, 31]
 GETITEM_INT_CASE_IDS = ["first", "middle", "last"]
