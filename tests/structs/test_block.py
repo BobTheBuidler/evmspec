@@ -8,10 +8,18 @@ from msgspec import Raw
 
 pytest.importorskip("dictstruct")
 
-from evmspec.data import Address, BlockHash, BlockNumber, Nonce, TransactionHash, UnixTimestamp, Wei, uint
+from evmspec.data import (
+    Address,
+    BlockHash,
+    BlockNumber,
+    Nonce,
+    TransactionHash,
+    UnixTimestamp,
+    Wei,
+    uint,
+)
 from evmspec.structs.block import ShanghaiCapellaBlock, TinyBlock
 from evmspec.structs.transaction import TransactionLegacy, TransactionRLP
-
 
 ADDRESS = "0x" + "11" * 20
 TX_HASH = "0x" + "22" * 32

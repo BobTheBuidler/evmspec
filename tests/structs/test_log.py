@@ -6,7 +6,6 @@ from evmspec.data import Address, BlockNumber, TransactionHash
 from evmspec.data._ids import LogIndex, TransactionIndex
 from evmspec.structs.log import Data, Log, TinyLog, Topic
 
-
 ADDRESS = "0x" + "11" * 20
 TOPIC = "0x" + "22" * 32
 
