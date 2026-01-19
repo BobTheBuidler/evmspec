@@ -40,10 +40,10 @@ STATUS_IDS = [case_id for _, case_id in STATUS_CASES]
 @pytest.mark.benchmark(group="trace_type_enum")
 @pytest.mark.parametrize("enum_cls, value", TRACE_TYPE_VALUES, ids=TRACE_TYPE_IDS)
 def test_trace_type_enum(benchmark: BenchmarkFixture, enum_cls, value) -> None:
-    benchmark(batch, 2000, enum_cls, value)
+    benchmark(batch, 20_000, enum_cls, value)
 
 
 @pytest.mark.benchmark(group="status_enum")
 @pytest.mark.parametrize("value", STATUS_VALUES, ids=STATUS_IDS)
 def test_status_enum(benchmark: BenchmarkFixture, value) -> None:
-    benchmark(batch, 2000, Status, value)
+    benchmark(batch, 20_000, Status, value)
