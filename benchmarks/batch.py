@@ -1,4 +1,5 @@
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 
 def batch(iterations: int, func: Callable[..., Any], *args: Any, **kwargs: Any) -> None:

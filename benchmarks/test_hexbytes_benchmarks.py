@@ -3,7 +3,7 @@ import pytest
 from pytest_codspeed import BenchmarkFixture
 
 from benchmarks.batch import batch
-from benchmarks.data import HASH_1, HEXBYTES32_CASES, HEXBYTES32_CASE_IDS
+from benchmarks.data import HASH_1, HEXBYTES32_CASE_IDS, HEXBYTES32_CASES
 from evmspec import _new
 from evmspec.data import HexBytes32
 
