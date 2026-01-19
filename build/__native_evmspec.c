@@ -279,7 +279,7 @@ CPyL15: ;
 CPyL18: ;
     cpy_r_r23 = CPy_CatchError();
     cpy_r_r24 = CPyModule_builtins;
-    cpy_r_r25 = CPyStatics[6]; /* 'KeyError' */
+    cpy_r_r25 = CPyStatics[6]; /* 'IndexError' */
     cpy_r_r26 = CPyObject_GetAttr(cpy_r_r24, cpy_r_r25);
     if (unlikely(cpy_r_r26 == NULL)) {
         CPy_AddTraceback("evmspec/_new.py", "HexBytes32", 43, CPyStatic_globals);
@@ -740,10 +740,10 @@ int CPyGlobalsInit(void)
 
 PyObject *CPyStatics[31];
 const char * const CPyLit_Str[] = {
-    "\a\a__new__\0020x\r_check_hexstr\bKeyError\016 is too long: \nValueError\bbuiltins",
-    "\006\005Final\aTypeVar\006typing\tcchecksum\026faster_hexbytes._utils\017faster_hexbytes",
-    "\006\017evmspec/_new.py\b<module>\nAnyAddress\neth_typing\003__T\016ONE_EMPTY_BYTE",
-    "\003\rMISSING_BYTES\bto_bytes\023to_checksum_address",
+    "\006\a__new__\0020x\r_check_hexstr\nIndexError\016 is too long: \nValueError",
+    "\006\bbuiltins\005Final\aTypeVar\006typing\tcchecksum\026faster_hexbytes._utils",
+    "\006\017faster_hexbytes\017evmspec/_new.py\b<module>\nAnyAddress\neth_typing\003__T",
+    "\004\016ONE_EMPTY_BYTE\rMISSING_BYTES\bto_bytes\023to_checksum_address",
     "",
 };
 const char * const CPyLit_Bytes[] = {
