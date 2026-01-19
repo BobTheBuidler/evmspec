@@ -2,6 +2,7 @@ __pycache__/
 .hypothesis/
 .mypy_cache/
 .pytest_cache/
+.worktrees
 build/**/*.py
 build/**/*.typed
 build/ops.txt
