@@ -15,8 +15,8 @@ from evmspec.data import (
     Nonce,
     TransactionHash,
     Wei,
-    uint,
     _decode_hook,
+    uint,
 )
 from evmspec.data._ids import ChainId, TransactionIndex
 
