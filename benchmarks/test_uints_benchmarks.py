@@ -39,4 +39,4 @@ UINT_CASE_IDS = [case_id for _, _, case_id in UINT_CASES]
 @pytest.mark.benchmark(group="uints_construct")
 @pytest.mark.parametrize("cls, value", UINT_CASE_VALUES, ids=UINT_CASE_IDS)
 def test_uints_construct(benchmark: BenchmarkFixture, cls, value) -> None:
-    benchmark(batch, 200, cls, value)
+    benchmark(batch, 20_000, cls, value)
