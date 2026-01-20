@@ -1,7 +1,4 @@
 # mypy: disable-error-code=misc
-from collections.abc import Callable
-from typing import Final
-
 import pytest
 from pytest_codspeed import BenchmarkFixture
 
@@ -38,9 +35,9 @@ UINT_HEX_WORKLOAD_IDS = [
     "uint256-max",
 ]
 
-UINT_INSTANCE: Final = uint(42)
-WEI_VALUE: Final = 10**18
-TIMESTAMP_VALUE: Final = 1700000000
+UINT_INSTANCE = uint(42)
+WEI_VALUE = 10**18
+TIMESTAMP_VALUE = 1700000000
 
 
 def _wei_scaled(value: int) -> None:
@@ -51,70 +48,42 @@ def _unix_timestamp_datetime(value: int) -> None:
     UnixTimestamp(value).datetime
 
 
-NUMERIC_CALLS = [
-    pytest.param(
-        50_000,
-        repr,
-        (UINT_INSTANCE,),
-        id="uint-repr",
-        marks=pytest.mark.benchmark(group="uint_repr"),
-    ),
-    pytest.param(
-        50_000,
-        str,
-        (UINT_INSTANCE,),
-        id="uint-str",
-        marks=pytest.mark.benchmark(group="uint_str"),
-    ),
-    pytest.param(
-        20_000,
-        uint._decode,
-        ("0x2a",),
-        id="uint-decode-str",
-        marks=pytest.mark.benchmark(group="uint_decode_str"),
-    ),
-    pytest.param(
-        20_000,
-        uint._decode,
-        (42,),
-        id="uint-decode-int",
-        marks=pytest.mark.benchmark(group="uint_decode_int"),
-    ),
-    pytest.param(
-        20_000,
-        uint._decode_hook,
-        (uint, "0x2a"),
-        id="uint-decode-hook",
-        marks=pytest.mark.benchmark(group="uint_decode_hook"),
-    ),
-    pytest.param(
-        20_000,
-        _wei_scaled,
-        (WEI_VALUE,),
-        id="wei-scaled",
-        marks=pytest.mark.benchmark(group="wei_scaled"),
-    ),
-    pytest.param(
-        20_000,
-        _unix_timestamp_datetime,
-        (TIMESTAMP_VALUE,),
-        id="unix-timestamp-datetime",
-        marks=pytest.mark.benchmark(group="unix_timestamp_datetime"),
-    ),
-]
-
-
 @pytest.mark.benchmark(group="uint_fromhex")
 @pytest.mark.parametrize("hexstr", UINT_HEX_WORKLOAD_CASES, ids=UINT_HEX_WORKLOAD_IDS)
 def test_uint_fromhex(benchmark: BenchmarkFixture, hexstr: str) -> None:
     benchmark(batch, 20_000, uint.fromhex, hexstr)
 
 
-@pytest.mark.parametrize("iterations, func, args", NUMERIC_CALLS)
-def test_numeric_helpers(
-    benchmark: BenchmarkFixture,
-    iterations: int,
-    func: Callable[..., object],
-    args: tuple[object, ...],
-) -> None:
-    benchmark(batch, iterations, func, *args)
+@pytest.mark.benchmark(group="uint_repr")
+def test_uint_repr(benchmark: BenchmarkFixture) -> None:
+    benchmark(batch, 50_000, repr, UINT_INSTANCE)
+
+
+@pytest.mark.benchmark(group="uint_str")
+def test_uint_str(benchmark: BenchmarkFixture) -> None:
+    benchmark(batch, 50_000, str, UINT_INSTANCE)
+
+
+@pytest.mark.benchmark(group="uint_decode_str")
+def test_uint_decode_str(benchmark: BenchmarkFixture) -> None:
+    benchmark(batch, 20_000, uint._decode, "0x2a")
+
+
+@pytest.mark.benchmark(group="uint_decode_int")
+def test_uint_decode_int(benchmark: BenchmarkFixture) -> None:
+    benchmark(batch, 20_000, uint._decode, 42)
+
+
+@pytest.mark.benchmark(group="uint_decode_hook")
+def test_uint_decode_hook(benchmark: BenchmarkFixture) -> None:
+    benchmark(batch, 20_000, uint._decode_hook, uint, "0x2a")
+
+
+@pytest.mark.benchmark(group="wei_scaled")
+def test_wei_scaled(benchmark: BenchmarkFixture) -> None:
+    benchmark(batch, 20_000, _wei_scaled, WEI_VALUE)
+
+
+@pytest.mark.benchmark(group="unix_timestamp_datetime")
+def test_unix_timestamp_datetime(benchmark: BenchmarkFixture) -> None:
+    benchmark(batch, 20_000, _unix_timestamp_datetime, TIMESTAMP_VALUE)
