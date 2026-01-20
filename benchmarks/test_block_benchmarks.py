@@ -23,4 +23,4 @@ def _decode_block_transactions(raw: bytes) -> None:
     ids=["full-transactions", "hashes-only"],
 )
 def test_tinyblock_transactions(benchmark: BenchmarkFixture, raw: bytes) -> None:
-    benchmark(batch, 20, _decode_block_transactions, raw)
+    benchmark(batch, 100, _decode_block_transactions, raw)
