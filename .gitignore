@@ -11,4 +11,3 @@ dist/
 *.so
 *.pyd
 evmspec.egg-info/
-.worktrees/
