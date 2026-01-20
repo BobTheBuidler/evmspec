@@ -53,4 +53,4 @@ jobs:
 
     - name: Run MyPy
       shell: bash
-      run: poetry run mypy ./evmspec
+      run: poetry run mypy
