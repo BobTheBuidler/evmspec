@@ -46,6 +46,7 @@ pretty = true
 show_error_codes = true
 show_error_context = true
 no_warn_no_return = true
+files = ["evmspec"]
 
 [tool.black]
 line-length = 100
