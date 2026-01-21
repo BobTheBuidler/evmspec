@@ -16,5 +16,6 @@ All agents must follow these rules:
 10) Use one of `paths` or `paths-ignore` in every workflow file to make sure workflows only run when required.
 11) All mypy configuration (flags, overrides, per-module ignores, and file targets) should go in pyproject.toml. Do not split config across CLI args, mypy.ini, setup.cfg, or workflow steps.
 12) Centralize pytest settings (flags, markers, ignore patterns, and targets) in pyproject.toml, pytest.ini, setup.cfg, or tox.ini; workflows/hooks should call pytest without inline args.
+13) If the branch you're assigned to work on is from a remote (ie origin/master or upstream/awesome-feature) you must fetch the remote and create or checkout a local tracking branch, then pull to fast-forward so your local branch is up to date before you begin any work.
 
 Reference: https://www.conventionalcommits.org/en/v1.0.0/
