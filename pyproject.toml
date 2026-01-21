@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "evmspec"
-version = "0.4.9"
+version = "0.4.10"
 description = "A collection of msgspec.Struct definitions for use with the Ethereum Virtual Machine"
 authors = ["BobTheBuidler <bobthebuidlerdefi@gmail.com>"]
 
@@ -12,6 +12,7 @@ requires = [
     "types-cachetools",
     "tomli>=2.0.0; python_version < '3.11'",
     "cchecksum==0.3.9",
+    "dictstruct==0.0.9",
     "eth-hash>=0.7.0,<1",
     "eth-typing==5.2.1",
     "ez-a-sync==0.33.10",
@@ -45,7 +46,7 @@ pretty = true
 show_error_codes = true
 show_error_context = true
 no_warn_no_return = true
-
 files = ["evmspec"]
+
 [tool.black]
 line-length = 100
