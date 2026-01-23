@@ -20,6 +20,11 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+[tool.cibuildwheel]
+# As of 2026/01/23 msgspec doesn't support 32-bit Python windows builds.
+# If this is important for your use case, please comment on this issue: https://github.com/jcrist/msgspec/issues/845
+skip = "*-win32"
+
 [tool.poetry.dependencies]
 python = ">=3.10,<3.14"
 cachetools = ">=4.1.1,<7"
