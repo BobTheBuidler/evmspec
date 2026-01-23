@@ -23,6 +23,12 @@ with Path("pyproject.toml").open("rb") as f:
     poetry_config = pyproject_data["tool"]["poetry"]
 
 
+SKIP_MYPYC = any(
+    cmd in sys.argv
+    for cmd in ("sdist", "egg_info", "--name", "--version", "--help", "--help-commands")
+)
+
+
 def poetry_dependencies_to_install_requires(poetry_deps):
     """
     Reads [tool.poetry.dependencies] in pyproject.toml and converts them
@@ -162,10 +168,14 @@ def combine_markers(a, b):
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
-ext_modules: list[Extension] = mypycify(
-    ["evmspec/_new.py", "--pretty", "--disable-error-code=unused-ignore"],
-    group_name="evmspec",
-)
+
+ext_modules: list[Extension] = []
+
+if not SKIP_MYPYC:
+    ext_modules.extend(
+        mypycify(["evmspec/_new.py", "--disable-error-code=unused-ignore"], group_name="evmspec")
+    )
+
 
 setup(
     name=poetry_config["name"],
