@@ -3,7 +3,7 @@ import pytest
 from pytest_codspeed import BenchmarkFixture
 
 from benchmarks.batch import batch
-from benchmarks.data import UINT_HEX_CASES, UINT_HEX_CASE_IDS
+from benchmarks.data import UINT_HEX_CASE_IDS, UINT_HEX_CASES
 from evmspec.data import UnixTimestamp, Wei, uint
 
 UINT_HEX_WORKLOAD_CASES = [

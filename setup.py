@@ -8,7 +8,7 @@ try:
     import tomllib  # type: ignore[import-not-found]  # Python 3.11+
 except ModuleNotFoundError:
     import tomli as tomllib  # Older Python
-    
+
 
 if sys.platform == "win32" and sys.maxsize < 2**32:
     raise RuntimeError(

@@ -3,7 +3,7 @@ import pytest
 from pytest_codspeed import BenchmarkFixture
 
 from benchmarks.batch import batch
-from benchmarks.data import ADDRESS_CASES, ADDRESS_CASE_IDS
+from benchmarks.data import ADDRESS_CASE_IDS, ADDRESS_CASES
 from evmspec import _new
 from evmspec.data import Address
 

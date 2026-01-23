@@ -4,13 +4,7 @@ from msgspec.json import Decoder
 from pytest_codspeed import BenchmarkFixture
 
 from benchmarks.batch import batch
-from benchmarks.data import (
-    RAW_EIP1559_TX,
-    RAW_LEGACY_TX,
-    RAW_LOG,
-    RAW_RECEIPT,
-    RAW_TX_LIST,
-)
+from benchmarks.data import RAW_EIP1559_TX, RAW_LEGACY_TX, RAW_LOG, RAW_RECEIPT, RAW_TX_LIST
 from evmspec.data import _decode_hook
 from evmspec.structs.log import Log
 from evmspec.structs.receipt import TransactionReceipt
