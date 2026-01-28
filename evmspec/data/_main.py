@@ -418,10 +418,6 @@ class HexBytes32(faster_hexbytes.HexBytes):
     # def __len__(self) -> Literal[32]:
     #    return 32
 
-    def __hash__(self) -> int:
-        # TODO: can we just remove this?
-        return hash(_hex(self))
-
     def hex(self) -> str:  # type: ignore [override]
         """
         Output hex-encoded bytes, with an "0x" prefix.
