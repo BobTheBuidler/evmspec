@@ -419,8 +419,7 @@ class HexBytes32(faster_hexbytes.HexBytes):
     #    return 32
 
     def __hash__(self) -> int:
-        # TODO: can we just remove this?
-        return hash(_hex(self))
+        return bytes.__hash__(self)
 
     def hex(self) -> str:  # type: ignore [override]
         """
