@@ -538,8 +538,7 @@
 <span class="sd">            &gt;&gt;&gt; hb.strip()</span>
 <span class="sd">            &#39;1234&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># we trim all leading zeroes since we know how many we need to put back later</span>
-        <span class="k">return</span> <span class="nb">hex</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="mi">16</span><span class="p">))[</span><span class="mi">2</span><span class="p">:]</span></div>
+        <span class="k">return</span> <span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;0&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;0&quot;</span></div>
 
 
     <span class="nd">@staticmethod</span>
