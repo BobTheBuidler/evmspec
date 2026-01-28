@@ -78,6 +78,8 @@ def test_hexbytes32_repr_hex_strip_hash() -> None:
     assert hb.hex() == f"0x{bytes.hex(hb)}"
     assert hb.strip() == "12"
     assert hash(hb) == hash(bytes.hex(hb))
+    zeroed = HexBytes32("0x" + "00" * 32)
+    assert zeroed.strip() == "0"
 
 
 def test_hexbytes32_getitem() -> None:
