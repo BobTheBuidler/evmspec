@@ -436,8 +436,9 @@ class HexBytes32(faster_hexbytes.HexBytes):
             >>> hb.strip()
             '1234'
         """
-        # we trim all leading zeroes since we know how many we need to put back later
-        return hex(int(_hex(self), 16))[2:]
+        hexstr = _hex(self)
+        stripped = hexstr.lstrip("0")
+        return stripped or "0"
 
     @staticmethod
     def _check_hexstr(hexstr: str):
