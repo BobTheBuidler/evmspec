@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "evmspec"
-version = "0.4.11"
+version = "0.4.12"
 description = "A collection of msgspec.Struct definitions for use with the Ethereum Virtual Machine"
 authors = ["BobTheBuidler <bobthebuidlerdefi@gmail.com>"]
 
