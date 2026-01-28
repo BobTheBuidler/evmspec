@@ -410,7 +410,9 @@ class HexBytes32(faster_hexbytes.HexBytes):
     def __getitem__(self, key: slice) -> faster_hexbytes.HexBytes: ...
 
     def __getitem__(self, key: SupportsIndex | slice) -> int | faster_hexbytes.HexBytes:
-        return FasterHexBytes(self)[key]
+        if isinstance(key, slice):
+            return FasterHexBytes(self)[key]
+        return bytes.__getitem__(self, key)
 
     # TODO: keep the instance small and just task on the length for operations as needed
     # def __len__(self) -> Literal[32]:
