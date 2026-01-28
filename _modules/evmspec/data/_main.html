@@ -515,10 +515,6 @@
     <span class="c1"># def __len__(self) -&gt; Literal[32]:</span>
     <span class="c1">#    return 32</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="c1"># TODO: can we just remove this?</span>
-        <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="n">_hex</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-
 <div class="viewcode-block" id="HexBytes32.hex">
 <a class="viewcode-back" href="../../../source/evmspec.data.html#evmspec.data.uints.HexBytes32.hex">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">hex</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># type: ignore [override]</span>
