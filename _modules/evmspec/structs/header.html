@@ -71,11 +71,12 @@
   <h1>Source code for evmspec.structs.header</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dictstruct</span><span class="w"> </span><span class="kn">import</span> <span class="n">LazyDictStruct</span>  <span class="c1"># type: ignore [import-not-found]</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">faster_hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">UnsetType</span><span class="p">,</span> <span class="n">field</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Address</span><span class="p">,</span> <span class="n">UnixTimestamp</span><span class="p">,</span> <span class="n">uint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Address</span><span class="p">,</span> <span class="n">BlockHash</span><span class="p">,</span> <span class="n">BlockNumber</span><span class="p">,</span> <span class="n">Nonce</span><span class="p">,</span> <span class="n">UnixTimestamp</span><span class="p">,</span> <span class="n">Wei</span><span class="p">,</span> <span class="n">uint</span>
 
 
-<span class="c1"># WIP - pretty sure this will fail right now</span>
+<span class="c1"># WIP - this struct is still evolving alongside erigon header changes.</span>
 <div class="viewcode-block" id="ErigonBlockHeader">
 <a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.ErigonBlockHeader">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ErigonBlockHeader</span><span class="p">(</span><span class="n">LazyDictStruct</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
@@ -90,22 +91,6 @@
 <span class="sd">        - :class:`LazyDictStruct` for more details on the underlying structure and its features.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">timestamp</span><span class="p">:</span> <span class="n">UnixTimestamp</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Unix timestamp for when the block was collated.</span>
-
-<span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; header = ErigonBlockHeader(</span>
-<span class="sd">        ...     timestamp=UnixTimestamp(1638316800),</span>
-<span class="sd">        ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
-<span class="sd">        ...     uncleHash=HexBytes(&quot;0xdef&quot;),</span>
-<span class="sd">        ...     coinbase=Address(&quot;0x123&quot;),</span>
-<span class="sd">        ...     root=HexBytes(&quot;0x456&quot;),</span>
-<span class="sd">        ...     difficulty=uint(1000)</span>
-<span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; header.timestamp</span>
-<span class="sd">        UnixTimestamp(1638316800)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="n">parentHash</span><span class="p">:</span> <span class="n">HexBytes</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the parent block.</span>
 
@@ -113,63 +98,98 @@
 <span class="sd">        &gt;&gt;&gt; header = ErigonBlockHeader(</span>
 <span class="sd">        ...     timestamp=UnixTimestamp(1638316800),</span>
 <span class="sd">        ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
-<span class="sd">        ...     uncleHash=HexBytes(&quot;0xdef&quot;),</span>
-<span class="sd">        ...     coinbase=Address(&quot;0x123&quot;),</span>
-<span class="sd">        ...     root=HexBytes(&quot;0x456&quot;),</span>
+<span class="sd">        ...     sha3Uncles=HexBytes(&quot;0xdef&quot;),</span>
+<span class="sd">        ...     miner=Address(&quot;0x123&quot;),</span>
+<span class="sd">        ...     stateRoot=HexBytes(&quot;0x456&quot;),</span>
 <span class="sd">        ...     difficulty=uint(1000)</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; header.parentHash</span>
 <span class="sd">        HexBytes(&#39;0xabc&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">uncleHash</span><span class="p">:</span> <span class="n">HexBytes</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the list of uncle headers.</span>
+    <span class="n">_sha3Uncles</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">|</span> <span class="n">UnsetType</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;sha3Uncles&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UNSET</span><span class="p">)</span>
+    <span class="n">_uncleHash</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">|</span> <span class="n">UnsetType</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;uncleHash&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UNSET</span><span class="p">)</span>
+    <span class="n">_miner</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">UnsetType</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;miner&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UNSET</span><span class="p">)</span>
+    <span class="n">_coinbase</span><span class="p">:</span> <span class="n">Address</span> <span class="o">|</span> <span class="n">UnsetType</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;coinbase&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UNSET</span><span class="p">)</span>
+    <span class="n">_stateRoot</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">|</span> <span class="n">UnsetType</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;stateRoot&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UNSET</span><span class="p">)</span>
+    <span class="n">_root</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">|</span> <span class="n">UnsetType</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;root&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UNSET</span><span class="p">)</span>
 
-<span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; header = ErigonBlockHeader(</span>
-<span class="sd">        ...     timestamp=UnixTimestamp(1638316800),</span>
-<span class="sd">        ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
-<span class="sd">        ...     uncleHash=HexBytes(&quot;0xdef&quot;),</span>
-<span class="sd">        ...     coinbase=Address(&quot;0x123&quot;),</span>
-<span class="sd">        ...     root=HexBytes(&quot;0x456&quot;),</span>
-<span class="sd">        ...     difficulty=uint(1000)</span>
-<span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; header.uncleHash</span>
-<span class="sd">        HexBytes(&#39;0xdef&#39;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">sha3Uncles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HexBytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The hash of the list of uncle headers.&quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_sha3Uncles&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">UNSET</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_uncleHash&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
 
-    <span class="n">coinbase</span><span class="p">:</span> <span class="n">Address</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The address of the miner who mined the block.</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">uncleHash</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HexBytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Legacy alias for :attr:`sha3Uncles`.&quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_uncleHash&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">UNSET</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_sha3Uncles&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
 
-<span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; header = ErigonBlockHeader(</span>
-<span class="sd">        ...     timestamp=UnixTimestamp(1638316800),</span>
-<span class="sd">        ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
-<span class="sd">        ...     uncleHash=HexBytes(&quot;0xdef&quot;),</span>
-<span class="sd">        ...     coinbase=Address(&quot;0x123&quot;),</span>
-<span class="sd">        ...     root=HexBytes(&quot;0x456&quot;),</span>
-<span class="sd">        ...     difficulty=uint(1000)</span>
-<span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; header.coinbase</span>
-<span class="sd">        Address(&#39;0x123&#39;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">miner</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The address of the miner who mined the block.</span>
 
-    <span class="n">root</span><span class="p">:</span> <span class="n">HexBytes</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The root hash of the state trie.</span>
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; header = ErigonBlockHeader(</span>
+<span class="sd">            ...     timestamp=UnixTimestamp(1638316800),</span>
+<span class="sd">            ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
+<span class="sd">            ...     sha3Uncles=HexBytes(&quot;0xdef&quot;),</span>
+<span class="sd">            ...     miner=Address(&quot;0x123&quot;),</span>
+<span class="sd">            ...     stateRoot=HexBytes(&quot;0x456&quot;),</span>
+<span class="sd">            ...     difficulty=uint(1000)</span>
+<span class="sd">            ... )</span>
+<span class="sd">            &gt;&gt;&gt; header.miner</span>
+<span class="sd">            Address(&#39;0x123&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_miner&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">UNSET</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_coinbase&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
 
-<span class="sd">    Examples:</span>
-<span class="sd">        &gt;&gt;&gt; header = ErigonBlockHeader(</span>
-<span class="sd">        ...     timestamp=UnixTimestamp(1638316800),</span>
-<span class="sd">        ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
-<span class="sd">        ...     uncleHash=HexBytes(&quot;0xdef&quot;),</span>
-<span class="sd">        ...     coinbase=Address(&quot;0x123&quot;),</span>
-<span class="sd">        ...     root=HexBytes(&quot;0x456&quot;),</span>
-<span class="sd">        ...     difficulty=uint(1000)</span>
-<span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; header.root</span>
-<span class="sd">        HexBytes(&#39;0x456&#39;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">coinbase</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Address</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Legacy alias for :attr:`miner`.&quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_coinbase&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">UNSET</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_miner&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
 
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stateRoot</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HexBytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The root hash of the state trie.</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            &gt;&gt;&gt; header = ErigonBlockHeader(</span>
+<span class="sd">            ...     timestamp=UnixTimestamp(1638316800),</span>
+<span class="sd">            ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
+<span class="sd">            ...     sha3Uncles=HexBytes(&quot;0xdef&quot;),</span>
+<span class="sd">            ...     miner=Address(&quot;0x123&quot;),</span>
+<span class="sd">            ...     stateRoot=HexBytes(&quot;0x456&quot;),</span>
+<span class="sd">            ...     difficulty=uint(1000)</span>
+<span class="sd">            ... )</span>
+<span class="sd">            &gt;&gt;&gt; header.stateRoot</span>
+<span class="sd">            HexBytes(&#39;0x456&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_stateRoot&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">UNSET</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_root&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">root</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HexBytes</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Legacy alias for :attr:`stateRoot`.&quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_root&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">UNSET</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_stateRoot&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="c1"># Intentionally no __post_init__ validation; prefer new field names and</span>
+    <span class="c1"># allow legacy aliases to pass through when present.</span>
     <span class="n">difficulty</span><span class="p">:</span> <span class="n">uint</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The difficulty level of the block.</span>
 
@@ -177,14 +197,72 @@
 <span class="sd">        &gt;&gt;&gt; header = ErigonBlockHeader(</span>
 <span class="sd">        ...     timestamp=UnixTimestamp(1638316800),</span>
 <span class="sd">        ...     parentHash=HexBytes(&quot;0xabc&quot;),</span>
-<span class="sd">        ...     uncleHash=HexBytes(&quot;0xdef&quot;),</span>
-<span class="sd">        ...     coinbase=Address(&quot;0x123&quot;),</span>
-<span class="sd">        ...     root=HexBytes(&quot;0x456&quot;),</span>
+<span class="sd">        ...     sha3Uncles=HexBytes(&quot;0xdef&quot;),</span>
+<span class="sd">        ...     miner=Address(&quot;0x123&quot;),</span>
+<span class="sd">        ...     stateRoot=HexBytes(&quot;0x456&quot;),</span>
 <span class="sd">        ...     difficulty=uint(1000)</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; header.difficulty</span>
 <span class="sd">        uint(1000)</span>
-<span class="sd">    &quot;&quot;&quot;</span></div>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># Canonical header fields (kept together below; erigon-specific fields above).</span>
+    <span class="n">number</span><span class="p">:</span> <span class="n">BlockNumber</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The block number.&quot;&quot;&quot;</span>
+
+    <span class="n">gasLimit</span><span class="p">:</span> <span class="n">Wei</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The maximum gas allowed in the block.&quot;&quot;&quot;</span>
+
+    <span class="n">gasUsed</span><span class="p">:</span> <span class="n">Wei</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The total gas used by all transactions in the block.&quot;&quot;&quot;</span>
+
+    <span class="n">timestamp</span><span class="p">:</span> <span class="n">UnixTimestamp</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The Unix timestamp for when the block was collated.&quot;&quot;&quot;</span>
+
+    <span class="n">transactionsRoot</span><span class="p">:</span> <span class="n">HexBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The root hash of the transactions trie.&quot;&quot;&quot;</span>
+
+    <span class="n">receiptsRoot</span><span class="p">:</span> <span class="n">HexBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The root hash of the receipts trie.&quot;&quot;&quot;</span>
+
+    <span class="n">logsBloom</span><span class="p">:</span> <span class="n">HexBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The bloom filter for the logs of the block.&quot;&quot;&quot;</span>
+
+    <span class="n">extraData</span><span class="p">:</span> <span class="n">HexBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The extra data field of the block.&quot;&quot;&quot;</span>
+
+    <span class="n">mixHash</span><span class="p">:</span> <span class="n">HexBytes</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The mix hash of the block.&quot;&quot;&quot;</span>
+
+    <span class="n">nonce</span><span class="p">:</span> <span class="n">Nonce</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The nonce of the block.&quot;&quot;&quot;</span>
+
+    <span class="n">baseFeePerGas</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The base fee per gas (post-London).&quot;&quot;&quot;</span>
+
+    <span class="n">withdrawalsRoot</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The withdrawals root (post-Shanghai).&quot;&quot;&quot;</span>
+
+    <span class="n">blobGasUsed</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The blob gas used (post-Cancun).&quot;&quot;&quot;</span>
+
+    <span class="n">excessBlobGas</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The excess blob gas (post-Cancun).&quot;&quot;&quot;</span>
+
+    <span class="n">parentBeaconBlockRoot</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The parent beacon block root (post-Cancun).&quot;&quot;&quot;</span>
+
+    <span class="n">requestsHash</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The requests hash (post-Cancun).&quot;&quot;&quot;</span>
+
+    <span class="n">blockAccessListHash</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The block access list hash when present (post-Cancun).&quot;&quot;&quot;</span>
+
+    <span class="nb">hash</span><span class="p">:</span> <span class="n">BlockHash</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The hash of the block.&quot;&quot;&quot;</span>
+
+    <span class="n">totalDifficulty</span><span class="p">:</span> <span class="n">uint</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The total difficulty up to this block when present.&quot;&quot;&quot;</span></div>
 
 </pre></div>
 
