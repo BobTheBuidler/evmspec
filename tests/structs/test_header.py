@@ -53,6 +53,7 @@ def _base_header_payload() -> dict[str, object]:
 
 
 def _legacy_header_payload() -> dict[str, object]:
+    # Accept legacy field names from older/alternate RPC payloads for compatibility.
     payload = _base_header_payload()
     payload["uncleHash"] = payload.pop("sha3Uncles")
     payload["coinbase"] = payload.pop("miner")
