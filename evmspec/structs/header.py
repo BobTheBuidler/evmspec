@@ -1,5 +1,6 @@
 from dictstruct import LazyDictStruct  # type: ignore [import-not-found]
 from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
+from msgspec import UNSET, UnsetType
 
 from evmspec.data import Address, BlockHash, BlockNumber, Nonce, UnixTimestamp, Wei, uint
 
@@ -33,7 +34,7 @@ class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknow
         HexBytes('0xabc')
     """
 
-    sha3Uncles: HexBytes
+    sha3Uncles: HexBytes | UnsetType = UNSET
     """The hash of the list of uncle headers.
 
     Examples:
@@ -49,7 +50,10 @@ class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknow
         HexBytes('0xdef')
     """
 
-    miner: Address
+    uncleHash: HexBytes | UnsetType = UNSET
+    """Legacy alias for :attr:`sha3Uncles`."""
+
+    miner: Address | UnsetType = UNSET
     """The address of the miner who mined the block.
 
     Examples:
@@ -65,7 +69,10 @@ class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknow
         Address('0x123')
     """
 
-    stateRoot: HexBytes
+    coinbase: Address | UnsetType = UNSET
+    """Legacy alias for :attr:`miner`."""
+
+    stateRoot: HexBytes | UnsetType = UNSET
     """The root hash of the state trie.
 
     Examples:
@@ -80,6 +87,9 @@ class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknow
         >>> header.stateRoot
         HexBytes('0x456')
     """
+
+    root: HexBytes | UnsetType = UNSET
+    """Legacy alias for :attr:`stateRoot`."""
 
     difficulty: uint
     """The difficulty level of the block.
@@ -155,14 +165,40 @@ class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknow
     totalDifficulty: uint | None = None
     """The total difficulty up to this block when present."""
 
-    @property
-    def uncleHash(self) -> HexBytes:
-        return self.sha3Uncles
+    def __post_init__(self) -> None:
+        sha3_uncles = object.__getattribute__(self, "sha3Uncles")
+        uncle_hash = object.__getattribute__(self, "uncleHash")
+        miner = object.__getattribute__(self, "miner")
+        coinbase = object.__getattribute__(self, "coinbase")
+        state_root = object.__getattribute__(self, "stateRoot")
+        root = object.__getattribute__(self, "root")
 
-    @property
-    def coinbase(self) -> Address:
-        return self.miner
+        if sha3_uncles is UNSET:
+            if uncle_hash is UNSET:
+                raise ValueError("ErigonBlockHeader requires sha3Uncles or uncleHash")
+            object.__setattr__(self, "sha3Uncles", uncle_hash)
+            sha3_uncles = uncle_hash
+        elif uncle_hash is UNSET:
+            object.__setattr__(self, "uncleHash", sha3_uncles)
+        elif sha3_uncles != uncle_hash:
+            raise ValueError("ErigonBlockHeader sha3Uncles/uncleHash mismatch")
 
-    @property
-    def root(self) -> HexBytes:
-        return self.stateRoot
+        if miner is UNSET:
+            if coinbase is UNSET:
+                raise ValueError("ErigonBlockHeader requires miner or coinbase")
+            object.__setattr__(self, "miner", coinbase)
+            miner = coinbase
+        elif coinbase is UNSET:
+            object.__setattr__(self, "coinbase", miner)
+        elif miner != coinbase:
+            raise ValueError("ErigonBlockHeader miner/coinbase mismatch")
+
+        if state_root is UNSET:
+            if root is UNSET:
+                raise ValueError("ErigonBlockHeader requires stateRoot or root")
+            object.__setattr__(self, "stateRoot", root)
+            state_root = root
+        elif root is UNSET:
+            object.__setattr__(self, "root", state_root)
+        elif state_root != root:
+            raise ValueError("ErigonBlockHeader stateRoot/root mismatch")

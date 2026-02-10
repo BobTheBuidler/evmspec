@@ -7,7 +7,7 @@ msgspec = pytest.importorskip("msgspec")
 
 from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
 
-from evmspec.data import _decode_hook
+from evmspec.data import Address, _decode_hook
 from evmspec.structs.header import ErigonBlockHeader
 
 ADDRESS = "0x" + "11" * 20
@@ -52,6 +52,14 @@ def _base_header_payload() -> dict[str, object]:
     }
 
 
+def _legacy_header_payload() -> dict[str, object]:
+    payload = _base_header_payload()
+    payload["uncleHash"] = payload.pop("sha3Uncles")
+    payload["coinbase"] = payload.pop("miner")
+    payload["root"] = payload.pop("stateRoot")
+    return payload
+
+
 def test_erigon_header_decodes_sha3uncles() -> None:
     payload = _base_header_payload()
     encoded = json.dumps(payload).encode()
@@ -59,3 +67,15 @@ def test_erigon_header_decodes_sha3uncles() -> None:
     assert header.sha3Uncles == HexBytes(payload["sha3Uncles"])
     assert header.uncleHash == header.sha3Uncles
     assert header.blockAccessListHash is None
+
+
+def test_erigon_header_decodes_legacy_aliases() -> None:
+    payload = _legacy_header_payload()
+    encoded = json.dumps(payload).encode()
+    header = msgspec.json.decode(encoded, type=ErigonBlockHeader, dec_hook=_decode_hook)
+    assert header.sha3Uncles == HexBytes(payload["uncleHash"])
+    assert header.uncleHash == header.sha3Uncles
+    assert header.miner == Address(payload["coinbase"])
+    assert header.coinbase == header.miner
+    assert header.stateRoot == HexBytes(payload["root"])
+    assert header.root == header.stateRoot
