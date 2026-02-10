@@ -115,6 +115,8 @@ class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknow
             return object.__getattribute__(self, "_stateRoot")
         return value
 
+    # Intentionally no __post_init__ validation; prefer new field names and
+    # allow legacy aliases to pass through when present.
     difficulty: uint
     """The difficulty level of the block.
 
