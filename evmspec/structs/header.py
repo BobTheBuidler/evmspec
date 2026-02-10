@@ -1,10 +1,11 @@
 from dictstruct import LazyDictStruct  # type: ignore [import-not-found]
 from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
+from msgspec import UNSET, UnsetType, field
 
-from evmspec.data import Address, UnixTimestamp, uint
+from evmspec.data import Address, BlockHash, BlockNumber, Nonce, UnixTimestamp, Wei, uint
 
 
-# WIP - pretty sure this will fail right now
+# WIP - this struct is still evolving alongside erigon header changes.
 class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
     """
     Represents a block header in the Erigon client.
@@ -17,22 +18,6 @@ class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknow
         - :class:`LazyDictStruct` for more details on the underlying structure and its features.
     """
 
-    timestamp: UnixTimestamp
-    """The Unix timestamp for when the block was collated.
-
-    Examples:
-        >>> header = ErigonBlockHeader(
-        ...     timestamp=UnixTimestamp(1638316800),
-        ...     parentHash=HexBytes("0xabc"),
-        ...     uncleHash=HexBytes("0xdef"),
-        ...     coinbase=Address("0x123"),
-        ...     root=HexBytes("0x456"),
-        ...     difficulty=uint(1000)
-        ... )
-        >>> header.timestamp
-        UnixTimestamp(1638316800)
-    """
-
     parentHash: HexBytes
     """The hash of the parent block.
 
@@ -40,63 +25,98 @@ class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknow
         >>> header = ErigonBlockHeader(
         ...     timestamp=UnixTimestamp(1638316800),
         ...     parentHash=HexBytes("0xabc"),
-        ...     uncleHash=HexBytes("0xdef"),
-        ...     coinbase=Address("0x123"),
-        ...     root=HexBytes("0x456"),
+        ...     sha3Uncles=HexBytes("0xdef"),
+        ...     miner=Address("0x123"),
+        ...     stateRoot=HexBytes("0x456"),
         ...     difficulty=uint(1000)
         ... )
         >>> header.parentHash
         HexBytes('0xabc')
     """
 
-    uncleHash: HexBytes
-    """The hash of the list of uncle headers.
+    _sha3Uncles: HexBytes | UnsetType = field(name="sha3Uncles", default=UNSET)
+    _uncleHash: HexBytes | UnsetType = field(name="uncleHash", default=UNSET)
+    _miner: Address | UnsetType = field(name="miner", default=UNSET)
+    _coinbase: Address | UnsetType = field(name="coinbase", default=UNSET)
+    _stateRoot: HexBytes | UnsetType = field(name="stateRoot", default=UNSET)
+    _root: HexBytes | UnsetType = field(name="root", default=UNSET)
 
-    Examples:
-        >>> header = ErigonBlockHeader(
-        ...     timestamp=UnixTimestamp(1638316800),
-        ...     parentHash=HexBytes("0xabc"),
-        ...     uncleHash=HexBytes("0xdef"),
-        ...     coinbase=Address("0x123"),
-        ...     root=HexBytes("0x456"),
-        ...     difficulty=uint(1000)
-        ... )
-        >>> header.uncleHash
-        HexBytes('0xdef')
-    """
+    @property
+    def sha3Uncles(self) -> HexBytes:
+        """The hash of the list of uncle headers."""
+        value = object.__getattribute__(self, "_sha3Uncles")
+        if value is UNSET:
+            return object.__getattribute__(self, "_uncleHash")
+        return value
 
-    coinbase: Address
-    """The address of the miner who mined the block.
+    @property
+    def uncleHash(self) -> HexBytes:
+        """Legacy alias for :attr:`sha3Uncles`."""
+        value = object.__getattribute__(self, "_uncleHash")
+        if value is UNSET:
+            return object.__getattribute__(self, "_sha3Uncles")
+        return value
 
-    Examples:
-        >>> header = ErigonBlockHeader(
-        ...     timestamp=UnixTimestamp(1638316800),
-        ...     parentHash=HexBytes("0xabc"),
-        ...     uncleHash=HexBytes("0xdef"),
-        ...     coinbase=Address("0x123"),
-        ...     root=HexBytes("0x456"),
-        ...     difficulty=uint(1000)
-        ... )
-        >>> header.coinbase
-        Address('0x123')
-    """
+    @property
+    def miner(self) -> Address:
+        """The address of the miner who mined the block.
 
-    root: HexBytes
-    """The root hash of the state trie.
+        Examples:
+            >>> header = ErigonBlockHeader(
+            ...     timestamp=UnixTimestamp(1638316800),
+            ...     parentHash=HexBytes("0xabc"),
+            ...     sha3Uncles=HexBytes("0xdef"),
+            ...     miner=Address("0x123"),
+            ...     stateRoot=HexBytes("0x456"),
+            ...     difficulty=uint(1000)
+            ... )
+            >>> header.miner
+            Address('0x123')
+        """
+        value = object.__getattribute__(self, "_miner")
+        if value is UNSET:
+            return object.__getattribute__(self, "_coinbase")
+        return value
 
-    Examples:
-        >>> header = ErigonBlockHeader(
-        ...     timestamp=UnixTimestamp(1638316800),
-        ...     parentHash=HexBytes("0xabc"),
-        ...     uncleHash=HexBytes("0xdef"),
-        ...     coinbase=Address("0x123"),
-        ...     root=HexBytes("0x456"),
-        ...     difficulty=uint(1000)
-        ... )
-        >>> header.root
-        HexBytes('0x456')
-    """
+    @property
+    def coinbase(self) -> Address:
+        """Legacy alias for :attr:`miner`."""
+        value = object.__getattribute__(self, "_coinbase")
+        if value is UNSET:
+            return object.__getattribute__(self, "_miner")
+        return value
 
+    @property
+    def stateRoot(self) -> HexBytes:
+        """The root hash of the state trie.
+
+        Examples:
+            >>> header = ErigonBlockHeader(
+            ...     timestamp=UnixTimestamp(1638316800),
+            ...     parentHash=HexBytes("0xabc"),
+            ...     sha3Uncles=HexBytes("0xdef"),
+            ...     miner=Address("0x123"),
+            ...     stateRoot=HexBytes("0x456"),
+            ...     difficulty=uint(1000)
+            ... )
+            >>> header.stateRoot
+            HexBytes('0x456')
+        """
+        value = object.__getattribute__(self, "_stateRoot")
+        if value is UNSET:
+            return object.__getattribute__(self, "_root")
+        return value
+
+    @property
+    def root(self) -> HexBytes:
+        """Legacy alias for :attr:`stateRoot`."""
+        value = object.__getattribute__(self, "_root")
+        if value is UNSET:
+            return object.__getattribute__(self, "_stateRoot")
+        return value
+
+    # Intentionally no __post_init__ validation; prefer new field names and
+    # allow legacy aliases to pass through when present.
     difficulty: uint
     """The difficulty level of the block.
 
@@ -104,11 +124,69 @@ class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknow
         >>> header = ErigonBlockHeader(
         ...     timestamp=UnixTimestamp(1638316800),
         ...     parentHash=HexBytes("0xabc"),
-        ...     uncleHash=HexBytes("0xdef"),
-        ...     coinbase=Address("0x123"),
-        ...     root=HexBytes("0x456"),
+        ...     sha3Uncles=HexBytes("0xdef"),
+        ...     miner=Address("0x123"),
+        ...     stateRoot=HexBytes("0x456"),
         ...     difficulty=uint(1000)
         ... )
         >>> header.difficulty
         uint(1000)
     """
+
+    # Canonical header fields (kept together below; erigon-specific fields above).
+    number: BlockNumber
+    """The block number."""
+
+    gasLimit: Wei
+    """The maximum gas allowed in the block."""
+
+    gasUsed: Wei
+    """The total gas used by all transactions in the block."""
+
+    timestamp: UnixTimestamp
+    """The Unix timestamp for when the block was collated."""
+
+    transactionsRoot: HexBytes
+    """The root hash of the transactions trie."""
+
+    receiptsRoot: HexBytes
+    """The root hash of the receipts trie."""
+
+    logsBloom: HexBytes
+    """The bloom filter for the logs of the block."""
+
+    extraData: HexBytes
+    """The extra data field of the block."""
+
+    mixHash: HexBytes
+    """The mix hash of the block."""
+
+    nonce: Nonce
+    """The nonce of the block."""
+
+    baseFeePerGas: Wei | None = None
+    """The base fee per gas (post-London)."""
+
+    withdrawalsRoot: HexBytes | None = None
+    """The withdrawals root (post-Shanghai)."""
+
+    blobGasUsed: Wei | None = None
+    """The blob gas used (post-Cancun)."""
+
+    excessBlobGas: Wei | None = None
+    """The excess blob gas (post-Cancun)."""
+
+    parentBeaconBlockRoot: HexBytes | None = None
+    """The parent beacon block root (post-Cancun)."""
+
+    requestsHash: HexBytes | None = None
+    """The requests hash (post-Cancun)."""
+
+    blockAccessListHash: HexBytes | None = None
+    """The block access list hash when present (post-Cancun)."""
+
+    hash: BlockHash
+    """The hash of the block."""
+
+    totalDifficulty: uint | None = None
+    """The total difficulty up to this block when present."""
