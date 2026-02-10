@@ -97,6 +97,7 @@ class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknow
         uint(1000)
     """
 
+    # Canonical header fields (kept together below; erigon-specific fields above).
     number: BlockNumber
     """The block number."""
 
