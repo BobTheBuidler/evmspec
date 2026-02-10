@@ -188,26 +188,3 @@ class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknow
 
     totalDifficulty: uint | None = None
     """The total difficulty up to this block when present."""
-
-    def __post_init__(self) -> None:
-        sha3_uncles = object.__getattribute__(self, "_sha3Uncles")
-        uncle_hash = object.__getattribute__(self, "_uncleHash")
-        miner = object.__getattribute__(self, "_miner")
-        coinbase = object.__getattribute__(self, "_coinbase")
-        state_root = object.__getattribute__(self, "_stateRoot")
-        root = object.__getattribute__(self, "_root")
-
-        if sha3_uncles is UNSET and uncle_hash is UNSET:
-            raise ValueError("ErigonBlockHeader requires sha3Uncles or uncleHash")
-        if sha3_uncles is not UNSET and uncle_hash is not UNSET and sha3_uncles != uncle_hash:
-            raise ValueError("ErigonBlockHeader sha3Uncles/uncleHash mismatch")
-
-        if miner is UNSET and coinbase is UNSET:
-            raise ValueError("ErigonBlockHeader requires miner or coinbase")
-        if miner is not UNSET and coinbase is not UNSET and miner != coinbase:
-            raise ValueError("ErigonBlockHeader miner/coinbase mismatch")
-
-        if state_root is UNSET and root is UNSET:
-            raise ValueError("ErigonBlockHeader requires stateRoot or root")
-        if state_root is not UNSET and root is not UNSET and state_root != root:
-            raise ValueError("ErigonBlockHeader stateRoot/root mismatch")
