@@ -276,14 +276,50 @@
 <span class="nd">@final</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BaseBlock</span><span class="p">(</span><span class="n">MinedBlock</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Represents a base Ethereum block with base fee per gas.</span>
+<span class="sd">    Represents the generic `eth_getBlockByNumber` block surface from London onward.</span>
+
+<span class="sd">    This class models optional post-fork fields that may appear depending on fork era and</span>
+<span class="sd">    provider support while still rejecting truly unknown fields.</span>
+
+<span class="sd">    Note:</span>
+<span class="sd">        `BaseBlock` here means *base-fee era* (EIP-1559), not &quot;Base chain&quot;.</span>
 
 <span class="sd">    See Also:</span>
 <span class="sd">        - :class:`MinedBlock`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">baseFeePerGas</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;The base fee per gas.&quot;&quot;&quot;</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The base fee per gas.&quot;&quot;&quot;</span>
+
+    <span class="n">withdrawalsRoot</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The root of the withdrawal trie (present from Shanghai/Capella onward).&quot;&quot;&quot;</span>
+
+    <span class="n">blobGasUsed</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Blob gas consumed by the block (present from Cancun onward).&quot;&quot;&quot;</span>
+
+    <span class="n">excessBlobGas</span><span class="p">:</span> <span class="n">Wei</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Excess blob gas accumulator (present from Cancun onward).&quot;&quot;&quot;</span>
+
+    <span class="n">parentBeaconBlockRoot</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parent beacon block root (present after The Merge).&quot;&quot;&quot;</span>
+
+    <span class="n">requestsHash</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;EIP-7685 requests hash (present on networks that support requests).&quot;&quot;&quot;</span>
+
+    <span class="n">_withdrawals</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;withdrawals&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">UNSET</span><span class="p">)</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raw withdrawals payload, present from Shanghai/Capella onward.&quot;&quot;&quot;</span>
+
+    <span class="nd">@cached_property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">withdrawals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="s2">&quot;StakingWithdrawal&quot;</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Decodes and returns staking withdrawals when present.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A tuple of staking withdrawals. Returns an empty tuple when the field is absent.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_withdrawals</span> <span class="ow">is</span> <span class="n">UNSET</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">()</span>
+        <span class="k">return</span> <span class="n">_decode_staking_withdrawals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_withdrawals</span><span class="p">)</span></div>
 
 
 
@@ -318,7 +354,7 @@
 <div class="viewcode-block" id="ShanghaiCapellaBlock">
 <a class="viewcode-back" href="../../../source/evmspec.structs.html#evmspec.structs.block.ShanghaiCapellaBlock">[docs]</a>
 <span class="nd">@final</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">ShanghaiCapellaBlock</span><span class="p">(</span><span class="n">Block</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ShanghaiCapellaBlock</span><span class="p">(</span><span class="n">BaseBlock</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents a block from the Ethereum Shanghai or Capella upgrades, which includes staking withdrawals.</span>
 
@@ -327,25 +363,14 @@
 <span class="sd">        - :class:`StakingWithdrawal`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="n">withdrawalsRoot</span><span class="p">:</span> <span class="n">HexBytes</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;The root of the withdrawal trie.&quot;&quot;&quot;</span>
+
+    <span class="n">difficulty</span><span class="p">:</span> <span class="n">uint</span> <span class="o">=</span> <span class="n">UNSET</span>  <span class="c1"># type: ignore [assignment]</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Optional for backwards-compatible direct construction of Shanghai/Capella blocks.&quot;&quot;&quot;</span>
+
     <span class="n">_withdrawals</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;withdrawals&quot;</span><span class="p">)</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is specific to the Shanghai and Capella upgrades in Ethereum.&quot;&quot;&quot;</span>
-
-    <span class="nd">@cached_property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">withdrawals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">StakingWithdrawal</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Decodes and returns the staking withdrawals in the block.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            A tuple of staking withdrawal objects.</span>
-
-<span class="sd">        Examples:</span>
-<span class="sd">            &gt;&gt;&gt; block = ShanghaiCapellaBlock(...)</span>
-<span class="sd">            &gt;&gt;&gt; withdrawals = block.withdrawals</span>
-
-<span class="sd">        See Also:</span>
-<span class="sd">            - :class:`StakingWithdrawal`</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_decode_staking_withdrawals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_withdrawals</span><span class="p">)</span></div>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;This field is specific to the Shanghai and Capella upgrades in Ethereum.&quot;&quot;&quot;</span></div>
 
 </pre></div>
 

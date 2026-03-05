@@ -277,7 +277,13 @@
 <dt class="sig sig-object py" id="evmspec.structs.block.BaseBlock">
 <em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.block.</span></span><span class="sig-name descname"><span class="pre">BaseBlock</span></span><a class="reference internal" href="../_modules/evmspec/structs/block.html#BaseBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.block.BaseBlock" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#evmspec.structs.block.MinedBlock" title="evmspec.structs.block.MinedBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">MinedBlock</span></code></a></p>
-<p>Represents a base Ethereum block with base fee per gas.</p>
+<p>Represents the generic <cite>eth_getBlockByNumber</cite> block surface from London onward.</p>
+<p>This class models optional post-fork fields that may appear depending on fork era and
+provider support while still rejecting truly unknown fields.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><cite>BaseBlock</cite> here means <em>base-fee era</em> (EIP-1559), not “Base chain”.</p>
+</div>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
 <ul class="simple">
@@ -378,6 +384,12 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.BaseBlock.blobGasUsed">
+<span class="sig-name descname"><span class="pre">blobGasUsed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.data.html#evmspec.data.Wei" title="evmspec.data._main.Wei"><span class="pre">Wei</span></a></em><a class="headerlink" href="#evmspec.structs.block.BaseBlock.blobGasUsed" title="Link to this definition"></a></dt>
+<dd><p>Blob gas consumed by the block (present from Cancun onward).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.structs.block.BaseBlock.difficulty">
 <span class="sig-name descname"><span class="pre">difficulty</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.data.html#evmspec.data.uint" title="evmspec.data.uint"><span class="pre">uint</span></a></em><a class="headerlink" href="#evmspec.structs.block.BaseBlock.difficulty" title="Link to this definition"></a></dt>
 <dd><p>The difficulty at this block.</p>
@@ -387,6 +399,12 @@
 <span class="go">uint(123456789)</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.BaseBlock.excessBlobGas">
+<span class="sig-name descname"><span class="pre">excessBlobGas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.data.html#evmspec.data.Wei" title="evmspec.data._main.Wei"><span class="pre">Wei</span></a></em><a class="headerlink" href="#evmspec.structs.block.BaseBlock.excessBlobGas" title="Link to this definition"></a></dt>
+<dd><p>Excess blob gas accumulator (present from Cancun onward).</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -444,6 +462,12 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.BaseBlock.parentBeaconBlockRoot">
+<span class="sig-name descname"><span class="pre">parentBeaconBlockRoot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HexBytes</span></em><a class="headerlink" href="#evmspec.structs.block.BaseBlock.parentBeaconBlockRoot" title="Link to this definition"></a></dt>
+<dd><p>Parent beacon block root (present after The Merge).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.structs.block.BaseBlock.parentHash">
 <span class="sig-name descname"><span class="pre">parentHash</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HexBytes</span></em><a class="headerlink" href="#evmspec.structs.block.BaseBlock.parentHash" title="Link to this definition"></a></dt>
 <dd><p>Hash of the parent block.</p>
@@ -453,6 +477,12 @@
 <dt class="sig sig-object py" id="evmspec.structs.block.BaseBlock.receiptsRoot">
 <span class="sig-name descname"><span class="pre">receiptsRoot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HexBytes</span></em><a class="headerlink" href="#evmspec.structs.block.BaseBlock.receiptsRoot" title="Link to this definition"></a></dt>
 <dd><p>The root of the receipts trie of the block.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.BaseBlock.requestsHash">
+<span class="sig-name descname"><span class="pre">requestsHash</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HexBytes</span></em><a class="headerlink" href="#evmspec.structs.block.BaseBlock.requestsHash" title="Link to this definition"></a></dt>
+<dd><p>EIP-7685 requests hash (present on networks that support requests).</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -517,6 +547,23 @@
 <dt class="sig sig-object py" id="evmspec.structs.block.BaseBlock.uncles">
 <span class="sig-name descname"><span class="pre">uncles</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><span class="pre">HexBytes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#evmspec.structs.block.BaseBlock.uncles" title="Link to this definition"></a></dt>
 <dd><p>An array of uncle hashes.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="evmspec.structs.block.BaseBlock.withdrawals">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">withdrawals</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evmspec.structs.block.StakingWithdrawal" title="evmspec.structs.block.StakingWithdrawal"><span class="pre">StakingWithdrawal</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#evmspec.structs.block.BaseBlock.withdrawals" title="Link to this definition"></a></dt>
+<dd><p>Decodes and returns staking withdrawals when present.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A tuple of staking withdrawals. Returns an empty tuple when the field is absent.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.BaseBlock.withdrawalsRoot">
+<span class="sig-name descname"><span class="pre">withdrawalsRoot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HexBytes</span></em><a class="headerlink" href="#evmspec.structs.block.BaseBlock.withdrawalsRoot" title="Link to this definition"></a></dt>
+<dd><p>The root of the withdrawal trie (present from Shanghai/Capella onward).</p>
 </dd></dl>
 
 </dd></dl>
@@ -984,7 +1031,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock">
 <em class="property"><span class="pre">final</span><span class="w"> </span><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">evmspec.structs.block.</span></span><span class="sig-name descname"><span class="pre">ShanghaiCapellaBlock</span></span><a class="reference internal" href="../_modules/evmspec/structs/block.html#ShanghaiCapellaBlock"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock" title="Link to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#evmspec.structs.block.Block" title="evmspec.structs.block.Block"><code class="xref py py-class docutils literal notranslate"><span class="pre">Block</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#evmspec.structs.block.BaseBlock" title="evmspec.structs.block.BaseBlock"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseBlock</span></code></a></p>
 <p>Represents a block from the Ethereum Shanghai or Capella upgrades, which includes staking withdrawals.</p>
 <div class="admonition seealso">
 <p class="admonition-title">See also</p>
@@ -1081,6 +1128,30 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.baseFeePerGas">
+<span class="sig-name descname"><span class="pre">baseFeePerGas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.data.html#evmspec.data.Wei" title="evmspec.data.Wei"><span class="pre">Wei</span></a></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.baseFeePerGas" title="Link to this definition"></a></dt>
+<dd><p>The base fee per gas.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.blobGasUsed">
+<span class="sig-name descname"><span class="pre">blobGasUsed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.data.html#evmspec.data.Wei" title="evmspec.data.Wei"><span class="pre">Wei</span></a></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.blobGasUsed" title="Link to this definition"></a></dt>
+<dd><p>Blob gas consumed by the block (present from Cancun onward).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.difficulty">
+<span class="sig-name descname"><span class="pre">difficulty</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.data.html#evmspec.data.uint" title="evmspec.data._main.uint"><span class="pre">uint</span></a></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.difficulty" title="Link to this definition"></a></dt>
+<dd><p>Optional for backwards-compatible direct construction of Shanghai/Capella blocks.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.excessBlobGas">
+<span class="sig-name descname"><span class="pre">excessBlobGas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.data.html#evmspec.data.Wei" title="evmspec.data.Wei"><span class="pre">Wei</span></a></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.excessBlobGas" title="Link to this definition"></a></dt>
+<dd><p>Excess blob gas accumulator (present from Cancun onward).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.extraData">
 <span class="sig-name descname"><span class="pre">extraData</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HexBytes</span></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.extraData" title="Link to this definition"></a></dt>
 <dd><p>The “extra data” field of this block.</p>
@@ -1135,6 +1206,12 @@
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.parentBeaconBlockRoot">
+<span class="sig-name descname"><span class="pre">parentBeaconBlockRoot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HexBytes</span></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.parentBeaconBlockRoot" title="Link to this definition"></a></dt>
+<dd><p>Parent beacon block root (present after The Merge).</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.parentHash">
 <span class="sig-name descname"><span class="pre">parentHash</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HexBytes</span></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.parentHash" title="Link to this definition"></a></dt>
 <dd><p>Hash of the parent block.</p>
@@ -1144,6 +1221,12 @@
 <dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.receiptsRoot">
 <span class="sig-name descname"><span class="pre">receiptsRoot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HexBytes</span></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.receiptsRoot" title="Link to this definition"></a></dt>
 <dd><p>The root of the receipts trie of the block.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.requestsHash">
+<span class="sig-name descname"><span class="pre">requestsHash</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HexBytes</span></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.requestsHash" title="Link to this definition"></a></dt>
+<dd><p>EIP-7685 requests hash (present on networks that support requests).</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1168,6 +1251,18 @@
 <dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.timestamp">
 <span class="sig-name descname"><span class="pre">timestamp</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.data.html#evmspec.data.UnixTimestamp" title="evmspec.data.UnixTimestamp"><span class="pre">UnixTimestamp</span></a></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.timestamp" title="Link to this definition"></a></dt>
 <dd><p>The Unix timestamp for when the block was collated.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.totalDifficulty">
+<span class="sig-name descname"><span class="pre">totalDifficulty</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="evmspec.data.html#evmspec.data.uint" title="evmspec.data.uint"><span class="pre">uint</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.totalDifficulty" title="Link to this definition"></a></dt>
+<dd><p>The total difficulty of the chain until this block.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mined_block</span> <span class="o">=</span> <span class="n">MinedBlock</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mined_block</span><span class="o">.</span><span class="n">totalDifficulty</span>
+<span class="go">uint(987654321)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py property">
@@ -1201,23 +1296,18 @@
 <dl class="py property">
 <dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.withdrawals">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">withdrawals</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#evmspec.structs.block.StakingWithdrawal" title="evmspec.structs.block.StakingWithdrawal"><span class="pre">StakingWithdrawal</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.withdrawals" title="Link to this definition"></a></dt>
-<dd><p>Decodes and returns the staking withdrawals in the block.</p>
+<dd><p>Decodes and returns staking withdrawals when present.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A tuple of staking withdrawal objects.</p>
+<dd class="field-odd"><p>A tuple of staking withdrawals. Returns an empty tuple when the field is absent.</p>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">block</span> <span class="o">=</span> <span class="n">ShanghaiCapellaBlock</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">withdrawals</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">withdrawals</span>
-</pre></div>
-</div>
-<div class="admonition seealso">
-<p class="admonition-title">See also</p>
-<ul class="simple">
-<li><p><a class="reference internal" href="#evmspec.structs.block.StakingWithdrawal" title="evmspec.structs.block.StakingWithdrawal"><code class="xref py py-class docutils literal notranslate"><span class="pre">StakingWithdrawal</span></code></a></p></li>
-</ul>
-</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="evmspec.structs.block.ShanghaiCapellaBlock.withdrawalsRoot">
+<span class="sig-name descname"><span class="pre">withdrawalsRoot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">HexBytes</span></em><a class="headerlink" href="#evmspec.structs.block.ShanghaiCapellaBlock.withdrawalsRoot" title="Link to this definition"></a></dt>
+<dd><p>The root of the withdrawal trie.</p>
 </dd></dl>
 
 </dd></dl>
