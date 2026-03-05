@@ -9,6 +9,9 @@ Inspired by [snek3](http://github.com/banteg/snek3), I took the structs and exte
 #### Type checking
 - Run `poetry run mypy` (uses the `pyproject.toml` configuration).
 
+#### Deprecation roadmap
+- Planned v1 naming/deprecation finalization is tracked in [#264](https://github.com/BobTheBuidler/evmspec/issues/264).
+- Minor releases keep backward-compatible block struct behavior while we converge on the final v1 public contract.
 
 #### Modules:
 - [block](https://bobthebuidler.github.io/evmspec/source/evmspec.html#module-evmspec.structs.block)
