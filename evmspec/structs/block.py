@@ -194,7 +194,13 @@ class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True): 
 @final
 class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
     """
-    Represents a base Ethereum block with base fee per gas.
+    Represents the generic `eth_getBlockByNumber` block surface from London onward.
+
+    This class models optional post-fork fields that may appear depending on fork era and
+    provider support while still rejecting truly unknown fields.
+
+    Note:
+        `BaseBlock` here means *base-fee era* (EIP-1559), not "Base chain".
 
     See Also:
         - :class:`MinedBlock`
@@ -202,6 +208,36 @@ class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=Tru
 
     baseFeePerGas: Wei = UNSET  # type: ignore [assignment]
     """The base fee per gas."""
+
+    withdrawalsRoot: HexBytes = UNSET  # type: ignore [assignment]
+    """The root of the withdrawal trie (present from Shanghai/Capella onward)."""
+
+    blobGasUsed: Wei = UNSET  # type: ignore [assignment]
+    """Blob gas consumed by the block (present from Cancun onward)."""
+
+    excessBlobGas: Wei = UNSET  # type: ignore [assignment]
+    """Excess blob gas accumulator (present from Cancun onward)."""
+
+    parentBeaconBlockRoot: HexBytes = UNSET  # type: ignore [assignment]
+    """Parent beacon block root (present after The Merge)."""
+
+    requestsHash: HexBytes = UNSET  # type: ignore [assignment]
+    """EIP-7685 requests hash (present on networks that support requests)."""
+
+    _withdrawals: Raw = field(name="withdrawals", default=UNSET)  # type: ignore [assignment]
+    """Raw withdrawals payload, present from Shanghai/Capella onward."""
+
+    @cached_property
+    def withdrawals(self) -> tuple["StakingWithdrawal", ...]:
+        """
+        Decodes and returns staking withdrawals when present.
+
+        Returns:
+            A tuple of staking withdrawals. Returns an empty tuple when the field is absent.
+        """
+        if self._withdrawals is UNSET:
+            return ()
+        return _decode_staking_withdrawals(self._withdrawals)
 
 
 @final
@@ -230,7 +266,7 @@ _decode_staking_withdrawals: Final[Callable[[Raw], tuple[StakingWithdrawal, ...]
 
 
 @final
-class ShanghaiCapellaBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
+class ShanghaiCapellaBlock(BaseBlock, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
     """
     Represents a block from the Ethereum Shanghai or Capella upgrades, which includes staking withdrawals.
 
@@ -239,22 +275,11 @@ class ShanghaiCapellaBlock(Block, frozen=True, kw_only=True, forbid_unknown_fiel
         - :class:`StakingWithdrawal`
     """
 
+    withdrawalsRoot: HexBytes = UNSET  # type: ignore [assignment]
+    """The root of the withdrawal trie."""
+
+    difficulty: uint = UNSET  # type: ignore [assignment]
+    """Optional for backwards-compatible direct construction of Shanghai/Capella blocks."""
+
     _withdrawals: Raw = field(name="withdrawals")
     """This field is specific to the Shanghai and Capella upgrades in Ethereum."""
-
-    @cached_property
-    def withdrawals(self) -> tuple[StakingWithdrawal, ...]:
-        """
-        Decodes and returns the staking withdrawals in the block.
-
-        Returns:
-            A tuple of staking withdrawal objects.
-
-        Examples:
-            >>> block = ShanghaiCapellaBlock(...)
-            >>> withdrawals = block.withdrawals
-
-        See Also:
-            - :class:`StakingWithdrawal`
-        """
-        return _decode_staking_withdrawals(self._withdrawals)
