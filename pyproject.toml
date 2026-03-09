@@ -27,7 +27,7 @@ skip = "*-win32"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.14"
-cachetools = ">=4.1.1,<7"
+cachetools = ">=7.0.5,<8"
 cchecksum = ">=0.0.3"
 dictstruct = ">=0.0.1"
 eth-hash = ">=0.7.0,<1"
