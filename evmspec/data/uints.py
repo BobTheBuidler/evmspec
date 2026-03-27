@@ -56,7 +56,7 @@ class _UintData(uint):
             uint256(115792089237316195423570985008687907853269984665640564039457584007913129639935)
         """
         if v:
-            new = __int_new__(cls, bytes.hex(v), 16)
+            new = __int_new__(cls, int.from_bytes(v, "big"))
         else:
             new = __int_new__(cls, 0)
         if new < cls.min_value:
