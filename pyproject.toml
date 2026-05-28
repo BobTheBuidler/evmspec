@@ -50,7 +50,7 @@ eth-utils = ">=1.10.0"
 optional = true
 
 [tool.poetry.group.benchmark.dependencies]
-pytest-codspeed = ">=4.3,<4.4"
+pytest-codspeed = ">=4.5,<4.6"
 pytest-test-groups = "*"
 
 [tool.mypy]
