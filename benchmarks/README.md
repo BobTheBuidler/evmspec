@@ -17,13 +17,14 @@ This directory contains CodSpeed-friendly benchmarks for key hot paths and micro
 Install the benchmark dependencies:
 
 ```
-pip install -r requirements-codspeed.txt
+poetry install --with benchmark
+poetry run python -m pip install --no-deps .
 ```
 
 Run the suite with CodSpeed:
 
 ```
-pytest benchmarks/ --codspeed
+poetry run pytest benchmarks/ --codspeed
 ```
 
 ## Contributing
