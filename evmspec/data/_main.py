@@ -5,10 +5,10 @@ from enum import Enum
 from functools import cached_property
 from typing import TYPE_CHECKING, Any, Final, SupportsIndex, TypeAlias, TypeVar, final, overload
 
-import faster_hexbytes  # type: ignore [import-not-found]
-from hexbytes import HexBytes  # type: ignore [import-not-found]
-from msgspec import Raw, Struct  # type: ignore [import-not-found]
-from msgspec.json import Decoder  # type: ignore [import-not-found]
+import faster_hexbytes
+from hexbytes import HexBytes
+from msgspec import Raw, Struct
+from msgspec.json import Decoder
 from typing_extensions import Self
 
 from evmspec import _new
@@ -16,7 +16,7 @@ from evmspec.data._cache import ttl_cache
 
 if TYPE_CHECKING:
     # If you have ez-a-sync installed, evmspec gets some extra functionality
-    from a_sync import a_sync as a_sync  # type: ignore[import-not-found]
+    from a_sync import a_sync as a_sync  # type: ignore[import-not-found, unused-ignore]
 
     from evmspec.structs.log import Log
     from evmspec.structs.receipt import TransactionReceipt
@@ -333,13 +333,13 @@ def _decode_hook(typ: type[_T], obj: object) -> _T:
         - :class:`uint`: For decoding unsigned integers.
     """
     if issubclass(typ, (HexBytes, Enum, Decimal)):
-        return typ(obj)  # type: ignore [arg-type, return-value]
+        return typ(obj)  # type: ignore [arg-type]
     elif typ is Address:
-        return Address.checksum(obj)  # type: ignore [arg-type, attr-defined, return-value]
+        return Address.checksum(obj)  # type: ignore [attr-defined]
     elif issubclass(typ, uint):
         if isinstance(obj, str):
             # if obj.startswith("0x"):
-            return typ.fromhex(obj)  # type: ignore [return-value]
+            return typ.fromhex(obj)
             # elif obj == "":
             #    return None if typ is ChainId else UNSET  # TODO: refactor
         else:
@@ -350,13 +350,13 @@ def _decode_hook(typ: type[_T], obj: object) -> _T:
 def _decode_hook_unsafe(typ: type[_T], obj: object) -> _T:
     # sourcery skip: assign-if-exp
     if issubclass(typ, (HexBytes, Enum, Decimal)):
-        return typ(obj)  # type: ignore [arg-type, return-value]
+        return typ(obj)  # type: ignore [arg-type]
     elif typ is Address:
-        return __str_new__(Address, obj)  # type: ignore [arg-type, type-var, return-value]
+        return __str_new__(Address, obj)  # type: ignore [type-var]
     elif issubclass(typ, uint):
         if isinstance(obj, str):
             # if obj.startswith("0x"):
-            return typ.fromhex(obj)  # type: ignore [return-value]
+            return typ.fromhex(obj)
             # elif obj == "":
             #    return None if typ is ChainId else UNSET  # TODO: refactor
         else:
@@ -499,7 +499,7 @@ class TransactionHash(HexBytes32):
                     ) from None
 
             return await _get_transaction_receipt(
-                self, decode_to=decode_to, decode_hook=decode_hook  # type: ignore [arg-type]
+                self, decode_to=decode_to, decode_hook=decode_hook
             )
 
         @a_sync  # TODO; compare how these type check, they both function the same
