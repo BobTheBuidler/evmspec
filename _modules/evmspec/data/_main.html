@@ -76,10 +76,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">SupportsIndex</span><span class="p">,</span> <span class="n">TypeAlias</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">final</span><span class="p">,</span> <span class="n">overload</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">faster_hexbytes</span>  <span class="c1"># type: ignore [import-not-found]</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>  <span class="c1"># type: ignore [import-not-found]</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">Struct</span>  <span class="c1"># type: ignore [import-not-found]</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">faster_hexbytes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">Struct</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing_extensions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Self</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">_new</span>
@@ -87,7 +87,7 @@
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="c1"># If you have ez-a-sync installed, evmspec gets some extra functionality</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">a_sync</span><span class="w"> </span><span class="kn">import</span> <span class="n">a_sync</span> <span class="k">as</span> <span class="n">a_sync</span>  <span class="c1"># type: ignore[import-not-found]</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">a_sync</span><span class="w"> </span><span class="kn">import</span> <span class="n">a_sync</span> <span class="k">as</span> <span class="n">a_sync</span>  <span class="c1"># type: ignore[import-not-found, unused-ignore]</span>
 
     <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.log</span><span class="w"> </span><span class="kn">import</span> <span class="n">Log</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.receipt</span><span class="w"> </span><span class="kn">import</span> <span class="n">TransactionReceipt</span>
@@ -428,13 +428,13 @@
 <span class="sd">        - :class:`uint`: For decoding unsigned integers.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="p">(</span><span class="n">HexBytes</span><span class="p">,</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="n">typ</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type, return-value]</span>
+        <span class="k">return</span> <span class="n">typ</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type]</span>
     <span class="k">elif</span> <span class="n">typ</span> <span class="ow">is</span> <span class="n">Address</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Address</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type, attr-defined, return-value]</span>
+        <span class="k">return</span> <span class="n">Address</span><span class="o">.</span><span class="n">checksum</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [attr-defined]</span>
     <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">uint</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="c1"># if obj.startswith(&quot;0x&quot;):</span>
-            <span class="k">return</span> <span class="n">typ</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [return-value]</span>
+            <span class="k">return</span> <span class="n">typ</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
             <span class="c1"># elif obj == &quot;&quot;:</span>
             <span class="c1">#    return None if typ is ChainId else UNSET  # TODO: refactor</span>
         <span class="k">else</span><span class="p">:</span>
@@ -445,13 +445,13 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_decode_hook_unsafe</span><span class="p">(</span><span class="n">typ</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">_T</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_T</span><span class="p">:</span>
     <span class="c1"># sourcery skip: assign-if-exp</span>
     <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="p">(</span><span class="n">HexBytes</span><span class="p">,</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">Decimal</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="n">typ</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type, return-value]</span>
+        <span class="k">return</span> <span class="n">typ</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type]</span>
     <span class="k">elif</span> <span class="n">typ</span> <span class="ow">is</span> <span class="n">Address</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">__str_new__</span><span class="p">(</span><span class="n">Address</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [arg-type, type-var, return-value]</span>
+        <span class="k">return</span> <span class="n">__str_new__</span><span class="p">(</span><span class="n">Address</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [type-var]</span>
     <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">typ</span><span class="p">,</span> <span class="n">uint</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="c1"># if obj.startswith(&quot;0x&quot;):</span>
-            <span class="k">return</span> <span class="n">typ</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># type: ignore [return-value]</span>
+            <span class="k">return</span> <span class="n">typ</span><span class="o">.</span><span class="n">fromhex</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
             <span class="c1"># elif obj == &quot;&quot;:</span>
             <span class="c1">#    return None if typ is ChainId else UNSET  # TODO: refactor</span>
         <span class="k">else</span><span class="p">:</span>
@@ -605,7 +605,7 @@
                     <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 
             <span class="k">return</span> <span class="k">await</span> <span class="n">_get_transaction_receipt</span><span class="p">(</span>
-                <span class="bp">self</span><span class="p">,</span> <span class="n">decode_to</span><span class="o">=</span><span class="n">decode_to</span><span class="p">,</span> <span class="n">decode_hook</span><span class="o">=</span><span class="n">decode_hook</span>  <span class="c1"># type: ignore [arg-type]</span>
+                <span class="bp">self</span><span class="p">,</span> <span class="n">decode_to</span><span class="o">=</span><span class="n">decode_to</span><span class="p">,</span> <span class="n">decode_hook</span><span class="o">=</span><span class="n">decode_hook</span>
             <span class="p">)</span>
 
         <span class="nd">@a_sync</span>  <span class="c1"># TODO; compare how these type check, they both function the same</span>

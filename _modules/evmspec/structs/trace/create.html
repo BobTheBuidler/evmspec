@@ -74,10 +74,10 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">getLogger</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">final</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">msgspec</span>  <span class="c1"># type: ignore [import-not-found]</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">faster_hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>  <span class="c1"># type: ignore [import-not-found]</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">ValidationError</span>  <span class="c1"># type: ignore [import-not-found]</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span><span class="p">,</span> <span class="n">decode</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">msgspec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">faster_hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">ValidationError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span><span class="p">,</span> <span class="n">decode</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Address</span><span class="p">,</span> <span class="n">_decode_hook</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.structs.trace._base</span><span class="w"> </span><span class="kn">import</span> <span class="n">_ActionBase</span><span class="p">,</span> <span class="n">_FilterTraceBase</span><span class="p">,</span> <span class="n">_ResultBase</span>
@@ -88,7 +88,7 @@
 <div class="viewcode-block" id="Action">
 <a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.create.Action">[docs]</a>
 <span class="nd">@final</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Action</span><span class="p">(</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Action</span><span class="p">(</span>  <span class="c1"># type: ignore [misc]</span>
     <span class="n">_ActionBase</span><span class="p">,</span>
     <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -121,7 +121,7 @@
 <div class="viewcode-block" id="Result">
 <a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.create.Result">[docs]</a>
 <span class="nd">@final</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span>  <span class="c1"># type: ignore [misc]</span>
     <span class="n">_ResultBase</span><span class="p">,</span>
     <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -157,7 +157,7 @@
 <div class="viewcode-block" id="Trace">
 <a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.create.Trace">[docs]</a>
 <span class="nd">@final</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Trace</span><span class="p">(</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Trace</span><span class="p">(</span>  <span class="c1"># type: ignore [misc]</span>
     <span class="n">_FilterTraceBase</span><span class="p">,</span>
     <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;create&quot;</span><span class="p">,</span>
     <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>

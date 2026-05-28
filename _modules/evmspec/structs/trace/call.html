@@ -74,9 +74,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">cached_property</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ClassVar</span><span class="p">,</span> <span class="n">Final</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">final</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">faster_hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>  <span class="c1"># type: ignore [import-not-found]</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span>  <span class="c1"># type: ignore [import-not-found]</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>  <span class="c1"># type: ignore [import-not-found]</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">faster_hexbytes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HexBytes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec</span><span class="w"> </span><span class="kn">import</span> <span class="n">UNSET</span><span class="p">,</span> <span class="n">Raw</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">msgspec.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">Decoder</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Address</span><span class="p">,</span> <span class="n">_decode_hook</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">evmspec.data._enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">StringToIntEnumMeta</span>
@@ -112,7 +112,7 @@
 <div class="viewcode-block" id="Action">
 <a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.call.Action">[docs]</a>
 <span class="nd">@final</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Action</span><span class="p">(</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Action</span><span class="p">(</span>  <span class="c1"># type: ignore [misc]</span>
     <span class="n">_ActionBase</span><span class="p">,</span>
     <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -147,7 +147,7 @@
 <div class="viewcode-block" id="Result">
 <a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.call.Result">[docs]</a>
 <span class="nd">@final</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span><span class="n">_ResultBase</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Result</span><span class="p">(</span><span class="n">_ResultBase</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">kw_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">forbid_unknown_fields</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">repr_omit_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>  <span class="c1"># type: ignore [misc]</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Represents the result of a contract call action, including the output data of the contract call.</span>
 
@@ -168,7 +168,7 @@
 <div class="viewcode-block" id="Trace">
 <a class="viewcode-back" href="../../../../source/evmspec.structs.trace.html#evmspec.structs.trace.call.Trace">[docs]</a>
 <span class="nd">@final</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">Trace</span><span class="p">(</span>  <span class="c1"># type: ignore [call-arg, misc]</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Trace</span><span class="p">(</span>  <span class="c1"># type: ignore [misc]</span>
     <span class="n">_FilterTraceBase</span><span class="p">,</span>
     <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;call&quot;</span><span class="p">,</span>
     <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -209,7 +209,7 @@
 <span class="sd">        &#39;call&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">_action</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore [assignment]</span>
+    <span class="n">_action</span><span class="p">:</span> <span class="n">Raw</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;action&quot;</span><span class="p">)</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The raw call action data, parity style.&quot;&quot;&quot;</span>
 
     <span class="nd">@cached_property</span>
