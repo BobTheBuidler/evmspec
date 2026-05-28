@@ -27,6 +27,13 @@ def test_uint_init(num_bytes: int, value: int) -> None:
 
 
 @pytest.mark.parametrize("num_bytes", range(1, 32))
+def test_uint_init_from_bytes(num_bytes: int) -> None:
+    uint_type = _get_uint_cls(num_bytes)
+    payload = bytes(range(num_bytes))
+    assert uint_type(HexBytes(payload)) == int.from_bytes(payload, "big")
+
+
+@pytest.mark.parametrize("num_bytes", range(1, 32))
 def test_uint_init_out_of_bounds(num_bytes: int) -> None:
     uint_type = _get_uint_cls(num_bytes)
     bits = num_bytes * 8
