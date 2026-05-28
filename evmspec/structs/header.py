@@ -1,12 +1,12 @@
-from dictstruct import LazyDictStruct  # type: ignore [import-not-found]
-from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
+from dictstruct import LazyDictStruct
+from faster_hexbytes import HexBytes
 from msgspec import UNSET, UnsetType, field
 
 from evmspec.data import Address, BlockHash, BlockNumber, Nonce, UnixTimestamp, Wei, uint
 
 
 # WIP - this struct is still evolving alongside erigon header changes.
-class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
+class ErigonBlockHeader(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [misc]
     """
     Represents a block header in the Erigon client.
 

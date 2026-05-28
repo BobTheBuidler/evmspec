@@ -3,10 +3,10 @@ from functools import cached_property
 from logging import getLogger
 from typing import ClassVar, Final, Literal, final
 
-import msgspec  # type: ignore [import-not-found]
-from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
-from msgspec import UNSET, Raw, ValidationError  # type: ignore [import-not-found]
-from msgspec.json import Decoder, decode  # type: ignore [import-not-found]
+import msgspec
+from faster_hexbytes import HexBytes
+from msgspec import UNSET, Raw, ValidationError
+from msgspec.json import Decoder, decode
 
 from evmspec.data import Address, _decode_hook
 from evmspec.structs.trace._base import _ActionBase, _FilterTraceBase, _ResultBase
@@ -15,7 +15,7 @@ logger: Final = getLogger(__name__)
 
 
 @final
-class Action(  # type: ignore [call-arg, misc]
+class Action(  # type: ignore [misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
@@ -45,7 +45,7 @@ class Action(  # type: ignore [call-arg, misc]
 
 
 @final
-class Result(  # type: ignore [call-arg, misc]
+class Result(  # type: ignore [misc]
     _ResultBase,
     frozen=True,
     kw_only=True,
@@ -78,7 +78,7 @@ class Result(  # type: ignore [call-arg, misc]
 
 
 @final
-class Trace(  # type: ignore [call-arg, misc]
+class Trace(  # type: ignore [misc]
     _FilterTraceBase,
     tag="create",
     frozen=True,

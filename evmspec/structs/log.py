@@ -1,5 +1,5 @@
-from dictstruct import LazyDictStruct  # type: ignore [import-not-found]
-from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
+from dictstruct import LazyDictStruct
+from faster_hexbytes import HexBytes
 
 from evmspec.data import Address, BlockHash, BlockNumber, HexBytes32, TransactionHash, uint, uints
 from evmspec.data._ids import LogIndex, TransactionIndex
@@ -127,7 +127,7 @@ for i in range(2, 31):
     setattr(Topic, f"as_{uint_cls_name}", property(uint_cls))
 
 
-class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-arg, misc]
+class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [misc]
     """
     Represents a minimal log structure with topics.
 
@@ -177,7 +177,7 @@ class TinyLog(LazyDictStruct, frozen=True, kw_only=True):  # type: ignore [call-
             raise AttributeError(new_err) from None
 
 
-class SmallLog(TinyLog, frozen=True, kw_only=True):  # type: ignore [call-arg, misc]
+class SmallLog(TinyLog, frozen=True, kw_only=True):  # type: ignore [misc]
     """
     Represents a log with additional attributes for the contract address and data.
 
@@ -192,7 +192,7 @@ class SmallLog(TinyLog, frozen=True, kw_only=True):  # type: ignore [call-arg, m
     """Array of 32-bytes non-indexed return data of the log."""
 
 
-class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg, misc]
+class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [misc]
     """
     Represents a comprehensive log structure with additional transaction
     details.
@@ -222,7 +222,7 @@ class Log(SmallLog, frozen=True, kw_only=True):  # type: ignore [call-arg, misc]
         return self.blockNumber
 
 
-class FullLog(Log, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
+class FullLog(Log, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [misc]
     """
     Represents a full log structure with comprehensive block and transaction
     details.

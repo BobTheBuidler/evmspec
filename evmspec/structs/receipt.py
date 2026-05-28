@@ -4,11 +4,11 @@ from enum import Enum, EnumMeta
 from functools import cached_property
 from typing import Final
 
-from dictstruct import DictStruct, LazyDictStruct  # type: ignore [import-not-found]
+from dictstruct import DictStruct, LazyDictStruct
 from eth_typing import HexStr
-from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
-from msgspec import UNSET, Raw, field  # type: ignore [import-not-found]
-from msgspec.json import Decoder  # type: ignore [import-not-found]
+from faster_hexbytes import HexBytes
+from msgspec import UNSET, Raw, field
+from msgspec.json import Decoder
 
 from evmspec.data import Address, BlockNumber, TransactionHash, Wei, _decode_hook, uint
 from evmspec.data._ids import TransactionIndex
@@ -19,7 +19,7 @@ _decode_logs: Final[Callable[[Raw], tuple[Log, ...]]] = Decoder(
 ).decode
 
 
-class FeeStats(DictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
+class FeeStats(DictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [misc]
     """Arbitrum includes this in the `feeStats` field of a tx receipt.
 
     See Also:
@@ -32,7 +32,7 @@ class FeeStats(DictStruct, frozen=True, forbid_unknown_fields=True):  # type: ig
     l2Computation: Wei
 
 
-class ArbitrumFeeStats(DictStruct, frozen=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class ArbitrumFeeStats(DictStruct, frozen=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """Arbitrum includes these with a tx receipt.
 
     See Also:
@@ -87,7 +87,7 @@ class Status(Enum, metaclass=_HexStringToIntEnumMeta):
     success = 1
 
 
-class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_defaults=True, repr_omit_defaults=True, dict=True):  # type: ignore [call-arg, misc]
+class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_defaults=True, repr_omit_defaults=True, dict=True):  # type: ignore [misc]
     """Represents the receipt of a transaction within a block.
 
     See Also:
@@ -254,7 +254,7 @@ class TransactionReceipt(LazyDictStruct, frozen=True, kw_only=True, omit_default
         return _decode_fee_stats(self._feeStats)
 
 
-class FullTransactionReceipt(TransactionReceipt, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class FullTransactionReceipt(TransactionReceipt, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """Extends :class:`TransactionReceipt` to include full details."""
 
     blockHash: HexBytes
