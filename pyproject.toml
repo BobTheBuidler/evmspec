@@ -46,6 +46,13 @@ pytest = "*"
 # we keep this here for sphinx crosslinking
 eth-utils = ">=1.10.0"
 
+[tool.poetry.group.benchmark]
+optional = true
+
+[tool.poetry.group.benchmark.dependencies]
+pytest-codspeed = ">=4.3,<4.4"
+pytest-test-groups = "*"
+
 [tool.mypy]
 pretty = true
 show_error_codes = true
