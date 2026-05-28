@@ -72,11 +72,11 @@ jobs:
         shell: bash
         run: |
           PYTHON="$(poetry env info --executable)"
+          unset PYTHONPATH
+          cd "$RUNNER_TEMP"
           "$PYTHON" - <<'PY'
           import importlib.machinery
-          import os
 
-          os.chdir(os.environ["RUNNER_TEMP"])
           from evmspec import _new
 
           path = _new.__file__ or ""
@@ -91,12 +91,13 @@ jobs:
           mode: instrumentation
           run: |
             PYTHON="$(poetry env info --executable)"
+            unset PYTHONPATH
+            cd "$RUNNER_TEMP"
             "$PYTHON" - <<'PY'
             import os
             import subprocess
             import sys
 
-            os.chdir(os.environ["RUNNER_TEMP"])
             benchmarks = os.path.join(os.environ["GITHUB_WORKSPACE"], "benchmarks")
             raise SystemExit(
                 subprocess.call(

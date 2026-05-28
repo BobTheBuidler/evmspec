@@ -69,11 +69,11 @@ jobs:
         shell: bash
         run: |
           PYTHON="$(poetry env info --executable)"
+          unset PYTHONPATH
+          cd "$RUNNER_TEMP"
           "$PYTHON" - <<'PY'
           import importlib.machinery
-          import os
 
-          os.chdir(os.environ["RUNNER_TEMP"])
           from evmspec import _new
 
           path = _new.__file__ or ""
@@ -89,12 +89,13 @@ jobs:
           ETHERSCAN_TOKEN: ${{ secrets.ETHERSCAN_TOKEN  }}
         run: |
           PYTHON="$(poetry env info --executable)"
+          unset PYTHONPATH
+          cd "$RUNNER_TEMP"
           "$PYTHON" - <<'PY'
           import os
           import subprocess
           import sys
 
-          os.chdir(os.environ["RUNNER_TEMP"])
           tests = os.path.join(os.environ["GITHUB_WORKSPACE"], "tests")
           raise SystemExit(
               subprocess.call([sys.executable, "-m", "pytest", "--import-mode=importlib", tests])
