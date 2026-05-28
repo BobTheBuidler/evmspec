@@ -3,9 +3,9 @@ from enum import Enum
 from functools import cached_property
 from typing import ClassVar, Final, Literal, final
 
-from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
-from msgspec import UNSET, Raw, field  # type: ignore [import-not-found]
-from msgspec.json import Decoder  # type: ignore [import-not-found]
+from faster_hexbytes import HexBytes
+from msgspec import UNSET, Raw, field
+from msgspec.json import Decoder
 
 from evmspec.data import Address, _decode_hook
 from evmspec.data._enum import StringToIntEnumMeta
@@ -36,7 +36,7 @@ class Type(Enum, metaclass=StringToIntEnumMeta):
 
 
 @final
-class Action(  # type: ignore [call-arg, misc]
+class Action(  # type: ignore [misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
@@ -68,7 +68,7 @@ class Action(  # type: ignore [call-arg, misc]
 
 
 @final
-class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """
     Represents the result of a contract call action, including the output data of the contract call.
 
@@ -86,7 +86,7 @@ class Result(_ResultBase, frozen=True, kw_only=True, forbid_unknown_fields=True,
 
 
 @final
-class Trace(  # type: ignore [call-arg, misc]
+class Trace(  # type: ignore [misc]
     _FilterTraceBase,
     tag="call",
     frozen=True,
@@ -127,7 +127,7 @@ class Trace(  # type: ignore [call-arg, misc]
         'call'
     """
 
-    _action: Raw = field(name="action")  # type: ignore [assignment]
+    _action: Raw = field(name="action")
     """The raw call action data, parity style."""
 
     @cached_property

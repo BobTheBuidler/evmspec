@@ -2,10 +2,10 @@ from collections.abc import Callable
 from functools import cached_property
 from typing import Any, ClassVar, Final, TypeAlias, final
 
-from dictstruct import LazyDictStruct  # type: ignore [import-not-found]
-from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
-from msgspec import UNSET, Raw, field  # type: ignore [import-not-found]
-from msgspec.json import Decoder  # type: ignore [import-not-found]
+from dictstruct import LazyDictStruct
+from faster_hexbytes import HexBytes
+from msgspec import UNSET, Raw, field
+from msgspec.json import Decoder
 
 from evmspec.data import (
     Address,
@@ -15,6 +15,7 @@ from evmspec.data import (
     Nonce,
     TransactionHash,
     Wei,
+    _decode_hook,
     uint,
 )
 from evmspec.data._ids import ChainId, TransactionIndex
@@ -25,7 +26,7 @@ _decode_storage_keys: Final[Callable[[Raw], list[HexBytes32]]] = Decoder(
 
 
 @final
-class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
+class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [misc]
     """
     Represents an entry in an Ethereum transaction access list.
 
@@ -74,12 +75,12 @@ class AccessListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True): 
 
 
 _decode_access_list: Final[Callable[[Raw], list[AccessListEntry]]] = Decoder(
-    type=list[AccessListEntry]
+    type=list[AccessListEntry], dec_hook=_decode_hook
 ).decode
 
 
 @final
-class AuthorizationListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
+class AuthorizationListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=True):  # type: ignore [misc]
     chainId: ChainId
     address: Address
     nonce: Nonce
@@ -90,11 +91,11 @@ class AuthorizationListEntry(LazyDictStruct, frozen=True, forbid_unknown_fields=
 
 
 _decode_authorization_list: Final[Callable[[Raw], list[AuthorizationListEntry]]] = Decoder(
-    type=list[AuthorizationListEntry]
+    type=list[AuthorizationListEntry], dec_hook=_decode_hook
 ).decode
 
 
-class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """
     Base class for Ethereum transactions.
     """
@@ -202,7 +203,7 @@ class _TransactionBase(LazyDictStruct, frozen=True, kw_only=True, forbid_unknown
 
 
 @final
-class TransactionRLP(_TransactionBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class TransactionRLP(_TransactionBase, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """
     Represents a RLP encoded transaction that might have network-specific fields.
     """
@@ -218,7 +219,7 @@ class TransactionRLP(_TransactionBase, frozen=True, kw_only=True, forbid_unknown
 
 
 @final
-class TransactionLegacy(_TransactionBase, tag="0x0", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class TransactionLegacy(_TransactionBase, tag="0x0", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """
     Represents a Legacy Ethereum transaction (pre-EIP-2718).
     """
@@ -227,7 +228,7 @@ class TransactionLegacy(_TransactionBase, tag="0x0", frozen=True, kw_only=True, 
 
 
 @final
-class Transaction2930(_TransactionBase, tag="0x1", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class Transaction2930(_TransactionBase, tag="0x1", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """
     Represents a type-2930 (EIP-2930) Ethereum transaction with an access list.
     """
@@ -238,7 +239,7 @@ class Transaction2930(_TransactionBase, tag="0x1", frozen=True, kw_only=True, fo
     """The yParity for the transaction."""
 
 
-class Transaction1559(_TransactionBase, tag="0x2", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class Transaction1559(_TransactionBase, tag="0x2", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """
     Represents a type-1559 (EIP-1559) Ethereum transaction with dynamic fee.
     """
@@ -256,7 +257,7 @@ class Transaction1559(_TransactionBase, tag="0x2", frozen=True, kw_only=True, fo
 
 
 @final
-class Transaction4844(Transaction1559, tag="0x3", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class Transaction4844(Transaction1559, tag="0x3", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """
     Represents a type-1559 (EIP-1559) Ethereum transaction with dynamic fee.
     """
@@ -269,13 +270,13 @@ class Transaction4844(Transaction1559, tag="0x3", frozen=True, kw_only=True, for
 
 
 @final
-class Transaction7702(Transaction1559, tag="0x4", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class Transaction7702(Transaction1559, tag="0x4", frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """
     Represents a type-7702 (EIP-7702) Ethereum transaction to set an EOA's bytecode.
     """
 
     type: ClassVar[HexBytes] = HexBytes("4")
-    _authorizationList: Raw = field(name="authorizationList")  # type: ignore [assignment]
+    _authorizationList: Raw = field(name="authorizationList")
 
     @cached_property
     def authorizationList(self) -> list[AuthorizationListEntry]:

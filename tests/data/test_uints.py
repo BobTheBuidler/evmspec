@@ -50,6 +50,10 @@ def test_uint_docstring(num_bytes: int) -> None:
     cls_name = uint_type.__name__
     bits = num_bytes * 8
     expected = f"Unsigned {bits}-bit integer.\n\nExamples:\n    >>> {cls_name}(HexBytes('0x{'FF' * num_bytes}'))\n    {cls_name}({2**bits - 1})"
+    if num_bytes in [1, 8, 16, 32]:
+        assert f"Unsigned {bits}-bit integer." in (uint_type.__doc__ or "")
+    else:
+        assert uint_type.__doc__ == expected
 
 
 @pytest.mark.parametrize("num_bytes", range(1, 32))

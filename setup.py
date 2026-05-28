@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 from mypyc.build import mypycify
@@ -7,11 +8,27 @@ try:
     import tomllib  # type: ignore[import-not-found]  # Python 3.11+
 except ModuleNotFoundError:
     import tomli as tomllib  # Older Python
+    
+
+if sys.platform == "win32" and sys.maxsize < 2**32:
+    raise RuntimeError(
+        "As of 2026/01/23 msgspec, a critical dependency of evmspec, doesn't support 32-bit Python windows builds.\n"
+        "If this is important for your use case, please comment on this issue: https://github.com/jcrist/msgspec/issues/845\n"
+        "If msgspec implements 32-bit Windows support and you need 32-bit evmspec, open an issue: https://github.com/BobTheBuidler/evmspec/issues"
+    )
 
 
 with Path("pyproject.toml").open("rb") as f:
     pyproject_data = tomllib.load(f)
     poetry_config = pyproject_data["tool"]["poetry"]
+
+
+PACKAGE_NAME = poetry_config["name"]
+
+SKIP_MYPYC = any(
+    cmd in sys.argv
+    for cmd in ("sdist", "egg_info", "--name", "--version", "--help", "--help-commands")
+)
 
 
 def poetry_dependencies_to_install_requires(poetry_deps):
@@ -153,13 +170,15 @@ def combine_markers(a, b):
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
-ext_modules: list[Extension] = mypycify(
-    ["evmspec/_new.py", "--pretty", "--disable-error-code=unused-ignore"],
-    group_name="evmspec",
-)
+
+ext_modules: list[Extension] = []
+
+if not SKIP_MYPYC:
+    ext_modules.extend(mypycify(["evmspec/_new.py", "--enable-error-code=unused-ignore"], group_name=PACKAGE_NAME))
+
 
 setup(
-    name=poetry_config["name"],
+    name=PACKAGE_NAME,
     url="https://github.com/BobTheBuidler/evmspec",
     description="A collection of msgspec.Struct definitions for use with the Ethereum Virtual Machine",
     license="MIT",

@@ -59,9 +59,28 @@ jobs:
         with:
           poetry-home: ${{ github.workspace }}/.poetry
 
-      - name: Install Pytest and Evmspec
+      - name: Install locked dependencies and evmspec
         shell: bash
-        run: poetry run python -m pip install pytest .
+        run: |
+          poetry install --no-root
+          poetry run python -m pip install --no-deps .
+
+      - name: Verify compiled extension
+        shell: bash
+        run: |
+          PYTHON="$(poetry env info --executable)"
+          unset PYTHONPATH
+          cd "$RUNNER_TEMP"
+          "$PYTHON" - <<'PY'
+          import importlib.machinery
+
+          from evmspec import _new
+
+          path = _new.__file__ or ""
+          print(f"evmspec._new: {path}")
+          if not path.endswith(tuple(importlib.machinery.EXTENSION_SUFFIXES)):
+              raise SystemExit(f"evmspec._new is not a compiled extension: {path}")
+          PY
 
       - name: Run test suite
         shell: bash
@@ -69,4 +88,16 @@ jobs:
           PYTEST_NETWORK: mainnet
           ETHERSCAN_TOKEN: ${{ secrets.ETHERSCAN_TOKEN  }}
         run: |
-          poetry run pytest
+          PYTHON="$(poetry env info --executable)"
+          unset PYTHONPATH
+          cd "$RUNNER_TEMP"
+          "$PYTHON" - <<'PY'
+          import os
+          import subprocess
+          import sys
+
+          tests = os.path.join(os.environ["GITHUB_WORKSPACE"], "tests")
+          raise SystemExit(
+              subprocess.call([sys.executable, "-m", "pytest", "--import-mode=importlib", tests])
+          )
+          PY
