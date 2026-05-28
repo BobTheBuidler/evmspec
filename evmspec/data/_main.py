@@ -335,7 +335,7 @@ def _decode_hook(typ: type[_T], obj: object) -> _T:
     if issubclass(typ, (HexBytes, Enum, Decimal)):
         return typ(obj)  # type: ignore [arg-type]
     elif typ is Address:
-        return Address.checksum(obj)  # type: ignore [arg-type, attr-defined]
+        return Address.checksum(obj)  # type: ignore [attr-defined]
     elif issubclass(typ, uint):
         if isinstance(obj, str):
             # if obj.startswith("0x"):
@@ -352,7 +352,7 @@ def _decode_hook_unsafe(typ: type[_T], obj: object) -> _T:
     if issubclass(typ, (HexBytes, Enum, Decimal)):
         return typ(obj)  # type: ignore [arg-type]
     elif typ is Address:
-        return __str_new__(Address, obj)  # type: ignore [arg-type, type-var]
+        return __str_new__(Address, obj)  # type: ignore [type-var]
     elif issubclass(typ, uint):
         if isinstance(obj, str):
             # if obj.startswith("0x"):
