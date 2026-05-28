@@ -10,8 +10,6 @@ on:
       - "setup.py"
       - "pyproject.toml"
       - "poetry.lock"
-      - "requirements-codspeed.txt"
-      - "requirements-pytest.txt"
   push:
     branches: [master]
     paths:
@@ -21,8 +19,6 @@ on:
       - "setup.py"
       - "pyproject.toml"
       - "poetry.lock"
-      - "requirements-codspeed.txt"
-      - "requirements-pytest.txt"
   workflow_dispatch:
 
 concurrency:
@@ -48,11 +44,64 @@ jobs:
             setup.py
             poetry.lock
 
+      - name: Load cached Poetry installation
+        id: cached-poetry
+        uses: actions/cache@v5
+        with:
+          path: ${{ github.workspace }}/.poetry
+          key: poetry-${{ runner.os }}-3.13-0  # increment to reset cache
+
+      - name: Add cached Poetry to PATH
+        if: steps.cached-poetry.outputs.cache-hit == 'true'
+        shell: bash
+        run: echo "${{ github.workspace }}/.poetry/bin" >> "$GITHUB_PATH"
+
+      - name: Install Poetry
+        if: steps.cached-poetry.outputs.cache-hit != 'true'
+        uses: snok/install-poetry@v1
+        with:
+          poetry-home: ${{ github.workspace }}/.poetry
+
       - name: Install evmspec
-        run: python -m pip install --upgrade pip && python -m pip install . -r requirements-codspeed.txt
+        shell: bash
+        run: |
+          poetry install --no-root --with benchmark
+          poetry run python -m pip install --no-deps .
+
+      - name: Verify compiled extension
+        shell: bash
+        run: |
+          PYTHON="$(poetry env info --executable)"
+          unset PYTHONPATH
+          cd "$RUNNER_TEMP"
+          "$PYTHON" - <<'PY'
+          import importlib.machinery
+
+          from evmspec import _new
+
+          path = _new.__file__ or ""
+          print(f"evmspec._new: {path}")
+          if not path.endswith(tuple(importlib.machinery.EXTENSION_SUFFIXES)):
+              raise SystemExit(f"evmspec._new is not a compiled extension: {path}")
+          PY
 
       - name: Run CodSpeed
         uses: CodSpeedHQ/action@v4
         with:
           mode: instrumentation
-          run: pytest --codspeed benchmarks/
+          run: |
+            PYTHON="$(poetry env info --executable)"
+            unset PYTHONPATH
+            cd "$RUNNER_TEMP"
+            "$PYTHON" - <<'PY'
+            import os
+            import subprocess
+            import sys
+
+            benchmarks = os.path.join(os.environ["GITHUB_WORKSPACE"], "benchmarks")
+            raise SystemExit(
+                subprocess.call(
+                    [sys.executable, "-m", "pytest", "--import-mode=importlib", "--codspeed", benchmarks]
+                )
+            )
+            PY

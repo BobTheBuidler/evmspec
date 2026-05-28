@@ -77,12 +77,17 @@ def test_hexbytes32_repr_hex_strip_hash() -> None:
     assert repr(hb) == f"HexBytes32(0x{bytes.hex(hb)})"
     assert hb.hex() == f"0x{bytes.hex(hb)}"
     assert hb.strip() == "12"
-    assert hash(hb) == hash(bytes.hex(hb))
+    assert hash(hb) == hash(bytes(hb))
+    zeroed = HexBytes32("0x" + "00" * 32)
+    assert zeroed.strip() == "0"
 
 
 def test_hexbytes32_getitem() -> None:
     hb = HexBytes32(HEX32)
+    raw = bytes(hb)
     assert isinstance(hb[0], int)
+    assert hb[0] == raw[0]
+    assert hb[-1] == raw[-1]
     sliced = hb[:2]
     assert isinstance(sliced, FasterHexBytes)
 

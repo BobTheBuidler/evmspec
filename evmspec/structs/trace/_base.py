@@ -1,10 +1,10 @@
-from dictstruct import DictStruct, LazyDictStruct  # type: ignore [import-not-found]
-from msgspec import UNSET, field  # type: ignore [import-not-found]
+from dictstruct import DictStruct, LazyDictStruct
+from msgspec import UNSET, field
 
 from evmspec.data import Address, BlockHash, BlockNumber, TransactionHash, Wei, uint
 
 
-class _ActionBase(  # type: ignore [call-arg, misc]
+class _ActionBase(  # type: ignore [misc]
     LazyDictStruct,
     frozen=True,
     kw_only=True,
@@ -75,7 +75,7 @@ class _ActionBase(  # type: ignore [call-arg, misc]
     """
 
 
-class _ResultBase(  # type: ignore [call-arg, misc]
+class _ResultBase(  # type: ignore [misc]
     DictStruct,
     frozen=True,
     kw_only=True,
@@ -117,7 +117,7 @@ class _ResultBase(  # type: ignore [call-arg, misc]
     """
 
 
-class _FilterTraceBase(  # type: ignore [call-arg, misc]
+class _FilterTraceBase(  # type: ignore [misc]
     LazyDictStruct,
     frozen=True,
     kw_only=True,

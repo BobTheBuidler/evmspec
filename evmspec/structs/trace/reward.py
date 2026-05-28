@@ -3,8 +3,8 @@ from enum import Enum
 from functools import cached_property
 from typing import ClassVar, Final, Literal, final
 
-from msgspec import Raw, field  # type: ignore [import-not-found]
-from msgspec.json import Decoder  # type: ignore [import-not-found]
+from msgspec import Raw, field
+from msgspec.json import Decoder
 
 from evmspec.data import Address, _decode_hook
 from evmspec.data._enum import StringToIntEnumMeta
@@ -32,7 +32,7 @@ class Type(Enum, metaclass=StringToIntEnumMeta):
 
 
 @final
-class Action(  # type: ignore [call-arg, misc]
+class Action(  # type: ignore [misc]
     _ActionBase,
     frozen=True,
     kw_only=True,
@@ -63,7 +63,7 @@ class Action(  # type: ignore [call-arg, misc]
 
 
 @final
-class Trace(  # type: ignore [call-arg, misc]
+class Trace(  # type: ignore [misc]
     _FilterTraceBase,
     tag="reward",
     frozen=True,

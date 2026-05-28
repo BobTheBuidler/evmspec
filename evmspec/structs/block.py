@@ -3,11 +3,11 @@ from collections.abc import Callable
 from functools import cached_property
 from typing import Final, TypeAlias, cast, final
 
-from dictstruct import DictStruct, LazyDictStruct  # type: ignore [import-not-found]
-from faster_hexbytes import HexBytes  # type: ignore [import-not-found]
-from msgspec import Raw  # type: ignore [import-not-found]
+from dictstruct import DictStruct, LazyDictStruct
+from faster_hexbytes import HexBytes
+from msgspec import Raw
 from msgspec import UNSET, ValidationError, field
-from msgspec.json import Decoder  # type: ignore [import-not-found]
+from msgspec.json import Decoder
 
 from evmspec.data import (
     Address,
@@ -48,7 +48,7 @@ _decode_transactions_rlp: Final[Callable[[Raw], tuple[str | TransactionRLP, ...]
 _decode_raw_multi: Final[Callable[[Raw], tuple[Raw, ...]]] = Decoder(type=tuple[Raw, ...]).decode
 
 
-class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: ignore [call-arg, misc]
+class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: ignore [misc]
     """
     Represents a minimal block structure with essential fields.
 
@@ -107,7 +107,7 @@ class TinyBlock(LazyDictStruct, frozen=True, kw_only=True, dict=True):  # type: 
         return tuple(cast(tuple[Transaction | TransactionRLP, ...], transactions))
 
 
-class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """
     Represents a full Ethereum block with all standard fields.
 
@@ -164,7 +164,7 @@ class Block(TinyBlock, frozen=True, kw_only=True, forbid_unknown_fields=True, om
     """Hash of the parent block."""
 
 
-class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
+class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [misc]
     """
     Represents a mined Ethereum block with difficulty fields.
 
@@ -192,9 +192,15 @@ class MinedBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True): 
 
 
 @final
-class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
+class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [misc]
     """
-    Represents a base Ethereum block with base fee per gas.
+    Represents the generic `eth_getBlockByNumber` block surface from London onward.
+
+    This class models optional post-fork fields that may appear depending on fork era and
+    provider support while still rejecting truly unknown fields.
+
+    Note:
+        `BaseBlock` here means *base-fee era* (EIP-1559), not "Base chain".
 
     See Also:
         - :class:`MinedBlock`
@@ -203,9 +209,39 @@ class BaseBlock(MinedBlock, frozen=True, kw_only=True, forbid_unknown_fields=Tru
     baseFeePerGas: Wei = UNSET  # type: ignore [assignment]
     """The base fee per gas."""
 
+    withdrawalsRoot: HexBytes = UNSET  # type: ignore [assignment]
+    """The root of the withdrawal trie (present from Shanghai/Capella onward)."""
+
+    blobGasUsed: Wei = UNSET  # type: ignore [assignment]
+    """Blob gas consumed by the block (present from Cancun onward)."""
+
+    excessBlobGas: Wei = UNSET  # type: ignore [assignment]
+    """Excess blob gas accumulator (present from Cancun onward)."""
+
+    parentBeaconBlockRoot: HexBytes = UNSET  # type: ignore [assignment]
+    """Parent beacon block root (present after The Merge)."""
+
+    requestsHash: HexBytes = UNSET  # type: ignore [assignment]
+    """EIP-7685 requests hash (present on networks that support requests)."""
+
+    _withdrawals: Raw = field(name="withdrawals", default=UNSET)  # type: ignore [assignment]
+    """Raw withdrawals payload, present from Shanghai/Capella onward."""
+
+    @cached_property
+    def withdrawals(self) -> tuple["StakingWithdrawal", ...]:
+        """
+        Decodes and returns staking withdrawals when present.
+
+        Returns:
+            A tuple of staking withdrawals. Returns an empty tuple when the field is absent.
+        """
+        if self._withdrawals is UNSET:
+            return ()
+        return _decode_staking_withdrawals(self._withdrawals)
+
 
 @final
-class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [call-arg, misc]
+class StakingWithdrawal(DictStruct, frozen=True, kw_only=True, forbid_unknown_fields=True, omit_defaults=True, repr_omit_defaults=True):  # type: ignore [misc]
     """A Struct representing an Ethereum staking withdrawal.
 
     See Also:
@@ -230,7 +266,7 @@ _decode_staking_withdrawals: Final[Callable[[Raw], tuple[StakingWithdrawal, ...]
 
 
 @final
-class ShanghaiCapellaBlock(Block, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [call-arg, misc]
+class ShanghaiCapellaBlock(BaseBlock, frozen=True, kw_only=True, forbid_unknown_fields=True):  # type: ignore [misc]
     """
     Represents a block from the Ethereum Shanghai or Capella upgrades, which includes staking withdrawals.
 
@@ -239,22 +275,11 @@ class ShanghaiCapellaBlock(Block, frozen=True, kw_only=True, forbid_unknown_fiel
         - :class:`StakingWithdrawal`
     """
 
+    withdrawalsRoot: HexBytes = UNSET  # type: ignore [assignment]
+    """The root of the withdrawal trie."""
+
+    difficulty: uint = UNSET  # type: ignore [assignment]
+    """Optional for backwards-compatible direct construction of Shanghai/Capella blocks."""
+
     _withdrawals: Raw = field(name="withdrawals")
     """This field is specific to the Shanghai and Capella upgrades in Ethereum."""
-
-    @cached_property
-    def withdrawals(self) -> tuple[StakingWithdrawal, ...]:
-        """
-        Decodes and returns the staking withdrawals in the block.
-
-        Returns:
-            A tuple of staking withdrawal objects.
-
-        Examples:
-            >>> block = ShanghaiCapellaBlock(...)
-            >>> withdrawals = block.withdrawals
-
-        See Also:
-            - :class:`StakingWithdrawal`
-        """
-        return _decode_staking_withdrawals(self._withdrawals)
