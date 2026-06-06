@@ -54,10 +54,9 @@ pytest-codspeed = ">=5,<5.1"
 pytest-test-groups = "*"
 
 [tool.mypy]
-pretty = true
+strict = true
 show_error_codes = true
 show_error_context = true
-no_warn_no_return = true
 files = ["evmspec"]
 
 [tool.black]

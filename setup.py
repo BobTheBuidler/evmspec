@@ -174,7 +174,7 @@ long_description = (this_directory / "README.md").read_text()
 ext_modules: list[Extension] = []
 
 if not SKIP_MYPYC:
-    ext_modules.extend(mypycify(["evmspec/_new.py", "--enable-error-code=unused-ignore"], group_name=PACKAGE_NAME))
+    ext_modules.extend(mypycify(["evmspec/_new.py"], group_name=PACKAGE_NAME))
 
 
 setup(
