@@ -32,7 +32,7 @@ jobs:
           path: ~\AppData\Local\pip\Cache
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
